@@ -429,6 +429,10 @@ h1 .staff-badge{font-size:12.5px;padding:2px 9px 2px 6px;vertical-align:4px}
 .gb-text{margin-top:3px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px}
 .gb-text a{color:var(--accent)}
 @media (max-width:700px){.acct-name{display:none}.acct-btn{padding:3px}.acct-btn svg{display:none}}
+.new-pill-wrap{position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px);z-index:4;display:flex;justify-content:center;height:0}
+.new-pill{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:0;border-radius:999px;padding:8px 16px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:700;font-size:14px;box-shadow:var(--shadow);animation:pillin .2s ease-out}
+.new-pill svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.6}
+@keyframes pillin{from{transform:translateY(-6px);opacity:0}}
 /* feed */
 .feed-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;margin-top:20px;align-items:start}
 .feed-side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);display:flex;flex-direction:column;gap:14px}
@@ -799,6 +803,7 @@ h1 .staff-badge{font-size:12.5px;padding:2px 9px 2px 6px;vertical-align:4px}
           <button role="tab" id="ftab-foryou" data-ftab="foryou" aria-selected="true">For you</button>
           <button role="tab" id="ftab-following" data-ftab="following" aria-selected="false">Following</button>
         </div>
+        <div class="new-pill-wrap"><button class="new-pill" id="new-pill" hidden></button></div>
         <div id="feed-top"></div>
         <div id="feed-list"></div>
       </div>
@@ -1811,7 +1816,7 @@ async function openComments(p){
 document.addEventListener("click",async e=>{
   const t=e.target.closest("button,a"); if(!t) return;
   const P=id=>posts.find(p=>p.id===id);
-  if(t.dataset.ftab){ fs.ftab=t.dataset.ftab; if(fs.ftab==="foryou") computeFY(); renderFeed(); }
+  if(t.dataset.ftab){ fs.ftab=t.dataset.ftab; if(fs.ftab==="foryou") computeFY(); renderFeed(); updateNewPill(); }
   else if(t.dataset.user){ openUser(t.dataset.user); }
   else if(t.dataset.follow){ toggleFollow(t.dataset.follow); }
   else if(t.dataset.like){ toggleLike(P(t.dataset.like)); }
@@ -2296,6 +2301,31 @@ document.addEventListener("click",async e=>{
   catch(err){ $("#pw-msg").textContent=/Wrong email or password/.test(err.message)?"Your current password isn't right.":err.message; $("#pw-msg").style.color="var(--danger)"; b.disabled=false; }
 });
 
+/* ===================== NEW POSTS PILL ===================== */
+let newTimer=null;
+async function checkNew(){
+  if(!ME_ID||fs.loading||document.hidden||$("#view-feed").hidden) return;
+  const latest=posts.reduce((m,p)=>Math.max(m,p.t),0);
+  try{
+    const rows=await api.get("posts?select=id,author&order=created_at.desc&limit=100&created_at=gt."+encodeURIComponent(new Date(latest).toISOString()));
+    fs.newRows=rows.filter(r=>r.author!==ME_ID&&!posts.some(p=>p.id===r.id));
+    updateNewPill();
+  }catch(_){}
+}
+function updateNewPill(){
+  const n=(fs.newRows||[]).filter(r=>fs.ftab==="foryou"||fs.following.has(r.author)).length, b=$("#new-pill");
+  b.hidden=!n; if(n) b.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>${n>99?"99+":n} new post${n===1?"":"s"}`;
+}
+async function loadNew(){
+  const ids=(fs.newRows||[]).map(r=>r.id); if(!ids.length) return;
+  $("#new-pill").hidden=true;
+  try{ await loadPosts("id="+inList(ids)); fs.newRows=[]; computeFY(); renderFeed();
+    window.scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}); }
+  catch(err){ fail(err); updateNewPill(); }
+}
+document.addEventListener("click",e=>{ if(e.target.closest("#new-pill")) loadNew(); });
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden) checkNew(); });
+
 /* ===================== ROUTING ===================== */
 let started=false;
 async function route(){
@@ -2385,6 +2415,7 @@ async function start(){
   if(U("me").staff) loadStaff().then(()=>{ $("#staff-count").textContent=reports.length||""; $("#staff-count").hidden=!reports.length; }).catch(()=>{});
   loadNotices().catch(()=>{});
   loadNotifCount(); clearInterval(notifTimer); notifTimer=setInterval(loadNotifCount,60000);
+  clearInterval(newTimer); newTimer=setInterval(checkNew,45000);
 }
 (async()=>{
   if(!CONFIGURED){ route(); return; }

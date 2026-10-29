@@ -433,6 +433,23 @@ h1 .staff-badge{font-size:12.5px;padding:2px 9px 2px 6px;vertical-align:4px}
 .new-pill{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:0;border-radius:999px;padding:8px 16px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:700;font-size:14px;box-shadow:var(--shadow);animation:pillin .2s ease-out}
 .new-pill svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.6}
 @keyframes pillin{from{transform:translateY(-6px);opacity:0}}
+.emoji-picker{position:fixed;z-index:40;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:8px;display:flex;flex-direction:column;gap:6px}
+.emoji-picker[hidden]{display:none}
+#ep-q{border:1px solid var(--line);border-radius:9px;padding:7px 10px;background:var(--bg);color:var(--ink);font:inherit;font-size:14px}
+.ep-tabs{display:flex;gap:2px;justify-content:space-between}
+.ep-tab{border:0;background:none;font-size:18px;padding:4px 0;flex:1;border-radius:8px;line-height:1.2}
+.ep-tab[aria-selected="true"]{background:var(--accent-soft)}
+.ep-body{height:220px;overflow-y:auto}
+.ep-h{font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:6px 2px 4px}
+.ep-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr))}
+.ep-e{border:0;background:none;font-size:22px;line-height:1;padding:5px 0;border-radius:8px}
+.ep-e:hover,.ep-e:focus-visible{background:var(--surface-2)}
+.ep-none{font-size:13px;color:var(--muted);padding:8px}
+.emo-sm{padding:5px 6px}
+.cmt-form .emo-sm svg,.icon-btn svg{flex:none}
+.ai-chip{border:1px solid currentColor;background:var(--ai-soft);color:var(--ai);font:inherit;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;padding:1px 6px;border-radius:6px;cursor:help}
+.c-ai-box select{width:100%;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg);color:var(--ink);font:inherit;font-size:14px}
+#c-ai-btn.on{color:var(--ai)}
 /* feed */
 .feed-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;margin-top:20px;align-items:start}
 .feed-side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);display:flex;flex-direction:column;gap:14px}
@@ -784,15 +801,17 @@ h1 .staff-badge{font-size:12.5px;padding:2px 9px 2px 6px;vertical-align:4px}
                 <textarea id="c-images" rows="2" placeholder="https://i.imgur.com/….png"></textarea>
                 <div id="c-images-msg"></div>
               </div>
-              <div class="c-field" id="c-ainote-wrap" hidden>
-                <label for="c-ainote">What was made with AI?</label>
-                <input id="c-ainote" placeholder="e.g. Background was AI-assisted, character drawn by me" autocomplete="off">
+              <div class="c-field c-ai-box" id="c-ai-wrap" hidden>
+                <label for="c-ai">Made with AI?</label>
+                <select id="c-ai"><option value="">No AI</option><option value="assisted">AI-assisted: I made it, AI helped somewhere</option><option value="generated">AI-made: mostly or fully generated</option></select>
+                <div id="c-ainote-wrap" hidden><label for="c-ainote" style="margin-top:6px">What was made with AI?</label>
+                <input id="c-ainote" placeholder="e.g. Background was AI-assisted, character drawn by me" autocomplete="off"></div>
               </div>
               <div id="c-preview"></div>
               <div class="c-tools">
                 <button type="button" class="icon-btn" id="c-add-img"></button>
-                <label for="c-ai" class="meta">AI</label>
-                <select id="c-ai"><option value="">No AI</option><option value="assisted">AI-assisted</option><option value="generated">AI-made</option></select>
+                <button type="button" class="icon-btn" id="c-emoji" data-emoji-for="c-text"></button>
+                <button type="button" class="icon-btn" id="c-ai-btn" aria-expanded="false" aria-controls="c-ai-wrap">AI label</button>
                 <span class="c-count" id="c-count">500</span>
                 <button class="btn primary" id="c-post" disabled>Post</button>
               </div>
@@ -852,6 +871,7 @@ h1 .staff-badge{font-size:12.5px;padding:2px 9px 2px 6px;vertical-align:4px}
 </main>
 
 <div id="modal-root"></div>
+<div class="emoji-picker" id="emoji-picker" hidden></div>
 <div class="toast" id="toast" hidden role="status"></div>
 
 <script>
@@ -1668,18 +1688,18 @@ function postHtml(p,ctx){
   if(p.kind==="media") body=`<div class="activity">added a new ${{games:"game",music:"track",videos:"video",art:"artwork"}[it.tab]} to their profile</div>`;
   if(p.kind==="update") body=`<div class="activity">updated <b>${esc(it.title)}</b></div>${p.text?`<div class="p-note">${linkify(p.text)}</div>`:""}`;
   if(!p.kind&&p.text) body=`<p class="p-text">${linkify(p.text)}</p>`;
-  const ai=p.ai?`<div class="ai-note" style="margin-top:8px"><b>${p.ai.lvl==="generated"?"AI-made":"AI-assisted"}:</b> ${esc(p.ai.note)}</div>`:"";
+  const ai="", aiChip=p.ai?`<button class="ai-chip" data-ainote="${esc((p.ai.lvl==="generated"?"AI-made":"AI-assisted")+(p.ai.note?": "+p.ai.note:""))}" title="${esc(p.ai.note||"")}">${p.ai.lvl==="generated"?"AI-made":"AI-assisted"}</button>`:"";
   const imgs=p.images.length?`<div class="p-imgs n${p.images.length}">${p.images.map((im,i)=>`<button data-pimg="${p.id}:${i}" aria-label="View image ${i+1}"><img src="${esc(im.img)}" alt="" loading="lazy" onerror="this.remove()"></button>`).join("")}</div>`:"";
   const emb=p.kind?embedHtml(it,p.id):(embedFor(p)?embedHtml(embedFor(p),p.id):"");
   const reason=!ctx&&fs.ftab==="foryou"&&fs.reasons&&fs.reasons[p.id]&&!mine?`<span class="reason">${esc(fs.reasons[p.id])}</span>`:"";
   const followBtn=!ctx&&!mine&&!fs.following.has(p.u)&&USERS[p.u]?`<button class="btn sm" data-follow="${esc(p.u)}">Follow</button>`:"";
   const cl=p.comments||[];
   const comments=open?`<div class="comments">${p.comments===null?`<div class="meta">Loading comments…</div>`:cl.map(c=>`<div class="cmt">${avHtml(c.u)}<div class="cmt-b"><button class="p-name" style="font-size:13.5px" data-user="${esc(c.u)}">${esc(U(c.u).name)}</button>${staffTag(c.u)} <span class="meta">${timeAgo(c.t)}</span>${c.u!=="me"?`<button class="cmt-report" data-creport="${p.id}:${c.id}">${state.reported.has("comment-"+c.id)?"Reported":"Report"}</button>`:`<button class="cmt-report" data-cdel="${p.id}:${c.id}">Delete</button>`}<div>${linkify(c.text)}</div></div></div>`).join("")}
-    <form class="cmt-form" data-cform="${p.id}"><input id="cmt-${pre}${p.id}" placeholder="Write a comment…" autocomplete="off" aria-label="Comment" maxlength="300"><button class="btn sm primary">Reply</button></form></div>`:"";
+    <form class="cmt-form" data-cform="${p.id}"><input id="cmt-${pre}${p.id}" placeholder="Write a comment…" autocomplete="off" aria-label="Comment" maxlength="300"><button type="button" class="icon-btn emo-sm" data-emoji-for="cmt-${pre}${p.id}" aria-label="Add emoji">${smileSvg}</button><button class="btn sm primary">Reply</button></form></div>`:"";
   return `<article class="post" id="post-${pre}${p.id}">
     <button class="p-av-btn" data-user="${esc(p.u)}" aria-label="${esc(u.name)}" style="border:0;background:none;padding:0;align-self:flex-start">${avHtml(p.u)}</button>
     <div class="p-body">
-      <div class="p-head"><button class="p-name" data-user="${esc(p.u)}">${esc(u.name)}</button>${staffTag(p.u)}<span class="handle">${esc(u.handle)} · ${timeAgo(p.t)}</span>${p.hidden?'<span class="tag red">Hidden by staff</span>':""}${followBtn}${reason}</div>
+      <div class="p-head"><button class="p-name" data-user="${esc(p.u)}">${esc(u.name)}</button>${staffTag(p.u)}<span class="handle">${esc(u.handle)} · ${timeAgo(p.t)}</span>${aiChip}${p.hidden?'<span class="tag red">Hidden by staff</span>':""}${followBtn}${reason}</div>
       ${body}${ai}${imgs}${emb}
       <div class="p-actions">
         <button class="icon-btn ${liked?"liked":""}" data-like="${p.id}" aria-pressed="${liked}" aria-label="Like">${heartSvg}<span class="n">${p.likes}</span></button>
@@ -1735,7 +1755,7 @@ function renderFeedSide(){
 function readComposer(){
   const text=$("#c-text").value, imgsRaw=$("#c-images").value.split(/\n+/).map(s=>s.trim()).filter(Boolean);
   const aiLvl=$("#c-ai").value, aiNote=$("#c-ainote").value.trim();
-  $("#c-ainote-wrap").hidden=!aiLvl;
+  $("#c-ainote-wrap").hidden=!aiLvl; $("#c-ai-btn").textContent=aiLvl==="generated"?"AI-made ✓":aiLvl==="assisted"?"AI-assisted ✓":"AI label"; $("#c-ai-btn").classList.toggle("on",!!aiLvl);
   const left=500-text.length; const cnt=$("#c-count"); cnt.textContent=left; cnt.classList.toggle("warn",left<40);
   let ok=!!(text.trim()||imgsRaw.length), errs=[]; const images=[];
   imgsRaw.forEach((r,i)=>{const pl=parseLink(r); if(!pl||pl.kind!=="image") errs.push(`Link ${i+1} isn't from a supported image site.`); else images.push({img:pl.img});});
@@ -1756,7 +1776,7 @@ async function postFromComposer(e){
   try{
     const row=await api.insert("posts",{text:p.text,images:p.images,ai:p.ai});
     const np=postFromRow(row); fs.fyOrder.unshift(np.id);
-    ["#c-text","#c-images","#c-ainote"].forEach(s=>$(s).value=""); $("#c-ai").value=""; $("#c-images-wrap").hidden=true;
+    ["#c-text","#c-images","#c-ainote"].forEach(s=>$(s).value=""); $("#c-ai").value=""; $("#c-images-wrap").hidden=true; $("#c-ai-wrap").hidden=true; $("#c-ai-btn").setAttribute("aria-expanded","false");
     readComposer(); refreshPosts(); toast("Posted.");
   }catch(err){ fail(err); readComposer(); }
 }
@@ -1835,6 +1855,8 @@ document.addEventListener("click",async e=>{
   else if(t.dataset.pplay){ const p=P(t.dataset.pplay); const it=p.kind?mediaById(p.itemId):embedFor(p); if(playable(it)) openPlayer(it); else if(it.img) openImage(it); }
   else if(t.id==="fy-refresh"){ computeFY(); renderFeed(); window.scrollTo({top:0,behavior:"smooth"}); }
   else if(t.id==="fy-reset"){ fs.interest={}; fs.affinity={}; computeFY(); renderFeed(); toast("For you was reset. It now shows popular and new posts."); }
+  else if(t.dataset.ainote){ toast(t.dataset.ainote); }
+  else if(t.id==="c-ai-btn"){ const w=$("#c-ai-wrap"); w.hidden=!w.hidden; t.setAttribute("aria-expanded",String(!w.hidden)); if(!w.hidden) $("#c-ai").focus(); }
   else if(t.id==="c-add-img"){ const w=$("#c-images-wrap"); w.hidden=!w.hidden; if(!w.hidden) $("#c-images").focus(); }
 });
 /* A small "are you sure?" that replaces the button for a moment, since pop-up confirms are blocked in some browsers. */
@@ -2194,7 +2216,7 @@ function canSign(){
 function guestbookHtml(){
   const u=U(VIEW.key), own=VIEW.key==="me", list=VIEW.gb||[];
   const setting={everyone:"Everyone can write here",following:"Only people you follow can write here",off:"Your guestbook is closed"}[u.guestbook];
-  const form=canSign()?`<form class="gb-form" id="gb-form" novalidate>${avHtml("me")}<div class="gb-in"><textarea id="gb-text" maxlength="300" rows="2" placeholder="${own?"Write a welcome note for visitors…":`Leave ${esc(u.name)} a message…`}"></textarea><div class="gb-tools"><span class="c-count" id="gb-count">300</span><button class="btn primary sm" id="gb-send" disabled>${own?"Post":"Sign guestbook"}</button></div></div></form>`
+  const form=canSign()?`<form class="gb-form" id="gb-form" novalidate>${avHtml("me")}<div class="gb-in"><textarea id="gb-text" maxlength="300" rows="2" placeholder="${own?"Write a welcome note for visitors…":`Leave ${esc(u.name)} a message…`}"></textarea><div class="gb-tools"><button type="button" class="icon-btn" data-emoji-for="gb-text">${smileSvg}Emoji</button><span class="c-count" id="gb-count">300</span><button class="btn primary sm" id="gb-send" disabled>${own?"Post":"Sign guestbook"}</button></div></div></form>`
     :`<p class="private-note">${u.guestbook==="off"?`${esc(u.name)}'s guestbook is closed.`:`Only people ${esc(u.name)} follows can write here.`}</p>`;
   const ownNote=own?`<p class="meta gb-note">${setting}. <button class="tagbtn" id="edit-profile-gb">Change</button></p>`:"";
   const items=list.length?list.map(e=>`<div class="gb-item">${avHtml(e.u)}<div class="gb-b">
@@ -2326,6 +2348,65 @@ async function loadNew(){
 document.addEventListener("click",e=>{ if(e.target.closest("#new-pill")) loadNew(); });
 document.addEventListener("visibilitychange",()=>{ if(!document.hidden) checkNew(); });
 
+/* ===================== EMOJI PICKER ===================== */
+const EMOJI=[
+ ["Smileys","😀",`😀 grin happy|😃 smile happy|😄 laugh happy|😁 beam grin|😆 lol laugh|😅 sweat relief|🤣 rofl laugh|😂 joy tears laugh|🙂 slight smile|🙃 upside down|😉 wink|😊 blush smile|😇 angel halo|🥰 love hearts|😍 heart eyes|🤩 star struck|😘 kiss|😋 yum tasty|😛 tongue|😜 wink tongue|🤪 zany crazy|😎 cool sunglasses|🤓 nerd|🧐 monocle|🤔 thinking|🤨 raised eyebrow|😐 neutral|😑 expressionless|😶 no mouth|🙄 eye roll|😏 smirk|😬 grimace|😮‍💨 exhale|🤥 lie|😌 relieved|😔 pensive|😪 sleepy|🤤 drool|😴 sleep|😷 mask sick|🤒 sick|🤕 hurt|🤢 nausea|🤮 vomit|🥵 hot|🥶 cold|🥴 woozy|😵 dizzy|🤯 mind blown|🤠 cowboy|🥳 party|🥺 pleading|😢 cry sad|😭 sob cry|😤 huff|😠 angry|😡 rage|🤬 swear|😱 scream|😨 fear|😰 anxious|😳 flushed|🫠 melting|🫡 salute|🤫 shush|🤭 giggle|🫢 gasp|😈 devil|👿 imp|💀 skull dead|☠️ skull crossbones|👻 ghost|👽 alien|🤖 robot|🎃 pumpkin halloween|😺 cat smile|😹 cat joy|😻 cat heart eyes|🙀 cat scream`],
+ ["Gestures","👍",`👍 thumbs up yes|👎 thumbs down no|👏 clap|🙌 hands raised|👐 open hands|🤲 palms|🤝 handshake|🙏 pray thanks please|✌️ peace|🤞 fingers crossed|🤟 love you|🤘 rock horns|👌 ok|🤌 pinched|👈 left|👉 right|👆 up|👇 down|☝️ point up|✋ hand stop|🖐️ hand|🖖 vulcan|👋 wave hi bye|🤙 call me|💪 strong muscle|🫶 heart hands|✍️ writing|🫵 you|👀 eyes look|🧠 brain|🫂 hug`],
+ ["Hearts","❤️",`❤️ red heart love|🧡 orange heart|💛 yellow heart|💚 green heart|💙 blue heart|💜 purple heart|🖤 black heart|🤍 white heart|🤎 brown heart|💔 broken heart|❤️‍🔥 heart fire|💕 two hearts|💞 revolving hearts|💓 beating heart|💗 growing heart|💖 sparkling heart|💘 cupid|💝 heart gift|💯 hundred|💢 anger|💥 boom|💫 dizzy star|💦 sweat drops|💨 dash|🔥 fire lit|✨ sparkles|⭐ star|🌟 glowing star|⚡ lightning bolt power|💤 zzz sleep`],
+ ["Nature","🌸",`🐶 dog|🐱 cat|🐭 mouse|🐰 rabbit bunny|🦊 fox|🐻 bear|🐼 panda|🐨 koala|🐯 tiger|🦁 lion|🐸 frog|🐵 monkey|🐔 chicken|🐧 penguin|🐦 bird|🦉 owl|🦇 bat|🐺 wolf|🐴 horse|🦄 unicorn|🐝 bee|🦋 butterfly|🐌 snail|🐞 ladybug|🕷️ spider|🐢 turtle|🐍 snake|🐙 octopus|🦈 shark|🐉 dragon|🌸 cherry blossom|🌹 rose|🌻 sunflower|🌷 tulip|🍀 clover luck|🍁 maple leaf|🍄 mushroom|🌲 tree|🌙 moon night|☀️ sun|🌈 rainbow|☁️ cloud|❄️ snow|🌊 wave ocean|🌋 volcano`],
+ ["Food","🍕",`🍎 apple|🍓 strawberry|🍒 cherries|🍑 peach|🍉 watermelon|🍌 banana|🍇 grapes|🥑 avocado|🍕 pizza|🍔 burger|🍟 fries|🌭 hot dog|🌮 taco|🍜 ramen noodles|🍣 sushi|🍙 onigiri rice ball|🍩 donut|🍪 cookie|🎂 birthday cake|🍰 cake|🧁 cupcake|🍫 chocolate|🍬 candy|🍭 lollipop|🍿 popcorn|☕ coffee|🍵 tea|🧋 bubble tea boba|🥤 soda|🍺 beer|🧃 juice`],
+ ["Games","🎮",`🎮 game controller gaming|🕹️ joystick arcade|👾 space invader alien|🎲 dice|🧩 puzzle|♟️ chess|🃏 joker card|🎯 target|🏆 trophy win|🥇 gold medal first|🥈 silver second|🥉 bronze third|🎖️ medal|⚔️ swords battle|🛡️ shield|🗡️ dagger|🏹 bow arrow|🪄 magic wand|🔮 crystal ball|💣 bomb|🧨 dynamite|⚽ soccer football|🏀 basketball|🎨 art palette|🖌️ paintbrush|✏️ pencil|🎵 music note|🎶 music notes|🎤 microphone sing|🎧 headphones|🎸 guitar|🎹 piano|🥁 drum|🎬 clapper film|📹 video camera|🎥 movie camera|📸 camera photo|🎭 theater|🎉 party popper|🎊 confetti|🎁 gift present`],
+ ["Objects","💻",`💻 laptop computer|🖥️ desktop|⌨️ keyboard|🖱️ mouse|📱 phone|🎙️ studio mic|📺 tv|💾 floppy save|💿 cd|📀 dvd|🔋 battery|🔌 plug|💡 idea bulb|🔦 flashlight|🕯️ candle|📚 books|📖 book|📝 memo note|📌 pin|📎 paperclip|✂️ scissors|🔒 lock|🔑 key|🔨 hammer|🛠️ tools|⚙️ gear settings|🧪 test tube|🔭 telescope|📡 satellite|🚀 rocket launch|🛸 ufo|🏠 house home|🏰 castle|🗺️ map|⏰ alarm clock|⏳ hourglass|📅 calendar|💰 money bag|💎 gem diamond|👑 crown|🎩 top hat|👓 glasses|🧸 teddy bear`],
+ ["Symbols","✅",`✅ check done|❌ cross no|⭕ circle|❗ exclamation|❓ question|‼️ double exclamation|⁉️ interrobang|⚠️ warning|🚫 prohibited|⛔ no entry|🔞 18 adult|♻️ recycle|✔️ check mark|➕ plus|➖ minus|➡️ right arrow|⬅️ left arrow|⬆️ up arrow|⬇️ down arrow|🔁 repeat|🔄 refresh|🆕 new|🆒 cool|🆓 free|🆙 up|🔴 red circle|🟠 orange circle|🟡 yellow circle|🟢 green circle|🔵 blue circle|🟣 purple circle|⚫ black circle|⚪ white circle|🔺 red triangle|♥️ heart suit|♠️ spade|♦️ diamond suit|♣️ club|©️ copyright|™️ trademark|#️⃣ hash|💬 speech bubble|💭 thought bubble|🗯️ anger bubble|📢 loudspeaker|🔔 bell|🎌 flags`]
+].map(([name,icon,list])=>({name,icon,items:list.split("|").map(x=>{const i=x.indexOf(" ");return {e:x.slice(0,i),k:x.slice(i+1)};})}));
+const ALL_EMOJI=EMOJI.flatMap(c=>c.items);
+let emojiTarget=null, emojiCat=0;
+function recentEmoji(){ try{ return JSON.parse(localStorage.getItem("pc-recent-emoji")||"[]").slice(0,16); }catch(_){ return []; } }
+function rememberEmoji(e){ try{ const r=[e,...recentEmoji().filter(x=>x!==e)].slice(0,16); localStorage.setItem("pc-recent-emoji",JSON.stringify(r)); }catch(_){} }
+function emojiGrid(list){ return list.length?`<div class="ep-grid">${list.map(x=>`<button type="button" class="ep-e" data-emo="${x.e}" title="${esc(x.k)}" aria-label="${esc(x.k)}">${x.e}</button>`).join("")}</div>`:`<p class="ep-none">No emoji found.</p>`; }
+function renderEmoji(){
+  const q=($("#ep-q")||{}).value?.trim().toLowerCase()||"", rec=recentEmoji();
+  let body;
+  if(q) body=emojiGrid(ALL_EMOJI.filter(x=>x.k.includes(q)).slice(0,80));
+  else body=(rec.length&&emojiCat===0?`<div class="ep-h">Recently used</div>${emojiGrid(rec.map(e=>ALL_EMOJI.find(x=>x.e===e)||{e,k:""}))}`:"")+`<div class="ep-h">${EMOJI[emojiCat].name}</div>`+emojiGrid(EMOJI[emojiCat].items);
+  $("#ep-body").innerHTML=body;
+  document.querySelectorAll(".ep-tab").forEach((b,i)=>b.setAttribute("aria-selected",!q&&i===emojiCat));
+}
+function openEmoji(btn){
+  const target=document.getElementById(btn.dataset.emojiFor); if(!target) return;
+  const p=$("#emoji-picker");
+  if(!p.hidden&&emojiTarget===target){ closeEmoji(); return; }
+  emojiTarget=target;
+  p.innerHTML=`<input id="ep-q" type="search" placeholder="Search emoji" aria-label="Search emoji" autocomplete="off">
+    <div class="ep-tabs" role="tablist">${EMOJI.map((c,i)=>`<button type="button" class="ep-tab" role="tab" data-epcat="${i}" title="${c.name}" aria-label="${c.name}">${c.icon}</button>`).join("")}</div>
+    <div class="ep-body" id="ep-body"></div>`;
+  p.hidden=false; renderEmoji();
+  const r=btn.getBoundingClientRect(), w=Math.min(320,innerWidth-24), h=p.offsetHeight;
+  let left=Math.min(Math.max(12,r.left),innerWidth-w-12), top=r.bottom+6;
+  if(top+h>innerHeight-12) top=Math.max(12,r.top-h-6);
+  p.style.left=left+"px"; p.style.top=top+"px"; p.style.width=w+"px";
+  $("#ep-q").addEventListener("input",renderEmoji);
+  if(matchMedia("(hover:hover)").matches) $("#ep-q").focus();
+}
+function closeEmoji(){ const p=$("#emoji-picker"); if(p) p.hidden=true; emojiTarget=null; }
+function insertEmoji(e){
+  const t=emojiTarget; if(!t||!t.isConnected){ closeEmoji(); return; }
+  const max=+t.getAttribute("maxlength")||1e9; if(t.value.length+e.length>max) return toast("That's the character limit.");
+  const s=t.selectionStart??t.value.length, en=t.selectionEnd??t.value.length;
+  t.value=t.value.slice(0,s)+e+t.value.slice(en); t.selectionStart=t.selectionEnd=s+e.length;
+  t.dispatchEvent(new Event("input",{bubbles:true})); rememberEmoji(e);
+}
+document.addEventListener("mousedown",e=>{ if(e.target.closest(".ep-e")) e.preventDefault(); }); // keep the text box's cursor where it was
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-emoji-for]"); if(b){ e.preventDefault(); openEmoji(b); return; }
+  const em=e.target.closest(".ep-e"); if(em){ insertEmoji(em.dataset.emo); return; }
+  const cat=e.target.closest(".ep-tab"); if(cat){ emojiCat=+cat.dataset.epcat; $("#ep-q").value=""; renderEmoji(); return; }
+  if(!e.target.closest("#emoji-picker")) closeEmoji();
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#emoji-picker").hidden){ closeEmoji(); } });
+window.addEventListener("resize",closeEmoji);
+const smileSvg=`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5c1.8 2 5.2 2 7 0"/><circle cx="9" cy="10" r=".6" fill="currentColor"/><circle cx="15" cy="10" r=".6" fill="currentColor"/></svg>`;
+
 /* ===================== ROUTING ===================== */
 let started=false;
 async function route(){
@@ -2402,7 +2483,7 @@ $("#banner").addEventListener("click",editTarget); $("#avatar").addEventListener
 $("#composer").addEventListener("input",readComposer);
 $("#composer").addEventListener("change",readComposer);
 $("#composer").addEventListener("submit",postFromComposer);
-$("#c-add-img").innerHTML=imgSvg+"Image links";
+$("#c-add-img").innerHTML=imgSvg+"Image links"; $("#c-emoji").innerHTML=smileSvg+"Emoji";
 window.addEventListener("hashchange",route);
 try{const f=localStorage.getItem("pc-ai-filter");if(f){state.filter=f;document.querySelectorAll("[data-f]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===f))}}catch(_){}
 

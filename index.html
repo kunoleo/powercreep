@@ -359,6 +359,76 @@ mark.fill{background:var(--ai-soft);color:var(--ai);border-radius:4px;padding:0 
 .site-foot a{color:var(--muted)}
 .site-foot a:hover{color:var(--ink)}
 @media (max-width:600px){.legal td:first-child{white-space:normal}}
+/* top bar: search + bell */
+.search{position:relative;display:flex;align-items:center;flex:0 1 220px;min-width:140px}
+.search svg{position:absolute;left:10px;width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:2;pointer-events:none}
+.search input{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:7px 12px 7px 32px;font:inherit;font-size:14px}
+.search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search-res{position:absolute;top:calc(100% + 6px);left:0;width:min(340px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:6px;z-index:15;max-height:70vh;overflow:auto}
+.sr-item{display:flex;gap:10px;align-items:center;padding:8px;border-radius:9px;text-decoration:none;color:var(--ink)}
+.sr-item:hover,.sr-item:focus{background:var(--surface-2);outline:none}
+.sr-item .mini-av{width:36px;height:36px;font-size:15px;border-radius:10px}
+.sr-t{min-width:0;display:flex;flex-direction:column}
+.sr-t b{font-size:14px;display:flex;align-items:center;gap:4px}
+.sr-t span{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr-empty{padding:10px;font-size:13.5px;color:var(--muted)}
+.bell{position:relative;border:0;background:none;color:var(--muted);width:38px;height:38px;border-radius:999px;display:grid;place-items:center;flex:none}
+.bell:hover,.bell[aria-expanded="true"]{background:var(--surface-2);color:var(--ink)}
+.bell svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2;stroke-linejoin:round}
+.bell-n{position:absolute;top:2px;right:0;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--danger);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;font-variant-numeric:tabular-nums;box-shadow:0 0 0 2px var(--surface)}
+.notif-panel{position:fixed;top:calc(env(safe-area-inset-top,0px) + 60px);right:max(16px,env(safe-area-inset-right,0px));width:min(380px,calc(100vw - 32px));max-height:min(70vh,560px);overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);z-index:15}
+.np-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--surface)}
+.np-head .linkbtn{font-size:13px}
+.np-item{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:0;background:none;padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink);font:inherit}
+button.np-item:hover{background:var(--surface-2)}
+.np-item.unread{background:var(--accent-soft)}
+.np-item .mini-av{width:36px;height:36px;font-size:15px;border-radius:10px}
+.np-t{min-width:0;font-size:14px;overflow-wrap:anywhere}
+.np-t span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.np-ico.staff{flex:none;padding-top:2px}
+.np-ico.staff .staff-badge{margin-left:0}
+.np-empty{padding:18px 14px;font-size:13.5px;color:var(--muted)}
+.staff-badge{display:inline-flex;align-items:center;gap:3px;margin-left:6px;padding:1px 7px 1px 5px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-family:var(--f-body);font-size:11px;font-weight:800;letter-spacing:.02em;vertical-align:middle;line-height:1.5;white-space:nowrap}
+.staff-badge svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.4}
+h1 .staff-badge{font-size:12.5px;padding:2px 9px 2px 6px;vertical-align:4px}
+.post-modal .post{border-bottom:0;padding-top:0}
+@media (max-width:700px){.search{order:5;flex:1 1 100%}}
+/* account menu, guestbook, comments */
+.acct-btn{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:3px 9px 3px 3px;font:inherit;font-weight:600;font-size:14px;max-width:190px}
+.acct-btn:hover,.acct-btn[aria-expanded="true"]{border-color:var(--muted)}
+.acct-btn .mini-av{width:28px;height:28px;font-size:13px;border-radius:999px}
+.acct-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.acct-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.4;flex:none}
+.acct-menu{position:fixed;top:calc(env(safe-area-inset-top,0px) + 60px);right:max(16px,env(safe-area-inset-right,0px));width:min(300px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);z-index:15;padding:6px}
+.am-me{display:flex;gap:10px;align-items:center;padding:10px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.am-me b{font-size:14.5px}.am-me span:not(.staff-badge){display:block;font-size:12.5px;color:var(--muted)}
+.am-item{display:flex;gap:10px;align-items:center;width:100%;border:0;background:none;text-align:left;padding:9px 10px;border-radius:9px;color:var(--ink);font:inherit;font-size:14px;text-decoration:none}
+.am-item:hover{background:var(--surface-2)}
+.am-item small{display:block;font-size:12px;color:var(--muted)}
+.am-item .mini-av{width:30px;height:30px;font-size:13px;border-radius:9px}
+.am-ico{width:30px;height:30px;border-radius:9px;background:var(--surface-2);display:grid;place-items:center;font-weight:800;flex:none}
+.staff-badge.official{background:var(--ink);color:var(--bg)}
+.pro-row{display:flex;gap:8px}.pro-row select{flex:0 0 auto}.pro-row input{flex:1;min-width:0}
+#pset select{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--bg);color:var(--ink);font:inherit;font-size:14px}
+.pw-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:6px}
+.pw-grid input{border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:var(--bg);color:var(--ink);font:inherit;font-size:14px;min-width:0}
+@media (max-width:640px){.pw-grid{grid-template-columns:1fr}}
+.cmt{display:flex;gap:9px;align-items:flex-start}
+.cmt>.mini-av{width:28px;height:28px;font-size:12px;border-radius:8px;flex:none;margin-top:2px}
+.cmt-b{min-width:0;flex:1}
+.gb-note{margin:0 0 10px}
+.gb-form{display:flex;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:6px}
+.gb-form:focus-within{border-color:var(--accent)}
+.gb-in{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.gb-in textarea{margin:0;min-height:52px;border:0;background:transparent;padding:6px 0;font-size:15px;resize:vertical}
+.gb-in textarea:focus-visible{outline:none}
+.gb-tools{display:flex;align-items:center;gap:10px}
+.gb-item{display:flex;gap:12px;padding:14px 4px;border-bottom:1px solid var(--line)}
+.gb-b{min-width:0;flex:1}
+.gb-h{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.gb-text{margin-top:3px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px}
+.gb-text a{color:var(--accent)}
+@media (max-width:700px){.acct-name{display:none}.acct-btn{padding:3px}.acct-btn svg{display:none}}
 /* feed */
 .feed-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;margin-top:20px;align-items:start}
 .feed-side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);display:flex;flex-direction:column;gap:14px}
@@ -478,8 +548,16 @@ mark.fill{background:var(--ai-soft);color:var(--ai);border-radius:4px;padding:0 
       <a href="#feed" id="nav-feed">Feed</a>
       <a href="#profile" id="nav-profile">Profile</a>
       <a href="#staff" id="nav-staff" hidden>Staff inbox<span class="count" id="staff-count" hidden></span></a>
-      <a href="#login" id="nav-logout">Log out</a>
     </nav>
+    <div class="search" id="search" role="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <input id="search-in" type="search" placeholder="Search people" aria-label="Search people" autocomplete="off" spellcheck="false">
+      <div class="search-res" id="search-res" hidden></div>
+    </div>
+    <button class="bell" id="bell" aria-label="Notifications" aria-expanded="false" aria-controls="notif-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><span class="bell-n" id="bell-n" hidden></span></button>
+    <div class="notif-panel" id="notif-panel" hidden></div>
+    <button class="acct-btn" id="acct-btn" aria-label="Account menu" aria-expanded="false" aria-controls="acct-menu"></button>
+    <div class="acct-menu" id="acct-menu" hidden></div>
   </div>
 </header>
 
@@ -575,8 +653,9 @@ mark.fill{background:var(--ai-soft);color:var(--ai);border-radius:4px;padding:0 
         <tbody>
           <tr><td>Your email</td><td>Logging in, resetting your password, and rare important messages about your account. Never shown to anyone.</td><td>Needed to run your account</td></tr>
           <tr><td>Username and password</td><td>Logging in. Your password is only stored scrambled (hashed), so nobody can read it, including us.</td><td>Needed to run your account</td></tr>
-          <tr><td>What you put on your profile</td><td>Name, title, bio, links, and links to your avatar and header images, so people can see your profile.</td><td>Needed to run your account</td></tr>
+          <tr><td>What you put on your profile</td><td>Name, title, pronouns if you add them, bio, links, guestbook messages, and links to your avatar and header images, so people can see your profile.</td><td>Needed to run your account</td></tr>
           <tr><td>Your posts, comments, media links, likes and follows</td><td>So the site works. Your list of liked posts is private, but like counts are public.</td><td>Needed to run your account</td></tr>
+          <tr><td>Notifications</td><td>When someone comments on your post, signs your guestbook or follows you, so we can tell you. Only you can see them. Deleted after 3 months, or when you clear them.</td><td>Needed to run your account</td></tr>
           <tr><td>Reports you send</td><td>So staff can handle them. Only staff can see who sent a report. Deleted 6 months after the report is closed.</td><td>Keeping the site safe, and legal duties</td></tr>
           <tr><td>Messages</td><td>Direct messages aren't switched on yet. When they are, they'll be end-to-end encrypted: we'll only store scrambled text we can't read, plus who sent it to whom and when.</td><td>Needed to run your account</td></tr>
           <tr><td>Security logs</td><td>Our hosting providers keep short technical logs, including IP addresses, to protect against attacks. We don't use them to follow what you do.</td><td>Keeping the site safe</td></tr>
@@ -640,6 +719,7 @@ mark.fill{background:var(--ai-soft);color:var(--ai);border-radius:4px;padding:0 
         <thead><tr><th>Name</th><th>What it does</th><th>How long</th></tr></thead>
         <tbody>
           <tr><td><code>sb-…-auth-token</code></td><td>Keeps you logged in. Saved in your browser's local storage, not as a cookie.</td><td>Until you log out</td></tr>
+          <tr><td><code>sb-…-other-accounts</code></td><td>Only for staff who add the official POWER CREEP account: keeps it logged in so they can switch to it.</td><td>Until you log out</td></tr>
           <tr><td><code>pc-ai-filter</code></td><td>Remembers your AI content filter.</td><td>Until you clear it</td></tr>
         </tbody>
       </table></div>
@@ -731,7 +811,7 @@ mark.fill{background:var(--ai-soft);color:var(--ai);border-radius:4px;padding:0 
     <div class="ident">
       <div class="avatar" id="avatar" data-edit="✎ Edit"></div>
       <div class="ident-text">
-        <h1><span id="p-name"></span></h1>
+        <h1><span id="p-name"></span><span id="p-staff"></span></h1>
         <div class="handle"><span id="p-handle"></span><span id="p-title"></span></div>
         <div class="pstats" id="pstats"></div>
         <p class="bio" id="p-bio"></p>
@@ -799,7 +879,7 @@ const LIVE = true;
    so the site doesn't need to load any outside script. */
 const api=(()=>{
   const ref=(SUPABASE_URL.match(/^https:\/\/([^.]+)\./)||[])[1]||"local";
-  const KEY=`sb-${ref}-auth-token`;
+  const KEY=`sb-${ref}-auth-token`, OKEY=`sb-${ref}-other-accounts`;
   const legacyJwt=/^eyJ/.test(SUPABASE_KEY);
   let session=null; try{ session=JSON.parse(localStorage.getItem(KEY)||"null"); }catch(_){}
   const save=s=>{ session=s; try{ s?localStorage.setItem(KEY,JSON.stringify(s)):localStorage.removeItem(KEY); }catch(_){} };
@@ -855,7 +935,15 @@ const api=(()=>{
     async insert(table,row){ const {data}=await rest(table,{method:"POST",body:row,prefer:"return=representation"}); return Array.isArray(data)?data[0]:data; },
     async update(table,filter,patch){ const {data}=await rest(table+"?"+filter,{method:"PATCH",body:patch,prefer:"return=representation"}); return data; },
     async remove(table,filter){ await rest(table+"?"+filter,{method:"DELETE"}); },
-    async rpc(fn,args={}){ return (await rest("rpc/"+fn,{method:"POST",body:args})).data; }
+    async rpc(fn,args={}){ return (await rest("rpc/"+fn,{method:"POST",body:args})).data; },
+    others(){ try{ const o=JSON.parse(localStorage.getItem(OKEY)||"[]"); return Array.isArray(o)?o:[]; }catch(_){ return []; } },
+    addOther(s){ const o=this.others().filter(x=>x.id!==s.id); o.push(withExpiry(s)); try{ localStorage.setItem(OKEY,JSON.stringify(o)); }catch(_){} },
+    forgetOthers(){ try{ localStorage.removeItem(OKEY); }catch(_){} },
+    switchTo(i,meInfo){ const o=this.others(), target=o[i]; if(!target) return; o.splice(i,1,{...session,...meInfo}); try{ localStorage.setItem(OKEY,JSON.stringify(o)); }catch(_){}
+      const {id,name,username,brand,...sess}=target; save(sess); },
+    async signInOther(email,password){ const {data}=await raw("/auth/v1/token?grant_type=password",{method:"POST",auth:false,body:{email,password}}); return withExpiry(data); },
+    async changePassword(cur,nw){ const email=session&&session.user&&session.user.email; if(!email) throw new Error("Please log in again first.");
+      await this.signIn(email,cur); await ready(); await raw("/auth/v1/user",{method:"PUT",body:{password:nw}}); }
   };
 })();
 const inList=ids=>"in.("+[...new Set(ids)].filter(Boolean).join(",")+")";
@@ -946,7 +1034,8 @@ const idOf=key=>key==="me"?ME_ID:key;
 function userFromRow(r){
   return {id:r.id,name:r.display_name,username:r.username,handle:"@"+r.username,title:r.title||"",bio:r.bio||"",
     links:cleanLinks(r.links),avatar:cleanAvatar(r.avatar),banner:cleanBanner(r.banner),
-    twitch:/^[a-z0-9_]{3,25}$/.test(r.twitch||"")?r.twitch:null,staff:!!r.is_staff,suspended:!!r.suspended,h:hueOf(r.id)};
+    twitch:/^[a-z0-9_]{3,25}$/.test(r.twitch||"")?r.twitch:null,staff:!!r.is_staff,suspended:!!r.suspended,h:hueOf(r.id),
+    pronouns:String(r.pronouns||"").slice(0,20),guestbook:["everyone","following","off"].includes(r.guestbook)?r.guestbook:"everyone",brand:!!r.is_brand};
 }
 function putUser(r){ const u=userFromRow(r); USERS[keyOf(r.id)]=u; return u; }
 async function ensureUsers(ids){
@@ -1023,7 +1112,7 @@ async function loadProfile(key){
     api.count("follows?select=follower&following=eq."+id),
     api.count("follows?select=following&follower=eq."+id)]);
   items=media.map(itemFromRow).filter(Boolean);
-  VIEW={key,followers,following};
+  VIEW={key,followers,following}; await loadGuestbook(key).catch(()=>{ VIEW.gb=[]; });
   state.twitch=U(key).twitch; state.liveOn=false;
 }
 async function loadNotices(){
@@ -1056,7 +1145,7 @@ function visible(it){
 function avatarInner(a,name){ const L=esc(((name||"?").trim()[0]||"?").toUpperCase()); return a&&a.url?`${L}<img src="${esc(a.url)}" alt="" onerror="this.remove()">`:L; }
 function renderProfileHeader(){
   const u=U(VIEW.key), own=VIEW.key==="me";
-  $("#p-name").textContent=u.name; $("#p-handle").textContent=u.handle; $("#p-title").textContent=u.title?" · "+u.title:"";
+  $("#p-name").textContent=u.name; $("#p-staff").innerHTML=staffTag(VIEW.key); $("#p-handle").textContent=u.handle+(u.pronouns?" · "+u.pronouns:""); $("#p-title").textContent=u.title?" · "+u.title:"";
   $("#p-bio").textContent=u.bio; $("#p-bio").hidden=!u.bio;
   $("#avatar").innerHTML=avatarInner(u.avatar,u.name); $("#avatar").style.cssText=u.avatar.url?"":"";
   $("#banner").style.background=bannerBg(u.banner);
@@ -1071,7 +1160,8 @@ function renderProfileHeader(){
 function profileTabs(){
   const own=state.role==="owner";
   const has=k=>k==="feed"?posts.some(p=>p.u===VIEW.key&&!p.kind):k==="liked"?posts.some(p=>p.liked):items.some(i=>i.tab===k);
-  return [["feed","Feed"],...TABS,...(own?[["liked","Liked"]]:[])].filter(([k])=>has(k)).concat(state.twitch||own?[["live","Live"]]:[]);
+  const gbShow=own||(VIEW.gb&&VIEW.gb.length)||U(VIEW.key).guestbook!=="off";
+  return [["feed","Feed"],...TABS,...(own?[["liked","Liked"]]:[])].filter(([k])=>has(k)).concat(gbShow?[["guestbook","Guestbook"]]:[],state.twitch||own?[["live","Live"]]:[]);
 }
 const viewPosts=()=>posts.filter(p=>p.u===VIEW.key&&!p.kind&&(!p.ai||visible({ai:p.ai}))).sort((a,b)=>b.t-a.t);
 const likedPosts=()=>posts.filter(p=>p.liked&&(!p.ai||visible({ai:p.ai}))).sort((a,b)=>b.t-a.t);
@@ -1083,7 +1173,7 @@ function renderProfile(){
 function renderTabs(){
   const tabs=profileTabs(); if(!tabs.some(t=>t[0]===state.tab)) state.tab=tabs.length?tabs[0][0]:"none";
   $("#tabs").innerHTML=tabs.map(([k,n])=>{
-    const c=k==="feed"?viewPosts().length:k==="liked"?likedPosts().length:k==="live"?null:items.filter(i=>i.tab===k&&visible(i)).length;
+    const c=k==="feed"?viewPosts().length:k==="liked"?likedPosts().length:k==="guestbook"?(VIEW.gb||[]).length:k==="live"?null:items.filter(i=>i.tab===k&&visible(i)).length;
     const lock=k==="liked"?`<svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2;margin-left:5px;vertical-align:-1px" aria-label="private"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>`:"";
     const dot=k==="live"&&state.twitch?`<span class="live-dot" aria-hidden="true"></span>`:"";
     return `<button role="tab" id="tab-${k}" aria-selected="${state.tab===k}" data-tab="${k}">${dot}${n}${lock}${c===null?"":`<small>${c}</small>`}</button>`;
@@ -1166,7 +1256,8 @@ function liveHtml(){
   return frame+(own?`<p class="meta live-own">Showing twitch.tv/${esc(ch)} · <button class="tagbtn" id="live-change">Change</button> · <button class="tagbtn" id="live-remove">Remove</button></p>`:"");
 }
 function renderGrid(){
-  const g=$("#grid"); g.classList.toggle("as-list",["feed","liked","live"].includes(state.tab));
+  const g=$("#grid"); g.classList.toggle("as-list",["feed","liked","live","guestbook"].includes(state.tab));
+  if(state.tab==="guestbook"){ g.innerHTML=guestbookHtml(); return; }
   if(state.tab==="feed"||state.tab==="liked"){
     const list=state.tab==="feed"?viewPosts():likedPosts();
     g.innerHTML=(state.tab==="liked"?`<p class="private-note"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Only you can see this tab. Posts you like show up here.</p>`:"")
@@ -1231,7 +1322,7 @@ function openReport(target){
   });
   setTimeout(()=>$("#rcat-illegal")?.focus(),30);
 }
-function closeModal(){$("#modal-root").innerHTML=""}
+function closeModal(){$("#modal-root").innerHTML=""; state.modalPost=null;}
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
 
 /* ===================== STAFF INBOX ===================== */
@@ -1239,10 +1330,11 @@ const PART_NAMES={name:"Name or title",bio:"Bio",avatar:"Avatar",header:"Header"
 async function loadStaff(){
   const rows=await api.get("reports?select=*&status=eq.open&order=created_at.desc&limit=500");
   const ids=t=>rows.filter(r=>r.target_type===t).map(r=>r.target_id);
-  const [pp,cc,mm]=await Promise.all([
+  const [pp,cc,mm,gg]=await Promise.all([
     ids("post").length?api.get("posts?select=*&id="+inList(ids("post"))):[],
     ids("comment").length?api.get("comments?select=*&id="+inList(ids("comment"))):[],
-    ids("media").length?api.get("media?select=*&id="+inList(ids("media"))):[]]);
+    ids("media").length?api.get("media?select=*&id="+inList(ids("media"))):[],
+    ids("guestbook").length?api.get("guestbook?select=*&id="+inList(ids("guestbook"))):[]]);
   await ensureUsers(rows.map(r=>r.target_owner).concat(ids("profile")));
   const groups={};
   rows.forEach(r=>{
@@ -1254,6 +1346,7 @@ async function loadStaff(){
     g.cat=Object.keys(g.reasons).sort((a,b)=>CATS[a].rank-CATS[b].rank||g.reasons[b]-g.reasons[a])[0];
     const owner=U(keyOf(g.owner)); g.ownerHandle=owner.handle; g.h=hueOf(g.id);
     if(g.type==="post"){ const p=pp.find(x=>x.id===g.id); g.title=p?(p.text?`Post: "${p.text.slice(0,80)}${p.text.length>80?"…":""}"`:"Post with images"):"Post (deleted)"; g.hidden=p&&p.hidden; g.img=p&&p.images&&p.images[0]&&parseLink(p.images[0].img)?.img; }
+    if(g.type==="guestbook"){ const c=gg.find(x=>x.id===g.id); g.title=c?`Guestbook message: "${c.text.slice(0,80)}"`:"Guestbook message (deleted)"; g.hidden=c&&c.hidden; }
     if(g.type==="comment"){ const c=cc.find(x=>x.id===g.id); g.title=c?`Comment: "${c.text.slice(0,80)}"`:"Comment (deleted)"; g.hidden=c&&c.hidden; }
     if(g.type==="media"){ const m=mm.find(x=>x.id===g.id); const it=m&&itemFromRow(m); g.title=it?`${it.title} (${it.tab})`:"Media (deleted)"; g.plat=it&&it.plat; g.img=it&&imgOf(it); g.hidden=m&&m.hidden; g.link=it&&urlOf(it); }
     if(g.type==="profile"){ g.title=`Profile: ${owner.name} · ${PART_NAMES[g.part]||"Account"}`; g.profile=keyOf(g.id); }
@@ -1576,12 +1669,12 @@ function postHtml(p,ctx){
   const reason=!ctx&&fs.ftab==="foryou"&&fs.reasons&&fs.reasons[p.id]&&!mine?`<span class="reason">${esc(fs.reasons[p.id])}</span>`:"";
   const followBtn=!ctx&&!mine&&!fs.following.has(p.u)&&USERS[p.u]?`<button class="btn sm" data-follow="${esc(p.u)}">Follow</button>`:"";
   const cl=p.comments||[];
-  const comments=open?`<div class="comments">${p.comments===null?`<div class="meta">Loading comments…</div>`:cl.map(c=>`<div class="cmt"><button class="p-name" style="font-size:13.5px" data-user="${esc(c.u)}">${esc(U(c.u).name)}</button> <span class="meta">${timeAgo(c.t)}</span>${c.u!=="me"?`<button class="cmt-report" data-creport="${p.id}:${c.id}">${state.reported.has("comment-"+c.id)?"Reported":"Report"}</button>`:`<button class="cmt-report" data-cdel="${p.id}:${c.id}">Delete</button>`}<div>${linkify(c.text)}</div></div>`).join("")}
+  const comments=open?`<div class="comments">${p.comments===null?`<div class="meta">Loading comments…</div>`:cl.map(c=>`<div class="cmt">${avHtml(c.u)}<div class="cmt-b"><button class="p-name" style="font-size:13.5px" data-user="${esc(c.u)}">${esc(U(c.u).name)}</button>${staffTag(c.u)} <span class="meta">${timeAgo(c.t)}</span>${c.u!=="me"?`<button class="cmt-report" data-creport="${p.id}:${c.id}">${state.reported.has("comment-"+c.id)?"Reported":"Report"}</button>`:`<button class="cmt-report" data-cdel="${p.id}:${c.id}">Delete</button>`}<div>${linkify(c.text)}</div></div></div>`).join("")}
     <form class="cmt-form" data-cform="${p.id}"><input id="cmt-${pre}${p.id}" placeholder="Write a comment…" autocomplete="off" aria-label="Comment" maxlength="300"><button class="btn sm primary">Reply</button></form></div>`:"";
   return `<article class="post" id="post-${pre}${p.id}">
     <button class="p-av-btn" data-user="${esc(p.u)}" aria-label="${esc(u.name)}" style="border:0;background:none;padding:0;align-self:flex-start">${avHtml(p.u)}</button>
     <div class="p-body">
-      <div class="p-head"><button class="p-name" data-user="${esc(p.u)}">${esc(u.name)}</button><span class="handle">${esc(u.handle)} · ${timeAgo(p.t)}</span>${p.hidden?'<span class="tag red">Hidden by staff</span>':""}${followBtn}${reason}</div>
+      <div class="p-head"><button class="p-name" data-user="${esc(p.u)}">${esc(u.name)}</button>${staffTag(p.u)}<span class="handle">${esc(u.handle)} · ${timeAgo(p.t)}</span>${p.hidden?'<span class="tag red">Hidden by staff</span>':""}${followBtn}${reason}</div>
       ${body}${ai}${imgs}${emb}
       <div class="p-actions">
         <button class="icon-btn ${liked?"liked":""}" data-like="${p.id}" aria-pressed="${liked}" aria-label="Like">${heartSvg}<span class="n">${p.likes}</span></button>
@@ -1592,7 +1685,7 @@ function postHtml(p,ctx){
     </div>
   </article>`;
 }
-function refreshPosts(){ renderFeed(); if(!$("#view-profile").hidden){ renderTabs(); if(["feed","liked","none"].includes(state.tab)) renderGrid(); } }
+function refreshPosts(){ if(state.modalPost) renderPostModal(); renderFeed(); if(!$("#view-profile").hidden){ renderTabs(); if(["feed","liked","none"].includes(state.tab)) renderGrid(); } }
 const focusCmt=id=>{const el=[...document.querySelectorAll(`[data-cform="${id}"] input`)].find(x=>x.offsetParent); if(el) el.focus();};
 function renderFeed(){
   if(!$("#feed-list")||!ME_ID) return;
@@ -1674,7 +1767,7 @@ async function openUser(key){
   const theirs=posts.filter(p=>p.u===key&&!p.kind).sort((a,b)=>b.t-a.t).slice(0,3);
   $("#modal-root").innerHTML=`
     <div class="scrim" id="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="ut">
-      <div class="u-head">${avHtml(key)}<div style="min-width:0"><h2 id="ut">${esc(u.name)}</h2><div class="handle">${esc(u.handle)}${u.title?" · "+esc(u.title):""}</div></div></div>
+      <div class="u-head">${avHtml(key)}<div style="min-width:0"><h2 id="ut">${esc(u.name)}${staffTag(key)}</h2><div class="handle">${esc(u.handle)}${u.title?" · "+esc(u.title):""}</div></div></div>
       ${u.bio?`<p style="margin:12px 0 0">${esc(u.bio)}</p>`:""}
       <div class="u-stats" id="u-stats"><span>Loading…</span></div>
       ${theirs.length?`<div class="mono" style="color:var(--muted)">Recent posts</div><div class="u-recent">${theirs.map(p=>`<div>${esc(p.text.slice(0,140))}${p.text.length>140?"…":""}</div>`).join("")}</div>`:""}
@@ -1774,7 +1867,7 @@ async function saveMedia(type,ex){
   }catch(err){ $("#am-submit").disabled=false; fail(err); }
 }
 async function saveMe(patch,msg){
-  try{ const [r]=await api.update("profiles","id=eq."+ME_ID,patch); putUser(r); renderProfileHeader(); renderFeed(); closeModal(); toast(msg); return true; }
+  try{ const [r]=await api.update("profiles","id=eq."+ME_ID,patch); putUser(r); renderProfileHeader(); if(!$("#view-profile").hidden){ renderTabs(); renderGrid(); } renderFeed(); renderAccountBtn(); closeModal(); toast(msg); return true; }
   catch(err){ fail(err); return false; }
 }
 
@@ -1831,16 +1924,22 @@ function openSettings(){
   $("#modal-root").innerHTML=`
     <div class="scrim" id="scrim"><div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="pst">
       <h2 id="pst">Edit profile</h2>
-      <p class="sub">Your name, title, bio and the link buttons under your bio.</p>
+      <p class="sub">Your name, pronouns, bio, links, guestbook and password.</p>
       <form id="pset" novalidate>
         <div class="fields">
           <div class="field"><label for="ps-name">Display name</label><input id="ps-name" maxlength="40" autocomplete="off"></div>
           <div class="field"><label for="ps-title">Title <i>(optional)</i></label><input id="ps-title" maxlength="60" placeholder="e.g. Game developer, music as curlybolt" autocomplete="off"><div class="hint">Shown next to your handle.</div></div>
+          <div class="field"><label for="ps-pro">Pronouns <i>(optional)</i></label>
+            <div class="pro-row"><select id="ps-pro"><option value="">Don't show</option><option>he/him</option><option>she/her</option><option>they/them</option><option>he/they</option><option>she/they</option><option value="other">Other…</option></select>
+            <input id="ps-pro-o" maxlength="20" placeholder="Write your own" autocomplete="off" hidden></div><div class="hint">Shown next to your handle.</div></div>
           <div class="field"><label for="ps-bio">Bio <i>(optional)</i></label><textarea id="ps-bio" maxlength="300"></textarea><div class="hint" id="ps-bio-n"></div></div>
           <div class="field"><label>Links <i>(up to 8)</i></label><div id="ps-links" class="ps-links"></div>
             <button type="button" class="btn sm" id="ps-add" style="margin-top:8px">+ Add link</button>
             <div class="hint">Paste a link and the site is picked for you. Choose "Other" to write your own button text.</div></div>
           <div class="field"><label>Preview</label><div class="links" id="ps-prev" style="margin-top:0"></div></div>
+          <div class="field"><label for="ps-gb">Who can write in your guestbook</label>
+            <select id="ps-gb"><option value="everyone">Everyone</option><option value="following">Only people I follow</option><option value="off">Nobody (close it)</option></select></div>
+          ${passwordHtml()}
           <div class="field data-box"><label>Your data</label>
             <p class="meta" style="margin:0 0 8px">Power Creep only keeps what you see on your profile, plus your email and your likes, follows and reports. <button type="button" class="linkbtn" data-legal="privacy">Privacy Policy</button></p>
             <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn" id="ps-export">Download my data</button><button type="button" class="btn danger-outline" id="ps-delete">Delete my account</button></div></div>
@@ -1848,7 +1947,10 @@ function openSettings(){
         <div class="modal-actions"><button type="button" class="btn ghost" id="ps-cancel">Cancel</button><button class="btn primary" id="ps-save">Save profile</button></div>
       </form>
     </div></div>`;
-  $("#ps-name").value=P.name; $("#ps-title").value=P.title; $("#ps-bio").value=P.bio;
+  $("#ps-name").value=P.name; $("#ps-title").value=P.title; $("#ps-bio").value=P.bio; $("#ps-gb").value=P.guestbook;
+  const PRO=["","he/him","she/her","they/them","he/they","she/they"];
+  if(PRO.includes(P.pronouns)) $("#ps-pro").value=P.pronouns; else { $("#ps-pro").value="other"; $("#ps-pro-o").value=P.pronouns; $("#ps-pro-o").hidden=false; }
+  $("#ps-pro").onchange=()=>{ $("#ps-pro-o").hidden=$("#ps-pro").value!=="other"; if(!$("#ps-pro-o").hidden) $("#ps-pro-o").focus(); };
   const opt=k=>`<option value="${k}">${k==="website"?"Website":k==="other"?"Other":PLAT[k].n}</option>`;
   const draw=()=>{
     $("#ps-links").innerHTML=rows.map((r,i)=>`
@@ -1892,7 +1994,8 @@ function openSettings(){
   $("#ps-export").onclick=exportData; $("#ps-delete").onclick=confirmDelete;
   $("#pset").addEventListener("submit",e=>{ e.preventDefault(); if(!check()) return;
     $("#ps-save").disabled=true;
-    saveMe({display_name:$("#ps-name").value.trim(),title:$("#ps-title").value.trim(),bio:$("#ps-bio").value.trim(),links:rows.map(r=>r.plat==="other"?{plat:r.plat,url:r.url,label:r.label.trim()}:{plat:r.plat,url:r.url})},"Profile saved.").then(ok=>{ if(!ok&&$("#ps-save")) $("#ps-save").disabled=false; }); });
+    const pro=$("#ps-pro").value==="other"?$("#ps-pro-o").value.trim().slice(0,20):$("#ps-pro").value;
+    saveMe({display_name:$("#ps-name").value.trim(),title:$("#ps-title").value.trim(),bio:$("#ps-bio").value.trim(),pronouns:pro,guestbook:$("#ps-gb").value,links:rows.map(r=>r.plat==="other"?{plat:r.plat,url:r.url,label:r.label.trim()}:{plat:r.plat,url:r.url})},"Profile saved.").then(ok=>{ if(!ok&&$("#ps-save")) $("#ps-save").disabled=false; }); });
   draw();
 }
 function chipFor(l){
@@ -1955,6 +2058,244 @@ document.addEventListener("click",e=>{ const b=e.target.closest("[data-legal]");
 let cameFrom=null; window.addEventListener("hashchange",e=>{ const h=new URL(e.oldURL).hash.slice(1); if(!["terms","privacy","cookies"].includes(h)) cameFrom=h||"feed"; });
 $("#legal-back").onclick=()=>{ location.hash=cameFrom||"feed"; };
 
+/* ===================== STAFF BADGE ===================== */
+const STAFF_BADGE=`<span class="staff-badge" title="Power Creep staff"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>Staff</span>`;
+const staffTag=key=>!USERS[key]?"":USERS[key].brand?OFFICIAL_BADGE:USERS[key].staff?STAFF_BADGE:"";
+
+/* ===================== NOTIFICATIONS ===================== */
+let notifTimer=null;
+function setBadge(n){
+  const el=$("#bell-n"); el.hidden=!n; el.textContent=n>99?"99+":String(n);
+  $("#bell").setAttribute("aria-label",n?`Notifications, ${n>99?"more than 99":n} new`:"Notifications");
+}
+async function loadNotifCount(){
+  try{ const [a,b]=await Promise.all([api.count("notifications?select=id&read=eq.false"),api.count("notices?select=id&read=eq.false")]); setBadge(a+b); }catch(_){}
+}
+function closeNotifs(){ $("#notif-panel").hidden=true; $("#bell").setAttribute("aria-expanded","false"); }
+async function openNotifs(){
+  const panel=$("#notif-panel");
+  if(!panel.hidden){ closeNotifs(); return; }
+  closeSearch();
+  panel.hidden=false; $("#bell").setAttribute("aria-expanded","true");
+  panel.innerHTML=`<div class="np-head"><b>Notifications</b></div><div class="np-empty">Loading…</div>`;
+  try{
+    const [ns,staff]=await Promise.all([
+      api.get("notifications?select=*&order=created_at.desc&limit=50"),
+      api.get("notices?select=*&order=created_at.desc&limit=20")]);
+    await ensureUsers(ns.map(n=>n.actor));
+    const cids=ns.filter(n=>n.comment_id).map(n=>n.comment_id);
+    const cm=cids.length?await api.get("comments?select=id,text&id="+inList(cids)):[];
+    const gids=ns.filter(n=>n.entry_id).map(n=>n.entry_id);
+    const gm=gids.length?await api.get("guestbook?select=id,text&id="+inList(gids)):[];
+    const list=[
+      ...ns.map(n=>({t:Date.parse(n.created_at),read:n.read,n})),
+      ...staff.map(s=>({t:Date.parse(s.created_at),read:s.read,s}))].sort((a,b)=>b.t-a.t);
+    panel.innerHTML=`<div class="np-head"><b>Notifications</b>${ns.length?`<button class="linkbtn" id="np-clear">Clear all</button>`:""}</div>`+
+      (list.length?`<div class="np-list">${list.map(x=>{
+        if(x.s) return `<div class="np-item ${x.read?"":"unread"}"><span class="np-ico staff">${STAFF_BADGE}</span><div class="np-t"><div>${esc(x.s.text)}</div><span>${timeAgo(x.t)} ago</span></div></div>`;
+        const n=x.n, k=keyOf(n.actor), who=`<b>${esc(U(k).name)}</b>${staffTag(k)}`;
+        if(n.kind==="guestbook"){ const g=gm.find(x=>x.id===n.entry_id); return `<button class="np-item ${x.read?"":"unread"}" data-ngb="1">${avHtml(k)}<div class="np-t"><div>${who} wrote in your guestbook${g?`: “${esc(g.text.slice(0,90))}${g.text.length>90?"…":""}”`:""}</div><span>${timeAgo(x.t)} ago</span></div></button>`; }
+        if(n.kind==="follow") return `<button class="np-item ${x.read?"":"unread"}" data-user="${esc(k)}">${avHtml(k)}<div class="np-t"><div>${who} started following you</div><span>${timeAgo(x.t)} ago</span></div></button>`;
+        const c=cm.find(c=>c.id===n.comment_id);
+        return `<button class="np-item ${x.read?"":"unread"}" data-npost="${n.post_id}">${avHtml(k)}<div class="np-t"><div>${who} commented on your post${c?`: “${esc(c.text.slice(0,90))}${c.text.length>90?"…":""}”`:""}</div><span>${timeAgo(x.t)} ago</span></div></button>`;
+      }).join("")}</div>`:`<div class="np-empty">Nothing yet. When someone comments on your posts, signs your guestbook or follows you, it shows up here.</div>`);
+    if(list.some(x=>!x.read)){
+      setBadge(0);
+      Promise.all([api.update("notifications","read=eq.false",{read:true}),api.update("notices","read=eq.false",{read:true})]).catch(()=>{});
+    }
+  }catch(err){ panel.innerHTML=`<div class="np-head"><b>Notifications</b></div><div class="np-empty">${esc(err.message)}</div>`; }
+}
+/* Open one post in a pop-up, with its comments showing. */
+async function openPost(id){
+  closeNotifs();
+  try{
+    let p=posts.find(x=>x.id===id);
+    if(!p){ const got=await loadPosts("id=eq."+id); p=got[0]; }
+    if(!p){ toast("That post was deleted."); return; }
+    state.modalPost=id;
+    $("#modal-root").innerHTML=`<div class="scrim" id="scrim"><div class="modal wide post-modal" role="dialog" aria-modal="true" aria-label="Post"><div id="post-modal-body"></div><div class="modal-actions"><button class="btn ghost" id="pm-close">Close</button></div></div></div>`;
+    $("#pm-close").onclick=closeModal; $("#scrim").addEventListener("click",e=>{if(e.target.id==="scrim")closeModal()});
+    renderPostModal();
+    if(!fs.open.has(id)) await openComments(p); else renderPostModal();
+  }catch(err){ fail(err); }
+}
+function renderPostModal(){
+  const box=$("#post-modal-body"); if(!box||!state.modalPost) return;
+  const p=posts.find(x=>x.id===state.modalPost); if(!p){ closeModal(); return; }
+  box.innerHTML=postHtml(p,"md");
+}
+
+/* ===================== MEMBER SEARCH ===================== */
+let searchSeq=0;
+function closeSearch(){ $("#search-res").hidden=true; }
+async function doSearch(){
+  const raw=$("#search-in").value, q=raw.replace(/[^\p{L}\p{N} _.\-]/gu,"").trim().slice(0,30);
+  const box=$("#search-res");
+  if(!q){ box.hidden=true; return; }
+  const n=++searchSeq; box.hidden=false; box.innerHTML=`<div class="sr-empty">Searching…</div>`;
+  try{
+    const pat=encodeURIComponent(`"*${q}*"`);
+    const rows=await api.get(`profiles?select=*&or=(username.ilike.${pat},display_name.ilike.${pat})&order=username.asc&limit=8`);
+    if(n!==searchSeq) return;
+    rows.forEach(putUser);
+    box.innerHTML=rows.length?rows.map(r=>{ const k=keyOf(r.id), u=U(k);
+      return `<a class="sr-item" href="#u/${esc(u.username)}">${avHtml(k)}<span class="sr-t"><b>${esc(u.name)}${staffTag(k)}</b><span>${esc(u.handle)}${u.title?" · "+esc(u.title):""}</span></span></a>`; }).join("")
+      :`<div class="sr-empty">No one found for “${esc(q)}”.</div>`;
+  }catch(err){ if(n===searchSeq) box.innerHTML=`<div class="sr-empty">${esc(err.message)}</div>`; }
+}
+$("#search-in").addEventListener("input",()=>{ clearTimeout(doSearch.t); doSearch.t=setTimeout(doSearch,250); });
+$("#search-in").addEventListener("focus",()=>{ if($("#search-in").value.trim()) doSearch(); });
+$("#search-in").addEventListener("keydown",e=>{
+  if(e.key==="Escape"){ closeSearch(); $("#search-in").blur(); }
+  if(e.key==="Enter"){ const first=$("#search-res .sr-item"); if(first){ e.preventDefault(); location.hash=first.getAttribute("href").slice(1); } }
+  if(e.key==="ArrowDown"){ const first=$("#search-res .sr-item"); if(first){ e.preventDefault(); first.focus(); } }
+});
+$("#search-res").addEventListener("keydown",e=>{
+  const items=[...document.querySelectorAll("#search-res .sr-item")], i=items.indexOf(document.activeElement);
+  if(e.key==="ArrowDown"&&i<items.length-1){ e.preventDefault(); items[i+1].focus(); }
+  if(e.key==="ArrowUp"){ e.preventDefault(); (i>0?items[i-1]:$("#search-in")).focus(); }
+  if(e.key==="Escape"){ closeSearch(); $("#search-in").focus(); }
+});
+document.addEventListener("click",e=>{
+  if(e.target.closest(".sr-item")){ closeSearch(); $("#search-in").value=""; return; }
+  if(!e.target.closest("#search")) closeSearch();
+  if(!e.target.closest("#notif-panel")&&!e.target.closest("#bell")) closeNotifs();
+  const t=e.target.closest("button,a"); if(!t) return;
+  if(t.id==="bell") openNotifs();
+  else if(t.dataset.npost) openPost(t.dataset.npost);
+  else if(t.dataset.ngb){ closeNotifs(); state.pendingTab="guestbook"; const h="#u/"+U("me").username; if(location.hash===h){ state.tab="guestbook"; state.pendingTab=null; loadGuestbook("me").then(renderProfile); } else location.hash=h; }
+  else if(t.id==="np-clear"){ closeNotifs(); api.remove("notifications","user_id=eq."+ME_ID).then(()=>toast("Notifications cleared.")).catch(fail); }
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeNotifs(); });
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden&&ME_ID) loadNotifCount(); });
+
+/* ===================== BADGES ===================== */
+const OFFICIAL_BADGE=`<span class="staff-badge official" title="Official Power Creep account"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Official</span>`;
+
+/* ===================== GUESTBOOK ===================== */
+async function loadGuestbook(key){
+  const id=idOf(key);
+  const [rows,followsMe]=await Promise.all([
+    api.get("guestbook?select=*&order=created_at.desc&limit=100&profile_id=eq."+id),
+    key==="me"?Promise.resolve(0):api.count("follows?select=follower&follower=eq."+id+"&following=eq."+ME_ID)]);
+  await ensureUsers(rows.map(r=>r.author));
+  VIEW.gb=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text,t:Date.parse(r.created_at),hidden:r.hidden}));
+  VIEW.followsMe=followsMe>0;
+}
+function canSign(){
+  const u=U(VIEW.key); if(VIEW.key==="me") return true;
+  return u.guestbook==="everyone"||(u.guestbook==="following"&&VIEW.followsMe);
+}
+function guestbookHtml(){
+  const u=U(VIEW.key), own=VIEW.key==="me", list=VIEW.gb||[];
+  const setting={everyone:"Everyone can write here",following:"Only people you follow can write here",off:"Your guestbook is closed"}[u.guestbook];
+  const form=canSign()?`<form class="gb-form" id="gb-form" novalidate>${avHtml("me")}<div class="gb-in"><textarea id="gb-text" maxlength="300" rows="2" placeholder="${own?"Write a welcome note for visitors…":`Leave ${esc(u.name)} a message…`}"></textarea><div class="gb-tools"><span class="c-count" id="gb-count">300</span><button class="btn primary sm" id="gb-send" disabled>${own?"Post":"Sign guestbook"}</button></div></div></form>`
+    :`<p class="private-note">${u.guestbook==="off"?`${esc(u.name)}'s guestbook is closed.`:`Only people ${esc(u.name)} follows can write here.`}</p>`;
+  const ownNote=own?`<p class="meta gb-note">${setting}. <button class="tagbtn" id="edit-profile-gb">Change</button></p>`:"";
+  const items=list.length?list.map(e=>`<div class="gb-item">${avHtml(e.u)}<div class="gb-b">
+      <div class="gb-h"><button class="p-name" data-user="${esc(e.u)}">${esc(U(e.u).name)}</button>${staffTag(e.u)} <span class="meta">${timeAgo(e.t)}</span>${e.hidden?' <span class="tag red">Hidden by staff</span>':""}
+        ${e.u==="me"||own?`<button class="cmt-report" data-gbdel="${e.id}">Delete</button>`:""}${e.u!=="me"?`<button class="cmt-report" data-gbrep="${e.id}">${state.reported.has("guestbook-"+e.id)?"Reported":"Report"}</button>`:""}</div>
+      <div class="gb-text">${linkify(e.text)}</div></div></div>`).join("")
+    :`<div class="empty">${own?"No messages yet. When people sign your guestbook, it shows up here.":"No messages yet. Be the first!"}</div>`;
+  return ownNote+form+`<div class="gb-list">${items}</div>`;
+}
+document.addEventListener("input",e=>{
+  if(e.target.id!=="gb-text") return; const n=300-e.target.value.length;
+  $("#gb-count").textContent=n; $("#gb-count").classList.toggle("warn",n<30); $("#gb-send").disabled=!e.target.value.trim();
+});
+document.addEventListener("submit",async e=>{
+  if(e.target.id!=="gb-form") return; e.preventDefault();
+  const v=$("#gb-text").value.trim(); if(!v) return; $("#gb-send").disabled=true;
+  try{ const r=await api.insert("guestbook",{profile_id:idOf(VIEW.key),text:v});
+    (VIEW.gb=VIEW.gb||[]).unshift({id:r.id,u:"me",text:r.text,t:Date.parse(r.created_at)}); renderTabs(); renderGrid(); toast(VIEW.key==="me"?"Posted.":"Message left in the guestbook."); }
+  catch(err){ $("#gb-send").disabled=false; fail(err); }
+});
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button"); if(!t) return;
+  if(t.dataset.gbdel){ const id=t.dataset.gbdel; confirmInline(t,"Delete?",async()=>{ try{ await api.remove("guestbook","id=eq."+id); VIEW.gb=VIEW.gb.filter(x=>x.id!==id); renderTabs(); renderGrid(); toast("Message deleted."); }catch(err){ fail(err); } }); }
+  else if(t.dataset.gbrep){ const g=VIEW.gb.find(x=>x.id===t.dataset.gbrep); if(state.reported.has("guestbook-"+g.id)) return toast("You already reported this message.");
+    openReport({type:"guestbook",id:g.id,title:`Guestbook message by ${U(g.u).name}`}); }
+  else if(t.id==="edit-profile-gb") openSettings();
+});
+
+/* ===================== ACCOUNT SWITCHER ===================== */
+function renderAccountBtn(){
+  const me=U("me"); if(!ME_ID) return;
+  $("#acct-btn").innerHTML=`${avHtml("me")}<span class="acct-name">${esc(me.name)}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>`;
+}
+function closeAcct(){ $("#acct-menu").hidden=true; $("#acct-btn").setAttribute("aria-expanded","false"); }
+function openAcct(){
+  const m=$("#acct-menu"); if(!m.hidden){ closeAcct(); return; }
+  closeNotifs(); closeSearch();
+  const me=U("me"), others=api.others();
+  m.innerHTML=`<div class="am-me">${avHtml("me")}<div><b>${esc(me.name)}</b>${staffTag("me")}<span>${esc(me.handle)}</span></div></div>
+    ${others.map((o,i)=>`<button class="am-item" data-switch="${i}"><span class="mini-av" style="${grad(hueOf(o.id))}">${esc((o.name||"?")[0].toUpperCase())}</span><span>Switch to <b>${esc(o.name)}</b><small>@${esc(o.username)}</small></span></button>`).join("")}
+    ${me.staff&&!me.brand&&!others.some(o=>o.brand)?`<button class="am-item" id="am-add-brand"><span class="am-ico">+</span><span>Add the POWER CREEP account<small>Switch between accounts without logging out</small></span></button>`:""}
+    <a class="am-item" href="#u/${esc(me.username)}"><span class="am-ico">◎</span><span>Your profile</span></a>
+    ${others.length?`<button class="am-item" id="am-forget"><span class="am-ico">−</span><span>Remove saved account${others.length>1?"s":""} from this device</span></button>`:""}
+    <button class="am-item" id="am-logout"><span class="am-ico">⇥</span><span>Log out${others.length?" of all accounts":""}</span></button>`;
+  m.hidden=false; $("#acct-btn").setAttribute("aria-expanded","true");
+}
+function openAddBrand(){
+  closeAcct();
+  $("#modal-root").innerHTML=`<div class="scrim" id="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="ab">
+    <h2 id="ab">Add the POWER CREEP account</h2>
+    <p class="sub">Log in to the official account once on this device. After that you can switch between it and your own account from the menu, without logging out.</p>
+    <form id="ab-form" novalidate style="display:flex;flex-direction:column;gap:8px">
+      <div class="field"><label for="ab-email">Email of the POWER CREEP account</label><input id="ab-email" type="email" autocomplete="off"></div>
+      <div class="field"><label for="ab-pass">Password</label><input id="ab-pass" type="password" autocomplete="off"></div>
+      <p class="jmsg" id="ab-err" role="alert"></p>
+      <div class="modal-actions"><button type="button" class="btn ghost" id="ab-cancel">Cancel</button><button class="btn primary" id="ab-go">Add account</button></div>
+    </form></div></div>`;
+  $("#ab-cancel").onclick=closeModal; $("#ab-email").focus();
+  $("#ab-form").addEventListener("submit",async e=>{ e.preventDefault(); $("#ab-go").disabled=true; $("#ab-err").textContent="";
+    try{
+      const s=await api.signInOther($("#ab-email").value.trim(),$("#ab-pass").value);
+      if(s.user.id===ME_ID) throw new Error("That's the account you're already using.");
+      const [p]=await api.get("profiles?select=*&id=eq."+s.user.id);
+      if(!p||!p.is_brand) throw new Error("That isn't the POWER CREEP account.");
+      api.addOther({...s,id:p.id,name:p.display_name,username:p.username,brand:true});
+      closeModal(); toast("Added. Use the account menu to switch."); renderAccountBtn();
+    }catch(err){ $("#ab-err").textContent=err.message; $("#ab-go").disabled=false; }
+  });
+}
+document.addEventListener("click",e=>{
+  if(!e.target.closest("#acct-menu")&&!e.target.closest("#acct-btn")) closeAcct();
+  const t=e.target.closest("button,a"); if(!t) return;
+  if(t.id==="acct-btn") openAcct();
+  else if(t.dataset.switch!==undefined){ const me=U("me"); api.switchTo(+t.dataset.switch,{id:ME_ID,name:me.name,username:me.username,brand:me.brand}); location.hash="feed"; location.reload(); }
+  else if(t.id==="am-add-brand") openAddBrand();
+  else if(t.id==="am-forget"){ api.forgetOthers(); closeAcct(); toast("Saved accounts removed from this device."); }
+  else if(t.id==="am-logout"){ api.signOut().then(()=>{ api.forgetOthers(); location.hash="login"; location.reload(); }); }
+  else if(t.closest("#acct-menu")&&t.tagName==="A") closeAcct();
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeAcct(); });
+
+/* ===================== CHANGE PASSWORD ===================== */
+function passwordHtml(){
+  return `<div class="field data-box"><label>Password</label>
+    <div class="pw-grid">
+      <input id="pw-cur" type="password" placeholder="Current password" aria-label="Current password" autocomplete="current-password">
+      <input id="pw-new" type="password" placeholder="New password" aria-label="New password" autocomplete="new-password">
+      <input id="pw-new2" type="password" placeholder="New password again" aria-label="New password again" autocomplete="new-password">
+      <button type="button" class="btn" id="pw-go" disabled>Change password</button>
+    </div><div class="hint" id="pw-msg">At least 8 characters.</div></div>`;
+}
+function checkPw(){
+  const c=$("#pw-cur").value, n=$("#pw-new").value, n2=$("#pw-new2").value, m=$("#pw-msg");
+  let msg="At least 8 characters.", ok=false;
+  if(n){ const sc=pwScore(n); msg=sc===0?`${8-n.length} more character${8-n.length===1?"":"s"} needed.`:["","Weak, try adding numbers or symbols.","Good.","Strong."][sc];
+    if(sc>0&&n2&&n2!==n) msg="The new passwords don't match."; else if(sc>0&&n2===n&&c) ok=true; }
+  m.textContent=msg; m.style.color=""; $("#pw-go").disabled=!ok;
+}
+document.addEventListener("input",e=>{ if(["pw-cur","pw-new","pw-new2"].includes(e.target.id)) checkPw(); });
+document.addEventListener("click",async e=>{
+  if(e.target.id!=="pw-go") return; const b=e.target; b.disabled=true;
+  try{ await api.changePassword($("#pw-cur").value,$("#pw-new").value);
+    ["#pw-cur","#pw-new","#pw-new2"].forEach(s=>$(s).value=""); $("#pw-msg").textContent="✓ Password changed."; $("#pw-msg").style.color="var(--ok)"; toast("Password changed."); }
+  catch(err){ $("#pw-msg").textContent=/Wrong email or password/.test(err.message)?"Your current password isn't right.":err.message; $("#pw-msg").style.color="var(--danger)"; b.disabled=false; }
+});
+
 /* ===================== ROUTING ===================== */
 let started=false;
 async function route(){
@@ -1980,8 +2321,9 @@ async function route(){
     }
     const changed=VIEW.key!==key||!VIEW.loaded;
     state.viewing=key; state.role=key==="me"?"owner":"user";
-    if(changed){ state.tab="feed"; state.loadingProfile=true; VIEW={key,followers:0,following:0}; items=[]; renderProfileHeader(); renderProfile();
+    if(changed){ state.tab=state.pendingTab||"feed"; state.loadingProfile=true; VIEW={key,followers:0,following:0}; items=[]; renderProfileHeader(); renderProfile();
       try{ await loadProfile(key); VIEW.loaded=true; }catch(e){ fail(e); } state.loadingProfile=false; }
+    if(state.pendingTab){ state.tab=state.pendingTab; state.pendingTab=null; }
     renderProfile(); setNav("profile",key==="me"); return;
   }
   if(v==="staff"&&U("me").staff){ showSection("staff"); setNav("staff"); $("#staff-body").innerHTML=`<div class="empty">Loading reports…</div>`; try{ await loadStaff(); }catch(e){ fail(e); } renderStaff(); return; }
@@ -2037,11 +2379,12 @@ try{const f=localStorage.getItem("pc-ai-filter");if(f){state.filter=f;document.q
 /* ===================== START ===================== */
 async function start(){
   await loadMe(); started=true;
-  $("#nav-staff").hidden=!U("me").staff; $("#nav-profile").href="#u/"+U("me").username;
+  renderAccountBtn(); $("#nav-staff").hidden=!U("me").staff; $("#nav-profile").href="#u/"+U("me").username;
   fs.loading=true; renderFeed();
   await loadFeed(); fs.loading=false; renderFeed();
   if(U("me").staff) loadStaff().then(()=>{ $("#staff-count").textContent=reports.length||""; $("#staff-count").hidden=!reports.length; }).catch(()=>{});
   loadNotices().catch(()=>{});
+  loadNotifCount(); clearInterval(notifTimer); notifTimer=setInterval(loadNotifCount,60000);
 }
 (async()=>{
   if(!CONFIGURED){ route(); return; }

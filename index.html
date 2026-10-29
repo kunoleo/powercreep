@@ -1722,10 +1722,11 @@ function embedFor(p){
   const it=known?{...known}:{...pl,id:"e-"+p.id,title:ttl,meta:pl.twitch&&pl.twitch.type==="channel"?"Live channel · plays the stream when they're live":"",h:hueOf(m[0]),sq:pl.kind==="audio"?1:0,game:pl.kind==="game"?1:0};
   delete it.kind; return p.embed=it;
 }
-function embedHtml(it,pid){
+function embedHtml(it,pid,open){
   const sub=it.game?`Game on ${PLAT[it.plat].n}`:it.meta&&it.twitch?it.meta:`${PLAT[it.plat].n}${it.meta?" · "+it.meta:""}`;
   const thumb=`<div class="thumb ${it.sq?"sq":""}" style="${grad(it.h)}">${imgOf(it)?`<img class="thumb-img" src="${esc(imgOf(it))}" alt="" loading="lazy" onerror="this.remove()">`:""}<span class="plat">${chip(it.plat)}</span></div>`;
   const body=`${thumb}<span class="e-t"><b>${esc(it.title)}</b><span>${esc(sub)}</span></span>`;
+  if(open) return `<button class="p-embed" data-mopen="${it.id}">${body}</button>`;
   if(playable(it)) return `<button class="p-embed" data-pplay="${pid}">${body}</button>`;
   if(it.img&&!it.url) return `<button class="p-embed" data-pplay="${pid}">${body}</button>`;
   return `<a class="p-embed" href="${esc(urlOf(it)||"#")}" target="_blank" rel="noopener nofollow ugc">${body}</a>`;
@@ -1769,7 +1770,7 @@ function postHtml(p,ctx){
   if(!p.kind&&p.text) body=`<p class="p-text">${linkify(p.text)}</p>`;
   const ai="", aiChip=p.ai?`<button class="ai-chip" data-ainote="${esc((p.ai.lvl==="generated"?"AI-made":"AI-assisted")+(p.ai.note?": "+p.ai.note:""))}" title="${esc(p.ai.note||"")}">${p.ai.lvl==="generated"?"AI-made":"AI-assisted"}</button>`:"";
   const imgs=p.images.length?`<div class="p-imgs n${p.images.length}">${p.images.map((im,i)=>`<button data-pimg="${p.id}:${i}" aria-label="View image ${i+1}"><img src="${esc(im.img)}" alt="" loading="lazy" onerror="this.remove()"></button>`).join("")}</div>`:"";
-  const emb=p.kind?embedHtml(it,p.id):(embedFor(p)?embedHtml(embedFor(p),p.id):"");
+  const emb=p.kind?embedHtml(it,p.id,true):(embedFor(p)?embedHtml(embedFor(p),p.id):"");
   const reason=!ctx&&fs.ftab==="foryou"&&fs.reasons&&fs.reasons[p.id]&&!mine?`<span class="reason">${esc(fs.reasons[p.id])}</span>`:"";
   const followBtn=!ctx&&!mine&&!fs.following.has(p.u)&&USERS[p.u]?`<button class="btn sm" data-follow="${esc(p.u)}">Follow</button>`:"";
   const cl=p.comments||[];

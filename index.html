@@ -653,6 +653,7 @@ h1 .lvc{font-size:13px;padding:1px 9px 1px 7px}h1 .lvc svg{width:12px;height:12p
 /* Avatar frames: .fr wraps an avatar; --f1/--f2 are the colors */
 .fr{--f1:#ff3b36;--f2:#ffd23b;--fs:1.6s;--fw:3px;--rise:-34px;position:relative;display:inline-grid;border-radius:11px;flex:none;vertical-align:middle}
 .fr.lg{--fw:5px;--rise:-100px;border-radius:24px}
+.fr:not(.lg){align-self:flex-start;height:max-content}
 .fr>.mini-av,.fr>.avatar{position:relative;z-index:1}
 .fr-host{position:relative;display:inline-grid;flex:none;border-radius:24px}
 .fr::before,.fr::after{content:"";position:absolute;pointer-events:none;border-radius:inherit}
@@ -3205,7 +3206,7 @@ const xpNeed=l=>50+25*l;
 function lvInfo(total){ let l=1,x=Math.max(0,total|0); while(l<100&&x>=xpNeed(l)){ x-=xpNeed(l); l++; } return {lv:l,into:x,need:xpNeed(l),pct:l>=100?100:Math.round(x/xpNeed(l)*100)}; }
 const boltSvg=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2L5 14h6l-2 8 10-13h-6z"/></svg>`;
 const fmtN=n=>Number(n||0).toLocaleString("en");
-function lvChip(key){ const u=U(key); if(!u.lv) return ""; const r=rankOf(u.lv); return `<span class="lvc" style="--rk:${r[2]}" title="Level ${u.lv} · ${r[1]}">${boltSvg}${u.lv}</span>`; }
+function lvChip(key){ const u=U(key); if(!u.lv||u.brand) return ""; const r=rankOf(u.lv); return `<span class="lvc" style="--rk:${r[2]}" title="Level ${u.lv} · ${r[1]}">${boltSvg}${u.lv}</span>`; }
 
 const FRAMES=[["spark","Spark"],["over","Overcharged"],["circuit","Circuit"],["pixel","8-Bit"],["neon","Neon Nights"],["ember","Inferno"],["glitch","Glitch"],["legend","Legend"]];
 const NSTYLES=[["solid","Solid color",1],["gradient","Gradient",2],["glow","Glow",1],["shift","Color shift",3],["glitch","Glitch",2]];
@@ -3236,7 +3237,7 @@ function hfxHtml(id){ const f=HFX.find(x=>x[0]===id); if(!f) return ""; let h=""
 function inkFor(hex){ const n=parseInt(hex.slice(1),16), r=n>>16&255, g=n>>8&255, b=n&255; return (r*299+g*587+b*114)/1000>165?"#111111":"#ffffff"; }
 
 const LV={items:[],owned:new Set(),quests:[],top:[],missing:false,shopTab:"frame",topAt:0};
-function owns(id){ const it=LV.items.find(i=>i.id===id); if(!it) return false; const lv=U("me").lv||1;
+function owns(id){ const it=LV.items.find(i=>i.id===id); if(!it) return false; if(U("me").brand) return true; const lv=U("me").lv||1;
   return (it.price===0&&it.unlock_level==null)||(it.unlock_level!=null&&it.unlock_level<=lv)||LV.owned.has(id); }
 async function loadLevels(){
   if(!("lv" in U("me"))||U("me").lv===undefined){ LV.missing=true; return; }
@@ -3274,9 +3275,9 @@ function renderLevelBits(){
 ["insert","remove"].forEach(m=>{ const orig=api[m]; api[m]=async(...a)=>{ const r=await orig.apply(api,a); if(["posts","comments","guestbook","post_stickers","media"].includes(a[0])) soonRefresh(); return r; }; });
 
 function ringHtml(lv,pct,sm){ return `<span class="ring${sm?" sm":""}" style="--p:${pct}"><span>${lv}<small>LEVEL</small></span></span>`; }
-function lvMenuCard(){ const u=U("me"); if(!u.lv||LV.missing) return ""; const i=lvInfo(u.xp), r=rankOf(u.lv);
+function lvMenuCard(){ const u=U("me"); if(!u.lv||LV.missing||u.brand) return ""; const i=lvInfo(u.xp), r=rankOf(u.lv);
   return `<a class="am-lv" href="#quests" style="--rk:${r[2]}" aria-label="Level ${u.lv}, ${r[1]}. ${fmtN(i.into)} of ${fmtN(i.need)} XP. ${fmtN(u.volts)} Volts.">${ringHtml(u.lv,i.pct,true)}<span class="lv-t"><span class="rk">${r[1]}</span><span class="xpbar"><b style="width:${i.pct}%"></b></span><span style="display:flex;justify-content:space-between;gap:6px;margin-top:4px"><span>${fmtN(i.into)} / ${fmtN(i.need)} XP</span><span>⚡ <b class="volts-n">${fmtN(u.volts)}</b></span></span></span></a>`; }
-function profileLevelHtml(key){ const u=U(key); if(!u.lv||LV.missing) return ""; const i=lvInfo(u.xp), r=rankOf(u.lv);
+function profileLevelHtml(key){ const u=U(key); if(!u.lv||LV.missing||u.brand) return ""; const i=lvInfo(u.xp), r=rankOf(u.lv);
   return `<div class="p-level" style="--rk:${r[2]}">${ringHtml(u.lv,i.pct)}<div class="lv-t"><span class="rk">${r[1]}</span>${u.lv<100?`<div class="xpbar"><b style="width:${i.pct}%"></b></div><div style="margin-top:4px">${fmtN(i.into)} / ${fmtN(i.need)} XP to level ${u.lv+1}${key==="me"?` · <a href="#quests" class="linkbtn">How to level up</a>`:""}</div>`:`<div>Max level</div>`}</div></div>`; }
 
 /* ---------- Quests ---------- */
@@ -3286,10 +3287,11 @@ function resetIn(period){ const n=new Date(), t=new Date(Date.UTC(n.getUTCFullYe
 function questRow(q){ const done=q.progress>=q.goal, c=q.claimed;
   return `<div class="qrow"><span class="qi" aria-hidden="true">${esc(q.icon)}</span><div><b>${esc(q.label)}</b><div class="xpbar"><b style="width:${Math.min(100,q.progress/q.goal*100)}%"></b></div><span class="qrew">${Math.min(q.progress,q.goal)}/${q.goal} · +${q.xp} XP · +${Math.floor(q.xp/2)} ⚡</span></div>
     <button class="claim ${c?"done":done?"ready":""}" data-claim="${esc(q.id)}" ${!done||c?"disabled":""}>${c?"✓ Done":done?"Claim":"In progress"}</button></div>`; }
-function questSideHtml(){ if(LV.missing||!LV.quests.length) return ""; const d=LV.quests.filter(q=>q.period==="day");
+function questSideHtml(){ if(LV.missing||!LV.quests.length||U("me").brand) return ""; const d=LV.quests.filter(q=>q.period==="day");
   return `<div class="side-card"><h3>Daily quests <a class="linkbtn" href="#quests">All quests</a></h3>${d.map(questRow).join("")}<p class="side-note" style="margin:6px 0 0">New ones in ${resetIn("day")}</p></div>`; }
 function topWeekHtml(){ if(LV.missing||!LV.top.length) return "";
-  return `<div class="side-card"><h3>Top this week</h3>${LV.top.map((t,i)=>{ const k=keyOf(t.user_id); if(!USERS[k]||hiddenKey(k)) return ""; return `<button class="lb-row" data-user="${esc(k)}"><span class="n">${i+1}</span>${avHtml(k)}<span class="t">${nameHtml(k)}</span>${lvChip(k)}</button>`; }).join("")}<p class="side-note" style="margin:8px 0 0">Most XP earned since Monday.</p></div>`; }
+  const top=LV.top.filter(t=>{ const k=keyOf(t.user_id); return USERS[k]&&!hiddenKey(k)&&!USERS[k].brand; }); if(!top.length) return "";
+  return `<div class="side-card"><h3>Top this week</h3>${top.map((t,i)=>{ const k=keyOf(t.user_id); return `<button class="lb-row" data-user="${esc(k)}"><span class="n">${i+1}</span>${avHtml(k)}<span class="t">${nameHtml(k)}</span>${lvChip(k)}</button>`; }).join("")}<p class="side-note" style="margin:8px 0 0">Most XP earned since Monday.</p></div>`; }
 async function claimQuest(id,btn){
   if(btn) btn.disabled=true;
   try{ await api.rpc("claim_quest",{p_quest:id}); const q=LV.quests.find(x=>x.id===id); toast(q?`+${q.xp} XP and +${Math.floor(q.xp/2)} Volts!`:"Claimed!"); await refreshMe(); LV.topAt=0; loadTop(); }

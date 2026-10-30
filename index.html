@@ -2237,7 +2237,7 @@ async function openUser(key){
   const acc=lk.acc?`--accent:${lk.acc};--accent-ink:${inkFor(lk.acc)};--accent-soft:color-mix(in srgb,${lk.acc} 20%,var(--surface))`:"";
   $("#modal-root").innerHTML=`
     <div class="scrim" id="scrim"><div class="modal ucard" role="dialog" aria-modal="true" aria-labelledby="ut" style="${acc}">
-      <div class="uc-banner" style="background:${bannerBg(u.banner)}">${hfxHtml(lk.hfx)}</div>
+      <div class="uc-banner" style="background:${esc(bannerBg(u.banner))}">${hfxHtml(lk.hfx)}</div>
       <div class="u-head">${avHtml(key)}<div style="min-width:0"><h2 id="ut">${nameHtml(key)}${lvChip(key)}${staffTag(key)}</h2><div class="handle">${esc(u.handle)}${u.pronouns?" · "+esc(u.pronouns):""}${u.title?" · "+esc(u.title):""}</div></div></div>
       ${u.bio?`<p class="uc-bio">${esc(u.bio)}</p>`:""}
       <div class="uc-level">${profileLevelHtml(key).replace(/ · <a href="#quests"[^<]*<\/a>/,"")}</div>

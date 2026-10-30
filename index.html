@@ -540,7 +540,13 @@ button.sr-item{width:100%;border:0;background:none;text-align:left;font:inherit}
 .mini-av{width:42px;height:42px;border-radius:12px;flex:none;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;color:#fff;position:relative;overflow:hidden;border:0;padding:0;font-size:17px}
 .mini-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .c-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
-.composer #c-text{min-height:64px;margin-top:0;border:0;background:transparent;padding:8px 0;font-size:16px;resize:vertical}
+.composer #c-text{display:none}
+.c-rich{min-height:64px;max-height:50vh;overflow:auto;padding:8px 0;font-size:16px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;outline:none;cursor:text}
+.c-rich{position:relative}.c-rich:focus,.c-rich:focus-visible{outline:none!important}
+.c-rich.is-empty::before{content:attr(data-ph);color:var(--muted);pointer-events:none;position:absolute;left:0;right:0;top:8px;white-space:normal}
+.c-rich h1,.c-rich h2,.c-rich h3,.c-rich h4{font-family:var(--f-display);font-size:22px;font-weight:800;line-height:1.25;margin:2px 0}
+.c-rich b,.c-rich strong{font-weight:800}
+.fmt-btns .icon-btn[aria-pressed="true"]{background:var(--accent-soft);color:var(--ink)}
 .composer #c-text:focus-visible{outline:none}
 .c-field label{display:block;font-size:13px;font-weight:600;margin-bottom:4px}
 .c-field label i{font-style:normal;font-weight:500;color:var(--muted)}
@@ -565,6 +571,9 @@ button.sr-item{width:100%;border:0;background:none;text-align:left;font:inherit}
 .reason{margin-left:auto;font-size:11.5px;color:var(--muted);background:var(--surface-2);padding:2px 9px;border-radius:999px;white-space:nowrap}
 .p-text{margin:4px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px}
 .p-text a{color:var(--accent)}
+.p-big{display:inline-block;font-family:var(--f-display);font-size:22px;font-weight:800;line-height:1.2;margin:2px 0}
+.fmt-btns{display:inline-flex;gap:0;border-left:1px solid var(--line);padding-left:4px}
+.fmt-btns .icon-btn{min-width:28px;justify-content:center;font-size:14px;color:var(--muted);font-family:var(--f-body)}
 .tagbtn,.mention{border:0;background:none;padding:0;color:var(--accent);font:inherit;font-weight:600;cursor:pointer}
 .activity{font-size:13.5px;color:var(--muted)}
 .activity b{color:var(--ink)}
@@ -1073,8 +1082,8 @@ svg.stk{display:block}
           <div class="c-row">
             <span id="c-av"></span>
             <div class="c-body">
-              <label for="c-text" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Write a post</label>
-              <textarea id="c-text" maxlength="500" placeholder="What are you working on? Paste a YouTube, SoundCloud or itch.io link and it shows up as a player."></textarea>
+              <div id="c-rich" class="c-rich is-empty" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Write a post" data-ph="What are you working on? Paste a YouTube, SoundCloud or itch.io link and it shows up as a player."></div>
+              <textarea id="c-text" hidden aria-hidden="true" tabindex="-1"></textarea>
               <div class="c-field" id="c-images-wrap" hidden>
                 <label for="c-images">Image links <i>(one per line, up to 4)</i> <a href="#help" class="help-link" data-hjump="h-images">How do I get an image link?</a></label>
                 <textarea id="c-images" rows="2" placeholder="https://i.imgur.com/….png"></textarea>
@@ -1089,7 +1098,8 @@ svg.stk{display:block}
               <div id="c-preview"></div>
               <div class="c-tools">
                 <button type="button" class="icon-btn" id="c-add-img"></button>
-                <button type="button" class="icon-btn" id="c-emoji" data-emoji-for="c-text"></button>
+                <button type="button" class="icon-btn" id="c-emoji" data-emoji-for="c-rich"></button>
+                <span class="fmt-btns" role="group" aria-label="Text formatting"><button type="button" class="icon-btn" data-fmt="**" title="Bold (Ctrl+B)" aria-label="Bold"><b>B</b></button><button type="button" class="icon-btn" data-fmt="*" title="Italic (Ctrl+I)" aria-label="Italic"><i>I</i></button><button type="button" class="icon-btn" data-fmt="__" title="Underline (Ctrl+U)" aria-label="Underline"><u>U</u></button><button type="button" class="icon-btn" data-fmt="~~" title="Strikethrough" aria-label="Strikethrough"><s>S</s></button><button type="button" class="icon-btn" data-fmt="# " title="Big text (whole line)" aria-label="Big text"><span style="font-weight:800;font-size:15px">T</span><span style="font-size:10px;font-weight:800">T</span></button></span>
                 <button type="button" class="icon-btn" id="c-ai-btn" aria-expanded="false" aria-controls="c-ai-wrap">AI label</button>
                 <span class="c-count" id="c-count">500</span>
                 <button class="btn primary" id="c-post" disabled>Post</button>
@@ -1163,7 +1173,7 @@ svg.stk{display:block}
     <article class="legal help">
       <h1>Help</h1>
       <p class="legal-date">Quick answers for using Power Creep.</p>
-      <nav class="help-toc"><a href="#help" data-hjump="h-images">Getting an image link</a><a href="#help" data-hjump="h-sizes">Avatar and header sizes</a><a href="#help" data-hjump="h-media">Adding games, music, art and videos</a><a href="#help" data-hjump="h-tags">Hashtags</a><a href="#help" data-hjump="h-ai">AI labels</a><a href="#help" data-hjump="h-safety">Muting, blocking and reporting</a><a href="#help" data-hjump="h-levels">Levels, quests and the shop</a></nav>
+      <nav class="help-toc"><a href="#help" data-hjump="h-images">Getting an image link</a><a href="#help" data-hjump="h-sizes">Avatar and header sizes</a><a href="#help" data-hjump="h-media">Adding games, music, art and videos</a><a href="#help" data-hjump="h-format">Bold, italic and big text</a><a href="#help" data-hjump="h-tags">Hashtags</a><a href="#help" data-hjump="h-ai">AI labels</a><a href="#help" data-hjump="h-safety">Muting, blocking and reporting</a><a href="#help" data-hjump="h-levels">Levels, quests and the shop</a></nav>
 
       <h2 id="h-images">Getting an image link</h2>
       <p>Power Creep doesn't store pictures. Instead, you upload your image to an image site and paste its link. Imgur is the easiest:</p>
@@ -1193,6 +1203,14 @@ svg.stk{display:block}
       </ul>
       <p>Updated your game? Click <b>Edit</b> on it to change the title or thumbnail and tell your followers what's new.</p>
 
+      <h2 id="h-format">Bold, italic and big text</h2>
+      <p>In the post box, use the <b>B</b>, <i>I</i>, <u>U</u>, <s>S</s> and big <b>T</b> buttons (or Ctrl+B, Ctrl+I, Ctrl+U). You see the result right away while you type.</p>
+      <p>In comments and guestbook messages, type it like this:</p>
+      <ul>
+        <li><code>**bold**</code> → <b>bold</b>, <code>*italic*</code> → <i>italic</i></li>
+        <li><code>__underline__</code> → <u>underline</u>, <code>~~crossed out~~</code> → <s>crossed out</s></li>
+        <li>Big text (the <b>T</b> button) makes a whole line large. Great for announcements. It only works in posts.</li>
+      </ul>
       <h2 id="h-tags">Hashtags</h2>
       <p>Everything you add needs 1–5 hashtags, like #horror or #pixel, so people can find it on the Games, Art, Music and Videos pages. You can also use hashtags in normal posts, and popular ones show up in Trending.</p>
 
@@ -2027,11 +2045,31 @@ function embedHtml(it,pid,open){
   if(it.img&&!it.url) return `<button class="p-embed" data-pplay="${pid}">${body}</button>`;
   return `<a class="p-embed" href="${esc(urlOf(it)||"#")}" target="_blank" rel="noopener nofollow ugc">${body}</a>`;
 }
-function linkify(text){
-  return esc(text)
-    .replace(/https:\/\/[^\s<]+/g,u=>`<a href="${u}" target="_blank" rel="noopener nofollow ugc">${u.replace(/^https:\/\/(www\.)?/,"").slice(0,42)}${u.length>50?"…":""}</a>`)
-    .replace(/(^|\s)#(\w{1,30})/g,(m,s,t)=>`${s}<button class="tagbtn" data-tagf="${t.toLowerCase()}">#${t}</button>`)
-    .replace(/(^|\s)@([\w.]{2,30})/g,(m,s,h)=>{const k=Object.keys(USERS).find(k=>USERS[k].handle.toLowerCase()==="@"+h.toLowerCase());return k?`${s}<button class="mention" data-user="${esc(k)}">@${h}</button>`:`${s}<a class="mention" href="#u/${h}">@${h}</a>`;});
+/* Text formatting: **bold**, *italic*, __underline__, ~~strikethrough~~, and "# " at the start of a line for big text (posts only). */
+function fmtText(h){
+  return h.replace(/\*\*\*(?=\S)([^\n]*?\S)\*\*\*/g,"<b><i>$1</i></b>").replace(/\*\*(?=\S)([^\n]*?\S)\*\*/g,"<b>$1</b>")
+    .replace(/__(?=\S)([^\n]*?\S)__/g,"<u>$1</u>")
+    .replace(/~~(?=\S)([^\n]*?\S)~~/g,"<s>$1</s>")
+    .replace(/(^|[^*\w])\*(?=[^\s*])([^*\n]*?[^\s*])\*(?![*\w])/g,"$1<i>$2</i>");
+}
+function linkLine(line){
+  return line.split(/(https:\/\/[^\s<]+)/g).map((part,i)=>i%2
+    ?`<a href="${esc(part)}" target="_blank" rel="noopener nofollow ugc">${esc(part.replace(/^https:\/\/(www\.)?/,"").slice(0,42))}${part.length>50?"…":""}</a>`
+    :fmtText(esc(part))).join("");
+}
+function linkify(text,rich){
+  return String(text).split("\n").map(line=>rich&&/^# \S/.test(line)?`<span class="p-big">${linkLine(line.slice(2))}</span>`:linkLine(line)).join("\n")
+    .replace(/(^|[\s>(])#(\w{1,30})/g,(m,s,t)=>`${s}<button class="tagbtn" data-tagf="${t.toLowerCase()}">#${t}</button>`)
+    .replace(/(^|[\s>(])@([\w.]{2,30})/g,(m,s,h)=>{const k=Object.keys(USERS).find(k=>USERS[k].handle.toLowerCase()==="@"+h.toLowerCase());return k?`${s}<button class="mention" data-user="${esc(k)}">@${h}</button>`:`${s}<a class="mention" href="#u/${h}">@${h}</a>`;});
+}
+// Formatting buttons in the post box: wrap the selected text, or add the markers and put the cursor between them.
+function wrapSel(ta,mark){
+  const a=ta.selectionStart,b=ta.selectionEnd,v=ta.value;
+  if(mark==="# "){ const ls=v.lastIndexOf("\n",a-1)+1; if(v.startsWith("# ",ls)){ ta.value=v.slice(0,ls)+v.slice(ls+2); ta.setSelectionRange(Math.max(ls,a-2),Math.max(ls,b-2)); } else { ta.value=v.slice(0,ls)+"# "+v.slice(ls); ta.setSelectionRange(a+2,b+2); } }
+  else { const sel=v.slice(a,b);
+    if(sel.startsWith(mark)&&sel.endsWith(mark)&&sel.length>=mark.length*2){ ta.value=v.slice(0,a)+sel.slice(mark.length,sel.length-mark.length)+v.slice(b); ta.setSelectionRange(a,b-mark.length*2); }
+    else { ta.value=v.slice(0,a)+mark+sel+mark+v.slice(b); ta.setSelectionRange(a+mark.length,b+mark.length); } }
+  ta.focus(); ta.dispatchEvent(new Event("input",{bubbles:true}));
 }
 function postVisible(p){
   if(hiddenId(p.author)) return false;
@@ -2064,7 +2102,7 @@ function postHtml(p,ctx){
   let body="";
   if(p.kind==="media") body=`<div class="activity">added a new ${{games:"game",music:"track",videos:"video",art:"artwork"}[it.tab]} to their profile</div>`;
   if(p.kind==="update") body=`<div class="activity">updated <b>${esc(it.title)}</b></div>${p.text?`<div class="p-note">${linkify(p.text)}</div>`:""}`;
-  if(!p.kind&&p.text) body=`<p class="p-text">${linkify(p.text)}</p>`;
+  if(!p.kind&&p.text) body=`<p class="p-text">${linkify(p.text,true)}</p>`;
   const ai="", aiChip=p.ai?`<button class="ai-chip" data-ainote="${esc((p.ai.lvl==="generated"?"AI-made":"AI-assisted")+(p.ai.note?": "+p.ai.note:""))}" title="${esc(p.ai.note||"")}">${p.ai.lvl==="generated"?"AI-made":"AI-assisted"}</button>`:"";
   const imgs=p.images.length?`<div class="p-imgs n${p.images.length}">${p.images.map((im,i)=>`<button data-pimg="${p.id}:${i}" aria-label="View image ${i+1}"><img src="${esc(im.img)}" alt="" loading="lazy" onerror="this.remove()"></button>`).join("")}</div>`:"";
   const emb=p.kind?embedHtml(it,p.id,true):(embedFor(p)?embedHtml(embedFor(p),p.id):"");
@@ -2136,6 +2174,7 @@ function readComposer(){
   $("#c-images-msg").innerHTML=errs.length?`<div class="err" style="color:var(--danger);font-size:12.5px;font-weight:600;margin-top:4px">${errs.join(" ")} Supported: ${IMG_SITE_NAMES}.</div>`:"";
   if(errs.length) ok=false;
   if(aiLvl&&!aiNote) ok=false;
+  if(text.length>500) ok=false;
   const p={id:"draft",u:"me",t:Date.now(),text:text.trim(),images,ai:aiLvl?{lvl:aiLvl,note:aiNote}:null,likes:0,comments:[]};
   const emb=embedFor(p);
   $("#c-preview").innerHTML=(images.length?`<div class="p-imgs n${Math.min(images.length,4)}">${images.slice(0,4).map(im=>`<button type="button" tabindex="-1" style="cursor:default"><img src="${esc(im.img)}" alt="" onerror="this.remove()"></button>`).join("")}</div>`:"")+(emb?embedHtml(emb,"draft").replace(/data-pplay="draft"/,'type="button" tabindex="-1"'):"");
@@ -2149,7 +2188,7 @@ async function postFromComposer(e){
   try{
     const row=await api.insert("posts",{text:p.text,images:p.images,ai:p.ai});
     const np=postFromRow(row); fs.fyOrder.unshift(np.id);
-    ["#c-text","#c-images","#c-ainote"].forEach(s=>$(s).value=""); $("#c-ai").value=""; $("#c-images-wrap").hidden=true; $("#c-ai-wrap").hidden=true; $("#c-ai-btn").setAttribute("aria-expanded","false");
+    ["#c-text","#c-images","#c-ainote"].forEach(s=>$(s).value=""); clearRich(); $("#c-ai").value=""; $("#c-images-wrap").hidden=true; $("#c-ai-wrap").hidden=true; $("#c-ai-btn").setAttribute("aria-expanded","false");
     readComposer(); refreshPosts(); toast("Posted.");
   }catch(err){ fail(err); readComposer(); }
 }
@@ -2777,6 +2816,7 @@ function openEmoji(btn){
 function closeEmoji(){ const p=$("#emoji-picker"); if(p) p.hidden=true; emojiTarget=null; }
 function insertEmoji(e){
   const t=emojiTarget; if(!t||!t.isConnected){ closeEmoji(); return; }
+  if(t.isContentEditable){ if($("#c-text").value.length+e.length>500) return toast("That's the character limit."); t.focus(); restoreRich(); document.execCommand("insertText",false,e); syncRich(); rememberEmoji(e); return; }
   const max=+t.getAttribute("maxlength")||1e9; if(t.value.length+e.length>max) return toast("That's the character limit.");
   const s=t.selectionStart??t.value.length, en=t.selectionEnd??t.value.length;
   t.value=t.value.slice(0,s)+e+t.value.slice(en); t.selectionStart=t.selectionEnd=s+e.length;
@@ -3162,6 +3202,59 @@ function editTarget(e){ if(state.role!=="owner") return; const el=e.target.close
 $("#banner").addEventListener("click",editTarget); $("#avatar").addEventListener("click",editTarget);
 ["#banner","#avatar"].forEach(sel=>$(sel).addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();editTarget(e);} }));
 $("#composer").addEventListener("input",readComposer);
+/* ---------- The post box shows formatting as you type ----------
+   It's an editable box; what's saved is the same simple text as before (**bold**, *italic*, __underline__, ~~strike~~, "# " big line). */
+const RICH=$("#c-rich"); let richRange=null;
+try{ document.execCommand("styleWithCSS",false,false); document.execCommand("defaultParagraphSeparator",false,"div"); }catch(_){}
+function richToText(root){
+  let out="";
+  const BLOCK=/^(DIV|P|H1|H2|H3|H4|H5|H6|LI|UL|OL|BLOCKQUOTE)$/;
+  const newline=()=>{ if(out&&!out.endsWith("\n")) out+="\n"; };
+  function wrap(m,inner){ const t=inner.match(/^(\s*)([\s\S]*?)(\s*)$/); return t[2]?t[1]+m+t[2]+m+t[3]:inner; }
+  function inline(n){
+    if(n.nodeType===3) return n.nodeValue.replace(/ /g," ");
+    if(n.nodeType!==1) return "";
+    if(n.tagName==="BR") return "\n";
+    let inner=[...n.childNodes].map(inline).join(""); const tg=n.tagName, st=n.style||{};
+    if(BLOCK.test(tg)) inner=inner.replace(/\n+$/,"");
+    if(tg==="B"||tg==="STRONG"||/^(bold|[6-9]00)$/.test(st.fontWeight||"")) inner=wrap("**",inner);
+    if(tg==="I"||tg==="EM"||st.fontStyle==="italic") inner=wrap("*",inner);
+    if(tg==="U"||/underline/.test(st.textDecoration||st.textDecorationLine||"")) inner=wrap("__",inner);
+    if(tg==="S"||tg==="STRIKE"||tg==="DEL"||/line-through/.test(st.textDecoration||st.textDecorationLine||"")) inner=wrap("~~",inner);
+    return inner;
+  }
+  function block(n){
+    const tg=n.nodeType===1?n.tagName:"";
+    if(BLOCK.test(tg)&&![...n.childNodes].some(c=>c.nodeType===1&&BLOCK.test(c.tagName))){
+      newline(); let line=inline(n);
+      if(/^H[1-6]$/.test(tg)){ line=line.replace(/\n+/g," ").trim(); if(line) line="# "+line; }
+      out+=line+"\n"; return; }
+    if(BLOCK.test(tg)){ [...n.childNodes].forEach(block); return; }
+    out+=inline(n);
+  }
+  [...root.childNodes].forEach(block);
+  return out.replace(/\n+$/,"").replace(/[ \t]+$/gm,"");
+}
+function syncRich(){
+  const t=richToText(RICH); $("#c-text").value=t; RICH.classList.toggle("is-empty",!RICH.textContent&&!RICH.querySelector("img"));
+  $("#c-text").dispatchEvent(new Event("input",{bubbles:true}));
+}
+function fmtState(){ document.querySelectorAll("[data-fmt]").forEach(b=>{ const c={"**":"bold","*":"italic","__":"underline","~~":"strikeThrough"}[b.dataset.fmt];
+  let on=false; try{ on=c?document.queryCommandState(c):/^h\d$/i.test(document.queryCommandValue("formatBlock")||""); }catch(_){} b.setAttribute("aria-pressed",String(!!on&&RICH.contains(document.getSelection().anchorNode))); }); }
+RICH.addEventListener("input",syncRich);
+RICH.addEventListener("paste",e=>{ e.preventDefault(); const t=(e.clipboardData||window.clipboardData).getData("text/plain"); document.execCommand("insertText",false,t); });
+RICH.addEventListener("drop",e=>e.preventDefault());
+RICH.addEventListener("keydown",e=>{ if((e.ctrlKey||e.metaKey)&&!e.altKey&&e.key.toLowerCase()==="u"){ e.preventDefault(); document.execCommand("underline"); syncRich(); } });
+document.addEventListener("selectionchange",()=>{ const s=document.getSelection(); if(s.rangeCount&&RICH.contains(s.anchorNode)){ richRange=s.getRangeAt(0).cloneRange(); fmtState(); } });
+$("#composer").addEventListener("mousedown",e=>{ if(e.target.closest("[data-fmt]")) e.preventDefault(); }); // keep the text selected
+$("#composer").addEventListener("click",e=>{ const b=e.target.closest("[data-fmt]"); if(!b) return;
+  if(document.activeElement!==RICH){ RICH.focus(); restoreRich(); }
+  const m=b.dataset.fmt;
+  if(m==="# "){ const cur=(document.queryCommandValue("formatBlock")||"").toLowerCase(); document.execCommand("formatBlock",false,/^h\d$/.test(cur)?"div":"h3"); }
+  else document.execCommand({"**":"bold","*":"italic","__":"underline","~~":"strikeThrough"}[m]);
+  syncRich(); fmtState(); });
+function restoreRich(){ if(!richRange) return; const s=document.getSelection(); s.removeAllRanges(); s.addRange(richRange); }
+function clearRich(){ RICH.innerHTML=""; RICH.classList.add("is-empty"); }
 $("#composer").addEventListener("change",readComposer);
 $("#composer").addEventListener("submit",postFromComposer);
 $("#c-add-img").innerHTML=imgSvg+"Image links"; $("#c-emoji").innerHTML=smileSvg+"Emoji";

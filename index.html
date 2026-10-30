@@ -807,8 +807,14 @@ svg.stk{display:block}
 .stk-pick .g button:disabled{opacity:.28;filter:grayscale(1);cursor:not-allowed}
 .stk-pick .g button[aria-pressed="true"]{background:var(--accent-soft);outline:1.5px solid var(--accent)}
 .stk-pick .g svg{width:100%;height:100%}
-.stk-slap{animation:pc-slap .35s cubic-bezier(.3,1.6,.5,1)}
-@keyframes pc-slap{from{transform:scale(1.8);opacity:0}}
+.stk-shelf{display:flex;flex-wrap:wrap;gap:2px 0;margin:10px 0 0 -4px}
+.stk-big{position:relative;width:58px;height:58px;border:0;background:none;padding:0;margin-right:-6px;transform:rotate(var(--r));filter:drop-shadow(0 3px 4px rgba(0,0,0,.35));transition:transform .15s}
+.stk-big:hover{transform:rotate(var(--r)) scale(1.12);z-index:2}
+.stk-big svg{width:100%;height:100%}
+.stk-big.mine::after{content:"";position:absolute;left:50%;bottom:-3px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--accent)}
+.stk-n{position:absolute;right:-2px;top:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--ink);color:var(--bg);font:800 11.5px/20px var(--f-body);text-align:center}
+.stk-slap{animation:pc-slap .4s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pc-slap{from{transform:rotate(var(--r,0deg)) scale(2.2);opacity:0}to{transform:rotate(var(--r,0deg)) scale(1);opacity:1}}
 
 /* Customize modal */
 .cz-prev{display:flex;align-items:center;gap:16px;padding:18px;border-radius:14px;background:var(--bg);margin:6px 0 4px;min-height:120px}
@@ -2071,7 +2077,7 @@ function postHtml(p,ctx){
     <div class="p-body">
       <div class="p-head"><button class="p-name" data-user="${esc(p.u)}">${nameHtml(p.u)}</button>${lvChip(p.u)}${staffTag(p.u)}<span class="handle">${esc(u.handle)} · ${timeAgo(p.t)}</span>${ctx==="pf"&&U(p.u).pinned===p.id?`<span class="pin-tag">📌 Pinned</span>`:""}${aiChip}${p.hidden?'<span class="tag red">Hidden by staff</span>':""}${followBtn}${reason}</div>
       ${body}${ai}${imgs}${emb}
-      <div class="p-actions">
+      ${stickerShelf(p)}<div class="p-actions">
         <button class="icon-btn ${liked?"liked":""}" data-like="${p.id}" aria-pressed="${liked}" aria-label="Like">${heartSvg}<span class="n">${p.likes}</span></button>
         <button class="icon-btn" data-cmt="${p.id}" aria-expanded="${open}" aria-label="Comments">${cmtSvg}<span class="n">${p.cc}</span></button>
         ${stickerBar(p)}<button class="icon-btn p-more" data-pmore="${p.id}" aria-label="More options for this post" title="More">⋯</button>
@@ -3410,9 +3416,12 @@ async function loadStickers(ids){
     ids.forEach(id=>{ const p=posts.find(x=>x.id===id); if(p){ p.st=by[id].st; p.mySt=by[id].mine; } });
   }catch(_){}
 }
-function stickerBar(p){ if(LV.missing) return "";
-  return Object.entries(p.st||{}).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`<button class="stk-chip ${p.mySt===k?"mine":""}" data-sgive="${p.id}:${k}" title="${esc(STK[k].n)}" aria-label="${esc(STK[k].n)} sticker, ${n}">${stkSvg(k)}${n}</button>`).join("")
-    +(p.u!=="me"?`<button class="icon-btn" data-spick="${p.id}" aria-label="Give a sticker">＋ Sticker</button>`:""); }
+function stickerBar(p){ if(LV.missing||p.u==="me") return "";
+  return `<button class="icon-btn" data-spick="${p.id}" aria-label="Give a sticker">＋ Sticker</button>`; }
+// Stickers people gave show big on the post, slapped on at a slight angle. Click one to give the same.
+function stickerShelf(p){ if(LV.missing) return ""; const list=Object.entries(p.st||{}).sort((a,b)=>b[1]-a[1]); if(!list.length) return "";
+  return `<div class="stk-shelf">${list.map(([k,n])=>{ let h=0; for(const c of p.id+k) h=(h*31+c.charCodeAt(0))>>>0; const rot=(h%25)-12;
+    return `<button class="stk-big ${p.mySt===k?"mine":""}" data-sgive="${p.id}:${k}" style="--r:${rot}deg" title="${esc(STK[k].n)}${p.mySt===k?" (yours, click to take back)":""}" aria-label="${esc(STK[k].n)} sticker, ${n}${p.mySt===k?", given by you":""}">${stkSvg(k)}${n>1?`<span class="stk-n">${n}</span>`:""}</button>`; }).join("")}</div>`; }
 async function giveSticker(pid,k){
   const p=posts.find(x=>x.id===pid); if(!p||!STK[k]) return;
   if(p.u==="me"){ toast("Stickers are for other people's posts."); return; }
@@ -3421,7 +3430,8 @@ async function giveSticker(pid,k){
   try{
     if(prev){ await api.remove("post_stickers",`post_id=eq.${pid}&user_id=eq.${ME_ID}`); p.st[prev]--; if(p.st[prev]<=0) delete p.st[prev]; p.mySt=null; }
     if(prev!==k){ await api.insert("post_stickers",{post_id:pid,sticker:k}); p.st[k]=(p.st[k]||0)+1; p.mySt=k; }
-    refreshPosts(); if(p.mySt) document.querySelectorAll(`[data-sgive="${pid}:${k}"]`).forEach(b=>b.classList.add("stk-slap"));
+    refreshPosts(); if(p.mySt) document.querySelectorAll(`.stk-shelf [data-sgive="${pid}:${k}"]`).forEach(b=>b.classList.add("stk-slap"));
+    if(p.mySt) toast(`You gave ${STK[k].n}!`); else toast("Sticker taken back.");
   }catch(e){ fail(e); }
 }
 function closeStkPick(){ const b=$("#stk-pick"); if(b) b.remove(); }

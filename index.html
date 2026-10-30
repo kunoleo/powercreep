@@ -522,7 +522,7 @@ button.sr-item{width:100%;border:0;background:none;text-align:left;font:inherit}
 .help-tip{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:8px;padding:12px 14px;margin:0 0 12px;font-size:14.5px}
 .help-link{color:var(--accent);font-weight:600;white-space:nowrap}
 .pin-tag{font-size:11.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:1px 8px}
-.more-menu{position:fixed;width:auto;min-width:210px}
+.more-menu{position:fixed;width:max-content;max-width:calc(100vw - 24px);right:auto;min-width:210px;z-index:45}
 .bk-list{padding-left:20px;margin:10px 0;font-size:14.5px}
 .bk-list li{margin-bottom:6px}
 .icon-only{font-size:18px;line-height:1;font-weight:800}
@@ -626,6 +626,36 @@ button.sr-item{width:100%;border:0;background:none;text-align:left;font:inherit}
 .u-stats b{color:var(--ink);font-variant-numeric:tabular-nums}
 .u-recent{display:flex;flex-direction:column;gap:8px;margin-top:6px}
 .u-recent div{font-size:13.5px;background:var(--surface-2);border-radius:10px;padding:8px 10px;overflow-wrap:anywhere}
+.ucard{padding-top:0;overflow-x:hidden}
+.uc-banner{position:relative;margin:0 -22px;height:96px;background-size:cover;background-position:center;overflow:hidden}
+.ucard .u-head{margin-top:-30px;align-items:flex-end;position:relative;z-index:2}
+.ucard .u-head .mini-av{border:3px solid var(--surface)}
+.ucard .u-head h2{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:21px;margin-top:34px}
+.uc-bio{margin:10px 0 0;font-size:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.uc-level .p-level{margin-top:12px;max-width:none}
+.uc-level .ring{width:48px;height:48px}.uc-level .ring>span{width:38px;height:38px;font-size:16px}.uc-level .ring small{font-size:7px}
+.ucard .p-badges{margin-top:10px}
+.ucard .u-stats{margin:12px 0 0}
+.uc-media{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.uc-media:empty{display:none}
+.uc-chip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:999px;padding:4px 11px;font:inherit;font-size:13px}
+.uc-chip:hover{border-color:var(--accent)}
+.ucard .modal-actions{margin-top:16px}
+.ucard .modal-actions a.btn{color:var(--ink)}
+.gif-btn{font-size:11px;font-weight:800;letter-spacing:.04em;border:1.5px solid currentColor!important;border-radius:6px!important;padding:1px 5px!important;line-height:1.3;margin:0 3px}
+.cmt-gif{display:block;max-width:min(220px,100%);max-height:220px;border-radius:10px;margin-top:6px}
+.gif-picker{position:fixed;z-index:46;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:8px;display:flex;flex-direction:column;gap:8px;max-height:min(420px,calc(100vh - 24px))}
+.gif-picker input{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:7px 10px;font:inherit;font-size:14px}
+.gp-body{overflow:auto;min-height:120px;flex:1}
+.gp-grid{columns:3 90px;column-gap:4px}
+.gp-g{display:block;width:100%;border:0;padding:0;margin:0 0 4px;background:var(--surface-2);border-radius:8px;overflow:hidden;break-inside:avoid}
+.gp-g img{display:block;width:100%;height:auto}
+.gp-g:hover,.gp-g:focus-visible{outline:2px solid var(--accent)}
+.gp-note{color:var(--muted);font-size:13px;text-align:center;padding:30px 10px}
+.gp-foot{font-size:11px;color:var(--muted);text-align:right;letter-spacing:.03em}
+.gif-pend{position:relative;flex:none;align-self:flex-start}
+.gif-pend img{display:block;height:44px;border-radius:7px}
+.gif-pend button{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;border:0;background:var(--ink);color:var(--bg);font-weight:800;line-height:1;padding:0}
+.gb-form .gif-pend{margin-top:4px}.ucard .modal-actions{flex-wrap:wrap}
 .feed-empty{padding:30px 16px;text-align:center;color:var(--muted)}
 @media (max-width:900px){.feed-layout{grid-template-columns:1fr}.feed-side{position:static}}
 @media (max-width:520px){.p-embed .thumb{width:110px}.reason{margin-left:0}}
@@ -982,6 +1012,7 @@ svg.stk{display:block}
         <li><b>Supabase</b> runs our database and login system, on servers in the EU (Ireland), under a data processing agreement with us.</li>
         <li><b>GitHub Pages</b> hosts the website's files. GitHub logs visitors' IP addresses for security. See GitHub's privacy statement.</li>
         <li><b>Google</b>, only if you choose "Sign up with Google" (not switched on yet). Google confirms who you are and gives us your email address. Google knows you used it.</li>
+        <li><b>KLIPY</b>, only when you open the GIF picker. Your search words and a random ID (not linked to your account) go to KLIPY to find GIFs, and GIFs in comments load from KLIPY's servers, which can see your IP address.</li>
         <li><b>Gravatar</b>, only if you choose a Gravatar avatar. A scrambled code made from your email is used to load the picture.</li>
         <li><b>YouTube, SoundCloud, Twitch, Spotify, Vimeo and Bandcamp</b>. Their players only load when you press play, and from then on their own privacy policies apply. YouTube videos use YouTube's privacy-enhanced mode.</li>
         <li><b>Thumbnails and linked images</b> load straight from the sites that host them, like YouTube or Imgur. Like any picture on the web, that means those sites can see your IP address when the picture loads.</li>
@@ -1283,6 +1314,8 @@ const CATS = {
    Both are meant to be public. Never put the service_role / secret key in this file. */
 const SUPABASE_URL = "https://dqpchqeuerjdivddwiek.supabase.co";
 const SUPABASE_KEY = "sb_publishable_S05d3GeMsdGiHQAMdcc48g_6oImtkIl";
+// GIFs in comments and guestbooks come from KLIPY. Paste your free KLIPY API key here (klipy.com/developers). Empty = no GIF button.
+const KLIPY_KEY = "jYtrT3pFf4XGmDQvEENa3fHjsad9VY05ygesbN0NXxIE17WeOZvtWYmdNi7knWja";
 /* ================================================== */
 const CONFIGURED = /^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(SUPABASE_URL) && SUPABASE_KEY.length > 20 && !SUPABASE_KEY.startsWith("__");
 const LIVE = true;
@@ -2109,8 +2142,8 @@ function postHtml(p,ctx){
   const reason=!ctx&&fs.ftab==="foryou"&&fs.reasons&&fs.reasons[p.id]&&!mine?`<span class="reason">${esc(fs.reasons[p.id])}</span>`:"";
   const followBtn=!ctx&&!mine&&!fs.following.has(p.u)&&USERS[p.u]?`<button class="btn sm" data-follow="${esc(p.u)}">Follow</button>`:"";
   const cl=p.comments||[];
-  const comments=open?`<div class="comments">${p.comments===null?`<div class="meta">Loading comments…</div>`:cl.filter(c=>!hiddenKey(c.u)).map(c=>`<div class="cmt">${avHtml(c.u)}<div class="cmt-b"><button class="p-name" style="font-size:13.5px" data-user="${esc(c.u)}">${nameHtml(c.u)}</button>${lvChip(c.u)}${staffTag(c.u)} <span class="meta">${timeAgo(c.t)}</span>${c.u!=="me"?`<button class="cmt-report" data-creport="${p.id}:${c.id}">${state.reported.has("comment-"+c.id)?"Reported":"Report"}</button>`:`<button class="cmt-report" data-cdel="${p.id}:${c.id}">Delete</button>`}<div>${linkify(c.text)}</div></div></div>`).join("")}
-    <form class="cmt-form" data-cform="${p.id}"><input id="cmt-${pre}${p.id}" placeholder="Write a comment…" autocomplete="off" aria-label="Comment" maxlength="300"><button type="button" class="icon-btn emo-sm" data-emoji-for="cmt-${pre}${p.id}" aria-label="Add emoji">${smileSvg}</button><button class="btn sm primary">Reply</button></form></div>`:"";
+  const comments=open?`<div class="comments">${p.comments===null?`<div class="meta">Loading comments…</div>`:cl.filter(c=>!hiddenKey(c.u)).map(c=>`<div class="cmt">${avHtml(c.u)}<div class="cmt-b"><button class="p-name" style="font-size:13.5px" data-user="${esc(c.u)}">${nameHtml(c.u)}</button>${lvChip(c.u)}${staffTag(c.u)} <span class="meta">${timeAgo(c.t)}</span>${c.u!=="me"?`<button class="cmt-report" data-creport="${p.id}:${c.id}">${state.reported.has("comment-"+c.id)?"Reported":"Report"}</button>`:`<button class="cmt-report" data-cdel="${p.id}:${c.id}">Delete</button>`}<div>${linkify(c.text)}</div>${c.gif?gifImg(c.gif):""}</div></div>`).join("")}
+    <form class="cmt-form" data-cform="${p.id}"><input id="cmt-${pre}${p.id}" placeholder="Write a comment…" autocomplete="off" aria-label="Comment" maxlength="300"><button type="button" class="icon-btn emo-sm" data-emoji-for="cmt-${pre}${p.id}" aria-label="Add emoji">${smileSvg}</button>${gifBtn("cmt-"+pre+p.id)}<button class="btn sm primary">Reply</button></form></div>`:"";
   return `<article class="post" id="post-${pre}${p.id}">
     <button class="p-av-btn" data-user="${esc(p.u)}" aria-label="${esc(u.name)}" style="border:0;background:none;padding:0;align-self:flex-start">${avHtml(p.u)}</button>
     <div class="p-body">
@@ -2200,26 +2233,44 @@ async function addActivity(kind,itemId,note){
 /* ===================== MINI PROFILE ===================== */
 async function openUser(key){
   if(!USERS[key]) return;
-  const u=U(key), mine=key==="me", f=fs.following.has(key);
-  const theirs=posts.filter(p=>p.u===key&&!p.kind).sort((a,b)=>b.t-a.t).slice(0,3);
+  const u=U(key), mine=key==="me", f=fs.following.has(key), lk=u.look||{};
+  const acc=lk.acc?`--accent:${lk.acc};--accent-ink:${inkFor(lk.acc)};--accent-soft:color-mix(in srgb,${lk.acc} 20%,var(--surface))`:"";
   $("#modal-root").innerHTML=`
-    <div class="scrim" id="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="ut">
-      <div class="u-head">${avHtml(key)}<div style="min-width:0"><h2 id="ut">${esc(u.name)}${staffTag(key)}</h2><div class="handle">${esc(u.handle)}${u.title?" · "+esc(u.title):""}</div></div></div>
-      ${u.bio?`<p style="margin:12px 0 0">${esc(u.bio)}</p>`:""}
+    <div class="scrim" id="scrim"><div class="modal ucard" role="dialog" aria-modal="true" aria-labelledby="ut" style="${acc}">
+      <div class="uc-banner" style="background:${bannerBg(u.banner)}">${hfxHtml(lk.hfx)}</div>
+      <div class="u-head">${avHtml(key)}<div style="min-width:0"><h2 id="ut">${nameHtml(key)}${lvChip(key)}${staffTag(key)}</h2><div class="handle">${esc(u.handle)}${u.pronouns?" · "+esc(u.pronouns):""}${u.title?" · "+esc(u.title):""}</div></div></div>
+      ${u.bio?`<p class="uc-bio">${esc(u.bio)}</p>`:""}
+      <div class="uc-level">${profileLevelHtml(key).replace(/ · <a href="#quests"[^<]*<\/a>/,"")}</div>
+      <div class="p-badges" id="uc-badges"></div>
       <div class="u-stats" id="u-stats"><span>Loading…</span></div>
-      ${theirs.length?`<div class="mono" style="color:var(--muted)">Recent posts</div><div class="u-recent">${theirs.map(p=>`<div>${esc(p.text.slice(0,140))}${p.text.length>140?"…":""}</div>`).join("")}</div>`:""}
+      <div class="uc-media" id="uc-media"></div>
       <div class="modal-actions">
-        ${mine?"":`<button class="btn ghost" data-more="${esc(key)}" aria-label="More options">⋯</button><button class="btn ${f?"":"primary"}" data-follow="${esc(key)}">${f?"Following":"Follow"}</button>`}
-        <a class="btn ${mine?"primary":""}" href="#u/${esc(u.username)}" id="u-go" style="text-decoration:none">View profile</a>
+        ${mine?"":`<button class="btn ghost" data-more="${esc(key)}" aria-label="More options">⋯</button>`}
         <button class="btn ghost" id="u-close">Close</button>
+        <a class="btn ${mine?"":"ghost-strong"}" href="#u/${esc(u.username)}" id="u-go" style="text-decoration:none">View profile</a>
+        ${mine?"":`<button class="btn ${f?"":"primary"}" data-follow="${esc(key)}">${f?"Following":"Follow"}</button>`}
       </div>
     </div></div>`;
   $("#u-close").onclick=closeModal; $("#u-go").onclick=closeModal;
   $("#scrim").addEventListener("click",e=>{if(e.target.id==="scrim")closeModal()});
-  if($("#u-report")) $("#u-report").onclick=()=>openReport({type:"profile",id:idOf(key),title:"Profile: "+u.name,parts:PROFILE_PARTS});
-  try{ const id=idOf(key); const [a,b]=await Promise.all([api.count("follows?select=follower&following=eq."+id),api.count("posts?select=id&kind=is.null&author=eq."+id)]);
-    if($("#u-stats")) $("#u-stats").innerHTML=`<span><b>${b}</b> posts</span><span><b>${a}</b> follower${a===1?"":"s"}</span>`; }catch(_){}
+  const id=idOf(key), fmt=n=>Number(n).toLocaleString("en");
+  try{
+    const [fl,fg,np,media,badges]=await Promise.all([
+      api.count("follows?select=follower&following=eq."+id), api.count("follows?select=following&follower=eq."+id),
+      api.count("posts?select=id&kind=is.null&author=eq."+id), api.get("media?select=tab&limit=2000&owner=eq."+id),
+      LV.missing?Promise.resolve([]):api.rpc("user_badges",{p_user:id}).catch(()=>[])]);
+    if(!$("#u-stats")) return;
+    $("#u-stats").innerHTML=`<span><b>${fmt(np)}</b> post${np===1?"":"s"}</span><span><b>${fmt(fl)}</b> follower${fl===1?"":"s"}</span><span><b>${fmt(fg)}</b> following</span>`;
+    const c={}; media.forEach(m=>c[m.tab]=(c[m.tab]||0)+1);
+    const kinds=[["games","🎮","game","games"],["music","🎵","track","tracks"],["videos","🎬","video","videos"],["art","🎨","artwork","artworks"]].filter(k=>c[k[0]]);
+    $("#uc-media").innerHTML=kinds.map(([t,ic,one,many])=>`<button class="uc-chip" data-utab="${t}" data-uname="${esc(u.username)}"><span aria-hidden="true">${ic}</span><b>${c[t]}</b> ${c[t]===1?one:many}</button>`).join("");
+    BADGES[key]=badges;
+    $("#uc-badges").innerHTML=badges.map(b=>{ const it=LV.items.find(i=>i.id===b); return it?`<span class="bdg" title="${esc(it.name)} badge">${badgeSvg(b)}${esc(it.name)}</span>`:""; }).join("");
+  }catch(_){ if($("#u-stats")) $("#u-stats").innerHTML=""; }
 }
+document.addEventListener("click",e=>{ const t=e.target.closest("[data-utab]"); if(!t) return;
+  closeModal(); state.pendingTab=t.dataset.utab; const h="#u/"+t.dataset.uname;
+  if(location.hash===h){ state.tab=t.dataset.utab; state.pendingTab=null; renderProfile(); window.scrollTo(0,0); } else location.hash=h; });
 
 /* ===================== FEED EVENTS ===================== */
 async function toggleFollow(key){
@@ -2242,7 +2293,7 @@ async function openComments(p){
   if(fs.open.has(p.id)){ fs.open.delete(p.id); refreshPosts(); return; }
   fs.open.add(p.id); refreshPosts(); focusCmt(p.id);
   try{ const rows=await api.get("comments?select=*&order=created_at.asc&limit=200&post_id=eq."+p.id); await ensureUsers(rows.map(r=>r.author));
-    p.comments=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text,t:Date.parse(r.created_at)})); p.cc=Math.max(p.cc,p.comments.length); refreshPosts(); focusCmt(p.id); }
+    p.comments=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),t:Date.parse(r.created_at)})); p.cc=Math.max(p.cc,p.comments.length); refreshPosts(); focusCmt(p.id); }
   catch(err){ p.comments=[]; refreshPosts(); fail(err); }
 }
 document.addEventListener("click",async e=>{
@@ -2279,9 +2330,9 @@ function confirmInline(btn,label,go){
 }
 document.addEventListener("submit",async e=>{
   const f=e.target; if(!f.dataset||!f.dataset.cform) return; e.preventDefault();
-  const p=posts.find(x=>x.id===f.dataset.cform), inp=f.querySelector("input"), v=inp.value.trim(); if(!v) return;
+  const p=posts.find(x=>x.id===f.dataset.cform), inp=f.querySelector("input"), v=inp.value.trim(), gif=GIFP[inp.id]||null; if(!v&&!gif) return;
   inp.disabled=true;
-  try{ const r=await api.insert("comments",{post_id:p.id,text:v}); (p.comments=p.comments||[]).push({id:r.id,u:"me",text:r.text,t:Date.parse(r.created_at)}); p.cc++;
+  try{ const r=await api.insert("comments",{post_id:p.id,text:v,...(gif?{gif}:{})}); delete GIFP[inp.id]; (p.comments=p.comments||[]).push({id:r.id,u:"me",text:r.text||"",gif:cleanGif(r.gif),t:Date.parse(r.created_at)}); p.cc++;
     if(p.u!=="me") bump(p,3); refreshPosts(); focusCmt(p.id); }
   catch(err){ inp.disabled=false; fail(err); }
 });
@@ -2319,7 +2370,7 @@ async function exportData(){
       api.get("profiles?select=*&id=eq."+ME_ID),
       api.get("media?select=tab,title,data,ai,created_at,updated_at&owner=eq."+ME_ID),
       api.get("posts?select=kind,text,images,ai,created_at&author=eq."+ME_ID),
-      api.get("comments?select=post_id,text,created_at&author=eq."+ME_ID),
+      api.get("comments?select=*&author=eq."+ME_ID),
       api.get("likes?select=post_id,created_at"),
       api.get("follows?select=following,created_at&follower=eq."+ME_ID),
       api.get("reports?select=target_type,part,reason,note,status,created_at&reporter=eq."+ME_ID)]);
@@ -2535,12 +2586,12 @@ async function openNotifs(){
       (list.length?`<div class="np-list">${list.map(x=>{
         if(x.s) return `<div class="np-item ${x.read?"":"unread"}"><span class="np-ico staff">${STAFF_BADGE}</span><div class="np-t"><div>${esc(x.s.text)}</div><span>${timeAgo(x.t)} ago</span></div></div>`;
         const n=x.n, k=keyOf(n.actor), who=`<b>${esc(U(k).name)}</b>${staffTag(k)}`;
-        if(n.kind==="guestbook"){ const g=gm.find(x=>x.id===n.entry_id); return `<button class="np-item ${x.read?"":"unread"}" data-ngb="1">${avHtml(k)}<div class="np-t"><div>${who} wrote in your guestbook${g?`: “${esc(g.text.slice(0,90))}${g.text.length>90?"…":""}”`:""}</div><span>${timeAgo(x.t)} ago</span></div></button>`; }
+        if(n.kind==="guestbook"){ const g=gm.find(x=>x.id===n.entry_id); return `<button class="np-item ${x.read?"":"unread"}" data-ngb="1">${avHtml(k)}<div class="np-t"><div>${who} wrote in your guestbook${g?(g.text?`: “${esc(g.text.slice(0,90))}${g.text.length>90?"…":""}”`:" with a GIF"):""}</div><span>${timeAgo(x.t)} ago</span></div></button>`; }
         if(n.kind==="levelup"){ const rk=rankOf(n.level||1); return `<a class="np-item ${x.read?"":"unread"}" href="#quests"><span class="mini-av" style="background:${rk[2]};color:#111;font-size:18px">⚡</span><div class="np-t"><div>You reached <b>level ${Number(n.level)||""}</b>${(n.level||1)===rk[0]?` and the rank <b>${rk[1]}</b>`:""}! You got Volts to spend in the shop.</div><span>${timeAgo(x.t)} ago</span></div></a>`; }
         if(n.kind==="gift"){ const it=LV.items.find(i=>i.id===n.item_id); const nm=it?`${esc(it.name)} ${KIND_WORD[it.kind]}`:"a gift"; return `<a class="np-item ${x.read?"":"unread"}" href="${it&&it.kind==="badge"?"#u/"+esc(U("me").username):it&&it.kind!=="sticker"?"#shop":"#feed"}">${avHtml(k)}<div class="np-t"><div>🎁 ${who} gave you the <b>${nm}</b>!${it&&it.kind!=="sticker"&&it.kind!=="badge"?" Put it on in Customize.":""}</div><span>${timeAgo(x.t)} ago</span></div></a>`; }
         if(n.kind==="follow") return `<button class="np-item ${x.read?"":"unread"}" data-user="${esc(k)}">${avHtml(k)}<div class="np-t"><div>${who} started following you</div><span>${timeAgo(x.t)} ago</span></div></button>`;
         const c=cm.find(c=>c.id===n.comment_id);
-        return `<button class="np-item ${x.read?"":"unread"}" ${n.media_id?`data-mopen="${n.media_id}"`:`data-npost="${n.post_id}"`}>${avHtml(k)}<div class="np-t"><div>${who} commented on your ${n.media_id?"upload":"post"}${c?`: “${esc(c.text.slice(0,90))}${c.text.length>90?"…":""}”`:""}</div><span>${timeAgo(x.t)} ago</span></div></button>`;
+        return `<button class="np-item ${x.read?"":"unread"}" ${n.media_id?`data-mopen="${n.media_id}"`:`data-npost="${n.post_id}"`}>${avHtml(k)}<div class="np-t"><div>${who} commented on your ${n.media_id?"upload":"post"}${c?(c.text?`: “${esc(c.text.slice(0,90))}${c.text.length>90?"…":""}”`:" with a GIF"):""}</div><span>${timeAgo(x.t)} ago</span></div></button>`;
       }).join("")}</div>`:`<div class="np-empty">Nothing yet. When someone comments on your posts, signs your guestbook or follows you, it shows up here.</div>`);
     if(list.some(x=>!x.read)){
       setBadge(0);
@@ -2621,7 +2672,7 @@ async function loadGuestbook(key){
     api.get("guestbook?select=*&order=created_at.desc&limit=100&profile_id=eq."+id),
     key==="me"?Promise.resolve(0):api.count("follows?select=follower&follower=eq."+id+"&following=eq."+ME_ID)]);
   await ensureUsers(rows.map(r=>r.author));
-  VIEW.gb=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text,t:Date.parse(r.created_at),hidden:r.hidden}));
+  VIEW.gb=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),t:Date.parse(r.created_at),hidden:r.hidden}));
   VIEW.followsMe=followsMe>0;
 }
 function canSign(){
@@ -2631,25 +2682,25 @@ function canSign(){
 function guestbookHtml(){
   const u=U(VIEW.key), own=VIEW.key==="me", list=VIEW.gb||[];
   const setting={everyone:"Everyone can write here",following:"Only people you follow can write here",off:"Your guestbook is closed"}[u.guestbook];
-  const form=canSign()?`<form class="gb-form" id="gb-form" novalidate>${avHtml("me")}<div class="gb-in"><textarea id="gb-text" maxlength="300" rows="2" placeholder="${own?"Write a welcome note for visitors…":`Leave ${esc(u.name)} a message…`}"></textarea><div class="gb-tools"><button type="button" class="icon-btn" data-emoji-for="gb-text">${smileSvg}Emoji</button><span class="c-count" id="gb-count">300</span><button class="btn primary sm" id="gb-send" disabled>${own?"Post":"Sign guestbook"}</button></div></div></form>`
+  const form=canSign()?`<form class="gb-form" id="gb-form" novalidate>${avHtml("me")}<div class="gb-in"><textarea id="gb-text" maxlength="300" rows="2" placeholder="${own?"Write a welcome note for visitors…":`Leave ${esc(u.name)} a message…`}"></textarea><div class="gb-tools"><button type="button" class="icon-btn" data-emoji-for="gb-text">${smileSvg}Emoji</button>${gifBtn("gb-text",true)}<span class="c-count" id="gb-count">300</span><button class="btn primary sm" id="gb-send" disabled>${own?"Post":"Sign guestbook"}</button></div></div></form>`
     :`<p class="private-note">${u.guestbook==="off"?`${esc(u.name)}'s guestbook is closed.`:`Only people ${esc(u.name)} follows can write here.`}</p>`;
   const ownNote=own?`<p class="meta gb-note">${setting}. <button class="tagbtn" id="edit-profile-gb">Change</button></p>`:"";
   const items=list.length?list.filter(e=>!hiddenKey(e.u)).map(e=>`<div class="gb-item">${avHtml(e.u)}<div class="gb-b">
       <div class="gb-h"><button class="p-name" data-user="${esc(e.u)}">${nameHtml(e.u)}</button>${lvChip(e.u)}${staffTag(e.u)} <span class="meta">${timeAgo(e.t)}</span>${e.hidden?' <span class="tag red">Hidden by staff</span>':""}
         ${e.u==="me"||own?`<button class="cmt-report" data-gbdel="${e.id}">Delete</button>`:""}${e.u!=="me"?`<button class="cmt-report" data-gbrep="${e.id}">${state.reported.has("guestbook-"+e.id)?"Reported":"Report"}</button>`:""}</div>
-      <div class="gb-text">${linkify(e.text)}</div></div></div>`).join("")
+      <div class="gb-text">${linkify(e.text)}</div>${e.gif?gifImg(e.gif):""}</div></div>`).join("")
     :`<div class="empty">${own?"No messages yet. When people sign your guestbook, it shows up here.":"No messages yet. Be the first!"}</div>`;
   return ownNote+form+`<div class="gb-list">${items}</div>`;
 }
 document.addEventListener("input",e=>{
   if(e.target.id!=="gb-text") return; const n=300-e.target.value.length;
-  $("#gb-count").textContent=n; $("#gb-count").classList.toggle("warn",n<30); $("#gb-send").disabled=!e.target.value.trim();
+  $("#gb-count").textContent=n; $("#gb-count").classList.toggle("warn",n<30); $("#gb-send").disabled=!e.target.value.trim()&&!GIFP["gb-text"];
 });
 document.addEventListener("submit",async e=>{
   if(e.target.id!=="gb-form") return; e.preventDefault();
-  const v=$("#gb-text").value.trim(); if(!v) return; $("#gb-send").disabled=true;
-  try{ const r=await api.insert("guestbook",{profile_id:idOf(VIEW.key),text:v});
-    (VIEW.gb=VIEW.gb||[]).unshift({id:r.id,u:"me",text:r.text,t:Date.parse(r.created_at)}); renderTabs(); renderGrid(); toast(VIEW.key==="me"?"Posted.":"Message left in the guestbook."); }
+  const v=$("#gb-text").value.trim(), gif=GIFP["gb-text"]||null; if(!v&&!gif) return; $("#gb-send").disabled=true;
+  try{ const r=await api.insert("guestbook",{profile_id:idOf(VIEW.key),text:v,...(gif?{gif}:{})}); delete GIFP["gb-text"];
+    (VIEW.gb=VIEW.gb||[]).unshift({id:r.id,u:"me",text:r.text||"",gif:cleanGif(r.gif),t:Date.parse(r.created_at)}); renderTabs(); renderGrid(); toast(VIEW.key==="me"?"Posted.":"Message left in the guestbook."); }
   catch(err){ $("#gb-send").disabled=false; fail(err); }
 });
 document.addEventListener("click",e=>{
@@ -2899,7 +2950,7 @@ async function openItem(id){
   $("#im-close").onclick=closeModal; $("#scrim").addEventListener("click",e=>{if(e.target.id==="scrim")closeModal()});
   renderItemModal();
   try{ const rows=await api.get("comments?select=*&order=created_at.asc&limit=300&media_id=eq."+id); await ensureUsers(rows.map(r=>r.author));
-    it.comments=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text,t:Date.parse(r.created_at)})); it.cc=Math.max(it.cc||0,it.comments.length); renderItemModal(); }
+    it.comments=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),t:Date.parse(r.created_at)})); it.cc=Math.max(it.cc||0,it.comments.length); renderItemModal(); }
   catch(err){ it.comments=[]; renderItemModal(); fail(err); }
 }
 function renderItemModal(){
@@ -2916,14 +2967,14 @@ function renderItemModal(){
         ${it.owner!==ME_ID?`<button class="icon-btn" data-report="${it.id}">${flagSvg}Report</button>`:""}</div>
     </div></div>
     <h3 class="im-h">Comments <span class="meta">${it.cc||0}</span></h3>
-    <div class="comments im-comments">${cl===null?`<div class="meta">Loading comments…</div>`:cl.length?cl.filter(c=>!hiddenKey(c.u)).map(c=>`<div class="cmt">${avHtml(c.u)}<div class="cmt-b"><button class="p-name" style="font-size:13.5px" data-user="${esc(c.u)}">${nameHtml(c.u)}</button>${lvChip(c.u)}${staffTag(c.u)} <span class="meta">${timeAgo(c.t)}</span>${c.u==="me"||it.owner===ME_ID?`<button class="cmt-report" data-mcdel="${c.id}">Delete</button>`:""}${c.u!=="me"?`<button class="cmt-report" data-mcrep="${c.id}">${state.reported.has("comment-"+c.id)?"Reported":"Report"}</button>`:""}<div>${linkify(c.text)}</div></div></div>`).join(""):`<div class="meta">No comments yet. Say something nice!</div>`}
-      <form class="cmt-form" id="im-form"><input id="im-cmt" placeholder="Write a comment…" autocomplete="off" aria-label="Comment" maxlength="300"><button type="button" class="icon-btn emo-sm" data-emoji-for="im-cmt" aria-label="Add emoji">${smileSvg}</button><button class="btn sm primary">Reply</button></form></div>`;
+    <div class="comments im-comments">${cl===null?`<div class="meta">Loading comments…</div>`:cl.length?cl.filter(c=>!hiddenKey(c.u)).map(c=>`<div class="cmt">${avHtml(c.u)}<div class="cmt-b"><button class="p-name" style="font-size:13.5px" data-user="${esc(c.u)}">${nameHtml(c.u)}</button>${lvChip(c.u)}${staffTag(c.u)} <span class="meta">${timeAgo(c.t)}</span>${c.u==="me"||it.owner===ME_ID?`<button class="cmt-report" data-mcdel="${c.id}">Delete</button>`:""}${c.u!=="me"?`<button class="cmt-report" data-mcrep="${c.id}">${state.reported.has("comment-"+c.id)?"Reported":"Report"}</button>`:""}<div>${linkify(c.text)}</div>${c.gif?gifImg(c.gif):""}</div></div>`).join(""):`<div class="meta">No comments yet. Say something nice!</div>`}
+      <form class="cmt-form" id="im-form"><input id="im-cmt" placeholder="Write a comment…" autocomplete="off" aria-label="Comment" maxlength="300"><button type="button" class="icon-btn emo-sm" data-emoji-for="im-cmt" aria-label="Add emoji">${smileSvg}</button>${gifBtn("im-cmt")}<button class="btn sm primary">Reply</button></form></div>`;
   fillScThumbs();
 }
 document.addEventListener("submit",async e=>{
   if(e.target.id!=="im-form") return; e.preventDefault();
-  const it=MEDIA[state.modalItem], inp=$("#im-cmt"), v=inp.value.trim(); if(!it||!v) return; inp.disabled=true;
-  try{ const r=await api.insert("comments",{media_id:it.id,text:v}); (it.comments=it.comments||[]).push({id:r.id,u:"me",text:r.text,t:Date.parse(r.created_at)}); it.cc=(it.cc||0)+1;
+  const it=MEDIA[state.modalItem], inp=$("#im-cmt"), v=inp.value.trim(), gif=GIFP["im-cmt"]||null; if(!it||(!v&&!gif)) return; inp.disabled=true;
+  try{ const r=await api.insert("comments",{media_id:it.id,text:v,...(gif?{gif}:{})}); delete GIFP["im-cmt"]; (it.comments=it.comments||[]).push({id:r.id,u:"me",text:r.text||"",gif:cleanGif(r.gif),t:Date.parse(r.created_at)}); it.cc=(it.cc||0)+1;
     rerenderMedia(it.id); $("#im-cmt")?.focus(); }
   catch(err){ inp.disabled=false; fail(err); }
 });
@@ -3571,6 +3622,61 @@ async function openGift(key){
       draw(); delete BADGES[key]; if(!$("#view-profile").hidden&&VIEW.key===key) renderBadges(key);
     }catch(err){ fail(err); b.disabled=false; } });
 }
+
+/* ---------- GIFs (from KLIPY) in comments and guestbooks ---------- */
+const GIF_RE=/^https:\/\/([a-z0-9-]+\.)*klipy\.com\/[^\s"'<>]{1,400}$/;
+const cleanGif=u=>typeof u==="string"&&GIF_RE.test(u)?u:null;
+const GIFP={};   // GIF picked for each comment box, by the box's id
+const gifImg=u=>`<img class="cmt-gif" src="${esc(u)}" alt="GIF" loading="lazy" onerror="this.remove()">`;
+const gifBtn=(id,label)=>KLIPY_KEY?`<button type="button" class="icon-btn gif-btn" data-gif-for="${id}" aria-label="Add a GIF">${label?"GIF":"<b>GIF</b>"}</button>`:"";
+let gifTarget=null, gifSeq=0, gifTimer=null;
+function gifCid(){ try{ let c=localStorage.getItem("pc-gif-id"); if(!c){ c=crypto.randomUUID(); localStorage.setItem("pc-gif-id",c); } return c; }catch(_){ return "anon"; } }
+async function gifSearch(q){
+  const seq=++gifSeq, body=$("#gp-body"); if(!body) return;
+  body.innerHTML=`<div class="gp-note">Loading…</div>`;
+  try{
+    const u=`https://api.klipy.com/api/v1/${encodeURIComponent(KLIPY_KEY)}/gifs/${q?"search":"trending"}?per_page=24&customer_id=${encodeURIComponent(gifCid())}${q?"&q="+encodeURIComponent(q):""}`;
+    const r=await fetch(u); if(!r.ok) throw new Error(r.status);
+    const d=await r.json(); if(seq!==gifSeq||!$("#gp-body")) return;
+    const list=((d.data&&d.data.data)||[]).filter(x=>x&&x.type!=="ad"&&x.file).map(x=>{ const f=x.file, pick=(...k)=>{ for(const s of k){ const g=f[s]&&f[s].gif; if(g&&cleanGif(g.url)) return g.url; } return null; };
+      return {full:pick("md","hd","sm"),thumb:pick("sm","xs","md"),title:String(x.title||"GIF").slice(0,80)}; }).filter(x=>x.full&&x.thumb);
+    body.innerHTML=list.length?`<div class="gp-grid">${list.map(x=>`<button type="button" class="gp-g" data-gifpick="${esc(x.full)}" title="${esc(x.title)}" aria-label="${esc(x.title)}"><img src="${esc(x.thumb)}" alt="" loading="lazy"></button>`).join("")}</div>`:`<div class="gp-note">No GIFs found.</div>`;
+  }catch(_){ if(seq===gifSeq&&$("#gp-body")) $("#gp-body").innerHTML=`<div class="gp-note">GIFs couldn't load right now. Try again in a bit.</div>`; }
+}
+function closeGif(){ const p=$("#gif-picker"); if(p) p.remove(); gifTarget=null; }
+function openGif(btn){
+  const id=btn.dataset.gifFor; if($("#gif-picker")&&gifTarget===id){ closeGif(); return; }
+  closeGif(); closeEmoji(); gifTarget=id;
+  const p=document.createElement("div"); p.id="gif-picker"; p.className="gif-picker"; p.setAttribute("role","dialog"); p.setAttribute("aria-label","Pick a GIF");
+  p.innerHTML=`<input id="gp-q" type="search" placeholder="Search GIFs" aria-label="Search GIFs" autocomplete="off"><div class="gp-body" id="gp-body"></div><div class="gp-foot">Powered by <b>KLIPY</b></div>`;
+  document.body.appendChild(p);
+  const r=btn.getBoundingClientRect(), w=Math.min(340,innerWidth-24), h=p.offsetHeight;
+  let top=r.bottom+6; if(top+h>innerHeight-12) top=Math.max(12,r.top-h-6);
+  p.style.left=Math.min(Math.max(12,r.left),innerWidth-w-12)+"px"; p.style.top=top+"px"; p.style.width=w+"px";
+  $("#gp-q").addEventListener("input",e=>{ clearTimeout(gifTimer); const q=e.target.value.trim(); gifTimer=setTimeout(()=>gifSearch(q),350); });
+  if(matchMedia("(hover:hover)").matches) $("#gp-q").focus();
+  gifSearch("");
+}
+function showPendingGif(id){
+  const inp=document.getElementById(id); if(!inp) return; const form=inp.closest("form"); if(!form) return;
+  form.querySelector(".gif-pend")?.remove();
+  const u=GIFP[id]; if(!u) return;
+  const el=document.createElement("span"); el.className="gif-pend"; el.innerHTML=`<img src="${esc(u)}" alt="GIF you picked"><button type="button" data-gifclear="${esc(id)}" aria-label="Remove GIF">×</button>`;
+  if(form.id==="gb-form") inp.after(el); else form.insertBefore(el,inp);
+}
+// Keep the picked GIF showing when the comments get redrawn.
+{ const rp=refreshPosts, ri=renderItemModal, rg=renderGrid;
+  refreshPosts=function(){ rp.apply(this,arguments); Object.keys(GIFP).forEach(showPendingGif); };
+  renderItemModal=function(){ ri.apply(this,arguments); Object.keys(GIFP).forEach(showPendingGif); };
+  renderGrid=function(){ rg.apply(this,arguments); Object.keys(GIFP).forEach(showPendingGif); }; }
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-gif-for]"); if(b){ e.preventDefault(); openGif(b); return; }
+  const g=e.target.closest("[data-gifpick]"); if(g){ const id=gifTarget; GIFP[id]=g.dataset.gifpick; closeGif(); showPendingGif(id);
+    if(id==="gb-text"&&$("#gb-send")) $("#gb-send").disabled=false; document.getElementById(id)?.focus(); return; }
+  const c=e.target.closest("[data-gifclear]"); if(c){ const id=c.dataset.gifclear; delete GIFP[id]; c.parentElement.remove(); if(id==="gb-text"&&$("#gb-send")) $("#gb-send").disabled=!$("#gb-text").value.trim(); return; }
+  if(!e.target.closest("#gif-picker")) closeGif();
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeGif(); });
 
 /* ---------- Export your level data too ---------- */
 async function levelExport(){ if(LV.missing) return {};

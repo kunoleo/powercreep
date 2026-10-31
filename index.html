@@ -672,6 +672,11 @@ body.joinmode .fab-wrap,body.legalmode .fab-wrap{display:none}
 #view-feed .post .comments,#view-profile .post .comments{cursor:auto}
 .p-time{color:inherit;text-decoration:none}.p-time:hover{text-decoration:underline}
 .cmt.reply{margin-left:38px}
+.cz-badges{display:flex;flex-wrap:wrap;gap:6px}
+.bdg-t{display:inline-flex;align-items:center;gap:5px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:3px 11px 3px 4px;font:inherit;font-size:12.5px;font-weight:700;opacity:.7}
+.bdg-t svg{width:22px;height:22px;filter:grayscale(.8)}
+.bdg-t[aria-pressed="true"]{border-color:var(--accent);color:var(--ink);background:var(--accent-soft);opacity:1}
+.bdg-t[aria-pressed="true"] svg{filter:none}
 .men-pop{position:fixed;z-index:70;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:6px;max-height:360px;overflow:auto}
 .men-h{font-size:12px;color:var(--muted);padding:6px 8px 8px}.men-h b{color:var(--ink)}
 .men-row{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;color:var(--ink);font:inherit;padding:6px 8px;border-radius:9px;text-align:left}
@@ -733,7 +738,7 @@ body.joinmode .fab-wrap,body.legalmode .fab-wrap{display:none}
 .reply-to button{border:0;background:var(--line);color:var(--ink);width:18px;height:18px;border-radius:50%;line-height:1;padding:0;font-weight:800}
 .gif-btn{font-size:11px;font-weight:800;letter-spacing:.04em;border:1.5px solid currentColor!important;border-radius:6px!important;padding:1px 5px!important;line-height:1.3;margin:0 3px}
 .cmt-gif{display:block;max-width:min(220px,100%);max-height:220px;border-radius:10px;margin-top:6px}
-.gif-picker{position:fixed;z-index:46;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:8px;display:flex;flex-direction:column;gap:8px;max-height:min(420px,calc(100vh - 24px))}
+.gif-picker{position:fixed;z-index:46;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:8px;display:flex;flex-direction:column;gap:8px;height:min(420px,calc(100vh - 24px))}
 .gif-picker input{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:7px 10px;font:inherit;font-size:14px}
 .gp-body{overflow:auto;min-height:120px;flex:1}
 .gp-grid{columns:3 90px;column-gap:4px}
@@ -1599,7 +1604,7 @@ function userFromRow(r){
     links:cleanLinks(r.links),avatar:cleanAvatar(r.avatar),banner:cleanBanner(r.banner),
     twitch:/^[a-z0-9_]{3,25}$/.test(r.twitch||"")?r.twitch:null,staff:!!r.is_staff,suspended:!!r.suspended,h:hueOf(r.id),pinned:r.pinned_post||null,
     lv:r.level==null?undefined:Math.max(1,Math.min(100,+r.level||1)),xp:Math.max(0,+r.xp||0),volts:Math.max(0,+r.volts||0),look:cleanLook(r.look),
-    nameChanged:r.username_changed_at?Date.parse(r.username_changed_at):null,
+    nameChanged:r.username_changed_at?Date.parse(r.username_changed_at):null,badgesShown:Array.isArray(r.badges_shown)?r.badges_shown:null,
     pronouns:String(r.pronouns||"").slice(0,20),guestbook:["everyone","following","off"].includes(r.guestbook)?r.guestbook:"everyone",brand:!!r.is_brand};
 }
 function putUser(r){ const u=userFromRow(r); USERS[keyOf(r.id)]=u; return u; }
@@ -3650,6 +3655,8 @@ function openCustomize(pre){
   if(LV.missing){ toast("Customizing isn't switched on yet."); return; }
   closeAcct(); const me=U("me"), L=me.look||{};
   czDraft={frame:L.frame||"none",name:L.name||"none",hfx:L.hfx||"none",f1:L.f1,f2:L.f2,c1:L.c1||NAME_DEF[0],c2:L.c2||NAME_DEF[1],c3:L.c3||NAME_DEF[2],acc:L.acc||null,gd:L.gd||"h"};
+  const myBadges=LV.items.filter(i=>i.kind==="badge"&&(me.brand||LV.owned.has(i.id))).map(i=>i.id);
+  czDraft.badges=new Set(me.badgesShown?me.badgesShown.filter(b=>myBadges.includes(b)):myBadges.slice(0,6)); const badgesBefore=[...czDraft.badges].sort().join();
   if(pre){ const [k,v]=pre.split(":"); czDraft[k]=v; }
   const d0=FRAME_DEF[czDraft.frame]||["#ff3b36","#ffd23b"]; czDraft.f1=czDraft.f1||d0[0]; czDraft.f2=czDraft.f2||d0[1];
   const opts=(list,kind,cur,none)=>`<option value="none">${none}</option>`+list.filter(f=>owns(kind+":"+f[0])).map(f=>`<option value="${f[0]}" ${cur===f[0]?"selected":""}>${esc(f[1])}</option>`).join("");
@@ -3662,6 +3669,7 @@ function openCustomize(pre){
       <div class="cz-row cz-gd" id="cz-gd-row"><span class="meta">Direction</span><div class="seg" role="group" aria-label="Gradient direction"><button type="button" data-gd="h">↔ Left to right</button><button type="button" data-gd="v">↕ Top to bottom</button></div></div>
       <p class="cz-note">Pick colors that are easy to read in both light and dark mode.</p></div>
     <div class="field"><label for="cz-hfx">Header effect</label><select id="cz-hfx">${opts(HFX,"hfx",czDraft.hfx,"None")}</select></div>
+    ${myBadges.length?`<div class="field"><label>Badges on your profile <span class="meta" style="font-weight:500">(pick up to 6)</span></label><div class="cz-badges" id="cz-badges">${myBadges.map(id=>{ const it=LV.items.find(i=>i.id===id); return `<button type="button" class="bdg-t" data-bdg="${id}" aria-pressed="${czDraft.badges.has(id)}">${badgeSvg(id)}${esc(it.name)}</button>`; }).join("")}</div></div>`:""}
     <div class="field"><label for="cz-acc">Profile color</label><div class="cz-row"><input type="text" readonly class="cswatch" id="cz-acc" value="${czDraft.acc||"#ff3b36"}" aria-label="Profile color"><span class="meta" style="flex:1">Buttons and tabs on your profile</span><button type="button" class="btn sm ghost" id="cz-acc-reset" ${czDraft.acc?"":"hidden"}>Use default</button></div></div>
     <div class="modal-actions"><button class="btn ghost" id="cz-cancel">Cancel</button><button class="btn primary" id="cz-save">Save</button></div>
   </div></div>`;
@@ -3674,6 +3682,9 @@ function openCustomize(pre){
     else czDraft[k]=e.target.value;
     czPreview(); });
   $("#cz-acc-reset").onclick=()=>{ czDraft.acc=null; $("#cz-acc").value="#ff3b36"; $("#cz-acc-reset").hidden=true; czPreview(); };
+  $("#cz-badges")?.addEventListener("click",e=>{ const b=e.target.closest("[data-bdg]"); if(!b) return; const id=b.dataset.bdg;
+    if(czDraft.badges.has(id)) czDraft.badges.delete(id); else { if(czDraft.badges.size>=6){ toast("You can show up to 6 badges."); return; } czDraft.badges.add(id); }
+    b.setAttribute("aria-pressed",String(czDraft.badges.has(id))); });
   $("#cz-gd-row").addEventListener("click",e=>{ const b=e.target.closest("[data-gd]"); if(!b) return; czDraft.gd=b.dataset.gd; czPreview(); });
   $("#cz-save").onclick=async()=>{ const d=czDraft, p={};
     if(d.frame!=="none"){ p.frame=d.frame; p.f1=d.f1; p.f2=d.f2; }
@@ -3681,7 +3692,9 @@ function openCustomize(pre){
     if(d.hfx!=="none") p.hfx=d.hfx;
     if(d.acc) p.acc=d.acc;
     $("#cz-save").disabled=true;
-    try{ await api.rpc("set_look",{p}); USERS.me.look=cleanLook(p); closeModal(); refreshAll(); renderAccountBtn(); toast("Looking good!"); }
+    try{ await api.rpc("set_look",{p}); USERS.me.look=cleanLook(p);
+      const bl=[...czDraft.badges]; if(bl.slice().sort().join()!==badgesBefore){ await api.rpc("set_badges",{p:bl}); USERS.me.badgesShown=bl; delete BADGES.me; }
+      closeModal(); refreshAll(); renderAccountBtn(); toast("Looking good!"); }
     catch(e){ fail(e); $("#cz-save").disabled=false; } };
 }
 
@@ -3797,9 +3810,13 @@ function openGif(btn){
   const p=document.createElement("div"); p.id="gif-picker"; p.className="gif-picker"; p.setAttribute("role","dialog"); p.setAttribute("aria-label","Pick a GIF");
   p.innerHTML=`<input id="gp-q" type="search" placeholder="Search GIFs" aria-label="Search GIFs" autocomplete="off"><div class="gp-body" id="gp-body"></div><div class="gp-foot">Powered by <b>KLIPY</b></div>`;
   document.body.appendChild(p);
-  const r=btn.getBoundingClientRect(), w=Math.min(340,innerWidth-24), h=p.offsetHeight;
-  let top=r.bottom+6; if(top+h>innerHeight-12) top=Math.max(12,r.top-h-6);
-  p.style.left=Math.min(Math.max(12,r.left),innerWidth-w-12)+"px"; p.style.top=top+"px"; p.style.width=w+"px";
+  const r=btn.getBoundingClientRect(), w=Math.min(340,innerWidth-24);
+  // fixed height, so we know its real size before the GIFs load: open below if it fits, otherwise above, otherwise wherever there's more room
+  const below=innerHeight-r.bottom-18, above=r.top-18, h=Math.min(420,Math.max(220,Math.max(below,above)));
+  p.style.height=h+"px";
+  let top=below>=h?r.bottom+6:above>=h?r.top-h-6:(below>=above?r.bottom+6:r.top-h-6);
+  top=Math.max(12,Math.min(top,innerHeight-h-12));
+  p.style.left=Math.min(Math.max(12,r.left+r.width-w),innerWidth-w-12)+"px"; p.style.top=top+"px"; p.style.width=w+"px";
   $("#gp-q").addEventListener("input",e=>{ clearTimeout(gifTimer); const q=e.target.value.trim(); gifTimer=setTimeout(()=>gifSearch(q),350); });
   if(matchMedia("(hover:hover)").matches) $("#gp-q").focus();
   gifSearch("");

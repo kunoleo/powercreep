@@ -943,7 +943,11 @@ svg.stk{display:block}
 @keyframes pc-slap{from{transform:rotate(var(--r,0deg)) scale(2.2);opacity:0}to{transform:rotate(var(--r,0deg)) scale(1);opacity:1}}
 
 /* Customize modal */
-.cz-prev{display:flex;align-items:center;gap:16px;padding:18px;border-radius:14px;background:var(--bg);margin:6px 0 4px;min-height:120px}
+.cz-prev{position:relative;overflow:hidden;padding:0;border-radius:14px;background:var(--bg);margin:6px 0 4px;min-height:120px;isolation:isolate}
+.cz-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
+.cz-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,14,.55),rgba(10,10,14,.15) 70%);pointer-events:none}
+.cz-fg{--ink:#f4f4f5;color:#f4f4f5;position:relative;z-index:2;display:flex;align-items:center;gap:16px;padding:22px 18px;min-height:120px}
+.cz-fg .meta{color:#e4e4ea;text-shadow:0 1px 2px rgba(0,0,0,.6)}
 .cz-prev .nm{font-family:var(--f-display);font-weight:800;font-size:22px}
 .cz-row{display:flex;gap:8px;align-items:center}
 .cz-row select{flex:1;min-width:0}
@@ -3624,7 +3628,10 @@ async function buyItem(id,btn){
 let czDraft=null;
 function czPreview(){ const me=U("me"), d=czDraft;
   const look={...d, frame:d.frame==="none"?undefined:d.frame, name:d.name==="none"?undefined:d.name};
-  $("#cz-prev").innerHTML=frameWrap(look,`<span class="mini-av" style="width:64px;height:64px;font-size:26px;border-radius:16px;${grad(me.h)}">${avatarInner(me.avatar,me.name)}</span>`)+`<div>${nameStyled(look,me.name)}<div class="meta" style="margin-top:4px">${esc(me.handle)}</div></div>`;
+  const box=$("#cz-prev");
+  if(!box.querySelector(".cz-fg")){ box.innerHTML=`<div class="cz-bg" id="cz-bg" style="background:${esc(bannerBg(me.banner))}"></div><div class="cz-fg" id="cz-fg"></div>`; box.dataset.hfx="-"; }
+  if(box.dataset.hfx!==d.hfx){ box.dataset.hfx=d.hfx; $("#cz-bg").innerHTML=d.hfx==="none"?"":hfxHtml(d.hfx); }   // only redraw the effect when it changes
+  $("#cz-fg").innerHTML=frameWrap(look,`<span class="mini-av" style="width:64px;height:64px;font-size:26px;border-radius:16px;${grad(me.h)}">${avatarInner(me.avatar,me.name)}</span>`)+`<div>${nameStyled(look,me.name)}<div class="meta" style="margin-top:4px">${esc(me.handle)}</div></div>`;
   const n=(NSTYLES.find(x=>x[0]===d.name)||[0,0,0])[2];
   $("#cz-c1").hidden=n<1; $("#cz-c2").hidden=n<2; $("#cz-c3").hidden=n<3; $("#cz-f1").hidden=$("#cz-f2").hidden=d.frame==="none";
   $("#cz-gd-row").hidden=!["gradient","shift"].includes(d.name);

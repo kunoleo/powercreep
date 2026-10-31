@@ -748,7 +748,16 @@ body.joinmode .fab-wrap,body.legalmode .fab-wrap{display:none}
 .gif-picker input{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:7px 10px;font:inherit;font-size:14px}
 .gp-body{overflow:auto;min-height:120px;flex:1}
 .gp-grid{columns:3 90px;column-gap:4px}
-.gp-g{display:block;width:100%;border:0;padding:0;margin:0 0 4px;background:var(--surface-2);border-radius:8px;overflow:hidden;break-inside:avoid}
+.gp-g{display:block;width:100%;border:0;padding:0;margin:0;background:var(--surface-2);border-radius:8px;overflow:hidden}
+.gp-cell{position:relative;margin:0 0 4px;break-inside:avoid}
+.gif-star{position:absolute;top:4px;right:4px;width:26px;height:26px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:14px;line-height:1;display:grid;place-items:center;opacity:0;transition:opacity .12s;padding:0}
+.gp-cell:hover .gif-star,.cmt-gif-w:hover .gif-star,.gif-star:focus-visible,.gif-star[aria-pressed="true"]{opacity:1}
+.gif-star[aria-pressed="true"]{color:#ffd23b}
+@media (hover:none){.gif-star{opacity:.85}}
+.cmt-gif-w{position:relative;display:inline-block;margin-top:6px}.cmt-gif-w .cmt-gif{margin-top:0}
+.gp-tabs{display:flex;gap:4px}
+.gp-tabs button{flex:1;border:1px solid var(--line);background:none;color:var(--muted);border-radius:999px;padding:5px 8px;font:inherit;font-size:12.5px;font-weight:700}
+.gp-tabs button[aria-pressed="true"]{background:var(--surface-2);color:var(--ink)}
 .gp-g img{display:block;width:100%;height:auto}
 .gp-g:hover,.gp-g:focus-visible{outline:2px solid var(--accent)}
 .gp-note{color:var(--muted);font-size:13px;text-align:center;padding:30px 10px}
@@ -1102,6 +1111,7 @@ svg.stk{display:block}
           <tr><td>Notifications</td><td>When someone comments on your post, signs your guestbook or follows you, so we can tell you. Only you can see them. Deleted after 3 months, or when you clear them.</td><td>Needed to run your account</td></tr>
           <tr><td>Levels, XP and Volts</td><td>Your level, XP and Volts (shown on your profile), the stickers and cosmetics you own, the stickers you gave, and a list of what you earned XP for and when (like "commented" or "gave a sticker"), so we can count quests and daily limits. Only you can see that list.</td><td>Needed to run your account</td></tr>
           <tr><td>Old usernames</td><td>If you change your @username, the old one is kept so old links and @mentions still lead to you, and so nobody else can take it for 30 days. Old usernames can be seen by anyone, like your current one.</td><td>Needed to run your account</td></tr>
+          <tr><td>Favorite GIFs</td><td>The links to GIFs you star, so they're there on any device. Only you can see them.</td><td>Needed to run your account</td></tr>
           <tr><td>People you mute or block</td><td>So their content stays hidden for you. Only you can see this list.</td><td>Needed to run your account</td></tr>
           <tr><td>Reports you send</td><td>So staff can handle them. Only staff can see who sent a report. Deleted 6 months after the report is closed.</td><td>Keeping the site safe, and legal duties</td></tr>
           <tr><td>Messages</td><td>Direct messages aren't switched on yet. When they are, they'll be end-to-end encrypted: we'll only store scrambled text we can't read, plus who sent it to whom and when.</td><td>Needed to run your account</td></tr>
@@ -3809,7 +3819,25 @@ async function openGift(key){
 const GIF_RE=/^https:\/\/([a-z0-9-]+\.)*klipy\.com\/[^\s"'<>]{1,400}$/;
 const cleanGif=u=>typeof u==="string"&&GIF_RE.test(u)?u:null;
 const GIFP={};   // GIF picked for each comment box, by the box's id
-const gifImg=u=>`<img class="cmt-gif" src="${esc(u)}" alt="GIF" loading="lazy" onerror="this.remove()">`;
+const gifImg=u=>`<span class="cmt-gif-w"><img class="cmt-gif" src="${esc(u)}" alt="GIF" loading="lazy" onerror="this.parentNode.remove()">${KLIPY_KEY?`<button type="button" class="gif-star" data-giffav="${esc(u)}" data-gthumb="${esc(u)}" aria-pressed="${isFavGif(u)}" aria-label="Favorite this GIF" title="Favorite">★</button>`:""}</span>`;
+/* ---------- Favorite GIFs (saved to your account, only you see them) ---------- */
+let GIF_FAV=null;   // [{url,thumb}], newest first
+const isFavGif=u=>!!GIF_FAV&&GIF_FAV.some(f=>f.url===u);
+async function loadGifFavs(){ if(GIF_FAV||!KLIPY_KEY) return; try{ GIF_FAV=await api.get("gif_favorites?select=url,thumb&order=created_at.desc&limit=200"); }catch(_){ GIF_FAV=[]; } }
+function gifGrid(list){ return `<div class="gp-grid">${list.map(x=>`<div class="gp-cell"><button type="button" class="gp-g" data-gifpick="${esc(x.full)}" title="${esc(x.title||"GIF")}" aria-label="${esc(x.title||"GIF")}"><img src="${esc(x.thumb)}" alt="" loading="lazy"></button><button type="button" class="gif-star" data-giffav="${esc(x.full)}" data-gthumb="${esc(x.thumb)}" aria-pressed="${isFavGif(x.full)}" aria-label="Favorite" title="Favorite">★</button></div>`).join("")}</div>`; }
+function showGifFavs(){ const body=$("#gp-body"); if(!body) return; gifSeq++;
+  body.innerHTML=GIF_FAV===null?`<div class="gp-note">Loading…</div>`:GIF_FAV.length?gifGrid(GIF_FAV.map(f=>({full:f.url,thumb:f.thumb,title:"Favorite GIF"}))):`<div class="gp-note">No favorites yet. Press ★ on any GIF to save it here.</div>`; }
+async function toggleGifFav(url,thumb,btn){
+  if(!cleanGif(url)||!cleanGif(thumb)) return; await loadGifFavs(); if(!GIF_FAV) return;
+  const on=!isFavGif(url);
+  try{
+    if(on){ if(GIF_FAV.length>=200) return toast("You can save up to 200 favorite GIFs."); await api.insert("gif_favorites",{url,thumb}); GIF_FAV.unshift({url,thumb}); toast("Added to your favorite GIFs."); }
+    else { await api.remove("gif_favorites","url=eq."+encodeURIComponent(url)); GIF_FAV=GIF_FAV.filter(f=>f.url!==url); toast("Removed from favorites."); }
+    document.querySelectorAll(`[data-giffav="${CSS.escape(url)}"]`).forEach(b=>b.setAttribute("aria-pressed",String(on)));
+    if($("#gp-tab-fav")?.getAttribute("aria-pressed")==="true") showGifFavs();
+  }catch(err){ if(/duplicate/i.test(err.message)){ GIF_FAV=null; await loadGifFavs(); } else fail(err); }
+}
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-giffav]"); if(!b) return; e.preventDefault(); e.stopPropagation(); toggleGifFav(b.dataset.giffav,b.dataset.gthumb,b); },true);
 const gifBtn=(id,label)=>KLIPY_KEY?`<button type="button" class="icon-btn gif-btn" data-gif-for="${id}" aria-label="Add a GIF">${label?"GIF":"<b>GIF</b>"}</button>`:"";
 let gifTarget=null, gifSeq=0, gifTimer=null;
 function gifCid(){ try{ let c=localStorage.getItem("pc-gif-id"); if(!c){ c=crypto.randomUUID(); localStorage.setItem("pc-gif-id",c); } return c; }catch(_){ return "anon"; } }
@@ -3822,7 +3850,7 @@ async function gifSearch(q){
     const d=await r.json(); if(seq!==gifSeq||!$("#gp-body")) return;
     const list=((d.data&&d.data.data)||[]).filter(x=>x&&x.type!=="ad"&&x.file).map(x=>{ const f=x.file, pick=(...k)=>{ for(const s of k){ const g=f[s]&&f[s].gif; if(g&&cleanGif(g.url)) return g.url; } return null; };
       return {full:pick("md","hd","sm"),thumb:pick("sm","xs","md"),title:String(x.title||"GIF").slice(0,80)}; }).filter(x=>x.full&&x.thumb);
-    body.innerHTML=list.length?`<div class="gp-grid">${list.map(x=>`<button type="button" class="gp-g" data-gifpick="${esc(x.full)}" title="${esc(x.title)}" aria-label="${esc(x.title)}"><img src="${esc(x.thumb)}" alt="" loading="lazy"></button>`).join("")}</div>`:`<div class="gp-note">No GIFs found.</div>`;
+    body.innerHTML=list.length?gifGrid(list):`<div class="gp-note">No GIFs found.</div>`;
   }catch(_){ if(seq===gifSeq&&$("#gp-body")) $("#gp-body").innerHTML=`<div class="gp-note">GIFs couldn't load right now. Try again in a bit.</div>`; }
 }
 function closeGif(){ const p=$("#gif-picker"); if(p) p.remove(); gifTarget=null; }
@@ -3830,7 +3858,7 @@ function openGif(btn){
   const id=btn.dataset.gifFor; if($("#gif-picker")&&gifTarget===id){ closeGif(); return; }
   closeGif(); closeEmoji(); gifTarget=id;
   const p=document.createElement("div"); p.id="gif-picker"; p.className="gif-picker"; p.setAttribute("role","dialog"); p.setAttribute("aria-label","Pick a GIF");
-  p.innerHTML=`<input id="gp-q" type="search" placeholder="Search GIFs" aria-label="Search GIFs" autocomplete="off"><div class="gp-body" id="gp-body"></div><div class="gp-foot">Powered by <b>KLIPY</b></div>`;
+  p.innerHTML=`<input id="gp-q" type="search" placeholder="Search GIFs" aria-label="Search GIFs" autocomplete="off"><div class="gp-tabs" role="group" aria-label="GIF lists"><button type="button" id="gp-tab-trend" aria-pressed="true">Trending</button><button type="button" id="gp-tab-fav" aria-pressed="false">★ Favorites</button></div><div class="gp-body" id="gp-body"></div><div class="gp-foot">Powered by <b>KLIPY</b></div>`;
   document.body.appendChild(p);
   const r=btn.getBoundingClientRect(), w=Math.min(340,innerWidth-24);
   // fixed height, so we know its real size before the GIFs load: open below if it fits, otherwise above, otherwise wherever there's more room
@@ -3839,7 +3867,11 @@ function openGif(btn){
   let top=below>=h?r.bottom+6:above>=h?r.top-h-6:(below>=above?r.bottom+6:r.top-h-6);
   top=Math.max(12,Math.min(top,innerHeight-h-12));
   p.style.left=Math.min(Math.max(12,r.left+r.width-w),innerWidth-w-12)+"px"; p.style.top=top+"px"; p.style.width=w+"px";
-  $("#gp-q").addEventListener("input",e=>{ clearTimeout(gifTimer); const q=e.target.value.trim(); gifTimer=setTimeout(()=>gifSearch(q),350); });
+  const tab=t=>{ $("#gp-tab-trend").setAttribute("aria-pressed",String(t==="trend")); $("#gp-tab-fav").setAttribute("aria-pressed",String(t==="fav")); };
+  $("#gp-tab-trend").onclick=()=>{ tab("trend"); $("#gp-q").value=""; gifSearch(""); };
+  $("#gp-tab-fav").onclick=async()=>{ tab("fav"); $("#gp-q").value=""; showGifFavs(); await loadGifFavs(); if($("#gp-tab-fav")?.getAttribute("aria-pressed")==="true") showGifFavs(); };
+  $("#gp-q").addEventListener("input",e=>{ clearTimeout(gifTimer); const q=e.target.value.trim(); tab("trend"); gifTimer=setTimeout(()=>gifSearch(q),350); });
+  loadGifFavs();
   if(matchMedia("(hover:hover)").matches) $("#gp-q").focus();
   gifSearch("");
 }
@@ -4146,7 +4178,8 @@ window.addEventListener("resize",closeMention);
 /* ---------- Export your level data too ---------- */
 async function levelExport(){ if(LV.missing) return {};
   try{ const [owned,stk,xp,claims]=await Promise.all([api.get("owned_items?select=item_id,created_at"),api.get("post_stickers?select=post_id,sticker,created_at&user_id=eq."+ME_ID),api.get("xp_log?select=kind,amount,created_at&order=created_at.desc&limit=5000"),api.get("quest_claims?select=quest_id,period_at,created_at")]);
-    return {items_owned:owned,stickers_given:stk,xp_earned:xp,quests_claimed:claims}; }catch(_){ return {}; } }
+    let favs=[]; try{ favs=await api.get("gif_favorites?select=url,created_at"); }catch(_){}
+    return {items_owned:owned,stickers_given:stk,xp_earned:xp,quests_claimed:claims,favorite_gifs:favs}; }catch(_){ return {}; } }
 
 document.addEventListener("click",e=>{
   if(!e.target.closest("#stk-pick")&&!e.target.closest("[data-spick]")) closeStkPick();
@@ -4174,7 +4207,7 @@ async function start(){
   loadNotices().catch(()=>{});
   loadNotifCount(); clearInterval(notifTimer); notifTimer=setInterval(loadNotifCount,60000);
   clearInterval(newTimer); newTimer=setInterval(checkNew,45000);
-  checkLevelSeen();
+  checkLevelSeen(); loadGifFavs();
 }
 (async()=>{
   if(!CONFIGURED){ route(); return; }

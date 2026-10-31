@@ -262,6 +262,22 @@ body.owner .visitor-only{display:none}
 .live-ph p{margin:6px 0 12px;font-size:14px;color:#aaa;max-width:40ch}
 .live-ph .btn{background:#2a2a30;color:#fff;border-color:#3a3a42;text-decoration:none}
 .live-own{margin-top:10px}
+.live-wrap{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;align-items:stretch}
+.live-wrap.nochat{grid-template-columns:minmax(0,1fr)}
+.live-main{min-width:0}
+.live-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.live-bar .sp{flex:1}
+.live-bar .btn.tw{background:#9146ff;border-color:#9146ff;color:#fff;text-decoration:none}
+.live-chat{display:flex;flex-direction:column;min-height:420px;border:1px solid #2f2f35;border-radius:14px;overflow:hidden;background:#18181b;color:#efeff1}
+.lc-h{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid #2f2f35;font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em}
+.lc-h span{flex:1}.lc-h .tw-logo{width:18px;height:18px}
+.lc-ib{border:0;background:none;color:#adadb8;padding:4px;border-radius:6px;display:grid;place-items:center}
+.lc-ib:hover{background:#2f2f35;color:#fff}.lc-ib svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2}
+.live-chat iframe{flex:1;width:100%;border:0;min-height:380px}
+.lc-ph{flex:1;display:grid;place-content:center;gap:10px;text-align:center;padding:20px;color:#c8c8d0;font-size:14px}
+.lc-ph p{margin:0}.lc-ph .meta{color:#8a8a94}.lc-ph .btn{justify-self:center}
+@media (max-width:820px){.live-wrap{grid-template-columns:minmax(0,1fr)}.live-chat{min-height:420px;height:420px}}
+#nav-staff{display:none!important}
 .live-setup{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;max-width:560px}
 .live-setup p{margin:0}
 .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#9146ff;margin-right:6px;vertical-align:1px}
@@ -1140,7 +1156,7 @@ svg.stk{display:block}
         <li><b>ImgBB</b>, only when you use an Upload image button or paste a picture into a post. The picture goes straight from your browser to ImgBB, which hosts it at a public link. Power Creep only saves that link. ImgBB can see your IP address while uploading.</li>
         <li><b>KLIPY</b>, only when you open the GIF picker. Your search words and a random ID (not linked to your account) go to KLIPY to find GIFs, and GIFs in comments load from KLIPY's servers, which can see your IP address.</li>
         <li><b>Gravatar</b>, only if you choose a Gravatar avatar. A scrambled code made from your email is used to load the picture.</li>
-        <li><b>YouTube, SoundCloud, Twitch, Spotify, Vimeo and Bandcamp</b>. Their players only load when you press play, and from then on their own privacy policies apply. YouTube videos use YouTube's privacy-enhanced mode.</li>
+        <li><b>YouTube, SoundCloud, Twitch, Spotify, Vimeo and Bandcamp</b>. Their players (and Twitch's chat on the Live tab) only load when you press play, and from then on their own privacy policies apply. YouTube videos use YouTube's privacy-enhanced mode.</li>
         <li><b>Thumbnails and linked images</b> load straight from the sites that host them, like YouTube or Imgur. Like any picture on the web, that means those sites can see your IP address when the picture loads.</li>
       </ul>
       <p>Some of these companies are based outside the EU, mainly in the US. They're covered by safeguards approved by the EU for this kind of transfer.</p>
@@ -1713,7 +1729,7 @@ async function loadProfile(key){
   items=media.map(itemFromRow).filter(Boolean);
   const pin=U(key).pinned; if(pin&&!posts.some(p=>p.id===pin)) await loadPosts("id=eq."+pin).catch(()=>{});
   VIEW={key,followers,following}; await loadGuestbook(key).catch(()=>{ VIEW.gb=[]; });
-  state.twitch=U(key).twitch; state.liveOn=false;
+  state.twitch=U(key).twitch; state.liveOn=false; state.chatOn=false;
 }
 async function loadNotices(){
   const rows=await api.get("notices?select=*&read=eq.false&order=created_at.desc&limit=20");
@@ -1874,8 +1890,17 @@ function liveHtml(){
     :!location.hostname?`<div class="live-frame live-ph"><div><b>twitch.tv/${esc(ch)}</b><p>Twitch only plays on a real web address, like your GitHub Pages site, not from a file on your computer.</p></div></div>`
     :state.liveOn?`<div class="live-frame"><iframe title="${esc(ch)} on Twitch" src="${twitchSrc(tw)}" allow="autoplay; fullscreen" allowfullscreen></iframe></div>`
     :`<button class="live-frame live-ph live-click" id="live-watch"><div><span class="big-play">${playSvg}</span><b>Watch twitch.tv/${esc(ch)}</b><p>Pressing play loads Twitch's player, and Twitch's privacy policy applies to it. If they're offline, Twitch shows their offline screen.</p></div></button>`;
-  return frame+(!own?`<p class="meta live-own"><button class="tagbtn" id="live-report">Report this channel</button> if it isn't really theirs.</p>`:"")+(own?`<p class="meta live-own">Showing twitch.tv/${esc(ch)} · <button class="tagbtn" id="live-change">Change</button> · <button class="tagbtn" id="live-remove">Remove</button></p>`:"");
+  // Twitch's own chat next to the stream. Like the player, it only loads when you ask for it.
+  const canEmbed=LIVE&&!!location.hostname, chatOn=state.liveOn||state.chatOn, hidden=liveChatHidden();
+  const twLogo=`<svg class="tw-logo" viewBox="0 0 24 24" aria-hidden="true"><path fill="#9146ff" d="M4 2 2.5 6v14h5v3h3l3-3h4l5-5V2zm16 12-3 3h-4l-3 3v-3H6V4h14z"/><path fill="#9146ff" d="M15 7h2v5h-2zM10 7h2v5h-2z"/></svg>`;
+  const chat=`<aside class="live-chat" aria-label="Stream chat"><div class="lc-h">${twLogo}<span>Stream chat</span><button class="lc-ib" id="live-popout" title="Pop out chat" aria-label="Pop out chat into its own window"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5H5V6h5"/></svg></button></div>
+    ${chatOn&&canEmbed?`<iframe title="Twitch chat for ${esc(ch)}" src="https://www.twitch.tv/embed/${encodeURIComponent(ch)}/chat?parent=${encodeURIComponent(location.hostname)}${isDark()?"&darkpopout":""}"></iframe>`
+      :`<div class="lc-ph"><p>The chat loads together with the stream.</p>${canEmbed?`<button class="btn sm" id="live-chat-only">Open chat only</button>`:""}<p class="meta">It's Twitch's own chat, so you chat with your Twitch account.</p></div>`}</aside>`;
+  const bar=`<div class="live-bar"><span class="meta">twitch.tv/${esc(ch)}</span><span class="sp"></span><button class="btn sm" id="live-chat-toggle">${hidden?"Show chat":"Hide chat"}</button><a class="btn sm tw" href="https://www.twitch.tv/${esc(ch)}" target="_blank" rel="noopener">Open on Twitch</a></div>`;
+  return `<div class="live-wrap ${hidden?"nochat":""}"><div class="live-main">${frame}${bar}</div>${hidden?"":chat}</div>`
+    +(!own?`<p class="meta live-own"><button class="tagbtn" id="live-report">Report this channel</button> if it isn't really theirs.</p>`:"")+(own?`<p class="meta live-own">Showing twitch.tv/${esc(ch)} · <button class="tagbtn" id="live-change">Change</button> · <button class="tagbtn" id="live-remove">Remove</button></p>`:"");
 }
+function liveChatHidden(){ try{ return localStorage.getItem("pc-live-chat-hidden")==="1"; }catch(_){ return false; } }
 function renderGrid(){
   const g=$("#grid"); g.classList.toggle("as-list",["feed","liked","live","guestbook"].includes(state.tab));
   if(VIEW.key!=="me"&&BLOCKED.has(idOf(VIEW.key))){ g.classList.add("as-list"); g.innerHTML=blockedNotice(); return; }
@@ -3417,6 +3442,9 @@ document.addEventListener("click",e=>{
   else if(t.dataset.editm){ const it=items.find(i=>i.id===t.dataset.editm); openAddMedia(); openForm({games:"game",music:"music",videos:"video",art:"art"}[it.tab],it); }
   else if(t.id==="edit-profile") openSettings();
   else if(t.id==="live-watch"){ state.liveOn=true; renderGrid(); }
+  else if(t.id==="live-chat-only"){ state.chatOn=true; renderGrid(); }
+  else if(t.id==="live-chat-toggle"){ try{ localStorage.setItem("pc-live-chat-hidden",liveChatHidden()?"0":"1"); }catch(_){} renderGrid(); }
+  else if(t.id==="live-popout"){ const w=window.open(`https://www.twitch.tv/popout/${encodeURIComponent(state.twitch)}/chat?popout=`,"pc-twitch-chat","width=380,height=680"); if(!w) location.href=`https://www.twitch.tv/popout/${encodeURIComponent(state.twitch)}/chat?popout=`; }
   else if(t.id==="live-change"){ state.liveOn=false; saveMe({twitch:null},"Paste your new channel link.").then(()=>{ state.twitch=null; renderGrid(); $("#live-in")?.focus(); }); }
   else if(t.id==="live-remove"){ saveMe({twitch:null},"Twitch channel removed from your profile.").then(()=>{ state.twitch=null; state.liveOn=false; renderTabs(); renderGrid(); }); }
   else if(t.id==="nav-logout"){ e.preventDefault(); api.signOut().then(()=>{ location.hash="login"; location.reload(); }); }

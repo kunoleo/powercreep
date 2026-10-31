@@ -672,6 +672,51 @@ body.joinmode .fab-wrap,body.legalmode .fab-wrap{display:none}
 #view-feed .post .comments,#view-profile .post .comments{cursor:auto}
 .p-time{color:inherit;text-decoration:none}.p-time:hover{text-decoration:underline}
 .cmt.reply{margin-left:38px}
+.up-row{display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap}
+.up-btn{display:inline-flex;align-items:center;gap:6px}
+.up-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ps-user-row{display:flex;align-items:center;gap:6px}
+.ps-user-row .at{color:var(--muted);font-weight:700}
+.ps-user-row input{flex:1;min-width:0}
+.hint.bad{color:var(--danger)}.hint.good{color:var(--ok)}
+.cmt-acts{display:flex;align-items:center;gap:12px;margin-top:3px}
+.cmt-like{display:inline-flex;align-items:center;gap:4px;border:0;background:none;color:var(--muted);font:inherit;font-size:12.5px;font-weight:700;padding:2px 0}
+.cmt-like svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.cmt-like:hover{color:var(--ink)}
+.cmt-like.liked{color:var(--accent)}.cmt-like.liked svg{fill:currentColor}
+.cmt-acts .cmt-reply{margin-top:0}
+/* new frames */
+.fr.f-orbit::before{inset:calc(var(--fw) * -2.2);border-radius:50%;border:1px solid color-mix(in srgb,var(--f1) 45%,transparent);background:radial-gradient(circle at 50% calc(var(--fw) * .9),var(--f2) 0 calc(var(--fw) * .7),var(--f1) calc(var(--fw) * 1),transparent calc(var(--fw) * 1.8));animation:pc-march calc(var(--fs) * 1.8) linear infinite;filter:drop-shadow(0 0 4px var(--f1))}
+.fr.f-pulse::before,.fr.f-pulse::after{inset:0;border:2px solid var(--f1);animation:pc-pulse calc(var(--fs) * 1.1) ease-out infinite}
+.fr.f-pulse::after{border-color:var(--f2);animation-delay:calc(var(--fs) * -.55)}
+@keyframes pc-pulse{0%{transform:scale(1);opacity:.95}100%{transform:scale(1.32);opacity:0}}
+.fr.f-holo::before{inset:calc(var(--fw) * -.8);background:linear-gradient(120deg,var(--f1),var(--f2),#ffffff,var(--f1));background-size:300% 300%;animation:pc-holo calc(var(--fs) * 2) linear infinite;filter:drop-shadow(0 0 6px var(--f1))}
+.fr.f-holo::after{inset:0;z-index:3;background:repeating-linear-gradient(0deg,rgba(255,255,255,.16) 0 1px,transparent 1px 3px);mix-blend-mode:screen;animation:pc-scan 1.6s linear infinite}
+@keyframes pc-holo{to{background-position:300% 300%}}
+@keyframes pc-scan{to{background-position:0 12px}}
+.fr.f-drip::before{inset:0;box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 3) var(--f1)}
+.dr{position:absolute;top:94%;width:9%;height:0;background:var(--f1);border-radius:0 0 50% 50%/0 0 70% 70%;box-shadow:0 0 6px var(--f1);animation:pc-drip calc(var(--fs) * 1.6) ease-in infinite}
+.dr:nth-child(1){left:14%}.dr:nth-child(2){left:38%;animation-delay:-.7s}.dr:nth-child(3){left:61%;animation-delay:-1.4s;width:7%}.dr:nth-child(4){left:82%;animation-delay:-2s}
+@keyframes pc-drip{0%{height:0;opacity:1}60%{height:22%;opacity:1}100%{height:26%;opacity:0;transform:translateY(40%)}}
+.fr.f-aurora::before{inset:calc(var(--fw) * -1.6);border-radius:50%;background:conic-gradient(from var(--pca,0deg),var(--f1),var(--f2),#3bd5ff,var(--f1));filter:blur(calc(var(--fw) * 1.6));opacity:.9;animation:pc-spin calc(var(--fs) * 2.5) linear infinite}
+/* new name styles */
+.nm.n-fire{background:linear-gradient(0deg,#ff2a00,#ff8a00 45%,#ffe14a);-webkit-background-clip:text;background-clip:text;color:transparent;animation:pc-fire .8s ease-in-out infinite alternate}
+@keyframes pc-fire{from{filter:drop-shadow(0 0 2px rgba(255,90,0,.55))}to{filter:drop-shadow(0 -1px 6px rgba(255,140,0,.9))}}
+.nm.n-outline{color:transparent;-webkit-text-stroke:1.2px var(--c1);text-shadow:0 0 8px color-mix(in srgb,var(--c1) 45%,transparent)}
+.nm.n-retro{color:var(--c1);text-shadow:1px 1px 0 var(--c2),2px 2px 0 var(--c2),3px 3px 0 color-mix(in srgb,var(--c2) 60%,#000)}
+.nm.n-rainbow{background:linear-gradient(90deg,#ff3b3b,#ff9a3b,#ffe14a,#3bff7a,#3bb4ff,#b04bff,#ff3b3b);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:pc-rainbow 4s linear infinite}
+@keyframes pc-rainbow{to{background-position:200% 0}}
+/* new header effects */
+.hfx.fx-stars i{width:3px;height:3px;background:#fff;box-shadow:0 0 6px #fff;animation-name:pc-twinkle;animation-timing-function:ease-in-out}
+@keyframes pc-twinkle{0%,100%{opacity:.08;transform:scale(.6)}50%{opacity:1;transform:scale(1.2)}}
+.hfx.fx-sakura i{top:-8%;width:9px;height:7px;border-radius:70% 0 70% 0;background:#ffb7d5;opacity:.9;animation-name:pc-petal}
+@keyframes pc-petal{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(70px,340px) rotate(540deg)}}
+.hfx.fx-fireflies i{width:4px;height:4px;background:#efff8a;box-shadow:0 0 10px 3px #d4ff3b;animation-name:pc-fly;animation-timing-function:ease-in-out;animation-direction:alternate}
+@keyframes pc-fly{0%{opacity:.15;transform:translate(0,0)}50%{opacity:1}100%{opacity:.25;transform:translate(34px,-22px)}}
+.hfx.fx-data i{top:-25%;width:2px;height:46px;border-radius:2px;background:linear-gradient(transparent,#3bff7a);box-shadow:0 0 6px #3bff7a;animation-name:pc-drop}
+@keyframes pc-drop{to{transform:translateY(420px)}}
+.hfx.fx-bubbles i{bottom:-10%;width:11px;height:11px;border:1.5px solid rgba(190,235,255,.85);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.65),transparent 45%);animation-name:pc-bubble}
+@keyframes pc-bubble{0%{transform:translate(0,0) scale(.6);opacity:0}15%{opacity:1}100%{transform:translate(14px,-330px) scale(1.15);opacity:0}}
 .thumb-img.thumb-fb{filter:saturate(1.05)}
 .cmt-b .lvc,.gb-h .lvc{margin-left:5px}
 .cmt-reply{border:0;background:none;color:var(--muted);font:inherit;font-size:12.5px;font-weight:700;padding:2px 0;margin-top:2px}
@@ -906,7 +951,7 @@ svg.stk{display:block}
 .cz-note{font-size:12.5px;color:var(--muted);margin:4px 0 0}
 .lvup .big{font-size:56px;font-family:var(--f-display);font-weight:800;line-height:1;margin:6px 0}
 .lvup{text-align:center}
-@media (prefers-reduced-motion:reduce){.fr::before,.fr::after,.fr>*,.fl,.sp,.hfx i,.nm,.nm::before,.nm::after,.claim.ready{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.fr::before,.fr::after,.fr>*,.fl,.sp,.dr,.hfx i,.nm,.nm::before,.nm::after,.claim.ready{animation:none!important}}
 </style>
 </head>
 <body>
@@ -1033,6 +1078,7 @@ svg.stk{display:block}
           <tr><td>Your posts, comments, media links and hashtags, likes and follows</td><td>So the site works. What you liked is private, but like counts are public.</td><td>Needed to run your account</td></tr>
           <tr><td>Notifications</td><td>When someone comments on your post, signs your guestbook or follows you, so we can tell you. Only you can see them. Deleted after 3 months, or when you clear them.</td><td>Needed to run your account</td></tr>
           <tr><td>Levels, XP and Volts</td><td>Your level, XP and Volts (shown on your profile), the stickers and cosmetics you own, the stickers you gave, and a list of what you earned XP for and when (like "commented" or "gave a sticker"), so we can count quests and daily limits. Only you can see that list.</td><td>Needed to run your account</td></tr>
+          <tr><td>Old usernames</td><td>If you change your @username, the old one is kept so old links and @mentions still lead to you, and so nobody else can take it for 30 days. Old usernames can be seen by anyone, like your current one.</td><td>Needed to run your account</td></tr>
           <tr><td>People you mute or block</td><td>So their content stays hidden for you. Only you can see this list.</td><td>Needed to run your account</td></tr>
           <tr><td>Reports you send</td><td>So staff can handle them. Only staff can see who sent a report. Deleted 6 months after the report is closed.</td><td>Keeping the site safe, and legal duties</td></tr>
           <tr><td>Messages</td><td>Direct messages aren't switched on yet. When they are, they'll be end-to-end encrypted: we'll only store scrambled text we can't read, plus who sent it to whom and when.</td><td>Needed to run your account</td></tr>
@@ -1053,6 +1099,7 @@ svg.stk{display:block}
         <li><b>Supabase</b> runs our database and login system, on servers in the EU (Ireland), under a data processing agreement with us.</li>
         <li><b>GitHub Pages</b> hosts the website's files. GitHub logs visitors' IP addresses for security. See GitHub's privacy statement.</li>
         <li><b>Google</b>, only if you choose "Sign up with Google" (not switched on yet). Google confirms who you are and gives us your email address. Google knows you used it.</li>
+        <li><b>ImgBB</b>, only when you use an Upload image button or paste a picture into a post. The picture goes straight from your browser to ImgBB, which hosts it at a public link. Power Creep only saves that link. ImgBB can see your IP address while uploading.</li>
         <li><b>KLIPY</b>, only when you open the GIF picker. Your search words and a random ID (not linked to your account) go to KLIPY to find GIFs, and GIFs in comments load from KLIPY's servers, which can see your IP address.</li>
         <li><b>Gravatar</b>, only if you choose a Gravatar avatar. A scrambled code made from your email is used to load the picture.</li>
         <li><b>YouTube, SoundCloud, Twitch, Spotify, Vimeo and Bandcamp</b>. Their players only load when you press play, and from then on their own privacy policies apply. YouTube videos use YouTube's privacy-enhanced mode.</li>
@@ -1245,16 +1292,18 @@ svg.stk{display:block}
     <article class="legal help">
       <h1>Help</h1>
       <p class="legal-date">Quick answers for using Power Creep.</p>
-      <nav class="help-toc"><a href="#help" data-hjump="h-images">Getting an image link</a><a href="#help" data-hjump="h-sizes">Avatar and header sizes</a><a href="#help" data-hjump="h-media">Adding games, music, art and videos</a><a href="#help" data-hjump="h-format">Bold, italic and big text</a><a href="#help" data-hjump="h-tags">Hashtags</a><a href="#help" data-hjump="h-ai">AI labels</a><a href="#help" data-hjump="h-safety">Muting, blocking and reporting</a><a href="#help" data-hjump="h-levels">Levels, quests and the shop</a></nav>
+      <nav class="help-toc"><a href="#help" data-hjump="h-images">Adding pictures</a><a href="#help" data-hjump="h-sizes">Avatar and header sizes</a><a href="#help" data-hjump="h-media">Adding games, music, art and videos</a><a href="#help" data-hjump="h-format">Bold, italic and big text</a><a href="#help" data-hjump="h-tags">Hashtags</a><a href="#help" data-hjump="h-ai">AI labels</a><a href="#help" data-hjump="h-safety">Muting, blocking and reporting</a><a href="#help" data-hjump="h-levels">Levels, quests and the shop</a></nav>
 
-      <h2 id="h-images">Getting an image link</h2>
-      <p>Power Creep doesn't store pictures. Instead, you upload your image to an image site and paste its link. Imgur is the easiest:</p>
+      <h2 id="h-images">Adding pictures</h2>
+      <p>Press <b>Upload image</b> wherever you can add a picture (posts, avatar, header and art), and pick a file from your device. In the post box you can also just paste a picture or drag it in.</p>
+      <p>Power Creep doesn't store pictures itself: your upload goes straight to <b>ImgBB</b>, a free image host, and only the link is saved here.</p>
+      <h3 style="font-size:16px;margin:14px 0 6px">Prefer pasting a link?</h3>
       <ol class="help-steps">
-        <li>Go to <a href="https://imgur.com/upload" target="_blank" rel="noopener">imgur.com/upload</a> and upload your image. You don't need an account.</li>
-        <li>When it's uploaded, <b>right-click the image</b> and choose <b>Copy Image Link</b> (on a phone, press and hold the image).</li>
-        <li>Paste the link on Power Creep and click Save.</li>
+        <li>Upload your picture to an image site, like <a href="https://imgbb.com" target="_blank" rel="noopener">imgbb.com</a> or <a href="https://postimages.org" target="_blank" rel="noopener">postimages.org</a>.</li>
+        <li><b>Right-click the image</b> and choose <b>Copy Image Link</b> (on a phone, press and hold the image).</li>
+        <li>Paste the link on Power Creep.</li>
       </ol>
-      <div class="help-tip"><b>The link must go to the image itself.</b> It looks like <code>https://i.imgur.com/abc123.png</code>, starting with <code>i.imgur.com</code> and ending in .png, .jpg or .gif. A link like <code>imgur.com/a/abc123</code> is the page around the image, and won't work.</div>
+      <div class="help-tip"><b>The link must go to the image itself.</b> It looks like <code>https://i.ibb.co/abc123/picture.png</code>, ending in .png, .jpg or .gif. A link to the page around the image won't work. <br><b>Note:</b> Imgur is blocked in the UK, so people there can't see Imgur pictures.</div>
       <p>You can also use images from these sites: <span id="help-sites"></span>. Other sites aren't allowed, because they could swap the picture after it's posted.</p>
       <p><b>"That image couldn't be loaded"?</b> The link might be to a page instead of the image, or the site blocks its images from showing elsewhere. Upload it to Imgur instead.</p>
 
@@ -1369,6 +1418,8 @@ const CATS = {
 const SUPABASE_URL = "https://dqpchqeuerjdivddwiek.supabase.co";
 const SUPABASE_KEY = "sb_publishable_S05d3GeMsdGiHQAMdcc48g_6oImtkIl";
 // GIFs in comments and guestbooks come from KLIPY. Paste your free KLIPY API key here (klipy.com/developers). Empty = no GIF button.
+// Image uploads go straight from the browser to ImgBB; we only store the link. Paste your free ImgBB API key here. Empty = no upload buttons.
+const IMGBB_KEY = "51b51a62c34eeaf48f5b1f91ca7121af";
 const KLIPY_KEY = "jYtrT3pFf4XGmDQvEENa3fHjsad9VY05ygesbN0NXxIE17WeOZvtWYmdNi7knWja";
 /* ================================================== */
 const CONFIGURED = /^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(SUPABASE_URL) && SUPABASE_KEY.length > 20 && !SUPABASE_KEY.startsWith("__");
@@ -1536,6 +1587,7 @@ function userFromRow(r){
     links:cleanLinks(r.links),avatar:cleanAvatar(r.avatar),banner:cleanBanner(r.banner),
     twitch:/^[a-z0-9_]{3,25}$/.test(r.twitch||"")?r.twitch:null,staff:!!r.is_staff,suspended:!!r.suspended,h:hueOf(r.id),pinned:r.pinned_post||null,
     lv:r.level==null?undefined:Math.max(1,Math.min(100,+r.level||1)),xp:Math.max(0,+r.xp||0),volts:Math.max(0,+r.volts||0),look:cleanLook(r.look),
+    nameChanged:r.username_changed_at?Date.parse(r.username_changed_at):null,
     pronouns:String(r.pronouns||"").slice(0,20),guestbook:["everyone","following","off"].includes(r.guestbook)?r.guestbook:"everyone",brand:!!r.is_brand};
 }
 function putUser(r){ const u=userFromRow(r); USERS[keyOf(r.id)]=u; return u; }
@@ -1597,6 +1649,7 @@ async function loadMe(){
     api.get("likes?select=post_id&order=created_at.desc&limit=1000")]);
   fs.following=new Set(follows.map(f=>f.following));
   myLikes.clear(); likes.forEach(l=>myLikes.add(l.post_id));
+  try{ const cl=await api.get("comment_likes?select=comment_id&order=created_at.desc&limit=5000"); myCmtLikes.clear(); cl.forEach(l=>myCmtLikes.add(l.comment_id)); }catch(_){}
   try{ const ml=await api.get("media_likes?select=media_id&order=created_at.desc&limit=2000"); myMediaLikes.clear(); ml.forEach(l=>myMediaLikes.add(l.media_id)); }catch(_){}
 }
 async function loadFeed(){
@@ -2030,7 +2083,7 @@ function openHeader(){
       <p class="sub">Pick a free header, or link your own image. Power Creep doesn't store pictures.</p>
       <div class="opts" style="flex-direction:row;flex-wrap:wrap">
         <label class="opt" style="flex:1"><input type="radio" name="hds" id="hd-preset" value="preset"><div><b>Free headers</b><span>Power Creep styles in different colors</span></div></label>
-        <label class="opt" style="flex:1"><input type="radio" name="hds" id="hd-url" value="url"><div><b>Image link</b><span>Your own image from a supported site</span></div></label>
+        <label class="opt" style="flex:1"><input type="radio" name="hds" id="hd-url" value="url"><div><b>Image</b><span>Upload your own, or paste a link</span></div></label>
       </div>
       <div id="hd-preset-f" style="margin-top:12px"><div class="presets">${Object.entries(PRESETS).map(([k,p])=>`<button type="button" class="preset" data-preset="${k}" aria-pressed="false"><i style="background:${bannerBg({id:k})}"></i><span>${p.n}</span></button>`).join("")}</div></div>
       <div class="field" id="hd-url-f" hidden style="margin-top:12px"><label for="hd-url-in">Image link</label><input id="hd-url-in" placeholder="https://i.imgur.com/….png" autocomplete="off">
@@ -2077,7 +2130,7 @@ function openAvatar(){
       <p class="sub">Power Creep doesn't store pictures. Pick where your avatar comes from.</p>
       <div class="opts">
         <label class="opt"><input type="radio" name="avs" id="av-letter" value="letter"><div><b>Letter</b><span>Your initial on a colored tile</span></div></label>
-        <label class="opt"><input type="radio" name="avs" id="av-url" value="url"><div><b>Image link</b><span>From a supported site, like Imgur, Reddit, itch.io or DeviantArt</span></div></label>
+        <label class="opt"><input type="radio" name="avs" id="av-url" value="url"><div><b>Image</b><span>Upload one, or paste a link from a supported site</span></div></label>
         <label class="opt"><input type="radio" name="avs" id="av-grav" value="gravatar"><div><b>Gravatar</b><span>Uses the picture tied to your email on gravatar.com</span></div></label>
       </div>
       <div class="field" id="av-url-f" hidden style="margin-top:12px"><label for="av-url-in">Image link</label><input id="av-url-in" placeholder="https://i.imgur.com/….png" autocomplete="off"><div class="hint"><b>Recommended: square, 400 × 400 px</b> or larger. <a href="#help" class="help-link" data-hjump="h-images">How do I get an image link?</a></div><div class="msg" id="av-url-in-msg"></div></div>
@@ -2351,7 +2404,7 @@ async function openComments(p){
   if(fs.open.has(p.id)){ fs.open.delete(p.id); refreshPosts(); return; }
   fs.open.add(p.id); refreshPosts(); focusCmt(p.id);
   try{ const rows=await api.get("comments?select=*&order=created_at.asc&limit=200&post_id=eq."+p.id); await ensureUsers(rows.map(r=>r.author));
-    p.comments=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,t:Date.parse(r.created_at)})); p.cc=Math.max(p.cc,p.comments.length); refreshPosts(); focusCmt(p.id); }
+    p.comments=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,likes:r.like_count||0,t:Date.parse(r.created_at)})); p.cc=Math.max(p.cc,p.comments.length); refreshPosts(); focusCmt(p.id); }
   catch(err){ p.comments=[]; refreshPosts(); fail(err); }
 }
 document.addEventListener("click",async e=>{
@@ -2391,7 +2444,7 @@ document.addEventListener("submit",async e=>{
   const p=posts.find(x=>x.id===f.dataset.cform), inp=f.querySelector("input"), v=inp.value.trim(), gif=GIFP[inp.id]||null; if(!v&&!gif) return;
   inp.disabled=true;
   const rt=REPLYTO[p.id];
-  try{ const r=await api.insert("comments",{post_id:p.id,text:v,...(gif?{gif}:{}),...(rt?{parent_id:rt.top}:{})}); delete GIFP[inp.id]; delete REPLYTO[p.id]; (p.comments=p.comments||[]).push({id:r.id,u:"me",text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,t:Date.parse(r.created_at)}); p.cc++;
+  try{ const r=await api.insert("comments",{post_id:p.id,text:v,...(gif?{gif}:{}),...(rt?{parent_id:rt.top}:{})}); delete GIFP[inp.id]; delete REPLYTO[p.id]; (p.comments=p.comments||[]).push({id:r.id,u:"me",text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,likes:r.like_count||0,t:Date.parse(r.created_at)}); p.cc++;
     if(p.u!=="me") bump(p,3); refreshPosts(); focusCmt(p.id); }
   catch(err){ inp.disabled=false; fail(err); }
 });
@@ -2478,7 +2531,8 @@ function openSettings(){
       <p class="sub">Your name, pronouns, bio, links, guestbook and password.</p>
       <form id="pset" novalidate>
         <div class="fields">
-          <div class="field"><label for="ps-name">Display name</label><input id="ps-name" maxlength="40" autocomplete="off"></div>
+          <div class="field"><label for="ps-name">Display name</label><input id="ps-name" maxlength="40" autocomplete="off"><div class="hint">Change it whenever you like.</div></div>
+          <div class="field"><label for="ps-user">Username</label><div class="ps-user-row"><span class="at">@</span><input id="ps-user" maxlength="20" autocomplete="off" spellcheck="false" autocapitalize="off"><button type="button" class="btn sm" id="ps-user-go" disabled>Change</button></div><div class="hint" id="ps-user-msg"></div></div>
           <div class="field"><label for="ps-title">Title <i>(optional)</i></label><input id="ps-title" maxlength="60" placeholder="e.g. Game developer, music as curlybolt" autocomplete="off"><div class="hint">Shown next to your handle.</div></div>
           <div class="field"><label for="ps-pro">Pronouns <i>(optional)</i></label>
             <div class="pro-row"><select id="ps-pro"><option value="">Don't show</option><option>he/him</option><option>she/her</option><option>they/them</option><option>he/they</option><option>she/they</option><option value="other">Other…</option></select>
@@ -2499,7 +2553,7 @@ function openSettings(){
         <div class="modal-actions"><button type="button" class="btn ghost" id="ps-cancel">Cancel</button><button class="btn primary" id="ps-save">Save profile</button></div>
       </form>
     </div></div>`;
-  $("#ps-name").value=P.name; $("#ps-title").value=P.title; $("#ps-bio").value=P.bio; $("#ps-gb").value=P.guestbook;
+  $("#ps-name").value=P.name; $("#ps-user").value=P.username; userHint(); $("#ps-title").value=P.title; $("#ps-bio").value=P.bio; $("#ps-gb").value=P.guestbook;
   const PRO=["","he/him","she/her","they/them","he/they","she/they"];
   if(PRO.includes(P.pronouns)) $("#ps-pro").value=P.pronouns; else { $("#ps-pro").value="other"; $("#ps-pro-o").value=P.pronouns; $("#ps-pro-o").hidden=false; }
   $("#ps-pro").onchange=()=>{ $("#ps-pro-o").hidden=$("#ps-pro").value!=="other"; if(!$("#ps-pro-o").hidden) $("#ps-pro-o").focus(); };
@@ -2736,7 +2790,7 @@ async function loadGuestbook(key){
     api.get("guestbook?select=*&order=created_at.desc&limit=100&profile_id=eq."+id),
     key==="me"?Promise.resolve(0):api.count("follows?select=follower&follower=eq."+id+"&following=eq."+ME_ID)]);
   await ensureUsers(rows.map(r=>r.author));
-  VIEW.gb=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,t:Date.parse(r.created_at),hidden:r.hidden}));
+  VIEW.gb=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,likes:r.like_count||0,t:Date.parse(r.created_at),hidden:r.hidden}));
   VIEW.followsMe=followsMe>0;
 }
 function canSign(){
@@ -2764,7 +2818,7 @@ document.addEventListener("submit",async e=>{
   if(e.target.id!=="gb-form") return; e.preventDefault();
   const v=$("#gb-text").value.trim(), gif=GIFP["gb-text"]||null; if(!v&&!gif) return; $("#gb-send").disabled=true;
   try{ const r=await api.insert("guestbook",{profile_id:idOf(VIEW.key),text:v,...(gif?{gif}:{})}); delete GIFP["gb-text"];
-    (VIEW.gb=VIEW.gb||[]).unshift({id:r.id,u:"me",text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,t:Date.parse(r.created_at)}); renderTabs(); renderGrid(); toast(VIEW.key==="me"?"Posted.":"Message left in the guestbook."); }
+    (VIEW.gb=VIEW.gb||[]).unshift({id:r.id,u:"me",text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,likes:r.like_count||0,t:Date.parse(r.created_at)}); renderTabs(); renderGrid(); toast(VIEW.key==="me"?"Posted.":"Message left in the guestbook."); }
   catch(err){ $("#gb-send").disabled=false; fail(err); }
 });
 document.addEventListener("click",e=>{
@@ -3014,7 +3068,7 @@ async function openItem(id){
   $("#im-close").onclick=closeModal; $("#scrim").addEventListener("click",e=>{if(e.target.id==="scrim")closeModal()});
   renderItemModal();
   try{ const rows=await api.get("comments?select=*&order=created_at.asc&limit=300&media_id=eq."+id); await ensureUsers(rows.map(r=>r.author));
-    it.comments=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,t:Date.parse(r.created_at)})); it.cc=Math.max(it.cc||0,it.comments.length); renderItemModal(); }
+    it.comments=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,likes:r.like_count||0,t:Date.parse(r.created_at)})); it.cc=Math.max(it.cc||0,it.comments.length); renderItemModal(); }
   catch(err){ it.comments=[]; renderItemModal(); fail(err); }
 }
 function renderItemModal(){
@@ -3038,7 +3092,7 @@ function renderItemModal(){
 document.addEventListener("submit",async e=>{
   if(e.target.id!=="im-form") return; e.preventDefault();
   const it=MEDIA[state.modalItem], inp=$("#im-cmt"), v=inp.value.trim(), gif=GIFP["im-cmt"]||null; if(!it||(!v&&!gif)) return; inp.disabled=true;
-  try{ const r=await api.insert("comments",{media_id:it.id,text:v,...(gif?{gif}:{})}); delete GIFP["im-cmt"]; (it.comments=it.comments||[]).push({id:r.id,u:"me",text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,t:Date.parse(r.created_at)}); it.cc=(it.cc||0)+1;
+  try{ const r=await api.insert("comments",{media_id:it.id,text:v,...(gif?{gif}:{})}); delete GIFP["im-cmt"]; (it.comments=it.comments||[]).push({id:r.id,u:"me",text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,likes:r.like_count||0,t:Date.parse(r.created_at)}); it.cc=(it.cc||0)+1;
     rerenderMedia(it.id); $("#im-cmt")?.focus(); }
   catch(err){ inp.disabled=false; fail(err); }
 });
@@ -3257,7 +3311,11 @@ async function route(){
     let key="me";
     if(userRoute&&userRoute.toLowerCase()!==U("me").username.toLowerCase()){
       const k=Object.keys(USERS).find(k=>USERS[k].username&&USERS[k].username.toLowerCase()===userRoute.toLowerCase());
-      if(k) key=k; else { try{ const rows=await api.get("profiles?select=*&username=ilike."+encodeURIComponent(userRoute.replace(/[_%\\]/g,"\\$&"))); if(rows[0]) key=keyOf(putUser(rows[0]).id); else { $("#grid").innerHTML=`<div class="empty">There's no one called @${esc(userRoute)}.</div>`; return; } }catch(e){ fail(e); return; } }
+      if(k) key=k; else { try{ const rows=await api.get("profiles?select=*&username=ilike."+encodeURIComponent(userRoute.replace(/[_%\\]/g,"\\$&"))); if(rows[0]) key=keyOf(putUser(rows[0]).id); else {
+        // an old username? send them to the new one
+        let moved=null; try{ const h=await api.get("username_history?select=user_id&order=changed_at.desc&limit=1&old_username=ilike."+encodeURIComponent(userRoute.replace(/[_%\\]/g,"\\$&"))); if(h[0]){ await ensureUsers([h[0].user_id]); moved=USERS[keyOf(h[0].user_id)]; } }catch(_){}
+        if(moved&&moved.username){ location.replace("#u/"+encodeURIComponent(moved.username)); return; }
+        $("#grid").innerHTML=`<div class="empty">There's no one called @${esc(userRoute)}.</div>`; return; } }catch(e){ fail(e); return; } }
     }
     const changed=VIEW.key!==key||!VIEW.loaded;
     if(!changed&&wasHidden&&!state.pendingTab) state.tab="feed";
@@ -3419,10 +3477,10 @@ const boltSvg=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2L5 14h6
 const fmtN=n=>Number(n||0).toLocaleString("en");
 function lvChip(key){ const u=U(key); if(!u.lv||u.brand) return ""; const r=rankOf(u.lv); return `<span class="lvc" style="--rk:${r[2]}" title="Level ${u.lv} · ${r[1]}">${boltSvg}${u.lv}</span>`; }
 
-const FRAMES=[["spark","Spark"],["over","Overcharged"],["circuit","Circuit"],["pixel","8-Bit"],["neon","Neon Nights"],["ember","Inferno"],["glitch","Glitch"],["legend","Legend"]];
-const NSTYLES=[["solid","Solid color",1],["gradient","Gradient",2],["glow","Glow",1],["shift","Color shift",3],["glitch","Glitch",2]];
-const HFX=[["snow","Snowfall",30,[4,8]],["sparks","Static sparks",20,[2,3.5]],["rain","Neon rain",40,[.6,1.1]],["embers","Embers",26,[2.5,4.5]]];
-const FRAME_DEF={ember:["#ff3b00","#ffd23b"],legend:["#d79a00","#fff6d0"],circuit:["#3bd5ff","#ff3b36"],neon:["#ff3bd5","#3bd5ff"]};
+const FRAMES=[["spark","Spark"],["over","Overcharged"],["circuit","Circuit"],["pixel","8-Bit"],["neon","Neon Nights"],["ember","Inferno"],["glitch","Glitch"],["legend","Legend"],["orbit","Orbit"],["pulse","Heartbeat"],["holo","Hologram"],["drip","Toxic Drip"],["aurora","Aurora"]];
+const NSTYLES=[["solid","Solid color",1],["gradient","Gradient",2],["glow","Glow",1],["shift","Color shift",3],["glitch","Glitch",2],["fire","Fire",0],["outline","Outline",1],["retro","Retro 3D",2],["rainbow","Rainbow",0]];
+const HFX=[["snow","Snowfall",30,[4,8]],["sparks","Static sparks",20,[2,3.5]],["rain","Neon rain",40,[.6,1.1]],["embers","Embers",26,[2.5,4.5]],["stars","Starfield",40,[1.5,4]],["sakura","Sakura petals",22,[5,10]],["fireflies","Fireflies",18,[3,6]],["data","Data stream",26,[1.2,2.6]],["bubbles","Bubbles",18,[4,8]]];
+const FRAME_DEF={ember:["#ff3b00","#ffd23b"],legend:["#d79a00","#fff6d0"],circuit:["#3bd5ff","#ff3b36"],neon:["#ff3bd5","#3bd5ff"],orbit:["#3bb4ff","#ffffff"],pulse:["#ff3b6b","#ff9ab0"],holo:["#3bd5ff","#ff3bd5"],drip:["#5dff3b","#c8ff8a"],aurora:["#3bff9a","#b04bff"]};
 const NAME_DEF=["#ff3b36","#ff9a3b","#b04bff"];
 const KIND_WORD={frame:"frame",name:"name style",hfx:"header effect",sticker:"sticker",badge:"badge"};
 const BADGE_ART={tester:"crown",bug:"bug",jam:"trophy",helper:"heart",artist:"ink"};
@@ -3435,7 +3493,7 @@ function cleanLook(l){ l=l&&typeof l==="object"?l:{}; const o={};
   ["f1","f2","c1","c2","c3","acc"].forEach(k=>{ const v=hexOk(l[k]); if(v) o[k]=v; });
   if(l.gd==="v") o.gd="v";
   return o; }
-function frameDeco(frame){ return frame==="ember"?'<i class="fl"></i>'.repeat(5)+'<i class="sp"></i>'.repeat(4):frame==="legend"?'<span class="crown">👑</span>':""; }
+function frameDeco(frame){ return frame==="ember"?'<i class="fl"></i>'.repeat(5)+'<i class="sp"></i>'.repeat(4):frame==="legend"?'<span class="crown">👑</span>':frame==="drip"?'<i class="dr"></i>'.repeat(4):""; }
 function frameVars(look){ const d=FRAME_DEF[look.frame]||["#ff3b36","#ffd23b"]; return `--f1:${look.f1||d[0]};--f2:${look.f2||d[1]}`; }
 function frameWrap(look,inner,lg){ if(!look||!look.frame) return inner;
   const deco=frameDeco(look.frame);
@@ -3444,7 +3502,8 @@ function nameStyled(look,name){ if(!look||!look.name) return esc(name);
   return `<span class="nm n-${look.name}${look.gd==="v"?" n-v":""}" data-t="${esc(name)}" style="--c1:${look.c1||NAME_DEF[0]};--c2:${look.c2||NAME_DEF[1]};--c3:${look.c3||NAME_DEF[2]}">${esc(name)}</span>`; }
 const nameHtml=key=>nameStyled(U(key).look,U(key).name);
 function hfxHtml(id){ const f=HFX.find(x=>x[0]===id); if(!f) return ""; let h="";
-  for(let i=0;i<f[2];i++){ const d=f[3][0]+Math.random()*(f[3][1]-f[3][0]); h+=`<i style="left:${(Math.random()*100).toFixed(1)}%;animation-duration:${d.toFixed(2)}s;animation-delay:-${(Math.random()*d).toFixed(2)}s"></i>`; }
+  const anyTop=["stars","fireflies"].includes(id);
+  for(let i=0;i<f[2];i++){ const d=f[3][0]+Math.random()*(f[3][1]-f[3][0]); h+=`<i style="left:${(Math.random()*100).toFixed(1)}%;${anyTop?`top:${(Math.random()*92).toFixed(1)}%;`:""}animation-duration:${d.toFixed(2)}s;animation-delay:-${(Math.random()*d).toFixed(2)}s"></i>`; }
   return `<div class="hfx fx-${id}" aria-hidden="true">${h}</div>`; }
 function inkFor(hex){ const n=parseInt(hex.slice(1),16), r=n>>16&255, g=n>>8&255, b=n&255; return (r*299+g*587+b*114)/1000>165?"#111111":"#ffffff"; }
 
@@ -3753,15 +3812,24 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeGif(); });
 
 /* ---------- Post pages (#p/<id>) and replies to comments ---------- */
 const REPLYTO={};   // post id → the comment you're replying to
+const myCmtLikes=new Set();
+async function toggleCmtLike(pid,cid,btn){
+  const p=posts.find(x=>x.id===pid), c=p&&p.comments&&p.comments.find(x=>x.id===cid); if(!c) return;
+  const on=!myCmtLikes.has(cid); if(btn) btn.disabled=true;
+  if(on){ myCmtLikes.add(cid); c.likes=(c.likes||0)+1; } else { myCmtLikes.delete(cid); c.likes=Math.max(0,(c.likes||0)-1); }
+  refreshPosts();
+  try{ if(on) await api.insert("comment_likes",{comment_id:cid}); else await api.remove("comment_likes","comment_id=eq."+cid+"&user_id=eq."+ME_ID); }
+  catch(err){ if(on){ myCmtLikes.delete(cid); c.likes=Math.max(0,c.likes-1); } else { myCmtLikes.add(cid); c.likes++; } refreshPosts(); if(!/duplicate/i.test(err.message)) fail(err); }
+}
 let PP=null;
 function cmtHtml(p,c,isReply){
-  return `<div class="cmt${isReply?" reply":""}" id="c-${c.id}">${avHtml(c.u)}<div class="cmt-b"><button class="p-name" style="font-size:13.5px" data-user="${esc(c.u)}">${nameHtml(c.u)}</button>${lvChip(c.u)}${staffTag(c.u)} <span class="meta">${timeAgo(c.t)}</span>${c.u!=="me"?`<button class="cmt-report" data-creport="${p.id}:${c.id}">${state.reported.has("comment-"+c.id)?"Reported":"Report"}</button>`:`<button class="cmt-report" data-cdel="${p.id}:${c.id}">Delete</button>`}<div>${linkify(c.text)}</div>${c.gif?gifImg(c.gif):""}<button class="cmt-reply" data-creply="${p.id}:${c.id}">Reply</button></div></div>`; }
+  return `<div class="cmt${isReply?" reply":""}" id="c-${c.id}">${avHtml(c.u)}<div class="cmt-b"><button class="p-name" style="font-size:13.5px" data-user="${esc(c.u)}">${nameHtml(c.u)}</button>${lvChip(c.u)}${staffTag(c.u)} <span class="meta">${timeAgo(c.t)}</span>${c.u!=="me"?`<button class="cmt-report" data-creport="${p.id}:${c.id}">${state.reported.has("comment-"+c.id)?"Reported":"Report"}</button>`:`<button class="cmt-report" data-cdel="${p.id}:${c.id}">Delete</button>`}<div>${linkify(c.text)}</div>${c.gif?gifImg(c.gif):""}<div class="cmt-acts"><button class="cmt-like ${myCmtLikes.has(c.id)?"liked":""}" data-clike="${p.id}:${c.id}" aria-pressed="${myCmtLikes.has(c.id)}" aria-label="Like this comment">${heartSvg}${c.likes?`<span>${c.likes}</span>`:""}</button><button class="cmt-reply" data-creply="${p.id}:${c.id}">Reply</button></div></div></div>`; }
 function threadHtml(p){
   const cl=(p.comments||[]).filter(c=>!hiddenKey(c.u)), ids=new Set(cl.map(c=>c.id));
   return cl.filter(c=>!c.parent||!ids.has(c.parent)).map(c=>cmtHtml(p,c)+cl.filter(x=>x.parent===c.id).map(x=>cmtHtml(p,x,true)).join("")).join(""); }
 async function fetchComments(p){
   try{ const rows=await api.get("comments?select=*&order=created_at.asc&limit=300&post_id=eq."+p.id); await ensureUsers(rows.map(r=>r.author));
-    p.comments=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,t:Date.parse(r.created_at)})); p.cc=Math.max(p.cc,p.comments.length); }
+    p.comments=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,likes:r.like_count||0,t:Date.parse(r.created_at)})); p.cc=Math.max(p.cc,p.comments.length); }
   catch(err){ p.comments=p.comments||[]; fail(err); }
 }
 async function openPostPage(id){
@@ -3791,6 +3859,7 @@ document.addEventListener("click",e=>{
     const inp=[...document.querySelectorAll(`[data-cform="${pid}"] input`)].find(x=>x.offsetParent);
     if(inp){ const h=U(c.u).handle; if(c.u!=="me"&&!inp.value.includes(h)) inp.value=h+" "+inp.value; inp.focus(); inp.setSelectionRange(inp.value.length,inp.value.length); }
     return; }
+  if(t&&t.dataset.clike){ const [pid,cid]=t.dataset.clike.split(":"); toggleCmtLike(pid,cid,t); return; }
   if(t&&t.dataset.creplyx){ delete REPLYTO[t.dataset.creplyx]; refreshPosts(); return; }
   // Clicking an empty part of a post opens its own page
   if(t||!$("#view-post").hidden) return;
@@ -3884,6 +3953,82 @@ function openCP(inp){
 document.addEventListener("click",e=>{ const sw=e.target.closest(".cswatch"); if(sw){ openCP(sw); return; } if(!e.target.closest("#cp-pop")) closeCP(); });
 document.addEventListener("keydown",e=>{ if(e.target.classList&&e.target.classList.contains("cswatch")&&(e.key==="Enter"||e.key===" ")){ e.preventDefault(); openCP(e.target); } if(e.key==="Escape"&&$("#cp-pop")){ e.stopPropagation(); const i=CP.input; closeCP(); i?.focus(); } },true);
 new MutationObserver(()=>{ if(CP.input&&!document.body.contains(CP.input)) closeCP(); }).observe($("#modal-root"),{childList:true});
+
+/* ---------- Change your @username (once every 30 days) ---------- */
+const nextNameChange=()=>{ const t=U("me").nameChanged; return t&&Date.now()-t<30*864e5?new Date(t+30*864e5):null; };
+const fmtDate=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+let userChk=0;
+function userHint(msg,kind){
+  const el=$("#ps-user-msg"); if(!el) return; const nx=nextNameChange();
+  el.className="hint"+(kind?" "+kind:"");
+  el.textContent=msg||(nx?`You can pick a new username on ${fmtDate(nx)}. Changing capital letters is fine any time.`:"You can change it once every 30 days. Old links to your profile keep working.");
+}
+document.addEventListener("input",e=>{
+  if(e.target.id!=="ps-user") return; const v=e.target.value.trim(), me=U("me"), btn=$("#ps-user-go"), n=++userChk;
+  btn.disabled=true;
+  if(v===me.username){ userHint(); return; }
+  if(!/^[A-Za-z0-9_.]{3,20}$/.test(v)){ userHint("3–20 letters, numbers, _ or .","bad"); return; }
+  const caseOnly=v.toLowerCase()===me.username.toLowerCase();
+  if(!caseOnly&&nextNameChange()){ userHint(`You can pick a new username on ${fmtDate(nextNameChange())}.`,"bad"); return; }
+  if(caseOnly){ userHint("Looks good.","good"); btn.disabled=false; return; }
+  userHint("Checking…");
+  clearTimeout(userHint.t); userHint.t=setTimeout(async()=>{ try{ const taken=await api.rpc("username_taken",{u:v}); if(n!==userChk) return;
+    if(taken) userHint(`@${v} is taken.`,"bad"); else { userHint(`@${v} is free!`,"good"); btn.disabled=false; } }catch(_){ } },350);
+});
+document.addEventListener("click",e=>{
+  const b=e.target.closest("#ps-user-go"); if(!b||b.disabled) return;
+  const v=$("#ps-user").value.trim(), caseOnly=v.toLowerCase()===U("me").username.toLowerCase();
+  confirmInline(b,"Sure?",async()=>{
+    b.disabled=true;
+    try{ await api.rpc("change_username",{new_name:v}); const [row]=await api.get("profiles?select=*&id=eq."+ME_ID); putUser(row);
+      $("#nav-profile").href="#u/"+U("me").username; renderAccountBtn(); refreshAll(); userHint();
+      if(/^#u\//.test(location.hash)&&VIEW.key==="me") history.replaceState(null,"","#u/"+encodeURIComponent(U("me").username));
+      toast(`You're now @${U("me").username}.`); }
+    catch(err){ userHint(err.message,"bad"); b.disabled=false; }
+  });
+});
+
+/* ---------- Upload images to ImgBB (the picture goes from your browser to ImgBB; we keep only the link) ---------- */
+const UP_TARGETS={"c-images":"append","f-cover":"set","hd-url-in":"set","av-url-in":"set"};
+async function uploadImage(file){
+  if(!/^image\/(png|jpe?g|gif|webp|bmp)$/i.test(file.type||"")) throw new Error("Pick a PNG, JPG, GIF or WebP image.");
+  if(file.size>16*1024*1024) throw new Error("That image is bigger than 16 MB.");
+  const fd=new FormData(); fd.append("image",file);
+  let r,d; try{ r=await fetch("https://api.imgbb.com/1/upload?key="+encodeURIComponent(IMGBB_KEY),{method:"POST",body:fd}); d=await r.json(); }
+  catch(_){ throw new Error("Couldn't reach the image host. Check your connection and try again."); }
+  if(!r.ok||!d||!d.success) throw new Error((d&&d.error&&d.error.message)||"The upload didn't work. Try again.");
+  const u=(d.data&&(d.data.url||(d.data.image&&d.data.image.url)))||"";
+  const pl=parseLink(u); if(!pl||pl.kind!=="image") throw new Error("The upload didn't work. Try again.");
+  return pl.img;
+}
+function putUploaded(id,url){
+  const el=document.getElementById(id); if(!el) return;
+  if(UP_TARGETS[id]==="append"){ const lines=el.value.split(/\n+/).map(x=>x.trim()).filter(Boolean); if(lines.length>=4){ toast("You can add up to 4 images."); return; } lines.push(url); el.value=lines.join("\n"); $("#c-images-wrap").hidden=false; }
+  else el.value=url;
+  el.dispatchEvent(new Event("input",{bubbles:true})); el.dispatchEvent(new Event("change",{bubbles:true}));
+}
+async function uploadFiles(id,files,btn){
+  const list=[...files].filter(f=>/^image\//.test(f.type)); if(!list.length) return;
+  const label=btn?btn.innerHTML:null; if(btn){ btn.disabled=true; btn.textContent="Uploading…"; }
+  try{ for(const f of (UP_TARGETS[id]==="append"?list.slice(0,4):list.slice(0,1))){ putUploaded(id,await uploadImage(f)); } toast("Image uploaded."); }
+  catch(err){ toast(err.message); }
+  finally{ if(btn&&btn.isConnected){ btn.disabled=false; btn.innerHTML=label; } }
+}
+const upSvg=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>`;
+function addUploadButtons(){
+  if(!IMGBB_KEY) return;
+  Object.keys(UP_TARGETS).forEach(id=>{ const el=document.getElementById(id); if(!el||el.dataset.up) return; el.dataset.up="1";
+    el.insertAdjacentHTML("afterend",`<div class="up-row"><button type="button" class="btn sm up-btn" data-upfor="${id}">${upSvg}${UP_TARGETS[id]==="append"?"Upload images":"Upload an image"}</button><span class="meta">or paste a link</span></div>`); });
+}
+new MutationObserver(addUploadButtons).observe(document.body,{childList:true,subtree:true}); addUploadButtons();
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-upfor]"); if(!b) return;
+  const id=b.dataset.upfor, fi=document.createElement("input"); fi.type="file"; fi.accept="image/png,image/jpeg,image/gif,image/webp"; fi.multiple=UP_TARGETS[id]==="append";
+  fi.onchange=()=>uploadFiles(id,fi.files,b); fi.click(); });
+// Paste or drop a picture into the post box → it uploads and is added to the post
+if(IMGBB_KEY){
+  RICH.addEventListener("paste",e=>{ const fs=[...((e.clipboardData&&e.clipboardData.files)||[])].filter(f=>/^image\//.test(f.type)); if(fs.length){ e.preventDefault(); e.stopImmediatePropagation(); uploadFiles("c-images",fs,null); } },true);
+  ["dragover","drop"].forEach(t=>COMPOSER.addEventListener(t,e=>{ const fs=e.dataTransfer&&[...e.dataTransfer.items||[]].some(i=>i.kind==="file"); if(!fs) return; e.preventDefault(); if(t==="drop") uploadFiles("c-images",e.dataTransfer.files,null); }));
+}
 
 /* ---------- Export your level data too ---------- */
 async function levelExport(){ if(LV.missing) return {};

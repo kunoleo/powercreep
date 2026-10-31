@@ -1709,7 +1709,8 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const grad = h => `background:linear-gradient(135deg,hsl(${h[0]} 55% 42%),hsl(${h[1]} 50% 22%))`;
 const chip = p => p ? `<span class="chip" style="--c:${PLAT[p].c}">${PLAT[p].n}</span>` : "";
-const aiBadge = ai => ai ? `<span class="badge-ai" title="${ai.lvl==="generated"?"AI-made":"AI-assisted"}: ${esc(ai.note)}">${ai.lvl==="generated"?"AI-MADE":"AI-ASSIST"}</span>` : "";
+const aiBadge = ai => "";   // AI labels show under the title instead of on the picture
+const aiShort = ai => ai.lvl==="generated"?"AI":"ASSISTED";
 const flagSvg = `<svg viewBox="0 0 24 24"><path d="M4 21V4m0 0h12l-2 4 2 4H4"/></svg>`;
 const playSvg = `<svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>`;
 
@@ -2264,7 +2265,7 @@ function postHtml(p,ctx){
   if(p.kind==="media") body=`<div class="activity">added a new ${{games:"game",music:"track",videos:"video",art:"artwork"}[it.tab]} to their profile</div>`;
   if(p.kind==="update") body=`<div class="activity">updated <b>${esc(it.title)}</b></div>${p.text?`<div class="p-note">${linkify(p.text)}</div>`:""}`;
   if(!p.kind&&p.text) body=`<p class="p-text">${linkify(p.text,true)}</p>`;
-  const ai="", aiChip=p.ai?`<button class="ai-chip" data-ainote="${esc((p.ai.lvl==="generated"?"AI-made":"AI-assisted")+(p.ai.note?": "+p.ai.note:""))}" title="${esc(p.ai.note||"")}">${p.ai.lvl==="generated"?"AI-made":"AI-assisted"}</button>`:"";
+  const ai="", aiChip=p.ai?`<button class="ai-chip" data-ainote="${esc((p.ai.lvl==="generated"?"AI-made":"AI-assisted")+(p.ai.note?": "+p.ai.note:""))}" title="${esc((p.ai.lvl==="generated"?"AI-made":"AI-assisted")+(p.ai.note?": "+p.ai.note:""))}">${aiShort(p.ai)}</button>`:"";
   const imgs=p.images.length?`<div class="p-imgs n${p.images.length}">${p.images.map((im,i)=>`<button data-pimg="${p.id}:${i}" aria-label="View image ${i+1}"><img src="${esc(im.img)}" alt="" loading="lazy" onerror="this.remove()"></button>`).join("")}</div>`:"";
   const emb=p.kind?embedHtml(it,p.id,true):(embedFor(p)?embedHtml(embedFor(p),p.id):"");
   const reason=!ctx&&fs.ftab==="foryou"&&fs.reasons&&fs.reasons[p.id]&&!mine?`<span class="reason">${esc(fs.reasons[p.id])}</span>`:"";
@@ -3048,7 +3049,7 @@ ${thumbHtml(it)}
       <h3><button class="card-title" data-mopen="${it.id}">${esc(it.title)}</button>${it.updated?`<span class="upd">Updated</span>`:""}${it.hidden?`<span class="tag red" style="margin-left:6px">Hidden by staff</span>`:""}</h3>
       ${showOwner&&USERS[keyOf(it.owner)]?`<button class="card-owner" data-user="${esc(keyOf(it.owner))}">${avHtml(keyOf(it.owner))}<span>${esc(U(keyOf(it.owner)).name)}</span>${staffTag(keyOf(it.owner))}</button>`:`<div class="meta">${esc(it.meta)}</div>`}
       ${it.coll?`<span class="coll-tag">${it.coll==="Album"?"💿":"🎵"} ${esc(it.coll)}</span>`:""}${it.tags&&it.tags.length?`<div class="card-tags">${it.tags.map(t=>`<button class="btag" data-btag="${it.tab}:${t}">#${esc(t)}</button>`).join("")}</div>`:""}
-      ${it.ai?`<div><button class="ai-chip" data-ainote="${esc((it.ai.lvl==="generated"?"AI-made":"AI-assisted")+(it.ai.note?": "+it.ai.note:""))}">${it.ai.lvl==="generated"?"AI-made":"AI-assisted"}</button></div>`:""}
+      ${it.ai?`<div><button class="ai-chip" title="${esc((it.ai.lvl==="generated"?"AI-made":"AI-assisted")+(it.ai.note?": "+it.ai.note:""))}" data-ainote="${esc((it.ai.lvl==="generated"?"AI-made":"AI-assisted")+(it.ai.note?": "+it.ai.note:""))}">${aiShort(it.ai)}</button></div>`:""}
       <div class="card-foot">
         <span class="card-acts">
           <button class="icon-btn ${it.liked?"liked":""}" data-mlike="${it.id}" aria-pressed="${!!it.liked}" aria-label="Like">${heartSvg}<span class="n">${it.likes||0}</span></button>

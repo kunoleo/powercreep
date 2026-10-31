@@ -674,6 +674,11 @@ body.joinmode .fab-wrap,body.legalmode .fab-wrap{display:none}
 #view-feed .post .comments,#view-profile .post .comments{cursor:auto}
 .p-time{color:inherit;text-decoration:none}.p-time:hover{text-decoration:underline}
 .cmt.reply{margin-left:38px}
+body[data-swipe="left"] main>section:not([hidden]){animation:pc-swl .28s ease-out}
+body[data-swipe="right"] main>section:not([hidden]){animation:pc-swr .28s ease-out}
+@keyframes pc-swl{from{transform:translateX(40px);opacity:.3}}
+@keyframes pc-swr{from{transform:translateX(-40px);opacity:.3}}
+@media (prefers-reduced-motion:reduce){body[data-swipe] main>section{animation:none!important}}
 .im-desc{font-size:14.5px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;max-height:240px;overflow:auto;background:var(--surface-2);border-radius:10px;padding:10px 12px}
 .card-labels{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
 .card-labels .chip{font-size:11px;padding:2px 8px;line-height:1.5}
@@ -4174,6 +4179,34 @@ document.addEventListener("keydown",e=>{
 document.addEventListener("mousedown",e=>{ const b=e.target.closest("[data-men]"); if(b){ e.preventDefault(); pickMention(+b.dataset.men); return; } if(!e.target.closest("#men-pop")) closeMention(); });
 document.addEventListener("selectionchange",()=>{ if(MEN.el===RICH&&$("#men-pop")){ const t=mentionToken(RICH); if(!t) closeMention(); } });
 window.addEventListener("resize",closeMention);
+
+/* ---------- Phones: swipe sideways to switch between Feed, Games, Art, Music and Videos ---------- */
+const SWIPE_TABS=["feed","games","art","music","videos"];
+let swipe=null;
+function swipeBlocked(el){
+  for(let n=el;n&&n!==document.body;n=n.parentElement){
+    if(n.matches&&n.matches("input,textarea,select,[contenteditable],iframe,canvas,video,#modal-root *,.scrim,#fab-wrap,.stk-pick,.gif-picker,.men-pop,.emoji-picker,.cp-pop,.acct-menu,.notif-panel,.search-res,.p-embed,.player")) return true;
+    if(n.scrollWidth>n.clientWidth+4){ const ox=getComputedStyle(n).overflowX; if(ox==="auto"||ox==="scroll") return true; }
+  }
+  return false;
+}
+document.addEventListener("touchstart",e=>{
+  swipe=null; if(e.touches.length!==1||$("#modal-root").innerHTML) return;
+  const v=(location.hash.slice(1)||"feed"); if(!SWIPE_TABS.includes(v)) return;
+  const t=e.touches[0]; if(t.clientX<24||t.clientX>innerWidth-24) return;   // leave the screen edges to the phone's own back gesture
+  if(swipeBlocked(e.target)) return;
+  swipe={x:t.clientX,y:t.clientY,at:Date.now(),v};
+},{passive:true});
+document.addEventListener("touchend",e=>{
+  if(!swipe) return; const s0=swipe; swipe=null;
+  const t=e.changedTouches[0], dx=t.clientX-s0.x, dy=t.clientY-s0.y;
+  if(Date.now()-s0.at>700||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*2) return;
+  if(String(getSelection())) return;
+  const i=SWIPE_TABS.indexOf(s0.v), next=SWIPE_TABS[i+(dx<0?1:-1)]; if(!next) return;
+  document.body.dataset.swipe=dx<0?"left":"right"; location.hash=next;
+  setTimeout(()=>{ delete document.body.dataset.swipe; },320);
+},{passive:true});
+document.addEventListener("touchcancel",()=>{ swipe=null; },{passive:true});
 
 /* ---------- Export your level data too ---------- */
 async function levelExport(){ if(LV.missing) return {};

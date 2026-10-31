@@ -145,6 +145,8 @@ body:has(.scrim){overflow:hidden}
 .icon-btn{border:0;background:none;color:var(--muted);display:inline-flex;align-items:center;gap:5px;font-size:13px;padding:5px 7px;border-radius:7px}
 .icon-btn:hover{background:var(--surface-2);color:var(--ink)}
 .icon-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+.p-actions .icon-btn,.card-acts .icon-btn{font-size:14.5px;gap:6px;padding:6px 8px}
+.p-actions .icon-btn svg,.card-acts .icon-btn svg{width:18px;height:18px}
 .hidden-note{grid-column:1/-1;color:var(--muted);font-size:13.5px;text-align:center;padding:8px}
 .empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:14px;padding:30px;text-align:center;color:var(--muted)}
 
@@ -672,6 +674,10 @@ body.joinmode .fab-wrap,body.legalmode .fab-wrap{display:none}
 #view-feed .post .comments,#view-profile .post .comments{cursor:auto}
 .p-time{color:inherit;text-decoration:none}.p-time:hover{text-decoration:underline}
 .cmt.reply{margin-left:38px}
+.im-desc{font-size:14.5px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;max-height:240px;overflow:auto;background:var(--surface-2);border-radius:10px;padding:10px 12px}
+.card-labels{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
+.card-labels .chip{font-size:11px;padding:2px 8px;line-height:1.5}
+.card-labels .ai-chip{line-height:1.5}
 .cz-badges{display:flex;flex-wrap:wrap;gap:6px}
 .bdg-t{display:inline-flex;align-items:center;gap:5px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:3px 11px 3px 4px;font:inherit;font-size:12.5px;font-weight:700;opacity:.7}
 .bdg-t svg{width:22px;height:22px;filter:grayscale(.8)}
@@ -1620,7 +1626,7 @@ const U=key=>USERS[key]||unknownUser;
 function itemFromRow(m){
   const d=m.data||{}, type={games:"game",music:"music",videos:"video",art:"art"}[m.tab];
   const it={id:m.id,owner:m.owner,tab:m.tab,title:String(m.title||"Untitled").slice(0,100),ai:cleanAi(m.ai),
-    updated:m.updated_at?Date.parse(m.updated_at):null,h:hueOf(m.id),sq:type==="music"||type==="art"?1:0,hidden:m.hidden,raw:d};
+    updated:m.updated_at?Date.parse(m.updated_at):null,h:hueOf(m.id),sq:type==="music"||type==="art"?1:0,hidden:m.hidden,raw:d,desc:typeof d.desc==="string"?d.desc.slice(0,1000):""};
   const pl=d.link?parseLink(d.link):null, want={game:["game"],music:["audio","playlist"],video:["video","playlist"],art:["post","game"]}[type];
   if(pl&&want.includes(pl.kind)){ Object.assign(it,pl); delete it.kind; } else if(type!=="art") return null;
   if(type==="game"){ it.game=1; const tp=d.trailer?parseLink(d.trailer):null; if(tp&&tp.yt) it.yt=tp.yt; if(tp&&tp.vimeo) it.vimeo=tp.vimeo; }
@@ -1710,7 +1716,18 @@ const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const grad = h => `background:linear-gradient(135deg,hsl(${h[0]} 55% 42%),hsl(${h[1]} 50% 22%))`;
 const chip = p => p ? `<span class="chip" style="--c:${PLAT[p].c}">${PLAT[p].n}</span>` : "";
 const aiBadge = ai => "";   // AI labels show under the title instead of on the picture
+let UPD_SEEN={}; try{ UPD_SEEN=JSON.parse(localStorage.getItem("pc-upd-seen")||"{}")||{}; }catch(_){}
+const isNewUpdate=it=>!!it.updated&&it.owner!==ME_ID&&Date.now()-it.updated<60*864e5&&it.updated>(UPD_SEEN[it.id]||0);
+function markSeen(id){ const it=MEDIA[id]; if(!it||!isNewUpdate(it)) return; UPD_SEEN[it.id]=it.updated;
+  const keep=Object.entries(UPD_SEEN).sort((a,b)=>b[1]-a[1]).slice(0,500); UPD_SEEN=Object.fromEntries(keep);
+  try{ localStorage.setItem("pc-upd-seen",JSON.stringify(UPD_SEEN)); }catch(_){}
+  setTimeout(()=>{ document.querySelectorAll(`[data-mopen="${id}"]`).forEach(b=>{ const u=b.closest(".card")?.querySelector(".upd"); if(u) u.remove(); }); },0); }
+document.addEventListener("click",e=>{ const t=e.target.closest("[data-mopen],[data-play]"); if(t) markSeen(t.dataset.mopen||t.dataset.play); },true);
 const aiShort = ai => ai.lvl==="generated"?"AI":"ASSISTED";
+// Platform first, then the AI label: [itch.io] [ASSISTED]
+function labelsHtml(it){ const full=it.ai?(it.ai.lvl==="generated"?"AI-made":"AI-assisted")+(it.ai.note?": "+it.ai.note:""):"";
+  const c=chip(it.plat), a=it.ai?`<button class="ai-chip" title="${esc(full)}" data-ainote="${esc(full)}">${aiShort(it.ai)}</button>`:"";
+  return c||a?`<div class="card-labels">${c}${a}</div>`:""; }
 const flagSvg = `<svg viewBox="0 0 24 24"><path d="M4 21V4m0 0h12l-2 4 2 4H4"/></svg>`;
 const playSvg = `<svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>`;
 
@@ -1764,13 +1781,13 @@ function renderTabs(){
   }).join("");
 }
 function thumbHtml(it){
-  const inner=`<span class="play">${playSvg}</span><span class="plat">${chip(it.plat)}</span>${aiBadge(it.ai)}`;
+  const inner=`<span class="play">${playSvg}</span>`;   // platform and AI labels sit under the title, not on the picture
   const src=imgOf(it);
   const img = src ? `<img class="thumb-img" src="${esc(src)}" alt="" loading="lazy" onerror="this.remove()">`
             : it.scUrl ? `<img class="thumb-img" data-sc="${esc(it.scUrl)}" data-scfb="${esc(scFallback(it))}" alt="" hidden>` : "";
   const cls=`thumb ${it.sq?"sq":""}`;
   if(LIVE && playable(it)) return `<button class="${cls}" style="${grad(it.h)}" data-play="${it.id}" aria-label="Play ${esc(it.title)} from ${PLAT[it.plat].n}">${img}${inner}</button>`;
-  if(LIVE && it.img) return `<button class="${cls} is-img" style="${grad(it.h)}" data-play="${it.id}" aria-label="View ${esc(it.title)}">${img}<span class="plat">${chip(it.plat)}</span>${aiBadge(it.ai)}</button>`;
+  if(LIVE && it.img) return `<button class="${cls} is-img" style="${grad(it.h)}" data-play="${it.id}" aria-label="View ${esc(it.title)}">${img}</button>`;
   const url=urlOf(it);
   if(url) return `<a class="${cls}" style="${grad(it.h)}" href="${esc(url)}" target="_blank" rel="noopener" aria-label="Open ${esc(it.title)} on ${PLAT[it.plat].n}">${img}${inner}</a>`;
   return `<button class="${cls}" style="${grad(it.h)}" data-play="${it.id}" aria-label="Preview ${esc(it.title)}">${img}${inner}</button>`;
@@ -2013,6 +2030,7 @@ function openForm(type,ex){
         <div class="field"><label for="f-title">Title</label><input id="f-title" placeholder="What is it called?" autocomplete="off"></div>
         ${tagPickerHtml(T.tab)}
         ${f}
+        ${type==="music"?"":`<div class="field"><label for="f-desc">Description <i>(optional)</i></label><textarea id="f-desc" maxlength="1000" rows="4" placeholder="${{game:"What's the game about? Controls, platforms, credits…",video:"What's the video about?",art:"Tell people about this piece: tools, process, the story behind it…"}[type]}"></textarea><div class="hint">Shown when people open it.</div></div>`}
         <div class="field"><label for="f-ai">Made with AI?</label>
           <select id="f-ai"><option value="">No AI used</option><option value="assisted">AI-assisted: I made it, AI helped somewhere</option><option value="generated">AI-made: mostly or fully generated</option></select></div>
         <div class="field" id="f-ainote-wrap" hidden><label for="f-ainote">What was made with AI?</label><textarea id="f-ainote" placeholder="e.g. Music is mine, cover art made with AI"></textarea></div>
@@ -2028,7 +2046,7 @@ function openForm(type,ex){
   if($("#amback")) $("#amback").onclick=openAddMedia; $("#amcancel2").onclick=closeModal;
   if(ex){ const set=(id,v)=>{const el=$("#"+id); if(el&&v) el.value=v;};
     set("f-title",ex.title); set("f-ai",ex.ai?ex.ai.lvl:""); set("f-ainote",ex.ai?ex.ai.note:"");
-    const r=ex.raw||{}; set("f-link",r.link); set("f-trailer",r.trailer); set("f-cover",r.cover); }
+    const r=ex.raw||{}; set("f-link",r.link); set("f-trailer",r.trailer); set("f-cover",r.cover); set("f-desc",typeof r.desc==="string"?r.desc:""); }
   draft={type};
   const form=$("#amform");
   form.addEventListener("input",()=>updateDraft(type));
@@ -2064,7 +2082,7 @@ function updateDraft(type){
   meta: { it.meta = type==="game"?`Game on ${it.plat?PLAT[it.plat].n:"…"}${it.yt||it.vimeo?" · with trailer":""}`:type==="art"?"Art":type==="music"?`${it.coll||"Track"} on ${it.plat?PLAT[it.plat].n:"…"}`:`${it.coll||"Video"} on ${it.plat?PLAT[it.plat].n:"…"}`; }
   if(!it.plat) it.plat=type==="game"?"itch":type==="music"?"soundcloud":type==="video"?"youtube":"image";
   const prevSrc=($("#am-preview img.thumb-img")||{}).src;
-  $("#am-preview").innerHTML=`<article class="card">${thumbHtml({...it,id:"draft"})}<div class="card-body"><h3>${esc(it.title)}</h3><div class="meta">${esc(it.meta)}</div>${it.ai?`<div class="ai-note"><b>${it.ai.lvl==="generated"?"AI-made":"AI-assisted"}:</b> ${esc(it.ai.note)}</div>`:""}</div></article>`;
+  $("#am-preview").innerHTML=`<article class="card">${thumbHtml({...it,id:"draft"})}<div class="card-body"><h3>${esc(it.title)}</h3><div class="meta">${esc(it.meta)}</div>${labelsHtml(it)}${it.ai?`<div class="ai-note"><b>${it.ai.lvl==="generated"?"AI-made":"AI-assisted"}:</b> ${esc(it.ai.note)}</div>`:""}</div></article>`;
   if(LIVE) fillScThumbs();
   const pi=$("#am-preview img.thumb-img");
   if(LIVE && pi && it.img && pi.getAttribute("src")===it.img){
@@ -2200,7 +2218,7 @@ function embedFor(p){
 }
 function embedHtml(it,pid,open){
   const sub=it.game?`Game on ${PLAT[it.plat].n}`:it.meta&&it.twitch?it.meta:`${PLAT[it.plat].n}${it.meta?" · "+it.meta:""}`;
-  const thumb=`<div class="thumb ${it.sq?"sq":""}" style="${grad(it.h)}">${imgOf(it)?`<img class="thumb-img" src="${esc(imgOf(it))}" alt="" loading="lazy" onerror="this.remove()">`:""}<span class="plat">${chip(it.plat)}</span></div>`;
+  const thumb=`<div class="thumb ${it.sq?"sq":""}" style="${grad(it.h)}">${imgOf(it)?`<img class="thumb-img" src="${esc(imgOf(it))}" alt="" loading="lazy" onerror="this.remove()">`:""}</div>`;
   const body=`${thumb}<span class="e-t"><b>${esc(it.title)}</b><span>${esc(sub)}</span></span>`;
   if(open) return `<button class="p-embed" data-mopen="${it.id}">${body}</button>`;
   if(playable(it)) return `<button class="p-embed" data-pplay="${pid}">${body}</button>`;
@@ -2472,7 +2490,7 @@ async function saveMedia(type,ex){
   const T=TYPES[type], it=updateDraft(type); if(!it) return;
   const v=id=>($("#"+id)||{}).value?.trim()||"";
   if(!draftTags.length){ toast("Pick at least one hashtag so people can find it."); $("#tag-pick")?.scrollIntoView({block:"center"}); return; }
-  const row={tab:T.tab,title:it.title,data:{link:v("f-link"),trailer:v("f-trailer"),cover:v("f-cover")},ai:it.ai,tags:draftTags.slice(0,5)};
+  const row={tab:T.tab,title:it.title,data:{link:v("f-link"),trailer:v("f-trailer"),cover:v("f-cover"),...(v("f-desc")?{desc:v("f-desc").slice(0,1000)}:{})},ai:it.ai,tags:draftTags.slice(0,5)};
   $("#am-submit").disabled=true;
   try{
     if(ex){
@@ -3046,10 +3064,10 @@ function cardHtml(it,showOwner){
   return `<article class="card">
 ${thumbHtml(it)}
     <div class="card-body">
-      <h3><button class="card-title" data-mopen="${it.id}">${esc(it.title)}</button>${it.updated?`<span class="upd">Updated</span>`:""}${it.hidden?`<span class="tag red" style="margin-left:6px">Hidden by staff</span>`:""}</h3>
+      <h3><button class="card-title" data-mopen="${it.id}">${esc(it.title)}</button>${isNewUpdate(it)?`<span class="upd">Updated</span>`:""}${it.hidden?`<span class="tag red" style="margin-left:6px">Hidden by staff</span>`:""}</h3>
       ${showOwner&&USERS[keyOf(it.owner)]?`<button class="card-owner" data-user="${esc(keyOf(it.owner))}">${avHtml(keyOf(it.owner))}<span>${esc(U(keyOf(it.owner)).name)}</span>${staffTag(keyOf(it.owner))}</button>`:`<div class="meta">${esc(it.meta)}</div>`}
       ${it.coll?`<span class="coll-tag">${it.coll==="Album"?"💿":"🎵"} ${esc(it.coll)}</span>`:""}${it.tags&&it.tags.length?`<div class="card-tags">${it.tags.map(t=>`<button class="btag" data-btag="${it.tab}:${t}">#${esc(t)}</button>`).join("")}</div>`:""}
-      ${it.ai?`<div><button class="ai-chip" title="${esc((it.ai.lvl==="generated"?"AI-made":"AI-assisted")+(it.ai.note?": "+it.ai.note:""))}" data-ainote="${esc((it.ai.lvl==="generated"?"AI-made":"AI-assisted")+(it.ai.note?": "+it.ai.note:""))}">${aiShort(it.ai)}</button></div>`:""}
+      ${labelsHtml(it)}
       <div class="card-foot">
         <span class="card-acts">
           <button class="icon-btn ${it.liked?"liked":""}" data-mlike="${it.id}" aria-pressed="${!!it.liked}" aria-label="Like">${heartSvg}<span class="n">${it.likes||0}</span></button>
@@ -3096,7 +3114,9 @@ function renderItemModal(){
       <h2 id="im-t">${esc(it.title)}</h2>
       <button class="card-owner" data-user="${esc(ok)}">${avHtml(ok)}<span>${esc(U(ok).name)}</span>${staffTag(ok)}</button>
       <div class="meta">${esc(it.meta)} · added ${timeAgo(Date.parse(it.created||Date.now()))} ago</div>
+      ${chip(it.plat)?`<div class="card-labels">${chip(it.plat)}</div>`:""}
       ${it.coll?`<span class="coll-tag">${it.coll==="Album"?"💿":"🎵"} ${esc(it.coll)}</span>`:""}${it.tags&&it.tags.length?`<div class="card-tags">${it.tags.map(t=>`<button class="btag" data-btag="${it.tab}:${t}">#${esc(t)}</button>`).join("")}</div>`:""}
+      ${it.desc?`<div class="im-desc">${linkify(it.desc)}</div>`:""}
       ${it.ai?`<div class="ai-note"><b>${it.ai.lvl==="generated"?"AI-made":"AI-assisted"}:</b> ${esc(it.ai.note)}</div>`:""}
       <div class="p-actions"><button class="icon-btn ${it.liked?"liked":""}" data-mlike="${it.id}" aria-pressed="${!!it.liked}">${heartSvg}<span class="n">${it.likes||0}</span> Like</button>
         ${urlOf(it)?`<a class="icon-btn" href="${esc(urlOf(it))}" target="_blank" rel="noopener nofollow ugc">↗ Open on ${PLAT[it.plat].n}</a>`:""}
@@ -3724,7 +3744,8 @@ async function loadStickers(ids){
   }catch(_){}
 }
 function stickerBar(p){ if(LV.missing||p.u==="me") return "";
-  return `<button class="icon-btn" data-spick="${p.id}" aria-label="Give a sticker">＋ Sticker</button>`; }
+  return `<button class="icon-btn" data-spick="${p.id}" aria-label="Give a sticker" title="Give a sticker">${stickerIcon}</button>`; }
+const stickerIcon=`<svg viewBox="0 0 24 24" aria-hidden="true" stroke-linejoin="round"><path d="M8 3.5h8A4.5 4.5 0 0 1 20.5 8v4.5A8 8 0 0 1 12.5 20.5H8A4.5 4.5 0 0 1 3.5 16V8A4.5 4.5 0 0 1 8 3.5z"/><path d="M20.5 12.5h-3a3.5 3.5 0 0 0-3.5 3.5v4.5"/></svg>`;
 // Stickers people gave show big on the post, slapped on at a slight angle. Click one to give the same.
 function stickerShelf(p){ if(LV.missing) return ""; const list=Object.entries(p.st||{}).sort((a,b)=>b[1]-a[1]); if(!list.length) return "";
   return `<div class="stk-shelf">${list.map(([k,n])=>{ let h=0; for(const c of p.id+k) h=(h*31+c.charCodeAt(0))>>>0; const rot=(h%25)-12;

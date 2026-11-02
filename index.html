@@ -2016,6 +2016,8 @@ function openImage(it){
 }
 function openPlayer(it){
   const isYt=!!(it.ytList||it.yt||it.vimeo||it.twitch);
+  // Name the site the video or sound actually comes from (a game's trailer is usually on YouTube, not on the game's page)
+  const src_n=it.ytList||it.yt?"YouTube":it.vimeo?"Vimeo":it.twitch?"Twitch":it.spotify?"Spotify":it.scUrl?"SoundCloud":PLAT[it.plat].n;
   const src=it.ytList ? `https://www.youtube-nocookie.com/embed/videoseries?list=${it.ytList}&autoplay=1&rel=0`
     : it.twitch ? twitchSrc(it.twitch)
     : it.yt ? `https://www.youtube-nocookie.com/embed/${it.yt}?autoplay=1&rel=0`
@@ -2030,7 +2032,7 @@ function openPlayer(it){
           <span style="display:flex;gap:8px">${it.game?`<a class="btn primary" style="text-decoration:none" href="${it.url}" target="_blank" rel="noopener">Play on ${PLAT[it.plat].n}</a>`:""}<button class="btn ghost" id="pclose" aria-label="Close player">✕</button></span>
         </div>
         <div class="player-frame"><iframe title="${esc(it.title)}" src="${src}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
-        <p class="player-note">Playing from ${PLAT[it.plat].n}. ${PLAT[it.plat].n}'s own privacy policy applies to this player.</p>
+        <p class="player-note">Playing from ${src_n}. ${src_n}'s own privacy policy applies to this player.</p>
       </div>
     </div>`;
   $("#pclose").onclick=closeModal; $("#pclose").focus();

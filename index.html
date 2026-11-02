@@ -531,6 +531,9 @@ button.sr-item{width:100%;border:0;background:none;text-align:left;font:inherit}
 @media (max-width:1100px){.nav a{padding:7px 9px}.search{flex:1 1 200px}}
 @media (min-width:861px){.top .wrap{flex-wrap:nowrap}.search{flex:1 1 160px;min-width:120px}.acct-name{max-width:110px}}
 @media (max-width:860px){.nav{order:4;flex:1 1 100%;overflow-x:auto}.search{order:5}}
+@media (min-width:861px){.brand{flex:none}}
+@media (min-width:861px) and (max-width:1240px){.nav svg{display:none}.nav a{padding:7px 8px}}
+@media (min-width:861px) and (max-width:1020px){.acct-name{display:none}.nav a{padding:7px 6px;font-size:13.5px}.search{min-width:90px}.top .wrap{gap:8px}}
 .coll-tag{align-self:flex-start;font-size:11.5px;font-weight:700;background:var(--surface-2);border-radius:999px;padding:2px 9px}
 #view-help .legal{margin-top:24px}
 #view-help h2{scroll-margin-top:90px}
@@ -1005,6 +1008,83 @@ svg.stk{display:block}
 .lvup .big{font-size:56px;font-family:var(--f-display);font-weight:800;line-height:1;margin:6px 0}
 .lvup{text-align:center}
 @media (prefers-reduced-motion:reduce){.fr::before,.fr::after,.fr>*,.fl,.sp,.dr,.hfx i,.nm,.nm::before,.nm::after,.claim.ready{animation:none!important}}
+
+/* ---------- Articles ---------- */
+.c-mode{display:flex;align-items:center;gap:10px;margin:-2px 0 12px}
+.c-mode .seg button{padding:5px 14px;font-weight:700}
+.c-draft{font-size:12.5px;font-weight:700;color:var(--accent)}
+.c-draft button{border:0;background:none;color:inherit;font:inherit;text-decoration:underline;cursor:pointer;padding:0}
+.composer.art-mode .c-row{display:none}
+.a-ed{display:grid;gap:10px}
+.a-ed[hidden]{display:none}
+.a-cover-prev{aspect-ratio:3/1;max-width:100%;border-radius:12px;background:var(--surface-2);background-size:cover;background-position:center;display:grid;place-items:center;color:var(--muted);font-size:13px;font-weight:600;overflow:hidden}
+.a-cover-prev.has{color:transparent}
+.a-cover-prev:not(.has){aspect-ratio:auto;height:44px}
+.im-top:has(.thumb.tall){grid-template-columns:minmax(0,240px) minmax(0,1fr)}
+.a-title{font-family:var(--f-display);font-size:26px;font-weight:800;line-height:1.2;border:0;background:none;color:var(--ink);width:100%;padding:2px 0}
+.a-sub{font-size:16px;border:0;background:none;color:var(--muted);width:100%;padding:0}
+.a-title:focus,.a-sub:focus{outline:none}
+.a-title::placeholder,.a-sub::placeholder{color:var(--muted);opacity:.7}
+.a-tools{display:flex;flex-wrap:wrap;gap:2px;background:var(--surface-2);border-radius:10px;padding:4px;position:sticky;top:0;z-index:2}
+.a-tools .icon-btn{padding:6px 9px;font-size:13px;font-weight:700}
+.a-tools .sep{width:1px;background:var(--line);margin:4px 3px}
+.a-tools [aria-pressed="true"]{background:var(--surface);color:var(--accent)}
+.a-img-box{border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;gap:8px;background:var(--bg)}
+.a-img-box[hidden]{display:none}
+.a-img-box .row{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.a-body{min-height:220px;max-height:60vh;overflow:auto;font-size:16.5px;line-height:1.7;outline:none;white-space:pre-wrap;overflow-wrap:anywhere;position:relative;cursor:text;padding:4px 0}
+.a-body.is-empty::before{content:attr(data-ph);color:var(--muted);position:absolute;top:4px;left:0;pointer-events:none}
+.a-body h2,.a-read h2{font-family:var(--f-display);font-size:22px;font-weight:800;line-height:1.25;margin:16px 0 4px}
+.a-body blockquote,.a-read blockquote{margin:12px 0;padding:2px 0 2px 14px;border-left:3px solid var(--accent);font-family:var(--f-display);font-size:18px;font-weight:600}
+.a-body hr,.a-read hr{border:0;text-align:center;margin:20px 0;height:auto}
+.a-body hr::after,.a-read hr::after{content:"✦   ✦   ✦";color:var(--accent);letter-spacing:.3em;white-space:pre}
+.a-body figure,.a-read figure{margin:14px 0}
+.a-body figure{position:relative;user-select:none}
+.a-body figure img,.a-read figure img{display:block;max-width:100%;max-height:520px;margin:0 auto;border-radius:10px}
+.a-body figcaption,.a-read figcaption{text-align:center;color:var(--muted);font-size:13px;margin-top:6px}
+.a-fig-x{position:absolute;top:6px;right:6px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;font-size:16px;cursor:pointer}
+.a-foot{justify-content:flex-end}
+.a-foot .sp{flex:1}
+.a-card{display:grid;grid-template-columns:minmax(0,1fr) 150px;margin-top:10px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg);color:inherit;text-decoration:none;max-width:560px}
+.a-card:hover{border-color:var(--accent)}
+.a-card.nocov{grid-template-columns:1fr}
+.a-card-t{padding:12px 14px;display:grid;gap:4px;align-content:start;min-width:0}
+.a-kick{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+.a-card h3{font-family:var(--f-display);font-size:18px;line-height:1.25;margin:0;text-wrap:balance}
+.a-card p{margin:0;color:var(--muted);font-size:13.5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.a-card-cov{background:var(--surface-2) center/cover no-repeat;min-height:100px}
+@media (max-width:520px){.a-card{grid-template-columns:1fr}.a-card-cov{aspect-ratio:3/1;order:-1;min-height:0}}
+.a-view{margin-bottom:6px}
+.a-hero{aspect-ratio:21/8;max-width:100%;border-radius:14px;background:var(--surface-2) center/cover no-repeat;margin-bottom:18px}
+.a-view h1{font-family:var(--f-display);font-size:clamp(28px,5vw,40px);line-height:1.12;margin:6px 0 6px;text-wrap:balance}
+.a-dek{font-size:18px;color:var(--muted);margin:0 0 14px}
+.a-by{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 0 16px;border-bottom:1px solid var(--line)}
+.a-by .t{display:grid;min-width:0}
+.a-by .p-name{font-size:15px}
+.a-read{font-size:17px;line-height:1.75;padding:14px 0 6px;overflow-wrap:anywhere}
+.a-read p{margin:0 0 14px}
+.a-read a{color:var(--accent)}
+.a-ai{margin:6px 0 10px}
+.a-disc{font-family:var(--f-display);font-size:16px;margin:18px 0 0;color:var(--muted)}
+.a-list{display:grid;gap:10px}
+.a-row{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;align-items:center;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);text-decoration:none;color:inherit}
+.a-row:hover{border-color:var(--accent)}
+.a-row .cov{aspect-ratio:4/3;background:var(--surface-2) center/cover no-repeat;display:grid;place-items:center;color:var(--muted)}
+.a-row .cov svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:1.8}
+.a-row .t{padding:8px 12px 8px 0;display:grid;gap:3px;min-width:0}
+.a-row h3{font-family:var(--f-display);font-size:16.5px;margin:0;line-height:1.3}
+.a-row p{margin:0;color:var(--muted);font-size:13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media (max-width:520px){.a-row{grid-template-columns:90px minmax(0,1fr)}}
+/* ---------- Stories ---------- */
+.thumb.tall{aspect-ratio:3/4}
+.thumb.story-cv{background:linear-gradient(160deg,var(--sc1),var(--sc2))}
+.thumb.story-cv::before{content:"";position:absolute;left:0;top:0;bottom:0;width:7%;background:rgba(0,0,0,.25);z-index:1}
+.cv-t{position:absolute;left:12%;right:8%;bottom:10%;font-family:var(--f-display);font-weight:800;font-size:19px;line-height:1.15;text-align:left;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.35);overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.grid.stories{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.chip.st{background:var(--surface-2);color:var(--ink)}
+.im-top .thumb.tall{max-width:240px}
+.br-types{display:flex;gap:6px;flex-wrap:wrap;padding:10px 0 0}
+.br-types[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -1020,6 +1100,7 @@ svg.stk{display:block}
       <a href="#art" id="nav-art"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1 0 1.6-.8 1.6-1.6 0-.9-.7-1.2-.7-2 0-.9.7-1.6 1.6-1.6H17a4 4 0 0 0 4-4C21 6.8 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10.5" cy="7.5" r="1"/><circle cx="15" cy="7.5" r="1"/></svg>Art</a>
       <a href="#music" id="nav-music"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>Music</a>
       <a href="#videos" id="nav-videos"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></svg>Videos</a>
+      <a href="#stories" id="nav-stories"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21a2 2 0 0 1 2-2h13v2H6"/><path d="M9 7h6"/></svg>Stories</a>
       <a href="#profile" id="nav-profile" hidden>Profile</a>
       <a href="#staff" id="nav-staff" hidden>Staff inbox<span class="count" id="staff-count" hidden></span></a>
     </nav>
@@ -1115,7 +1196,7 @@ svg.stk{display:block}
 
     <article class="legal" id="doc-privacy" hidden>
       <h1>Privacy Policy</h1>
-      <p class="legal-date">Last updated 30 October 2026</p>
+      <p class="legal-date">Last updated 2 November 2026</p>
       <div class="legal-short"><b>The short version:</b> We store as little as we can. No ads, no tracking, and we never sell or share your data. You can download or delete everything at any time.</div>
 
       <h2>1. Who's responsible for your data</h2>
@@ -1132,6 +1213,7 @@ svg.stk{display:block}
           <tr><td>Notifications</td><td>When someone comments on your post, signs your guestbook or follows you, so we can tell you. Only you can see them. Deleted after 3 months, or when you clear them.</td><td>Needed to run your account</td></tr>
           <tr><td>Levels, XP and Volts</td><td>Your level, XP and Volts (shown on your profile), the stickers and cosmetics you own, the stickers you gave, and a list of what you earned XP for and when (like "commented" or "gave a sticker"), so we can count quests and daily limits. Only you can see that list.</td><td>Needed to run your account</td></tr>
           <tr><td>Old usernames</td><td>If you change your @username, the old one is kept so old links and @mentions still lead to you, and so nobody else can take it for 30 days. Old usernames can be seen by anyone, like your current one.</td><td>Needed to run your account</td></tr>
+          <tr><td>Articles</td><td>The title, cover link, text and AI label of articles you publish, so people can read them. Articles you haven't published yet are only saved in your own browser, not on Power Creep.</td><td>Needed to run your account</td></tr>
           <tr><td>Favorite GIFs</td><td>The links to GIFs you star, so they're there on any device. Only you can see them.</td><td>Needed to run your account</td></tr>
           <tr><td>People you mute or block</td><td>So their content stays hidden for you. Only you can see this list.</td><td>Needed to run your account</td></tr>
           <tr><td>Reports you send</td><td>So staff can handle them. Only staff can see who sent a report. Deleted 6 months after the report is closed.</td><td>Keeping the site safe, and legal duties</td></tr>
@@ -1252,6 +1334,7 @@ svg.stk{display:block}
     <div class="feed-layout">
       <div class="feed-main">
         <form class="composer" id="composer" novalidate>
+          <div class="c-mode"><div class="seg" role="group" aria-label="What are you writing?"><button type="button" data-cmode="post" aria-pressed="true">Post</button><button type="button" data-cmode="article" aria-pressed="false">Article</button></div><span class="c-draft" id="a-draftnote" hidden>● Article draft saved · <button type="button" data-cmode="article">Open</button></span></div>
           <div class="c-row">
             <span id="c-av"></span>
             <div class="c-body">
@@ -1278,6 +1361,29 @@ svg.stk{display:block}
                 <button class="btn primary" id="c-post" disabled>Post</button>
               </div>
             </div>
+          </div>
+          <div class="a-ed" id="c-article" hidden>
+            <div class="a-cover-prev" id="a-cover-prev">No cover image</div>
+            <div class="c-field"><label for="a-cover">Cover image <i>(optional, wide pictures look best, like 1500 × 560)</i></label><input id="a-cover" placeholder="https://i.ibb.co/….png" autocomplete="off"><div id="a-cover-msg"></div></div>
+            <input id="a-title" class="a-title" maxlength="120" placeholder="Article title" aria-label="Article title" autocomplete="off">
+            <input id="a-sub" class="a-sub" maxlength="200" placeholder="Subtitle (optional)" aria-label="Subtitle" autocomplete="off">
+            <div class="a-tools" role="toolbar" aria-label="Article formatting">
+              <button type="button" class="icon-btn" data-afmt="bold" title="Bold (Ctrl+B)" aria-label="Bold"><b>B</b></button><button type="button" class="icon-btn" data-afmt="italic" title="Italic (Ctrl+I)" aria-label="Italic"><i>I</i></button><button type="button" class="icon-btn" data-afmt="underline" title="Underline (Ctrl+U)" aria-label="Underline"><u>U</u></button><button type="button" class="icon-btn" data-afmt="strikeThrough" title="Strikethrough" aria-label="Strikethrough"><s>S</s></button>
+              <span class="sep"></span>
+              <button type="button" class="icon-btn" data-ablock="h2" title="Heading">Heading</button><button type="button" class="icon-btn" data-ablock="blockquote" title="Quote">Quote</button>
+              <span class="sep"></span>
+              <button type="button" class="icon-btn" id="a-img-btn" aria-expanded="false" aria-controls="a-img-box" title="Add a picture">🖼 Picture</button><button type="button" class="icon-btn" id="a-hr-btn" title="Divider">✦ Divider</button>
+            </div>
+            <div class="a-img-box" id="a-img-box" hidden>
+              <div class="c-field"><label for="a-imgurl">Picture</label><input id="a-imgurl" placeholder="https://i.ibb.co/….png" autocomplete="off"><div id="a-imgurl-msg"></div></div>
+              <div class="c-field"><label for="a-imgcap">Caption <i>(optional)</i></label><input id="a-imgcap" maxlength="150" autocomplete="off"></div>
+              <div class="row"><button type="button" class="btn sm ghost" id="a-img-cancel">Cancel</button><button type="button" class="btn sm primary" id="a-img-add">Add picture</button></div>
+            </div>
+            <div id="a-body" class="a-body is-empty" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Article text" data-ph="Write your article… Use Heading to split it into parts."></div>
+            <div class="c-field"><label for="a-note">Text for the feed <i>(optional, shown above the article card. Hashtags go here)</i></label><input id="a-note" maxlength="500" placeholder="New devlog is up! #gamedev" autocomplete="off"></div>
+            <div class="c-field"><label for="a-ai">Made with AI?</label><select id="a-ai" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg);color:var(--ink);font:inherit;font-size:14px"><option value="">No AI</option><option value="assisted">AI-assisted: I wrote it, AI helped somewhere</option><option value="generated">AI-made: mostly or fully generated</option></select>
+              <div id="a-ainote-wrap" hidden style="margin-top:6px"><label for="a-ainote">What was made with AI?</label><input id="a-ainote" maxlength="150" placeholder="e.g. Cover image made with AI, text is mine" autocomplete="off"></div></div>
+            <div class="c-tools a-foot"><span class="c-count" id="a-count">0 / 20,000</span><span class="sp"></span><button type="button" class="btn ghost" id="a-discard">Discard</button><button type="button" class="btn primary" id="a-publish" disabled>Publish article</button></div>
           </div>
         </form>
         <div class="feed-tabs" role="tablist">
@@ -1337,6 +1443,7 @@ svg.stk{display:block}
       </div>
       <div class="seg" id="br-days" role="group" aria-label="Time range"><button data-bdays="1">Today</button><button data-bdays="7">This week</button><button data-bdays="30">This month</button><button data-bdays="null">All time</button></div>
     </div>
+    <div class="br-types" id="br-types" hidden role="group" aria-label="Story type"></div>
     <div class="br-tags" id="br-tags"></div>
     <div class="grid" id="br-grid"></div>
     <div style="display:flex;justify-content:center;margin:20px 0"><button class="btn" id="br-more" hidden>Load more</button></div>
@@ -1346,7 +1453,7 @@ svg.stk{display:block}
     <article class="legal help">
       <h1>Help</h1>
       <p class="legal-date">Quick answers for using Power Creep.</p>
-      <nav class="help-toc"><a href="#help" data-hjump="h-images">Adding pictures</a><a href="#help" data-hjump="h-sizes">Avatar and header sizes</a><a href="#help" data-hjump="h-media">Adding games, music, art and videos</a><a href="#help" data-hjump="h-format">Bold, italic and big text</a><a href="#help" data-hjump="h-tags">Hashtags</a><a href="#help" data-hjump="h-ai">AI labels</a><a href="#help" data-hjump="h-safety">Muting, blocking and reporting</a><a href="#help" data-hjump="h-levels">Levels, quests and the shop</a></nav>
+      <nav class="help-toc"><a href="#help" data-hjump="h-images">Adding pictures</a><a href="#help" data-hjump="h-sizes">Avatar and header sizes</a><a href="#help" data-hjump="h-media">Adding games, music, art and videos</a><a href="#help" data-hjump="h-articles">Articles and Stories</a><a href="#help" data-hjump="h-format">Bold, italic and big text</a><a href="#help" data-hjump="h-tags">Hashtags</a><a href="#help" data-hjump="h-ai">AI labels</a><a href="#help" data-hjump="h-safety">Muting, blocking and reporting</a><a href="#help" data-hjump="h-levels">Levels, quests and the shop</a></nav>
 
       <h2 id="h-images">Adding pictures</h2>
       <p>Press <b>Upload image</b> wherever you can add a picture (posts, avatar, header and art), and pick a file from your device. In the post box you can also just paste a picture or drag it in.</p>
@@ -1376,7 +1483,18 @@ svg.stk{display:block}
         <li><b>Videos:</b> YouTube, Vimeo, or Twitch past broadcasts and clips. Your live Twitch channel goes in the <b>Live</b> tab on your profile.</li>
         <li><b>Art:</b> an image link (see above), plus an optional link to the post on ArtStation, DeviantArt, Bluesky and more.</li>
       </ul>
+      <ul><li><b>Stories:</b> a link to your novel, comic, poem or review on any site. See <a href="#help" data-hjump="h-articles">Articles and Stories</a>.</li></ul>
       <p>Updated your game? Click <b>Edit</b> on it to change the title or thumbnail and tell your followers what's new.</p>
+
+      <h2 id="h-articles">Articles and Stories</h2>
+      <p><b>Articles</b> are long posts with a title, a cover picture and as much text as you need (up to 20,000 characters, about 3,000 words). Great for devlogs, tutorials, behind-the-scenes and reviews.</p>
+      <ul>
+        <li>In the post box, switch from <b>Post</b> to <b>Article</b>, or press <b>+</b> and pick <b>Article</b>. Text you already typed moves into the article.</li>
+        <li>Use <b>Heading</b> to split it into parts, <b>Quote</b> for a big quote, <b>Picture</b> to add images and <b>Divider</b> for a break. You can also paste or drag pictures straight in.</li>
+        <li>Your article is saved as a draft in your browser while you write, so you can switch back to a normal post and come back later.</li>
+        <li>It shows up in the feed as a card, and on your profile under <b>Articles</b>. Edit it any time from the ⋯ menu or the <b>Edit</b> button on the article.</li>
+      </ul>
+      <p><b>Stories</b> are for novels, light novels, short stories, comics, poems and reviews that you post somewhere else, like AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, your blog or YouTube. Press <b>+</b> and pick <b>Story</b>, paste the link, pick what it is and add a cover. Like games and music, the story stays where it is and Power Creep links to it. Find them all on the <b>Stories</b> page.</p>
 
       <h2 id="h-format">Bold, italic and big text</h2>
       <p>In the post box, use the <b>B</b>, <i>I</i>, <u>U</u>, <s>S</s> and big <b>T</b> buttons (or Ctrl+B, Ctrl+I, Ctrl+U). You see the result right away while you type.</p>
@@ -1440,10 +1558,12 @@ svg.stk{display:block}
 <div class="fab-wrap" id="fab-wrap" hidden>
   <div class="fab-menu" id="fab-menu" hidden role="menu" aria-label="Create">
     <button role="menuitem" data-fab="post"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>Post</button>
+    <button role="menuitem" data-fab="article"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>Article</button>
     <button role="menuitem" data-fab="game"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9h10a4 4 0 0 1 4 4v1a3 3 0 0 1-5.2 2L14 14h-4l-1.8 2A3 3 0 0 1 3 14v-1a4 4 0 0 1 4-4z"/><path d="M8 11v3M6.5 12.5h3"/></svg>Game</button>
     <button role="menuitem" data-fab="art"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1 0 1.6-.8 1.6-1.6 0-.9-.7-1.2-.7-2 0-.9.7-1.6 1.6-1.6H17a4 4 0 0 0 4-4C21 6.8 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10.5" cy="7.5" r="1"/><circle cx="15" cy="7.5" r="1"/></svg>Art</button>
     <button role="menuitem" data-fab="music"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>Music</button>
     <button role="menuitem" data-fab="video"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></svg>Video</button>
+    <button role="menuitem" data-fab="story"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21a2 2 0 0 1 2-2h13v2H6"/><path d="M9 7h6"/></svg>Story</button>
   </div>
   <button class="fab" id="fab" aria-label="Create a post or add your work" aria-expanded="false" aria-controls="fab-menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
 </div>
@@ -1455,7 +1575,25 @@ const PLAT = {
   soundcloud:{n:"SoundCloud",c:"#e8570c"}, spotify:{n:"Spotify",c:"#178a43"}, bandcamp:{n:"Bandcamp",c:"#287b93"},
   itch:{n:"itch.io",c:"#d63c4f"}, gamejolt:{n:"Game Jolt",c:"#2f7f3a"}, steam:{n:"Steam",c:"#2a475e"}, deviantart:{n:"DeviantArt",c:"#0b7a4e"}, x:{n:"X",c:"#222"}, reddit:{n:"Reddit",c:"#d93a00"}, tumblr:{n:"Tumblr",c:"#2b3b52"}, newgrounds:{n:"Newgrounds",c:"#c75a00"}, imgur:{n:"Imgur",c:"#1a8f5a"}, instagram:{n:"Instagram",c:"#c1357b"}, tiktok:{n:"TikTok",c:"#18181b"}, discord:{n:"Discord",c:"#5865f2"}, github:{n:"GitHub",c:"#24292f"}, patreon:{n:"Patreon",c:"#d1453b"}, kofi:{n:"Ko-fi",c:"#1f7fb6"}, website:{n:"Website",c:"#4a4a55"}, other:{n:"Link",c:"#4a4a55"}, image:{n:"Image link",c:"#5b5670"}, artstation:{n:"ArtStation",c:"#1b6fae"}, bluesky:{n:"Bluesky",c:"#1269d3"}
 };
-const TABS = [["games","Games"],["music","Music"],["videos","Videos"],["art","Art"]];
+Object.assign(PLAT,{ao3:{n:"AO3",c:"#990000"},wattpad:{n:"Wattpad",c:"#c2410c"},royalroad:{n:"Royal Road",c:"#2b5c94"},webtoon:{n:"Webtoon",c:"#0b8a43"},tapas:{n:"Tapas",c:"#b8432f"},
+  scribblehub:{n:"Scribble Hub",c:"#3d6fa8"},ffnet:{n:"FanFiction.net",c:"#33508a"},substack:{n:"Substack",c:"#c2410c"},medium:{n:"Medium",c:"#222"},gdocs:{n:"Google Docs",c:"#1a65c9"},
+  globalcomix:{n:"GlobalComix",c:"#5b3cc4"},kofi:{n:"Ko-fi",c:"#1f7aa8"},patreon:{n:"Patreon",c:"#c2410c"},web:{n:"Website",c:"#5a5f6b"}});
+const TABS = [["games","Games"],["music","Music"],["videos","Videos"],["art","Art"],["stories","Stories"]];
+const TAB_TYPE={games:"game",music:"music",videos:"video",art:"art",stories:"story"};
+const STYPES={novel:"Novel",lightnovel:"Light novel",short:"Short story",comic:"Comic",poetry:"Poetry",review:"Review",other:"Other"};
+const SSTATUS={ongoing:"Ongoing",complete:"Complete",oneshot:"One-shot",hiatus:"On hiatus"};
+// Stories can live on lots of sites, so any https link works. Known sites get their own name and color.
+function storyLink(raw){
+  let u; try{u=new URL(String(raw||"").trim())}catch(_){return null}
+  if(u.protocol!=="https:"||!u.hostname.includes(".")) return null;
+  const h=u.hostname.toLowerCase().replace(/^www\.|^m\./,""), is=d=>h===d||h.endsWith("."+d);
+  const plat=is("archiveofourown.org")||is("ao3.org")?"ao3":is("wattpad.com")?"wattpad":is("royalroad.com")?"royalroad":is("webtoons.com")?"webtoon":is("tapas.io")?"tapas"
+    :is("scribblehub.com")?"scribblehub":is("fanfiction.net")?"ffnet":is("substack.com")?"substack":is("medium.com")?"medium":h==="docs.google.com"?"gdocs":is("globalcomix.com")?"globalcomix"
+    :is("ko-fi.com")?"kofi":is("patreon.com")?"patreon":is("itch.io")?"itch":is("youtube.com")||h==="youtu.be"?"youtube":is("tumblr.com")?"tumblr":is("deviantart.com")?"deviantart"
+    :is("newgrounds.com")?"newgrounds":is("reddit.com")?"reddit":is("gamejolt.com")?"gamejolt":is("x.com")||is("twitter.com")?"x":is("bsky.app")?"bluesky":"web";
+  return {plat:PLAT[plat]?plat:"web",url:u.href,site:h};
+}
+const platName=it=>it.plat==="web"&&it.site?it.site:PLAT[it.plat]?PLAT[it.plat].n:"";
 const CATS = {
   illegal:{n:"Illegal content",d:"Breaks the law, like stolen data or threats",sev:"var(--danger)",rank:0},
   notmine:{n:"Not their content",d:"Stolen, reuploaded or claimed as their own",sev:"var(--ai)",rank:1},
@@ -1655,9 +1793,18 @@ const U=key=>USERS[key]||unknownUser;
 
 /* Media rows store the links people typed. They're parsed again here, the same way the form checks them. */
 function itemFromRow(m){
-  const d=m.data||{}, type={games:"game",music:"music",videos:"video",art:"art"}[m.tab];
+  const d=m.data||{}, type=TAB_TYPE[m.tab];
+  if(!type) return null;
   const it={id:m.id,owner:m.owner,tab:m.tab,title:String(m.title||"Untitled").slice(0,100),ai:cleanAi(m.ai),
     updated:m.updated_at?Date.parse(m.updated_at):null,h:hueOf(m.id),sq:type==="music"||type==="art"?1:0,hidden:m.hidden,raw:d,desc:typeof d.desc==="string"?d.desc.slice(0,1000):""};
+  if(type==="story"){ const sl=storyLink(d.link); if(!sl) return null; Object.assign(it,sl,{story:1,tall:1,sq:0});
+    const cp=d.cover?parseLink(d.cover):null; if(cp&&cp.kind==="image") it.img=cp.img;
+    it.stype=STYPES[d.stype]?d.stype:"other"; it.status=SSTATUS[d.status]?d.status:null;
+    it.meta=`${STYPES[it.stype]}${it.status?" · "+SSTATUS[it.status]:""}`;
+    it.tags=(Array.isArray(m.tags)?m.tags:[]).map(cleanTag).filter(Boolean).slice(0,5);
+    it.likes=m.like_count||0; it.cc=m.comment_count||0; it.liked=myMediaLikes.has(m.id); it.created=m.created_at;
+    const old=MEDIA[it.id]; if(old&&old.comments) it.comments=old.comments;
+    MEDIA[it.id]=it; return it; }
   const pl=d.link?parseLink(d.link):null, want={game:["game"],music:["audio","playlist"],video:["video","playlist"],art:["post","game"]}[type];
   if(pl&&want.includes(pl.kind)){ Object.assign(it,pl); delete it.kind; } else if(type!=="art") return null;
   if(type==="game"){ it.game=1; const tp=d.trailer?parseLink(d.trailer):null; if(tp&&tp.yt) it.yt=tp.yt; if(tp&&tp.vimeo) it.vimeo=tp.vimeo; }
@@ -1679,7 +1826,11 @@ function postFromRow(r){
   const old=posts.find(p=>p.id===r.id);
   const images=(Array.isArray(r.images)?r.images:[]).map(x=>parseLink(x&&x.img)).filter(pl=>pl&&pl.kind==="image").slice(0,4).map(pl=>({img:pl.img}));
   const p={id:r.id,author:r.author,u:keyOf(r.author),t:Date.parse(r.created_at),text:String(r.text||""),images,ai:cleanAi(r.ai),
-    kind:r.kind,itemId:r.media_id,likes:r.like_count||0,cc:r.comment_count||0,comments:old?old.comments:null,liked:myLikes.has(r.id),hidden:r.hidden};
+    kind:r.kind==="article"?null:r.kind,itemId:r.media_id,likes:r.like_count||0,cc:r.comment_count||0,comments:old?old.comments:null,liked:myLikes.has(r.id),hidden:r.hidden};
+  if(r.kind==="article"&&r.article&&typeof r.article==="object"){ const a=r.article, cv=a.c?parseLink(a.c):null;
+    p.art={t:String(a.t||"Untitled").slice(0,120),s:String(a.s||"").slice(0,200),c:cv&&cv.kind==="image"?cv.img:null,x:String(a.x||"").slice(0,300),w:Math.max(0,+a.w||0)|0,
+      body:old&&old.art&&old.art.t===String(a.t||"Untitled").slice(0,120)&&old.art.w===(Math.max(0,+a.w||0)|0)?old.art.body:undefined}; }
+  else p.art=null;
   if(old) Object.assign(old,p); else posts.push(p);
   return old||p;
 }
@@ -1757,7 +1908,7 @@ document.addEventListener("click",e=>{ const t=e.target.closest("[data-mopen],[d
 const aiShort = ai => ai.lvl==="generated"?"AI":"ASSISTED";
 // Platform first, then the AI label: [itch.io] [ASSISTED]
 function labelsHtml(it){ const full=it.ai?(it.ai.lvl==="generated"?"AI-made":"AI-assisted")+(it.ai.note?": "+it.ai.note:""):"";
-  const c=chip(it.plat), a=it.ai?`<button class="ai-chip" title="${esc(full)}" data-ainote="${esc(full)}">${aiShort(it.ai)}</button>`:"";
+  const c=it.story?`<span class="chip" style="--c:${PLAT[it.plat].c}">${esc(platName(it))}</span><span class="chip st">${esc(STYPES[it.stype])}</span>`:chip(it.plat), a=it.ai?`<button class="ai-chip" title="${esc(full)}" data-ainote="${esc(full)}">${aiShort(it.ai)}</button>`:"";
   return c||a?`<div class="card-labels">${c}${a}</div>`:""; }
 const flagSvg = `<svg viewBox="0 0 24 24"><path d="M4 21V4m0 0h12l-2 4 2 4H4"/></svg>`;
 const playSvg = `<svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>`;
@@ -1791,11 +1942,12 @@ function renderProfileHeader(){
 }
 function profileTabs(){
   const own=state.role==="owner";
-  const has=k=>k==="feed"?posts.some(p=>p.u===VIEW.key&&!p.kind):k==="liked"?posts.some(p=>p.liked):items.some(i=>i.tab===k);
+  const has=k=>k==="feed"?posts.some(p=>p.u===VIEW.key&&!p.kind):k==="articles"?viewArticles().length>0:k==="liked"?posts.some(p=>p.liked):items.some(i=>i.tab===k);
   const gbShow=own||(VIEW.gb&&VIEW.gb.length)||U(VIEW.key).guestbook!=="off";
-  return [["feed","Feed"],...TABS,...(own?[["liked","Liked"]]:[])].filter(([k])=>has(k)).concat(gbShow?[["guestbook","Guestbook"]]:[],state.twitch||own?[["live","Live"]]:[]);
+  return [["feed","Feed"],["articles","Articles"],...TABS,...(own?[["liked","Liked"]]:[])].filter(([k])=>has(k)).concat(gbShow?[["guestbook","Guestbook"]]:[],state.twitch||own?[["live","Live"]]:[]);
 }
 const viewPosts=()=>{ const pin=U(VIEW.key).pinned; return posts.filter(p=>p.u===VIEW.key&&!p.kind&&(!p.ai||visible({ai:p.ai}))).sort((a,b)=>(b.id===pin)-(a.id===pin)||b.t-a.t); };
+const viewArticles=()=>posts.filter(p=>p.u===VIEW.key&&p.art&&(!p.ai||visible({ai:p.ai}))).sort((a,b)=>b.t-a.t);
 const likedPosts=()=>posts.filter(p=>p.liked&&(!p.ai||visible({ai:p.ai}))).sort((a,b)=>b.t-a.t);
 function renderProfile(){
   if(state.loadingProfile){ $("#grid").innerHTML=`<div class="empty">Loading…</div>`; return; }
@@ -1805,13 +1957,16 @@ function renderProfile(){
 function renderTabs(){
   const tabs=profileTabs(); if(!tabs.some(t=>t[0]===state.tab)) state.tab=tabs.length?tabs[0][0]:"none";
   $("#tabs").innerHTML=tabs.map(([k,n])=>{
-    const c=k==="feed"?viewPosts().length:k==="liked"?likedPosts().length:k==="guestbook"?(VIEW.gb||[]).length:k==="live"?null:items.filter(i=>i.tab===k&&visible(i)).length;
+    const c=k==="feed"?viewPosts().length:k==="articles"?viewArticles().length:k==="liked"?likedPosts().length:k==="guestbook"?(VIEW.gb||[]).length:k==="live"?null:items.filter(i=>i.tab===k&&visible(i)).length;
     const lock=k==="liked"?`<svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2;margin-left:5px;vertical-align:-1px" aria-label="private"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>`:"";
     const dot=k==="live"&&state.twitch?`<span class="live-dot" aria-hidden="true"></span>`:"";
     return `<button role="tab" id="tab-${k}" aria-selected="${state.tab===k}" data-tab="${k}">${dot}${n}${lock}${c===null?"":`<small>${c}</small>`}</button>`;
   }).join("");
 }
 function thumbHtml(it){
+  if(it.story){ const c=`thumb tall story-cv`, st=`--sc1:hsl(${it.h[0]} 45% 30%);--sc2:hsl(${it.h[1]} 55% 46%)`;
+    const img=it.img?`<img class="thumb-img" src="${esc(it.img)}" alt="" loading="lazy" onerror="this.remove()">`:"";
+    return `<a class="${c}" style="${st}" href="${esc(it.url)}" target="_blank" rel="noopener nofollow ugc" aria-label="Read ${esc(it.title)} on ${esc(platName(it))}"><span class="cv-t">${esc(it.title)}</span>${img}</a>`; }
   const inner=`<span class="play">${playSvg}</span>`;   // platform and AI labels sit under the title, not on the picture
   const src=imgOf(it);
   const img = src ? `<img class="thumb-img" src="${esc(src)}" alt="" loading="lazy" onerror="this.remove()">`
@@ -1902,7 +2057,7 @@ function liveHtml(){
 }
 function liveChatHidden(){ try{ return localStorage.getItem("pc-live-chat-hidden")==="1"; }catch(_){ return false; } }
 function renderGrid(){
-  const g=$("#grid"); g.classList.toggle("as-list",["feed","liked","live","guestbook"].includes(state.tab));
+  const g=$("#grid"); g.classList.toggle("as-list",["feed","liked","live","guestbook","articles"].includes(state.tab)); g.classList.toggle("stories",state.tab==="stories");
   if(VIEW.key!=="me"&&BLOCKED.has(idOf(VIEW.key))){ g.classList.add("as-list"); g.innerHTML=blockedNotice(); return; }
   if(state.tab==="guestbook"){ g.innerHTML=guestbookHtml(); return; }
   if(state.tab==="feed"||state.tab==="liked"){
@@ -1912,6 +2067,7 @@ function renderGrid(){
     if(LIVE) fillScThumbs(); return;
   }
   if(state.tab==="live"){ g.innerHTML=liveHtml(); return; }
+  if(state.tab==="articles"){ const l=viewArticles(); g.innerHTML=l.length?`<div class="a-list">${l.map(artRowHtml).join("")}</div>`:`<div class="empty">No articles yet.</div>`; return; }
   if(state.tab==="none"){ g.innerHTML=`<div class="empty">Nothing here yet.</div>`; return; }
   const all=items.filter(i=>i.tab===state.tab);
   const vis=all.filter(visible);
@@ -1980,7 +2136,7 @@ async function loadStaff(){
   reports=Object.values(groups).map(g=>{
     g.cat=Object.keys(g.reasons).sort((a,b)=>CATS[a].rank-CATS[b].rank||g.reasons[b]-g.reasons[a])[0];
     const owner=U(keyOf(g.owner)); g.ownerHandle=owner.handle; g.h=hueOf(g.id);
-    if(g.type==="post"){ const p=pp.find(x=>x.id===g.id); g.title=p?(p.text?`Post: "${p.text.slice(0,80)}${p.text.length>80?"…":""}"`:"Post with images"):"Post (deleted)"; g.hidden=p&&p.hidden; g.img=p&&p.images&&p.images[0]&&parseLink(p.images[0].img)?.img; }
+    if(g.type==="post"){ const p=pp.find(x=>x.id===g.id); g.title=p&&p.kind==="article"&&p.article?`Article: "${String(p.article.t||"").slice(0,80)}"`:p?(p.text?`Post: "${p.text.slice(0,80)}${p.text.length>80?"…":""}"`:"Post with images"):"Post (deleted)"; g.hidden=p&&p.hidden; g.img=p&&p.images&&p.images[0]&&parseLink(p.images[0].img)?.img; }
     if(g.type==="guestbook"){ const c=gg.find(x=>x.id===g.id); g.title=c?`Guestbook message: "${c.text.slice(0,80)}"`:"Guestbook message (deleted)"; g.hidden=c&&c.hidden; }
     if(g.type==="comment"){ const c=cc.find(x=>x.id===g.id); g.title=c?`Comment: "${c.text.slice(0,80)}"`:"Comment (deleted)"; g.hidden=c&&c.hidden; }
     if(g.type==="media"){ const m=mm.find(x=>x.id===g.id); const it=m&&itemFromRow(m); g.title=it?`${it.title} (${it.tab})`:"Media (deleted)"; g.plat=it&&it.plat; g.img=it&&imgOf(it); g.hidden=m&&m.hidden; g.link=it&&urlOf(it); }
@@ -2037,7 +2193,8 @@ const TYPES={
   game:{n:"Game",d:"A game page with an optional trailer or cover image",hosts:"itch.io, Game Jolt, Steam",tab:"games"},
   music:{n:"Music",d:"A track, album or playlist",hosts:"SoundCloud, Spotify, Bandcamp",tab:"music",sq:1},
   video:{n:"Video",d:"A video or stream",hosts:"YouTube, Vimeo, Twitch",tab:"videos"},
-  art:{n:"Art",d:"An image, with an optional link to the post",hosts:"Image links, plus posts on ArtStation, DeviantArt, Bluesky, X, Reddit, Tumblr, Newgrounds or Game Jolt",tab:"art",sq:1}
+  art:{n:"Art",d:"An image, with an optional link to the post",hosts:"Image links, plus posts on ArtStation, DeviantArt, Bluesky, X, Reddit, Tumblr, Newgrounds or Game Jolt",tab:"art",sq:1},
+  story:{n:"Story",d:"A novel, light novel, comic, poem or review you posted somewhere else",hosts:"AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, a blog or any website",tab:"stories",tall:1}
 };
 let draft=null;
 function openAddMedia(){
@@ -2060,6 +2217,10 @@ function openForm(type,ex){
   if(type==="game") f=field("f-link","Game page link",0,"https://you.itch.io/your-game","itch.io, Game Jolt or Steam")+field("f-trailer","Trailer video",1,"https://www.youtube.com/watch?v=…","YouTube or Vimeo. Becomes the card thumbnail and plays in the pop-up.")+field("f-cover","Cover image link",1,"https://img.itch.zone/…","Used if there's no trailer. Supported: "+IMG_SITE_NAMES+' <a href="#help" class="help-link" data-hjump="h-images">How do I get an image link?</a>');
   if(type==="music") f=field("f-link","Track, album or playlist link",0,"https://soundcloud.com/you/track","SoundCloud, Spotify, Bandcamp, or a YouTube playlist");
   if(type==="video") f=field("f-link","Video link",0,"https://www.youtube.com/watch?v=…","YouTube (videos or playlists), Vimeo or Twitch (past broadcasts and clips)");
+  if(type==="story") f=field("f-link","Link to your story",0,"https://www.royalroad.com/fiction/…","Where people read it: AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, your blog, a YouTube review…")
+    +`<div class="field"><label for="f-stype">What is it?</label><select id="f-stype">${Object.entries(STYPES).map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select></div>`
+    +`<div class="field"><label for="f-status">Status <i>(optional)</i></label><select id="f-status"><option value="">Don't show</option>${Object.entries(SSTATUS).map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select></div>`
+    +field("f-cover","Cover image",1,"https://i.ibb.co/….png","A tall picture looks best, like a book cover (600 × 800). Without one, a cover is made from the title. Supported: "+IMG_SITE_NAMES);
   if(type==="art") f=field("f-cover","Image link",0,"https://i.imgur.com/….png","Supported: "+IMG_SITE_NAMES+' <a href="#help" class="help-link" data-hjump="h-images">How do I get an image link?</a>')+field("f-link","Link to the post",1,"https://www.artstation.com/artwork/…","Where people go when they click the image");
   $("#modal-root .modal").innerHTML=`
     ${ex?"":`<button class="back" id="amback">← Choose another type</button>`}
@@ -2070,7 +2231,7 @@ function openForm(type,ex){
         <div class="field"><label for="f-title">Title</label><input id="f-title" placeholder="What is it called?" autocomplete="off"></div>
         ${tagPickerHtml(T.tab)}
         ${f}
-        ${type==="music"?"":`<div class="field"><label for="f-desc">Description <i>(optional)</i></label><textarea id="f-desc" maxlength="1000" rows="4" placeholder="${{game:"What's the game about? Controls, platforms, credits…",video:"What's the video about?",art:"Tell people about this piece: tools, process, the story behind it…"}[type]}"></textarea><div class="hint">Shown when people open it.</div></div>`}
+        ${type==="music"?"":`<div class="field"><label for="f-desc">Description <i>(optional)</i></label><textarea id="f-desc" maxlength="1000" rows="4" placeholder="${{game:"What's the game about? Controls, platforms, credits…",video:"What's the video about?",art:"Tell people about this piece: tools, process, the story behind it…",story:"The blurb: what's it about? Add content warnings here too."}[type]}"></textarea><div class="hint">Shown when people open it.</div></div>`}
         <div class="field"><label for="f-ai">Made with AI?</label>
           <select id="f-ai"><option value="">No AI used</option><option value="assisted">AI-assisted: I made it, AI helped somewhere</option><option value="generated">AI-made: mostly or fully generated</option></select></div>
         <div class="field" id="f-ainote-wrap" hidden><label for="f-ainote">What was made with AI?</label><textarea id="f-ainote" placeholder="e.g. Music is mine, cover art made with AI"></textarea></div>
@@ -2086,7 +2247,7 @@ function openForm(type,ex){
   if($("#amback")) $("#amback").onclick=openAddMedia; $("#amcancel2").onclick=closeModal;
   if(ex){ const set=(id,v)=>{const el=$("#"+id); if(el&&v) el.value=v;};
     set("f-title",ex.title); set("f-ai",ex.ai?ex.ai.lvl:""); set("f-ainote",ex.ai?ex.ai.note:"");
-    const r=ex.raw||{}; set("f-link",r.link); set("f-trailer",r.trailer); set("f-cover",r.cover); set("f-desc",typeof r.desc==="string"?r.desc:""); }
+    const r=ex.raw||{}; set("f-link",r.link); set("f-trailer",r.trailer); set("f-cover",r.cover); set("f-stype",r.stype); set("f-status",r.status); set("f-desc",typeof r.desc==="string"?r.desc:""); }
   draft={type};
   const form=$("#amform");
   form.addEventListener("input",()=>updateDraft(type));
@@ -2101,6 +2262,7 @@ function updateDraft(type){
   $("#f-ainote-wrap").hidden=!aiLvl;
   let ok=!!title, it={tab:T.tab,title:title||"Untitled",h:[(title.length*37)%360,(title.length*53+180)%360],sq:T.sq,ai:aiLvl?{lvl:aiLvl,note:aiNote||"…"}:null};
   if(aiLvl&&!aiNote) ok=false;
+  if(type==="story") return updateStoryDraft(it,ok,v);
   const link=v("f-link"), pl=link?parseLink(link):null;
   const wantKind={game:["game"],music:["audio","playlist"],video:["video","playlist"],art:["post","game"]}[type];
   if(link){ if(!pl||!wantKind.includes(pl.kind)){ setMsg("f-link","err",`That link isn't from a supported site. Use ${T.hosts.replace("Image links, plus posts on ","")}.`); if(type!=="art"||link) ok=false; }
@@ -2135,6 +2297,20 @@ function updateDraft(type){
   return ok?it:null;
 }
 
+function updateStoryDraft(it,ok,v){
+  const link=v("f-link"), sl=link?storyLink(link):null;
+  if(link){ if(!sl){ setMsg("f-link","err","That doesn't look like a web link. It should start with https://"); ok=false; } else { setMsg("f-link","ok",`✓ ${sl.plat==="web"?sl.site:PLAT[sl.plat].n} link`); Object.assign(it,sl); } }
+  else { setMsg("f-link"); ok=false; }
+  if(!it.plat){ it.plat="web"; it.site="your-site.com"; it.url="#"; }
+  const cv=v("f-cover"), cp=cv?parseLink(cv):null;
+  if(cv){ if(!cp||cp.kind!=="image"){ setMsg("f-cover","err","That image site isn't supported. Use one of: "+IMG_SITE_NAMES+"."); ok=false; } else { setMsg("f-cover","ok","✓ Approved image host"); it.img=cp.img; } } else setMsg("f-cover");
+  Object.assign(it,{story:1,tall:1,stype:v("f-stype")||"novel",status:v("f-status")||null});
+  it.meta=`${STYPES[it.stype]}${it.status?" · "+SSTATUS[it.status]:""}`;
+  $("#am-preview").innerHTML=`<article class="card" style="max-width:220px">${thumbHtml({...it,id:"draft"}).replace(/href="[^"]*"/,'href="#" tabindex="-1"')}<div class="card-body"><h3>${esc(it.title)}</h3><div class="meta">${esc(it.meta)}</div>${labelsHtml(it)}</div></article>`;
+  $("#am-source").innerHTML="The story stays where you posted it. Power Creep only shows the cover, the blurb and a link.";
+  $("#am-submit").disabled=!ok;
+  return ok?it:null;
+}
 async function sha256(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
 const PRESETS={
   ember:{n:"Ember",s:"255,59,54",b:["#0e0e10","#1f1f23","#2a1313"]},
@@ -2243,7 +2419,7 @@ const cmtSvg=`<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>`;
 const imgSvg=`<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-6-6-8 8"/></svg>`;
 const trashSvg=`<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>`;
 const fs={ftab:"foryou",following:new Set(),interest:{},affinity:{},open:new Set(),tag:null,fyOrder:[],stale:false,loading:true};
-const tagsOf=p=>p.tags||(p.tags=[...new Set(((p.text||"").match(/#(\w{1,30})/g)||[]).map(x=>x.slice(1).toLowerCase()))].concat(p.kind?[{games:"gamedev",music:"music",videos:"video",art:"art"}[(mediaById(p.itemId)||{}).tab]||"media"]:[]));
+const tagsOf=p=>p.tags||(p.tags=[...new Set(((p.text||"").match(/#(\w{1,30})/g)||[]).map(x=>x.slice(1).toLowerCase()))].concat(p.kind?[{games:"gamedev",music:"music",videos:"video",art:"art",stories:"stories"}[(mediaById(p.itemId)||{}).tab]||"media"]:[]));
 const timeAgo=t=>{const m=Math.max(1,Math.round((Date.now()-t)/60000));return m<60?m+"m":m<1440?Math.round(m/60)+"h":Math.round(m/1440)+"d";};
 function avHtml(key){const u=U(key);return frameWrap(u.look,`<span class="mini-av" style="${grad(u.h)}">${avatarInner(u.avatar,u.name)}</span>`);}
 
@@ -2257,6 +2433,8 @@ function embedFor(p){
   delete it.kind; return p.embed=it;
 }
 function embedHtml(it,pid,open){
+  if(it.story){ const st=`--sc1:hsl(${it.h[0]} 45% 30%);--sc2:hsl(${it.h[1]} 55% 46%)`;
+    return `<button class="p-embed" data-mopen="${it.id}"><div class="thumb sq story-cv" style="${st};width:96px">${it.img?`<img class="thumb-img" src="${esc(it.img)}" alt="" loading="lazy" onerror="this.remove()">`:""}</div><span class="e-t"><b>${esc(it.title)}</b><span>${esc(it.meta)} on ${esc(platName(it))}</span></span></button>`; }
   const sub=it.game?`Game on ${PLAT[it.plat].n}`:it.meta&&it.twitch?it.meta:`${PLAT[it.plat].n}${it.meta?" · "+it.meta:""}`;
   const thumb=`<div class="thumb ${it.sq?"sq":""}" style="${grad(it.h)}">${imgOf(it)?`<img class="thumb-img" src="${esc(imgOf(it))}" alt="" loading="lazy" onerror="this.remove()">`:""}</div>`;
   const body=`${thumb}<span class="e-t"><b>${esc(it.title)}</b><span>${esc(sub)}</span></span>`;
@@ -2320,12 +2498,13 @@ function postHtml(p,ctx){
   const u=U(p.u), liked=!!p.liked, open=fs.open.has(p.id)||ctx==="pg", mine=p.u==="me", pre=ctx?ctx+"-":"";
   const it=p.kind?mediaById(p.itemId):null;
   let body="";
-  if(p.kind==="media") body=`<div class="activity">added a new ${{games:"game",music:"track",videos:"video",art:"artwork"}[it.tab]} to their profile</div>`;
+  if(p.kind==="media") body=`<div class="activity">added a new ${{games:"game",music:"track",videos:"video",art:"artwork",stories:"story"}[it.tab]} to their profile</div>`;
   if(p.kind==="update") body=`<div class="activity">updated <b>${esc(it.title)}</b></div>${p.text?`<div class="p-note">${linkify(p.text)}</div>`:""}`;
   if(!p.kind&&p.text) body=`<p class="p-text">${linkify(p.text,true)}</p>`;
+  if(p.art&&ctx!=="pg") body+=artCardHtml(p);
   const ai="", aiChip=p.ai?`<button class="ai-chip" data-ainote="${esc((p.ai.lvl==="generated"?"AI-made":"AI-assisted")+(p.ai.note?": "+p.ai.note:""))}" title="${esc((p.ai.lvl==="generated"?"AI-made":"AI-assisted")+(p.ai.note?": "+p.ai.note:""))}">${aiShort(p.ai)}</button>`:"";
   const imgs=p.images.length?`<div class="p-imgs n${p.images.length}">${p.images.map((im,i)=>`<button data-pimg="${p.id}:${i}" aria-label="View image ${i+1}"><img src="${esc(im.img)}" alt="" loading="lazy" onerror="this.remove()"></button>`).join("")}</div>`:"";
-  const emb=p.kind?embedHtml(it,p.id,true):(embedFor(p)?embedHtml(embedFor(p),p.id):"");
+  const emb=p.kind?embedHtml(it,p.id,true):p.art?"":(embedFor(p)?embedHtml(embedFor(p),p.id):"");
   const reason=!ctx&&fs.ftab==="foryou"&&fs.reasons&&fs.reasons[p.id]&&!mine?`<span class="reason">${esc(fs.reasons[p.id])}</span>`:"";
   const followBtn=!ctx&&!mine&&!fs.following.has(p.u)&&USERS[p.u]?`<button class="btn sm" data-follow="${esc(p.u)}">Follow</button>`:"";
   const cl=p.comments||[];
@@ -2345,7 +2524,7 @@ function postHtml(p,ctx){
     </div>
   </article>`;
 }
-function refreshPosts(){ if(state.modalPost) renderPostModal(); renderFeed(); if(!$("#view-profile").hidden){ renderTabs(); if(["feed","liked","none"].includes(state.tab)) renderGrid(); } }
+function refreshPosts(){ if(state.modalPost) renderPostModal(); renderFeed(); if(!$("#view-profile").hidden){ renderTabs(); if(["feed","liked","none","articles"].includes(state.tab)) renderGrid(); } }
 const focusCmt=id=>{const el=[...document.querySelectorAll(`[data-cform="${id}"] input`)].find(x=>x.offsetParent); if(el) el.focus();};
 function renderFeed(){
   if(!$("#feed-list")||!ME_ID) return;
@@ -2403,7 +2582,7 @@ function readComposer(){
 }
 /* ===================== COMPOSER ===================== */
 async function postFromComposer(e){
-  e.preventDefault(); const p=readComposer(); if(!p) return;
+  e.preventDefault(); if(ART.mode==="article") return; const p=readComposer(); if(!p) return;
   $("#c-post").disabled=true;
   try{
     const row=await api.insert("posts",{text:p.text,images:p.images,ai:p.ai});
@@ -2444,12 +2623,13 @@ async function openUser(key){
   try{
     const [fl,fg,np,media,badges]=await Promise.all([
       api.count("follows?select=follower&following=eq."+id), api.count("follows?select=following&follower=eq."+id),
-      api.count("posts?select=id&kind=is.null&author=eq."+id), api.get("media?select=tab&limit=2000&owner=eq."+id),
+      api.count("posts?select=id&or=(kind.is.null,kind.eq.article)&author=eq."+id), api.get("media?select=tab&limit=2000&owner=eq."+id),
       LV.missing?Promise.resolve([]):api.rpc("user_badges",{p_user:id}).catch(()=>[])]);
     if(!$("#u-stats")) return;
     $("#u-stats").innerHTML=`<span><b>${fmt(np)}</b> post${np===1?"":"s"}</span><span><b>${fmt(fl)}</b> follower${fl===1?"":"s"}</span><span><b>${fmt(fg)}</b> following</span>`;
     const c={}; media.forEach(m=>c[m.tab]=(c[m.tab]||0)+1);
-    const kinds=[["games","🎮","game","games"],["music","🎵","track","tracks"],["videos","🎬","video","videos"],["art","🎨","artwork","artworks"]].filter(k=>c[k[0]]);
+    c.articles=await api.count("posts?select=id&kind=eq.article&author=eq."+id).catch(()=>0); if(!$("#u-stats")) return;
+    const kinds=[["articles","📰","article","articles"],["games","🎮","game","games"],["music","🎵","track","tracks"],["videos","🎬","video","videos"],["art","🎨","artwork","artworks"],["stories","📚","story","stories"]].filter(k=>c[k[0]]);
     $("#uc-media").innerHTML=kinds.map(([t,ic,one,many])=>`<button class="uc-chip" data-utab="${t}" data-uname="${esc(u.username)}"><span aria-hidden="true">${ic}</span><b>${c[t]}</b> ${c[t]===1?one:many}</button>`).join("");
     BADGES[key]=badges;
     $("#uc-badges").innerHTML=badges.map(b=>{ const it=LV.items.find(i=>i.id===b); return it?`<span class="bdg" title="${esc(it.name)} badge">${badgeSvg(b)}${esc(it.name)}</span>`:""; }).join("");
@@ -2530,7 +2710,7 @@ async function saveMedia(type,ex){
   const T=TYPES[type], it=updateDraft(type); if(!it) return;
   const v=id=>($("#"+id)||{}).value?.trim()||"";
   if(!draftTags.length){ toast("Pick at least one hashtag so people can find it."); $("#tag-pick")?.scrollIntoView({block:"center"}); return; }
-  const row={tab:T.tab,title:it.title,data:{link:v("f-link"),trailer:v("f-trailer"),cover:v("f-cover"),...(v("f-desc")?{desc:v("f-desc").slice(0,1000)}:{})},ai:it.ai,tags:draftTags.slice(0,5)};
+  const row={tab:T.tab,title:it.title,data:{link:v("f-link"),trailer:v("f-trailer"),cover:v("f-cover"),...(type==="story"?{stype:v("f-stype")||"other",...(v("f-status")?{status:v("f-status")}:{})}:{}),...(v("f-desc")?{desc:v("f-desc").slice(0,1000)}:{})},ai:it.ai,tags:draftTags.slice(0,5)};
   $("#am-submit").disabled=true;
   try{
     if(ex){
@@ -2541,7 +2721,7 @@ async function saveMedia(type,ex){
       toast(share?"Saved and shared to your followers' feeds.":"Changes saved.");
     } else {
       const r=await api.insert("media",row); const ni=itemFromRow(r); const here=!$("#view-profile").hidden&&VIEW.key==="me";
-      if(here){ items.unshift(ni); state.tab=T.tab; } else if(ni) MEDIA[ni.id]=ni;
+      if(here){ items.unshift(ni); state.tab=T.tab; } else if(ni){ MEDIA[ni.id]=ni; if(VIEW.key==="me"&&VIEW.loaded) items.unshift(ni); }
       closeModal(); if(here){ renderTabs(); renderGrid(); } await addActivity("media",ni.id); refreshPosts(); toast(`Posted to ${T.n}. It's also in your followers' feeds.`);
     }
   }catch(err){ $("#am-submit").disabled=false; fail(err); }
@@ -2558,7 +2738,8 @@ async function exportData(){
     const [profile,media,myPosts,comments,likes,follows,reps]=await Promise.all([
       api.get("profiles?select=*&id=eq."+ME_ID),
       api.get("media?select=tab,title,data,ai,created_at,updated_at&owner=eq."+ME_ID),
-      api.get("posts?select=kind,text,images,ai,created_at&author=eq."+ME_ID),
+      api.get("posts?select=id,kind,text,images,ai,article,created_at&author=eq."+ME_ID).then(async ps=>{ const ids=ps.filter(x=>x.kind==="article").map(x=>x.id);
+        const b=ids.length?await api.get("article_bodies?select=post_id,body&post_id="+inList(ids)).catch(()=>[]):[]; ps.forEach(x=>{ const f=b.find(y=>y.post_id===x.id); if(f) x.article_text=f.body; delete x.id; }); return ps; }),
       api.get("comments?select=*&author=eq."+ME_ID),
       api.get("likes?select=post_id,created_at"),
       api.get("follows?select=following,created_at&follower=eq."+ME_ID),
@@ -3082,6 +3263,7 @@ const smileSvg=`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="
 const TAG_PRESETS={
   games:["adventure","horror","puzzle","platformer","rpg","shooter","survival","visualnovel","simulation","strategy","racing","multiplayer","gamejam","other"],
   art:["digital","traditional","pixel","3d","animation","fanart","character","concept","landscape","comic","other"],
+  stories:["fantasy","scifi","horror","romance","mystery","comedy","adventure","isekai","litrpg","fanfic","sliceoflife","drama","review","other"],
   music:["electronic","chiptune","rock","pop","hiphop","lofi","ambient","metal","orchestral","soundtrack","other"],
   videos:["letsplay","tutorial","devlog","musicvideo","documentary","animation","trailer","stream","vlog","review","other"]
 };
@@ -3154,12 +3336,12 @@ function renderItemModal(){
       <h2 id="im-t">${esc(it.title)}</h2>
       <button class="card-owner" data-user="${esc(ok)}">${avHtml(ok)}<span>${esc(U(ok).name)}</span>${staffTag(ok)}</button>
       <div class="meta">${esc(it.meta)} · added ${timeAgo(Date.parse(it.created||Date.now()))} ago</div>
-      ${chip(it.plat)?`<div class="card-labels">${chip(it.plat)}</div>`:""}
+      ${it.story?labelsHtml({...it,ai:null}):chip(it.plat)?`<div class="card-labels">${chip(it.plat)}</div>`:""}
       ${it.coll?`<span class="coll-tag">${it.coll==="Album"?"💿":"🎵"} ${esc(it.coll)}</span>`:""}${it.tags&&it.tags.length?`<div class="card-tags">${it.tags.map(t=>`<button class="btag" data-btag="${it.tab}:${t}">#${esc(t)}</button>`).join("")}</div>`:""}
       ${it.desc?`<div class="im-desc">${linkify(it.desc)}</div>`:""}
       ${it.ai?`<div class="ai-note"><b>${it.ai.lvl==="generated"?"AI-made":"AI-assisted"}:</b> ${esc(it.ai.note)}</div>`:""}
       <div class="p-actions"><button class="icon-btn ${it.liked?"liked":""}" data-mlike="${it.id}" aria-pressed="${!!it.liked}">${heartSvg}<span class="n">${it.likes||0}</span> Like</button>
-        ${urlOf(it)?`<a class="icon-btn" href="${esc(urlOf(it))}" target="_blank" rel="noopener nofollow ugc">↗ Open on ${PLAT[it.plat].n}</a>`:""}
+        ${it.story?`<a class="btn primary" style="text-decoration:none" href="${esc(it.url)}" target="_blank" rel="noopener nofollow ugc">${it.stype==="review"&&it.plat==="youtube"?"Watch":"Read"} on ${esc(platName(it))} ↗</a>`:urlOf(it)?`<a class="icon-btn" href="${esc(urlOf(it))}" target="_blank" rel="noopener nofollow ugc">↗ Open on ${PLAT[it.plat].n}</a>`:""}
         ${it.owner!==ME_ID?`<button class="icon-btn" data-report="${it.id}">${flagSvg}Report</button>`:""}</div>
     </div></div>
     <h3 class="im-h">Comments <span class="meta">${it.cc||0}</span></h3>
@@ -3176,14 +3358,14 @@ document.addEventListener("submit",async e=>{
 });
 
 /* ===================== BROWSE PAGES ===================== */
-const BROWSE={tab:"games",sort:"latest",days:7,tag:null,items:[],done:false,loading:false};
+const BROWSE={tab:"games",sort:"latest",days:7,tag:null,stype:null,items:[],done:false,loading:false};
 const BROWSE_INFO={games:["Games","Games made by the community, playable on itch.io, Game Jolt and Steam."],art:["Art","Drawings, pixel art, 3D and more from people on Power Creep."],
-  music:["Music","Tracks and albums from SoundCloud, Spotify and Bandcamp."],videos:["Videos","Let's plays, devlogs, tutorials and more from YouTube, Vimeo and Twitch."]};
+  music:["Music","Tracks and albums from SoundCloud, Spotify and Bandcamp."],stories:["Stories","Novels, light novels, comics, poems and reviews. Read them where they're posted: AO3, Wattpad, Royal Road, Webtoon and more."],videos:["Videos","Let's plays, devlogs, tutorials and more from YouTube, Vimeo and Twitch."]};
 async function loadBrowse(more){
   if(BROWSE.loading) return; BROWSE.loading=true;
   if(!more){ BROWSE.items=[]; BROWSE.done=false; renderBrowse(); }
   try{
-    const rows=await api.rpc("browse_media",{p_tab:BROWSE.tab,p_sort:BROWSE.sort,p_days:BROWSE.sort==="latest"?null:BROWSE.days,p_tag:BROWSE.tag,p_limit:40,p_offset:more?BROWSE.items.length:0});
+    const rows=await api.rpc("browse_media",{p_tab:BROWSE.tab,p_sort:BROWSE.sort,p_days:BROWSE.sort==="latest"?null:BROWSE.days,p_tag:BROWSE.tag,p_limit:40,p_offset:more?BROWSE.items.length:0,...(BROWSE.tab==="stories"&&BROWSE.stype?{p_stype:BROWSE.stype}:{})});
     await ensureUsers(rows.map(r=>r.owner));
     const got=rows.map(itemFromRow).filter(Boolean);
     BROWSE.items=more?BROWSE.items.concat(got):got; BROWSE.done=rows.length<40;
@@ -3200,6 +3382,9 @@ function renderBrowse(){
     ...TAG_PRESETS[BROWSE.tab].map(t=>`<button class="btag big" data-bfilter="${t}" aria-pressed="${BROWSE.tag===t}">#${t}</button>`),
     ...(BROWSE.tag&&!TAG_PRESETS[BROWSE.tab].includes(BROWSE.tag)?[`<button class="btag big" data-bfilter="${esc(BROWSE.tag)}" aria-pressed="true">#${esc(BROWSE.tag)}</button>`]:[])].join("");
   document.querySelectorAll("#view-browse [data-f]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===state.filter));
+  const bt=$("#br-types"); bt.hidden=BROWSE.tab!=="stories";
+  if(!bt.hidden) bt.innerHTML=[["","All types"],...Object.entries(STYPES)].map(([k,n])=>`<button class="btn sm ${(BROWSE.stype||"")===k?"primary":""}" data-bstype="${k}" aria-pressed="${(BROWSE.stype||"")===k}">${n}</button>`).join("");
+  $("#br-grid").classList.toggle("stories",BROWSE.tab==="stories");
   renderBrowseGrid();
 }
 function renderBrowseGrid(){
@@ -3215,6 +3400,7 @@ document.addEventListener("click",e=>{
   const t=e.target.closest("button,a"); if(!t) return;
   if(t.dataset.bsort){ BROWSE.sort=t.dataset.bsort; loadBrowse(); }
   else if(t.dataset.bdays!==undefined){ BROWSE.days=t.dataset.bdays==="null"?null:+t.dataset.bdays; loadBrowse(); }
+  else if(t.dataset.bstype!==undefined){ BROWSE.stype=t.dataset.bstype||null; loadBrowse(); }
   else if(t.dataset.bfilter!==undefined){ BROWSE.tag=t.dataset.bfilter||null; loadBrowse(); }
   else if(t.dataset.btag){ const [tab,tag]=t.dataset.btag.split(":"); closeModal(); BROWSE.tag=tag; BROWSE.tab=tab; BROWSE.forceTag=true; if(location.hash==="#"+tab) loadBrowse(); else location.hash=tab; }
   else if(t.id==="br-more") loadBrowse(true);
@@ -3344,7 +3530,7 @@ function openPostMenu(btn,id){
   const mine=p.u==="me", name=esc(U(p.u).name);
   m.dataset.key="post:"+id;
   m.innerHTML=`<button class="am-item" data-plink="${id}">🔗 Copy link</button>`+(mine
-    ?`${!p.kind?`<button class="am-item" data-pin="${id}">📌 ${U("me").pinned===id?"Unpin from profile":"Pin to profile"}</button>`:""}
+    ?`${p.art?`<button class="am-item" data-aedit="${id}">✏️ Edit article</button>`:""}${!p.kind?`<button class="am-item" data-pin="${id}">📌 ${U("me").pinned===id?"Unpin from profile":"Pin to profile"}</button>`:""}
       <button class="am-item danger-item" data-pdel="${id}">🗑 Delete post</button>`
     :`<button class="am-item" data-preport="${id}">⚑ ${state.reported.has("post-"+id)?"Reported":"Report post"}</button>
       <button class="am-item" data-mute="${esc(p.u)}">${MUTED.has(p.author)?"🔊 Unmute":"🔇 Mute"} ${name}</button>
@@ -3403,7 +3589,7 @@ async function route(){
     if(state.pendingTab){ state.tab=state.pendingTab; state.pendingTab=null; }
     renderProfile(); setNav("profile",key==="me"); return;
   }
-  if(["games","art","music","videos"].includes(v)){ showSection("browse"); setNav(v);
+  if(["games","art","music","videos","stories"].includes(v)){ showSection("browse"); setNav(v);
     if(BROWSE.tab!==v||!BROWSE.loaded||BROWSE.forceTag){ if(BROWSE.tab!==v&&!BROWSE.forceTag) BROWSE.tag=null; BROWSE.forceTag=false; BROWSE.tab=v; BROWSE.loaded=true; loadBrowse(); } else renderBrowse(); return; }
   if(v==="help"){ showSection("help"); setNav("help"); $("#help-sites").textContent=IMG_SITE_NAMES; document.title="Help · Power Creep"; window.scrollTo(0,0); return; }
   if(v==="search"){ showSection("search"); setNav("search"); if(!SEARCH.q){ location.hash="feed"; return; } $("#search-in").value=SEARCH.q; openSearchPage(); return; }
@@ -3419,7 +3605,7 @@ function showSection(sec){
   document.body.classList.toggle("legalmode",sec==="legal");
   const fw=$("#fab-wrap"); if(fw){ fw.hidden=!started||["join","legal","setup"].includes(sec); $("#fab-menu").hidden=true; $("#fab").setAttribute("aria-expanded","false"); }
 }
-function setNav(k,own=true){ ["feed","profile","staff","games","art","music","videos"].forEach(n=>{ const el=$("#nav-"+n); if(n===k&&(n!=="profile"||own)) el.setAttribute("aria-current","page"); else el.removeAttribute("aria-current"); }); }
+function setNav(k,own=true){ ["feed","profile","staff","games","art","music","videos","stories"].forEach(n=>{ const el=$("#nav-"+n); if(n===k&&(n!=="profile"||own)) el.setAttribute("aria-current","page"); else el.removeAttribute("aria-current"); }); }
 
 /* ===================== GLOBAL CLICKS ===================== */
 document.addEventListener("click",e=>{
@@ -3439,7 +3625,7 @@ document.addEventListener("click",e=>{
   else if(t.dataset.remove){ const it=items.find(i=>i.id===t.dataset.remove);
     confirmInline(t,"Remove?",async()=>{ try{ await api.remove("media","id=eq."+it.id); items=items.filter(i=>i!==it); posts=posts.filter(p=>p.itemId!==it.id); delete MEDIA[it.id]; renderTabs(); renderGrid(); renderFeed(); toast(`Removed "${it.title}" from your profile.`); }catch(err){ fail(err); } }); }
   else if(t.id==="add-media") openAddMedia();
-  else if(t.dataset.editm){ const it=items.find(i=>i.id===t.dataset.editm); openAddMedia(); openForm({games:"game",music:"music",videos:"video",art:"art"}[it.tab],it); }
+  else if(t.dataset.editm){ const it=items.find(i=>i.id===t.dataset.editm); openAddMedia(); openForm(TAB_TYPE[it.tab],it); }
   else if(t.id==="edit-profile") openSettings();
   else if(t.id==="live-watch"){ state.liveOn=true; renderGrid(); }
   else if(t.id==="live-chat-only"){ state.chatOn=true; renderGrid(); }
@@ -3956,10 +4142,10 @@ async function openPostPage(id){
   if(!p){ box.innerHTML=`<div class="empty">Loading…</div>`; try{ p=(await loadPosts("id=eq."+id))[0]; }catch(err){ fail(err); } }
   if(PP!==id) return;
   if(!p||hiddenKey(p.u)){ box.innerHTML=`<div class="empty">This post isn't available. It may have been deleted.</div>`; $("#pp-share").hidden=true; return; }
-  $("#pp-share").hidden=false; document.title=`${U(p.u).name} on Power Creep`;
-  renderPostPage(); await fetchComments(p); renderPostPage();
+  $("#pp-share").hidden=false; document.title=p.art?`${p.art.t} · ${U(p.u).name} on Power Creep`:`${U(p.u).name} on Power Creep`;
+  renderPostPage(); await Promise.all([fetchComments(p),p.art?loadArtBody(p):null]); renderPostPage();
 }
-function renderPostPage(){ if($("#view-post").hidden||!PP) return; const p=posts.find(x=>x.id===PP); if(!p) return; $("#pp-body").innerHTML=postHtml(p,"pg"); Object.keys(GIFP).forEach(showPendingGif); }
+function renderPostPage(){ if($("#view-post").hidden||!PP) return; const p=posts.find(x=>x.id===PP); if(!p) return; $("#pp-body").innerHTML=(p.art?articleViewHtml(p):"")+postHtml(p,"pg"); Object.keys(GIFP).forEach(showPendingGif); }
 { const rp=refreshPosts; refreshPosts=function(){ rp.apply(this,arguments); renderPostPage(); }; }
 const postLink=id=>location.origin+location.pathname+"#p/"+id;
 async function copyLink(id){
@@ -3990,6 +4176,211 @@ document.addEventListener("click",e=>{
 
 /* ---------- The + button: make a post or add your work from any page ---------- */
 const COMPOSER=$("#composer"), COMPOSER_HOME=COMPOSER.parentNode, COMPOSER_NEXT=COMPOSER.nextSibling;
+/* ===================== ARTICLES =====================
+   An article is a post with a title, an optional cover and a long text (up to 20,000 characters).
+   The feed only loads the title, cover and a short preview. The full text loads when someone opens it.
+   Text format, one paragraph per line: "## " heading, "> " quote, "---" divider, ![caption](image link) picture,
+   plus the usual **bold**, *italic*, __underline__ and ~~strike~~. */
+const ART_MAX=20000, ART_DRAFT_KEY="pc-article-draft";
+const ART={mode:"post",editId:null};
+const readMins=w=>Math.max(1,Math.round((w||0)/220));
+const ART_IMG_RE=/^!\[([^\]\n]{0,150})\]\((https:\/\/[^\s)]+)\)$/;
+function artCardHtml(p){ const a=p.art;
+  return `<a class="a-card ${a.c?"":"nocov"}" href="#p/${p.id}"><div class="a-card-t"><span class="a-kick">Article · ${readMins(a.w)} min read</span><h3>${esc(a.t)}</h3>${a.s||a.x?`<p>${esc(a.s||a.x)}</p>`:""}</div>${a.c?`<div class="a-card-cov" style="background-image:url(&quot;${esc(a.c.replace(/["\\()]/g,encodeURIComponent))}&quot;)"></div>`:""}</a>`; }
+function artRowHtml(p){ const a=p.art;
+  return `<a class="a-row" href="#p/${p.id}"><div class="cov" ${a.c?`style="background-image:url(&quot;${esc(a.c.replace(/["\\()]/g,encodeURIComponent))}&quot;)"`:""}>${a.c?"":`<svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>`}</div><div class="t"><h3>${esc(a.t)}</h3>${a.s||a.x?`<p>${esc(a.s||a.x)}</p>`:""}<span class="meta">${readMins(a.w)} min read · ${timeAgo(p.t)} ago · ♥ ${p.likes} · 💬 ${p.cc}</span></div></a>`; }
+// Turn saved article text into HTML for reading
+function articleBodyHtml(text){
+  const out=[]; let quote=[];
+  const flush=()=>{ if(quote.length){ out.push(`<blockquote>${quote.join("<br>")}</blockquote>`); quote=[]; } };
+  String(text||"").split("\n").forEach(raw=>{ const l=raw.trim(); if(!l) return;
+    if(l.startsWith("> ")){ quote.push(linkify(l.slice(2))); return; } flush();
+    let m;
+    if(l==="---") out.push("<hr>");
+    else if(l.startsWith("## ")) out.push(`<h2>${fmtText(esc(l.slice(3)))}</h2>`);
+    else if((m=l.match(ART_IMG_RE))){ const pl=parseLink(m[2]); if(pl&&pl.kind==="image") out.push(`<figure><img src="${esc(pl.img)}" alt="${esc(m[1])}" loading="lazy" onerror="this.closest('figure').remove()">${m[1]?`<figcaption>${esc(m[1])}</figcaption>`:""}</figure>`); }
+    else out.push(`<p>${linkify(l)}</p>`);
+  }); flush();
+  return out.join("");
+}
+function articleViewHtml(p){
+  const a=p.art, u=U(p.u), mine=p.u==="me";
+  const date=new Date(p.t).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+  return `<article class="a-view">${a.c?`<div class="a-hero" style="background-image:url(&quot;${esc(a.c.replace(/["\\()]/g,encodeURIComponent))}&quot;)"></div>`:""}
+    <span class="a-kick">Article</span><h1>${esc(a.t)}</h1>${a.s?`<p class="a-dek">${esc(a.s)}</p>`:""}
+    <div class="a-by"><button class="p-av-btn" data-user="${esc(p.u)}" style="border:0;background:none;padding:0" aria-label="${esc(u.name)}">${avHtml(p.u)}</button>
+      <div class="t"><span><button class="p-name" data-user="${esc(p.u)}">${nameHtml(p.u)}</button>${lvChip(p.u)}${staffTag(p.u)}</span><span class="meta">${esc(date)} · ${readMins(a.w)} min read</span></div>
+      <span style="flex:1"></span>${mine?`<button class="btn sm" data-aedit="${p.id}">✏️ Edit</button>`:USERS[p.u]?`<button class="btn sm ${fs.following.has(p.u)?"":"primary"}" data-follow="${esc(p.u)}">${fs.following.has(p.u)?"Following":"Follow"}</button>`:""}</div>
+    ${p.ai?`<div class="ai-note a-ai"><b>${p.ai.lvl==="generated"?"AI-made":"AI-assisted"}:</b> ${esc(p.ai.note||"")}</div>`:""}
+    <div class="a-read">${a.body===undefined?`<p class="meta">Loading the article…</p>`:a.body===null?`<p class="meta">The text of this article couldn't be loaded.</p>`:articleBodyHtml(a.body)}</div>
+  </article><h2 class="a-disc">Likes, stickers and comments</h2>`;
+}
+async function loadArtBody(p){
+  if(!p.art||typeof p.art.body==="string") return;
+  try{ const r=await api.get("article_bodies?select=body&post_id=eq."+p.id); p.art.body=r[0]?String(r[0].body):null; }
+  catch(err){ p.art.body=null; }
+}
+
+/* ---------- The article editor (inside the post box) ---------- */
+const AB=$("#a-body");
+function artInlineText(n){
+  if(n.nodeType===3) return n.nodeValue.replace(/\u00a0/g," ").replace(/\n/g," ");
+  if(n.nodeType!==1) return "";
+  if(n.tagName==="BR") return "\n";
+  let inner=[...n.childNodes].map(artInlineText).join(""); const tg=n.tagName, st=n.style||{};
+  const wrap=(m,s)=>{ const t=s.match(/^(\s*)([\s\S]*?)(\s*)$/); return t[2]?t[1]+m+t[2]+m+t[3]:s; };
+  if(tg==="B"||tg==="STRONG"||/^(bold|[6-9]00)$/.test(st.fontWeight||"")) inner=wrap("**",inner);
+  if(tg==="I"||tg==="EM"||st.fontStyle==="italic") inner=wrap("*",inner);
+  if(tg==="U"||/underline/.test(st.textDecoration||st.textDecorationLine||"")) inner=wrap("__",inner);
+  if(tg==="S"||tg==="STRIKE"||tg==="DEL"||/line-through/.test(st.textDecoration||st.textDecorationLine||"")) inner=wrap("~~",inner);
+  return inner;
+}
+function artToText(root){
+  const out=[]; let buf="";
+  const line=s=>{ s.split("\n").map(x=>x.trim()).filter(Boolean).forEach(x=>out.push(x)); };
+  const flush=()=>{ if(buf){ line(buf); buf=""; } };
+  const BLK=/^(DIV|P|H1|H2|H3|H4|H5|H6|BLOCKQUOTE|HR|FIGURE|UL|OL|LI)$/;
+  [...root.childNodes].forEach(n=>{
+    const tg=n.nodeType===1?n.tagName:"";
+    if(!BLK.test(tg)){ buf+=artInlineText(n); return; }
+    flush();
+    if(tg==="HR") out.push("---");
+    else if(tg==="FIGURE"){ const u=n.dataset.img, c=(n.dataset.cap||"").replace(/[\[\]\n]/g," ").trim(); if(u) out.push(`![${c}](${u})`); }
+    else if(/^H[1-6]$/.test(tg)){ const t=artInlineText(n).replace(/\s+/g," ").trim(); if(t) out.push("## "+t); }
+    else if(tg==="BLOCKQUOTE"){ artInlineText(n).split("\n").map(x=>x.trim()).filter(Boolean).forEach(x=>out.push("> "+x)); }
+    else if([...n.children].some(c=>BLK.test(c.tagName))) artToText(n).split("\n").filter(Boolean).forEach(x=>out.push(x));
+    else line(artInlineText(n));
+  });
+  flush();
+  return out.join("\n");
+}
+function figHtml(url,cap){ return `<figure contenteditable="false" data-img="${esc(url)}" data-cap="${esc(cap||"")}"><img src="${esc(url)}" alt="${esc(cap||"")}">${cap?`<figcaption>${esc(cap)}</figcaption>`:""}<button type="button" class="a-fig-x" data-afigx aria-label="Remove picture">×</button></figure>`; }
+function textToArtHtml(text){
+  return String(text||"").split("\n").map(l=>{ l=l.trim(); if(!l) return ""; let m;
+    if(l==="---") return "<hr>";
+    if(l.startsWith("## ")) return `<h2>${fmtText(esc(l.slice(3)))}</h2>`;
+    if(l.startsWith("> ")) return `<blockquote>${fmtText(esc(l.slice(2)))}</blockquote>`;
+    if((m=l.match(ART_IMG_RE))){ const pl=parseLink(m[2]); return pl&&pl.kind==="image"?figHtml(pl.img,m[1]):""; }
+    return `<div>${fmtText(esc(l))}</div>`; }).join("");
+}
+function artExcerpt(text){
+  const ps=String(text).split("\n").filter(l=>l&&l!=="---"&&!l.startsWith("## ")&&!l.startsWith("> ")&&!ART_IMG_RE.test(l));
+  return ps.join(" ").replace(/\*\*|__|~~|(^|\s)\*|\*(\s|$)/g,"$1$2").replace(/\s+/g," ").trim().slice(0,280);
+}
+function readArticle(){
+  const v=id=>$("#"+id).value.trim(), body=artToText(AB);
+  const words=(body.replace(ART_IMG_RE,"").match(/[^\s#>*_~\-]+/g)||[]).length;
+  const aiLvl=$("#a-ai").value, aiNote=v("a-ainote");
+  $("#a-ainote-wrap").hidden=!aiLvl;
+  AB.classList.toggle("is-empty",!AB.textContent.trim()&&!AB.querySelector("figure,hr"));
+  const cov=v("a-cover"), cp=cov?parseLink(cov):null, covOk=!cov||(cp&&cp.kind==="image");
+  $("#a-cover-msg").innerHTML=covOk?"":`<div class="err" style="color:var(--danger);font-size:12.5px;font-weight:600;margin-top:4px">That image site isn't supported. Supported: ${IMG_SITE_NAMES}.</div>`;
+  const prev=$("#a-cover-prev"), cu=covOk&&cp?cp.img:"";
+  if(prev.dataset.u!==cu){ prev.dataset.u=cu; prev.style.backgroundImage=cu?`url("${cu.replace(/["\\()]/g,encodeURIComponent)}")`:""; prev.classList.toggle("has",!!cu); prev.textContent=cu?"":"No cover image"; }
+  const n=body.length, c=$("#a-count"); c.textContent=`${n.toLocaleString("en")} / 20,000 · ${readMins(words)} min read`; c.classList.toggle("warn",n>ART_MAX-500);
+  const a={title:v("a-title"),sub:v("a-sub"),cover:cu,note:$("#a-note").value.trim(),body,words,ai:aiLvl?{lvl:aiLvl,note:aiNote}:null};
+  const ok=!!a.title&&!!body&&n<=ART_MAX&&covOk&&(!aiLvl||aiNote)&&a.note.length<=500;
+  $("#a-publish").disabled=!ok; $("#a-publish").textContent=ART.editId?"Save changes":"Publish article";
+  return ok?a:null;
+}
+function artDraftData(){ return {t:$("#a-title").value,s:$("#a-sub").value,c:$("#a-cover").value,n:$("#a-note").value,b:artToText(AB),ai:$("#a-ai").value,an:$("#a-ainote").value}; }
+const artDraftHas=d=>!!(d&&(d.t||d.s||d.c||d.b||d.n));
+function saveArtDraft(){ if(ART.editId) return; try{ const d=artDraftData(); if(artDraftHas(d)) localStorage.setItem(ART_DRAFT_KEY,JSON.stringify(d)); else localStorage.removeItem(ART_DRAFT_KEY); }catch(_){} }
+function loadArtDraft(){ try{ return JSON.parse(localStorage.getItem(ART_DRAFT_KEY)||"null"); }catch(_){ return null; } }
+function fillArticle(d){
+  d=d||{}; $("#a-title").value=d.t||""; $("#a-sub").value=d.s||""; $("#a-cover").value=d.c||""; $("#a-note").value=d.n||"";
+  $("#a-ai").value=d.ai||""; $("#a-ainote").value=d.an||""; AB.innerHTML=textToArtHtml(d.b||""); artRange=null;
+  document.querySelectorAll("[data-afmt],[data-ablock]").forEach(b=>b.setAttribute("aria-pressed","false")); readArticle();
+}
+function artDraftNote(){ $("#a-draftnote").hidden=!(ART.mode==="post"&&!ART.editId&&artDraftHas(loadArtDraft())); }
+function setComposeMode(m){
+  if(m===ART.mode&&!(m==="post"&&ART.editId)){ artDraftNote(); return; }
+  if(m==="post"&&ART.editId){ ART.editId=null; fillArticle(loadArtDraft()); }
+  if(m==="article"&&!ART.editId){
+    // Text you started in the post box carries over into the article
+    const t=$("#c-text").value.trim();
+    if(t&&!artToText(AB)){ AB.innerHTML=textToArtHtml(t.split("\n").map(l=>l.startsWith("# ")?"## "+l.slice(2):l).join("\n")); clearRich(); $("#c-text").value=""; readComposer(); saveArtDraft(); }
+  }
+  ART.mode=m;
+  COMPOSER.classList.toggle("art-mode",m==="article"); $("#c-article").hidden=m!=="article";
+  document.querySelectorAll(".c-mode [data-cmode]").forEach(b=>b.closest(".seg")&&b.setAttribute("aria-pressed",String(b.dataset.cmode===m)));
+  const ct=$("#cmt-title"); if(ct) ct.textContent=m==="article"?(ART.editId?"Edit article":"New article"):"New post";
+  readArticle(); artDraftNote();
+}
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-cmode]"); if(!b) return; setComposeMode(b.dataset.cmode); if(b.dataset.cmode==="article") setTimeout(()=>$("#a-title").focus(),0); });
+$("#c-article").addEventListener("input",()=>{ readArticle(); saveArtDraft(); });
+$("#c-article").addEventListener("change",()=>{ readArticle(); saveArtDraft(); });
+$("#c-article").addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.tagName==="INPUT"){ e.preventDefault(); if(e.target.id==="a-title") $("#a-sub").focus(); else if(e.target.id==="a-sub") AB.focus(); else if(e.target.id==="a-imgurl"||e.target.id==="a-imgcap") $("#a-img-add").click(); } });
+try{ document.execCommand("defaultParagraphSeparator",false,"div"); }catch(_){}
+AB.addEventListener("paste",e=>{ const f=[...((e.clipboardData&&e.clipboardData.files)||[])].filter(x=>/^image\//.test(x.type)); e.preventDefault();
+  if(f.length){ if(IMGBB_KEY) artUploadInsert(f); return; }
+  document.execCommand("insertText",false,(e.clipboardData||window.clipboardData).getData("text/plain")); });
+AB.addEventListener("keydown",e=>{ if((e.ctrlKey||e.metaKey)&&!e.altKey&&e.key.toLowerCase()==="u"){ e.preventDefault(); document.execCommand("underline"); readArticle(); saveArtDraft(); } });
+let artRange=null;
+document.addEventListener("selectionchange",()=>{ const s=document.getSelection(); if(s.rangeCount&&AB.contains(s.anchorNode)){ artRange=s.getRangeAt(0).cloneRange(); artFmtState(); } });
+function artFocus(){ if(document.activeElement!==AB){ AB.focus(); if(artRange){ const s=document.getSelection(); s.removeAllRanges(); s.addRange(artRange); } else { const r=document.createRange(); r.selectNodeContents(AB); r.collapse(false); const s=document.getSelection(); s.removeAllRanges(); s.addRange(r); } } }
+function artFmtState(){ document.querySelectorAll("[data-afmt]").forEach(b=>{ let on=false; try{ on=document.queryCommandState(b.dataset.afmt); }catch(_){} b.setAttribute("aria-pressed",String(!!on)); });
+  let blk=""; try{ blk=(document.queryCommandValue("formatBlock")||"").toLowerCase(); }catch(_){} document.querySelectorAll("[data-ablock]").forEach(b=>b.setAttribute("aria-pressed",String(blk===b.dataset.ablock))); }
+$("#c-article").addEventListener("mousedown",e=>{ if(e.target.closest("[data-afmt],[data-ablock],#a-hr-btn")) e.preventDefault(); });
+function artInsertHtml(html){ artFocus(); document.execCommand("insertHTML",false,html); readArticle(); saveArtDraft(); }
+$("#c-article").addEventListener("click",e=>{
+  const f=e.target.closest("[data-afmt]"), bl=e.target.closest("[data-ablock]"), x=e.target.closest("[data-afigx]");
+  if(f){ artFocus(); document.execCommand(f.dataset.afmt); }
+  else if(bl){ artFocus(); let cur=""; try{ cur=(document.queryCommandValue("formatBlock")||"").toLowerCase(); }catch(_){} document.execCommand("formatBlock",false,cur===bl.dataset.ablock?"div":bl.dataset.ablock); }
+  else if(x){ x.closest("figure").remove(); }
+  else if(e.target.closest("#a-hr-btn")){ artInsertHtml("<hr><div><br></div>"); return; }
+  else if(e.target.closest("#a-img-btn")){ const box=$("#a-img-box"), open=box.hidden; box.hidden=!open; $("#a-img-btn").setAttribute("aria-expanded",String(open)); if(open){ $("#a-imgurl").value=""; $("#a-imgcap").value=""; $("#a-imgurl-msg").innerHTML=""; $("#a-imgurl").focus(); } return; }
+  else if(e.target.closest("#a-img-cancel")){ $("#a-img-box").hidden=true; $("#a-img-btn").setAttribute("aria-expanded","false"); return; }
+  else if(e.target.closest("#a-img-add")){ const pl=parseLink($("#a-imgurl").value.trim());
+    if(!pl||pl.kind!=="image"){ $("#a-imgurl-msg").innerHTML=`<div class="err" style="color:var(--danger);font-size:12.5px;font-weight:600;margin-top:4px">Add a picture link from a supported site: ${IMG_SITE_NAMES}.</div>`; return; }
+    if(AB.querySelectorAll("figure").length>=30) return toast("An article can have up to 30 pictures.");
+    $("#a-img-box").hidden=true; $("#a-img-btn").setAttribute("aria-expanded","false");
+    artInsertHtml(figHtml(pl.img,$("#a-imgcap").value.trim().replace(/[\[\]]/g,""))+"<div><br></div>"); return; }
+  else if(e.target.closest("#a-discard")){ const b=e.target.closest("#a-discard");
+    confirmInline(b,ART.editId?"Stop editing?":"Delete draft?",()=>{ if(ART.editId){ ART.editId=null; fillArticle(loadArtDraft()); if(document.querySelector("#modal-root #composer")) closeModal(); else setComposeMode("post"); }
+      else { try{ localStorage.removeItem(ART_DRAFT_KEY); }catch(_){} fillArticle(null); setComposeMode("post"); } }); return; }
+  else if(e.target.closest("#a-publish")){ publishArticle(); return; }
+  else return;
+  readArticle(); saveArtDraft(); artFmtState();
+});
+async function artUploadInsert(files){
+  const list=[...files].filter(f=>/^image\//.test(f.type)).slice(0,5); if(!list.length) return;
+  toast("Uploading…");
+  try{ for(const f of list){ const u=await uploadImage(f); artInsertHtml(figHtml(u,"")+"<div><br></div>"); } toast("Picture added."); }
+  catch(err){ toast(err.message); }
+}
+async function publishArticle(){
+  const a=readArticle(); if(!a) return; const btn=$("#a-publish"); btn.disabled=true;
+  try{
+    const row=await api.rpc("save_article",{p_id:ART.editId,p_text:a.note,p_article:{t:a.title,s:a.sub,c:a.cover,x:artExcerpt(a.body),w:a.words},p_body:a.body,p_ai:a.ai});
+    const r=Array.isArray(row)?row[0]:row; const np=postFromRow(r); np.art.body=a.body;
+    const was=ART.editId; ART.editId=null;
+    if(!was){ fs.fyOrder.unshift(np.id); try{ localStorage.removeItem(ART_DRAFT_KEY); }catch(_){} }
+    fillArticle(was?loadArtDraft():null); setComposeMode("post"); refreshPosts(); renderPostPage();
+    if(document.querySelector("#modal-root #composer")) closeModal();
+    toast(was?"Article saved.":"Article published. It's in the feed now.");
+    if(!was) location.hash="p/"+np.id;
+  }catch(err){ fail(err); readArticle(); }
+}
+async function editArticle(id){
+  const p=posts.find(x=>x.id===id); if(!p||!p.art) return;
+  $("#more-menu").hidden=true;
+  await loadArtBody(p); if(typeof p.art.body!=="string") return toast("Couldn't load the article. Try again.");
+  if(!ART.editId) saveArtDraft();
+  openComposeModal(); ART.editId=id;
+  fillArticle({t:p.art.t,s:p.art.s,c:p.art.c||"",n:p.text,b:p.art.body,ai:p.ai?p.ai.lvl:"",an:p.ai?p.ai.note:""});
+  ART.mode="post"; setComposeMode("article");
+}
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-aedit]"); if(b) editArticle(b.dataset.aedit); });
+// Leaving the edit pop-up without saving brings your own draft back
+// and closing the + pop-up puts the post box in the feed back to a normal post (your article draft is kept)
+new MutationObserver(()=>{ const inM=!!document.querySelector("#modal-root #composer"), wasIn=ART.inModal; ART.inModal=inM;
+  if(inM) return;
+  setTimeout(()=>{ if(!document.body.contains(COMPOSER)) return;   // wait until the post box is back in the feed
+    if(ART.editId){ ART.editId=null; fillArticle(loadArtDraft()); setComposeMode("post"); }
+    else if(wasIn&&ART.mode==="article") setComposeMode("post"); },0); }).observe($("#modal-root"),{childList:true});
+fillArticle(loadArtDraft()); artDraftNote();
+
 // When the pop-up closes (or another pop-up replaces it), the post box goes back to the feed.
 new MutationObserver(()=>{ if(!document.body.contains(COMPOSER)) COMPOSER_HOME.insertBefore(COMPOSER,COMPOSER_NEXT); }).observe($("#modal-root"),{childList:true,subtree:true});
 function closeFab(){ $("#fab-menu").hidden=true; $("#fab").setAttribute("aria-expanded","false"); }
@@ -3997,11 +4388,13 @@ function openComposeModal(){
   $("#modal-root").innerHTML=`<div class="scrim" id="scrim"><div class="modal wide compose-modal" role="dialog" aria-modal="true" aria-labelledby="cmt-title"><h2 id="cmt-title">New post</h2><div id="compose-slot"></div><div class="modal-actions"><button class="btn ghost" id="compose-cancel">Cancel</button></div></div></div>`;
   $("#compose-slot").appendChild(COMPOSER);
   $("#compose-cancel").onclick=closeModal; $("#scrim").addEventListener("click",e=>{ if(e.target.id==="scrim") closeModal(); });
-  setTimeout(()=>{ RICH.focus(); },30);
+  setTimeout(()=>{ (ART.mode==="article"?$("#a-title"):RICH).focus(); },30);
 }
 $("#fab").addEventListener("click",()=>{ const m=$("#fab-menu"), open=m.hidden; m.hidden=!open; $("#fab").setAttribute("aria-expanded",String(open)); if(open) m.querySelector("button").focus(); });
 $("#fab-menu").addEventListener("click",e=>{ const b=e.target.closest("[data-fab]"); if(!b) return; closeFab();
-  if(b.dataset.fab==="post") openComposeModal(); else { openAddMedia(); openForm(b.dataset.fab); } });
+  if(b.dataset.fab==="post"){ openComposeModal(); setComposeMode("post"); }
+  else if(b.dataset.fab==="article"){ openComposeModal(); setComposeMode("article"); }
+  else { openAddMedia(); openForm(b.dataset.fab); } });
 document.addEventListener("click",e=>{ if(!e.target.closest("#fab-wrap")) closeFab(); });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!$("#fab-menu").hidden){ closeFab(); $("#fab").focus(); } });
 
@@ -4108,7 +4501,7 @@ document.addEventListener("click",e=>{
 });
 
 /* ---------- Upload images to ImgBB (the picture goes from your browser to ImgBB; we keep only the link) ---------- */
-const UP_TARGETS={"c-images":"append","f-cover":"set","hd-url-in":"set","av-url-in":"set"};
+const UP_TARGETS={"c-images":"append","f-cover":"set","hd-url-in":"set","av-url-in":"set","a-cover":"set","a-imgurl":"set"};
 async function uploadImage(file){
   if(!/^image\/(png|jpe?g|gif|webp|bmp)$/i.test(file.type||"")) throw new Error("Pick a PNG, JPG, GIF or WebP image.");
   if(file.size>16*1024*1024) throw new Error("That image is bigger than 16 MB.");
@@ -4146,7 +4539,7 @@ document.addEventListener("click",e=>{ const b=e.target.closest("[data-upfor]");
 // Paste or drop a picture into the post box → it uploads and is added to the post
 if(IMGBB_KEY){
   RICH.addEventListener("paste",e=>{ const fs=[...((e.clipboardData&&e.clipboardData.files)||[])].filter(f=>/^image\//.test(f.type)); if(fs.length){ e.preventDefault(); e.stopImmediatePropagation(); uploadFiles("c-images",fs,null); } },true);
-  ["dragover","drop"].forEach(t=>COMPOSER.addEventListener(t,e=>{ const fs=e.dataTransfer&&[...e.dataTransfer.items||[]].some(i=>i.kind==="file"); if(!fs) return; e.preventDefault(); if(t==="drop") uploadFiles("c-images",e.dataTransfer.files,null); }));
+  ["dragover","drop"].forEach(t=>COMPOSER.addEventListener(t,e=>{ const fs=e.dataTransfer&&[...e.dataTransfer.items||[]].some(i=>i.kind==="file"); if(!fs) return; e.preventDefault(); if(t==="drop"){ if(ART.mode==="article") artUploadInsert(e.dataTransfer.files); else uploadFiles("c-images",e.dataTransfer.files,null); } }));
 }
 
 /* ---------- @mention suggestions (post box, comments, replies, guestbooks) ---------- */
@@ -4209,7 +4602,7 @@ document.addEventListener("selectionchange",()=>{ if(MEN.el===RICH&&$("#men-pop"
 window.addEventListener("resize",closeMention);
 
 /* ---------- Phones: swipe sideways to switch between Feed, Games, Art, Music and Videos ---------- */
-const SWIPE_TABS=["feed","games","art","music","videos"];
+const SWIPE_TABS=["feed","games","art","music","videos","stories"];
 let swipe=null;
 function swipeBlocked(el){
   for(let n=el;n&&n!==document.body;n=n.parentElement){

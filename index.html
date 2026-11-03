@@ -890,6 +890,8 @@ h1 .lvc{margin-left:8px}
 .gift-list h3{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px}
 .gift-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)}
 .gift-row .ga{width:40px;height:40px;display:grid;place-items:center;flex:none}
+.gift-row .ga.wide{width:min(130px,38%);justify-items:start}
+.gift-row .gfont{font-size:18px;font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;display:block}
 .gift-row .ga svg.stk{width:36px;height:36px}.gift-row .ga .mini-av{width:30px;height:30px;font-size:13px;border-radius:9px}
 .gift-row .gn{flex:1;min-width:0;font-weight:600;font-size:14px}.gift-row .gn small{display:block;color:var(--muted);font-weight:500;font-size:12px}
 .am-lv .lv-t{flex:1;min-width:0;font-size:12px;color:var(--muted)}
@@ -4137,8 +4139,9 @@ function renderQuests(){
 
 /* ---------- Shop ---------- */
 const SHOP_TABS=[["frame","Frames"],["sticker","Stickers"],["name","Name styles"],["font","Fonts"],["hfx","Header effects"]];
-// Shop order: things you buy first, then things you unlock by level (lowest level first)
-const shopOrder=(a,b)=>(a.unlock_level!=null)-(b.unlock_level!=null)||(a.unlock_level||0)-(b.unlock_level||0)||a.sort-b.sort;
+// Shop order: free and cheapest first, then more expensive, then things you unlock by level (lowest level first), then special gifts
+const shopGroup=i=>i.unlock_level!=null?1:i.price==null?2:0;
+const shopOrder=(a,b)=>shopGroup(a)-shopGroup(b)||(a.price||0)-(b.price||0)||(a.unlock_level||0)-(b.unlock_level||0)||a.sort-b.sort;
 function itemArt(it){ const me=U("me"), key=it.id.split(":")[1], look=me.look||{};
   if(it.kind==="frame") return frameWrap({frame:key,...(look.frame===key?{f1:look.f1,f2:look.f2}:{})},`<div class="avatar">${avatarInner(me.avatar,me.name)}</div>`,true);
   if(it.kind==="sticker") return stkSvg(key);
@@ -4304,11 +4307,12 @@ async function openGift(key){
   const art=it=>{ const k=it.id.split(":")[1];
     if(it.kind==="badge") return badgeSvg(it.id); if(it.kind==="sticker") return stkSvg(k);
     if(it.kind==="frame") return frameWrap({frame:k},`<span class="mini-av" style="${grad(u.h)}">${avatarInner(u.avatar,u.name)}</span>`);
-    if(it.kind==="name") return nameStyled({name:k},"Aa"); return "✨"; };
-  const groups=[["badge","Badges"],["special","Special stickers"],["sticker","Stickers"],["frame","Frames"],["name","Name styles"],["hfx","Header effects"]];
+    if(it.kind==="name") return nameStyled({name:k},"Aa");
+    if(it.kind==="font") return `<span class="gfont">${nameStyled({ft:k},u.name)}</span>`; return "✨"; };
+  const groups=[["badge","Badges"],["special","Special stickers"],["sticker","Stickers"],["frame","Frames"],["name","Name styles"],["font","Name fonts"],["hfx","Header effects"]];
   const inGroup=(it,g)=>g==="special"?it.kind==="sticker"&&it.price==null:g==="sticker"?it.kind==="sticker"&&it.price!=null:it.kind===g;
-  const draw=()=>{ $("#gift-list").innerHTML=groups.map(([g,title])=>{ const list=LV.items.filter(it=>inGroup(it,g)&&!(it.price===0&&it.unlock_level==null)); if(!list.length) return "";
-    return `<h3>${title}</h3>`+list.map(it=>{ const got=has.has(it.id); return `<div class="gift-row"><span class="ga">${art(it)}</span><span class="gn">${esc(it.name)}<small>${it.price==null?"Special":it.unlock_level!=null?"Level "+it.unlock_level+" reward":"⚡ "+fmtN(it.price)+" in the shop"}</small></span>${got?`<button class="btn sm" data-gtake="${esc(it.id)}">Take back</button>`:`<button class="btn sm primary" data-ggive="${esc(it.id)}">Give</button>`}</div>`; }).join(""); }).join(""); };
+  const draw=()=>{ $("#gift-list").innerHTML=groups.map(([g,title])=>{ const list=LV.items.filter(it=>inGroup(it,g)&&!(it.price===0&&it.unlock_level==null)).sort(shopOrder); if(!list.length) return "";
+    return `<h3>${title}</h3>`+list.map(it=>{ const got=has.has(it.id); return `<div class="gift-row"><span class="ga${it.kind==="font"?" wide":""}">${art(it)}</span><span class="gn">${esc(it.name)}<small>${it.price==null?"Special":it.unlock_level!=null?"Level "+it.unlock_level+" reward":"⚡ "+fmtN(it.price)+" in the shop"}</small></span>${got?`<button class="btn sm" data-gtake="${esc(it.id)}">Take back</button>`:`<button class="btn sm primary" data-ggive="${esc(it.id)}">Give</button>`}</div>`; }).join(""); }).join(""); };
   draw();
   $("#gift-list").addEventListener("click",async e=>{ const b=e.target.closest("button"); if(!b) return; b.disabled=true;
     try{ if(b.dataset.ggive){ await api.rpc("brand_give",{p_user:uid,p_item:b.dataset.ggive}); has.add(b.dataset.ggive); toast("Sent! "+u.name+" will get a notification."); }

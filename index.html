@@ -76,6 +76,9 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
   radial-gradient(ellipse at 85% 50%,rgba(216,32,31,.45),transparent 60%),
   linear-gradient(120deg,#0e0e10,#1f1f23 60%,#2a1313)}
 .ident{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-top:-52px;padding-inline:8px}
+/* header effects stay inside the header, behind your avatar, its frame and your name */
+.banner,.uc-banner{isolation:isolate}
+.ident{position:relative;z-index:2}
 .ident-text,.ident-actions{margin-top:62px}
 
 .avatar{width:104px;height:104px;border-radius:24px;border:4px solid var(--bg);background:conic-gradient(from 200deg,#ff3b36,#7a0f0e,#26262a,#ff3b36);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:38px;color:#fff;flex:none}
@@ -737,10 +740,6 @@ body[data-swipe="right"] main>section:not([hidden]){animation:pc-swr .28s ease-o
 .fr.f-holo::after{inset:0;z-index:3;background:repeating-linear-gradient(0deg,rgba(255,255,255,.16) 0 1px,transparent 1px 3px);mix-blend-mode:screen;animation:pc-scan 1.6s linear infinite}
 @keyframes pc-holo{to{background-position:300% 300%}}
 @keyframes pc-scan{to{background-position:0 12px}}
-.fr.f-drip::before{inset:0;box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 3) var(--f1)}
-.dr{position:absolute;top:94%;width:9%;height:0;background:var(--f1);border-radius:0 0 50% 50%/0 0 70% 70%;box-shadow:0 0 6px var(--f1);animation:pc-drip calc(var(--fs) * 1.6) ease-in infinite}
-.dr:nth-child(1){left:14%}.dr:nth-child(2){left:38%;animation-delay:-.7s}.dr:nth-child(3){left:61%;animation-delay:-1.4s;width:7%}.dr:nth-child(4){left:82%;animation-delay:-2s}
-@keyframes pc-drip{0%{height:0;opacity:1}60%{height:22%;opacity:1}100%{height:26%;opacity:0;transform:translateY(40%)}}
 .fr.f-aurora::before{inset:calc(var(--fw) * -1.6);border-radius:50%;background:conic-gradient(from var(--pca,0deg),var(--f1),var(--f2),#3bd5ff,var(--f1));filter:blur(calc(var(--fw) * 1.6));opacity:.9;animation:pc-spin calc(var(--fs) * 2.5) linear infinite}
 /* new name styles */
 .nm.n-fire{background:linear-gradient(0deg,#ff2a00,#ff8a00 45%,#ffe14a);-webkit-background-clip:text;background-clip:text;color:transparent;animation:pc-fire .8s ease-in-out infinite alternate}
@@ -756,8 +755,6 @@ body[data-swipe="right"] main>section:not([hidden]){animation:pc-swr .28s ease-o
 @keyframes pc-petal{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(70px,340px) rotate(540deg)}}
 .hfx.fx-fireflies i{width:4px;height:4px;background:#efff8a;box-shadow:0 0 10px 3px #d4ff3b;animation-name:pc-fly;animation-timing-function:ease-in-out;animation-direction:alternate}
 @keyframes pc-fly{0%{opacity:.15;transform:translate(0,0)}50%{opacity:1}100%{opacity:.25;transform:translate(34px,-22px)}}
-.hfx.fx-data i{top:-25%;width:2px;height:46px;border-radius:2px;background:linear-gradient(transparent,#3bff7a);box-shadow:0 0 6px #3bff7a;animation-name:pc-drop}
-@keyframes pc-drop{to{transform:translateY(420px)}}
 .hfx.fx-bubbles i{bottom:-10%;width:11px;height:11px;border:1.5px solid rgba(190,235,255,.85);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.65),transparent 45%);animation-name:pc-bubble}
 @keyframes pc-bubble{0%{transform:translate(0,0) scale(.6);opacity:0}15%{opacity:1}100%{transform:translate(14px,-330px) scale(1.15);opacity:0}}
 .thumb-img.thumb-fb{filter:saturate(1.05)}
@@ -848,18 +845,6 @@ h1 .lvc{font-size:13px;padding:1px 9px 1px 7px}h1 .lvc svg{width:12px;height:12p
 .f-pixel>.mini-av,.f-pixel>.avatar{box-shadow:0 calc(var(--fw) * -1) 0 0 var(--f1),0 var(--fw) 0 0 var(--f1),calc(var(--fw) * -1) 0 0 0 var(--f1),var(--fw) 0 0 0 var(--f1),0 calc(var(--fw) * -2) 0 calc(var(--fw) * -1) var(--f2),0 calc(var(--fw) * 2) 0 calc(var(--fw) * -1) var(--f2),calc(var(--fw) * -2) 0 0 calc(var(--fw) * -1) var(--f2),calc(var(--fw) * 2) 0 0 calc(var(--fw) * -1) var(--f2)}
 .f-neon::before{inset:0;box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 3) var(--f1),0 0 calc(var(--fw) * 6) var(--f2);animation:pc-neon calc(var(--fs) * 1.5) ease-in-out infinite alternate}
 @keyframes pc-neon{to{box-shadow:0 0 0 2px var(--f2),0 0 calc(var(--fw) * 3) var(--f2),0 0 calc(var(--fw) * 6) var(--f1)}}
-.f-ember::before{inset:0;box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 3) calc(var(--fw) * .6) var(--f1),0 0 calc(var(--fw) * 6) calc(var(--fw) * 1.2) color-mix(in srgb,var(--f2) 55%,transparent);animation:pc-heat calc(var(--fs) * .5) ease-in-out infinite alternate}
-@keyframes pc-heat{to{box-shadow:0 0 0 2px var(--f2),0 0 calc(var(--fw) * 4) calc(var(--fw) * .8) var(--f1),0 0 calc(var(--fw) * 8) calc(var(--fw) * 2) color-mix(in srgb,var(--f1) 55%,transparent)}}
-.fl{position:absolute;bottom:-6%;width:20%;height:38%;border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;background:radial-gradient(circle at 50% 75%,#fff6d0 0 12%,var(--f2) 30%,var(--f1) 62%,transparent 72%);transform-origin:50% 100%;animation:pc-lick calc(var(--fs) * .45) ease-in-out infinite alternate;filter:blur(.4px);mix-blend-mode:screen}
-.fl:nth-child(1){left:-7%;bottom:8%;height:34%;animation-delay:-.1s}
-.fl:nth-child(2){left:14%;animation-delay:-.35s}
-.fl:nth-child(3){left:39%;height:46%;width:22%;animation-delay:-.2s}
-.fl:nth-child(4){left:65%;height:36%;animation-delay:-.5s}
-.fl:nth-child(5){right:-7%;bottom:8%;height:32%;animation-delay:-.25s}
-@keyframes pc-lick{0%{transform:scale(1,1) skewX(0)}50%{transform:scale(.88,1.18) skewX(6deg)}100%{transform:scale(1.05,.92) skewX(-5deg)}}
-.sp{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--f2);box-shadow:0 0 6px var(--f1);bottom:6%;opacity:0;animation:pc-rise calc(var(--fs) * 1.2) linear infinite}
-.sp:nth-child(6){left:20%}.sp:nth-child(7){left:48%;animation-delay:-.6s}.sp:nth-child(8){left:76%;animation-delay:-1.1s}.sp:nth-child(9){left:62%;animation-delay:-1.5s}
-@keyframes pc-rise{0%{transform:translate(0,0);opacity:0}15%{opacity:1}100%{transform:translate(8px,var(--rise));opacity:0}}
 .f-glitch>.mini-av,.f-glitch>.avatar{animation:pc-glitch calc(var(--fs) * 1.6) infinite}
 @keyframes pc-glitch{0%,88%,100%{box-shadow:0 0 0 2px var(--ink)}90%{box-shadow:-4px 0 0 2px var(--f1),4px 0 0 2px var(--f2);transform:translateX(2px)}93%{box-shadow:3px 2px 0 2px var(--f1),-3px -2px 0 2px var(--f2);transform:translateX(-2px)}}
 .f-legend::before{inset:calc(var(--fw) * -1);background:linear-gradient(115deg,color-mix(in srgb,var(--f1) 60%,#000),var(--f1) 35%,var(--f2) 45%,var(--f1) 55%,color-mix(in srgb,var(--f1) 60%,#000));background-size:250% 100%;animation:pc-shine calc(var(--fs) * 1.8) linear infinite}
@@ -897,7 +882,6 @@ h1 .lvc{font-size:13px;padding:1px 9px 1px 7px}h1 .lvc svg{width:12px;height:12p
 .am-lv,.am-lv *{text-decoration:none}
 .am-me span.mini-av{display:grid;font-size:17px;color:#fff}
 h1 .lvc{margin-left:8px}
-.fr:not(.lg) .fl{width:17%;height:26%;bottom:-5%}.fr:not(.lg) .fl:nth-child(3){height:32%}.fr:not(.lg) .sp{display:none}
 .lvup a.btn{text-decoration:none;color:var(--ink)}
 .p-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.p-badges:empty{display:none}
 .bdg{display:inline-flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px 10px 3px 4px;font-size:12.5px;font-weight:700}
@@ -963,7 +947,6 @@ h1 .lvc{margin-left:8px}
 .sitem .art svg.stk{width:84px;height:84px}
 .sitem .art .nm{font-family:var(--f-display);font-weight:800;font-size:22px}
 .sitem .art .fxbox{position:relative;width:100%;height:100%;border-radius:10px;overflow:hidden;background:linear-gradient(135deg,#2a1313,#111 70%)}
-.sitem .art .fxbox .hfx i{animation-duration:inherit}
 .sitem b{font-size:14.5px}
 .sitem .rar{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-top:-6px}
 .buy{width:100%;border:0;border-radius:9px;padding:8px;font-weight:800;font-size:14px;background:var(--accent);color:var(--accent-ink)}
@@ -1007,7 +990,7 @@ svg.stk{display:block}
 .cz-note{font-size:12.5px;color:var(--muted);margin:4px 0 0}
 .lvup .big{font-size:56px;font-family:var(--f-display);font-weight:800;line-height:1;margin:6px 0}
 .lvup{text-align:center}
-@media (prefers-reduced-motion:reduce){.fr::before,.fr::after,.fr>*,.fl,.sp,.dr,.hfx i,.nm,.nm::before,.nm::after,.claim.ready{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.fr::before,.fr::after,.fr>*,.fr *,.hfx i,.hfx svg,.nm,.nm *,.nm::before,.nm::after,.claim.ready{animation:none!important}}
 
 /* ---------- Articles ---------- */
 .c-mode{display:flex;align-items:center;gap:10px;margin:-2px 0 12px}
@@ -1085,9 +1068,218 @@ svg.stk{display:block}
 .im-top .thumb.tall{max-width:240px}
 .br-types{display:flex;gap:6px;flex-wrap:wrap;padding:10px 0 0}
 .br-types[hidden]{display:none}
+
+/* ===== Cosmetics drop 2 ===== */
+.fr-back{position:absolute;inset:0;pointer-events:none;z-index:0;border-radius:inherit}
+.fx-svg{position:absolute;overflow:visible;width:100%;height:100%;left:0;top:0}
+.men-row .fr-back,.acct-btn .fr-back,.am-item .fr-back{display:none}
+/* -- Inferno (reworked): flame tongues all around the bottom and sides, warped by a heat filter -- */
+.f-ember::before{inset:0;box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 3) calc(var(--fw) * .6) var(--f1),0 0 calc(var(--fw) * 7) calc(var(--fw) * 1.4) color-mix(in srgb,var(--f1) 45%,transparent);animation:pc-heat calc(var(--fs) * .5) ease-in-out infinite alternate}
+@keyframes pc-heat{to{box-shadow:0 0 0 2px var(--f2),0 0 calc(var(--fw) * 4) calc(var(--fw) * .8) var(--f1),0 0 calc(var(--fw) * 9) calc(var(--fw) * 2) color-mix(in srgb,var(--f1) 50%,transparent)}}
+.f-ember .heat{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(to top,color-mix(in srgb,var(--f1) 55%,transparent),transparent 42%);mix-blend-mode:screen;animation:pc-heatglow calc(var(--fs) * .4) ease-in-out infinite alternate}
+@keyframes pc-heatglow{to{opacity:.55}}
+.f-ember .fire{position:absolute;inset:0;filter:url(#pc-fire);mix-blend-mode:screen}
+.f-ember:not(.lg) .fire{filter:url(#pc-fire-s)}
+.f-ember .tg{position:absolute;left:var(--x);bottom:var(--b);width:var(--w);height:var(--h);margin-left:calc(var(--w) / -2);border-radius:50% 50% 45% 45%/72% 72% 28% 28%;
+  background:radial-gradient(ellipse 48% 58% at 50% 80%,#fffbe0 0 13%,var(--f2) 30%,var(--f1) 58%,transparent 76%);transform-origin:50% 92%;transform:rotate(var(--r));animation:pc-tongue var(--d) ease-in-out infinite alternate}
+@keyframes pc-tongue{0%{transform:rotate(var(--r)) scale(1,1)}45%{transform:rotate(calc(var(--r) + 5deg)) scale(.86,1.16)}100%{transform:rotate(calc(var(--r) - 4deg)) scale(1.07,.9)}}
+.f-ember .sp{position:absolute;width:5%;height:5%;min-width:3px;min-height:3px;border-radius:50%;background:#fff3b0;box-shadow:0 0 6px 1px var(--f2),0 0 10px var(--f1);opacity:0;left:var(--x);bottom:var(--b);animation:pc-ember calc(var(--fs) * var(--t,1)) linear infinite;animation-delay:var(--dl)}
+@keyframes pc-ember{0%{transform:translate(0,0) scale(1);opacity:0}12%{opacity:1}50%{transform:translate(12%,-160%) scale(.8)}100%{transform:translate(-18%,-420%) scale(.3);opacity:0}}
+
+/* -- Toxic Drip (reworked): the slime border itself drips; drops stretch and fall off -- */
+.f-drip::before{inset:0;box-shadow:0 0 calc(var(--fw) * 3) color-mix(in srgb,var(--f1) 70%,transparent)}
+.f-drip .goo{position:absolute;inset:0;filter:url(#pc-goo)}
+.f-drip:not(.lg) .goo{filter:url(#pc-goo-s)}
+.goo b{position:absolute;display:block;background:var(--f1)}
+.goo .gring{inset:calc(var(--fw) * -.6);background:none;border:calc(var(--fw) * 1.1) solid var(--f1);border-radius:inherit}
+.f-drip .goo{border-radius:inherit}
+.goo .bl{width:var(--s);height:var(--s);border-radius:50%;left:var(--x);top:var(--y);margin-left:calc(var(--s) / -2);animation:pc-blob 3s ease-in-out infinite alternate;animation-delay:var(--dl)}
+@keyframes pc-blob{to{transform:translateY(12%) scale(1.08,.94)}}
+.goo .dd{left:var(--x);top:96%;width:var(--s);margin-left:calc(var(--s) / -2);border-radius:0 0 999px 999px;height:var(--l);animation:pc-stretch var(--t) cubic-bezier(.5,0,.75,0) infinite;animation-delay:var(--dl);transform-origin:50% 0}
+@keyframes pc-stretch{0%{transform:scaleY(.35)}70%{transform:scaleY(1)}76%{transform:scaleY(.62)}100%{transform:scaleY(.35)}}
+.goo .dp{left:var(--x);top:calc(96% + var(--l) - var(--s) * .4);width:calc(var(--s) * 1.25);height:calc(var(--s) * 1.45);margin-left:calc(var(--s) * -.625);border-radius:50% 50% 50% 50%/40% 40% 60% 60%;opacity:0;animation:pc-dfall var(--t) cubic-bezier(.55,0,1,.45) infinite;animation-delay:var(--dl)}
+@keyframes pc-dfall{0%,66%{transform:translateY(-40%) scale(.5);opacity:0}70%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(520%) scale(.85);opacity:0}}
+.f-drip .gloss{position:absolute;left:6%;top:-4%;width:38%;height:4.5%;border-radius:99px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--f2) 85%,#fff),transparent);opacity:.9}
+.f-drip .gloss.g2{left:60%;width:16%;top:-2%;opacity:.6}
+.f-drip .bub{position:absolute;width:7%;height:7%;min-width:3px;min-height:3px;border-radius:50%;border:1px solid color-mix(in srgb,var(--f2) 90%,#fff);left:var(--x);top:-5%;opacity:0;animation:pc-pop 2.8s ease-out infinite;animation-delay:var(--dl)}
+@keyframes pc-pop{0%{transform:scale(.2);opacity:0}30%{opacity:1}80%{transform:scale(1);opacity:1}86%{transform:scale(1.5);opacity:0}100%{opacity:0}}
+
+/* -- Frost: icy ring that shimmers, crystals on two corners, snow and sparkles -- */
+.f-frost::before{inset:calc(var(--fw) * -1);padding:var(--fw);background:linear-gradient(135deg,#ffffff,var(--f1) 25%,var(--f2) 50%,#ffffff 62%,var(--f1) 80%,var(--f2));background-size:250% 250%;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:pc-shimmer calc(var(--fs) * 2.4) linear infinite;filter:drop-shadow(0 0 4px var(--f1))}
+@keyframes pc-shimmer{to{background-position:250% 250%}}
+.f-frost::after{inset:0;box-shadow:inset 0 0 calc(var(--fw) * 3) color-mix(in srgb,var(--f1) 70%,#fff);z-index:3;border-radius:inherit}
+.f-frost .ice{filter:drop-shadow(0 0 3px color-mix(in srgb,var(--f1) 80%,#fff))}
+.f-frost .tw{transform-box:fill-box;transform-origin:center;animation:pc-tw 2.2s ease-in-out infinite;animation-delay:var(--dl)}
+@keyframes pc-tw{0%,100%{transform:scale(.2) rotate(0);opacity:0}50%{transform:scale(1) rotate(45deg);opacity:1}}
+.f-frost .fl{position:absolute;top:-8%;left:var(--x);width:5%;height:5%;min-width:2px;min-height:2px;border-radius:50%;background:#fff;box-shadow:0 0 4px #fff;animation:pc-snow var(--t) linear infinite;animation-delay:var(--dl);opacity:.9}
+@keyframes pc-snow{0%{transform:translate(0,0);opacity:0}10%{opacity:.9}100%{transform:translate(30%,2300%);opacity:0}}
+
+/* -- Arcane: two counter-turning circles of runes behind a round avatar -- */
+.f-arcane,.f-arcane>.mini-av,.f-arcane>.avatar{border-radius:50%!important}
+.f-arcane::before{inset:calc(var(--fw) * -.6);box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 4) var(--f1);animation:pc-arcglow calc(var(--fs) * 1.5) ease-in-out infinite alternate}
+@keyframes pc-arcglow{to{box-shadow:0 0 0 2px var(--f2),0 0 calc(var(--fw) * 6) var(--f2)}}
+.f-arcane .rot{transform-origin:50px 50px;animation:pc-rot calc(var(--fs) * 10) linear infinite}
+.f-arcane .rot.rev{animation-duration:calc(var(--fs) * 7);animation-direction:reverse}
+.f-arcane .runes{font:700 7px var(--f-mono);fill:var(--f2)}
+.f-arcane svg{filter:drop-shadow(0 0 2px var(--f1))}
+@keyframes pc-rot{to{transform:rotate(360deg)}}
+
+/* -- Thunder: lightning arcs crackle along the edges -- */
+.f-storm::before{inset:0;box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 4) var(--f1);animation:pc-crackle calc(var(--fs) * 1.3) steps(1) infinite}
+@keyframes pc-crackle{0%,100%{box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 4) var(--f1)}10%{box-shadow:0 0 0 2px #fff,0 0 calc(var(--fw) * 8) var(--f2)}13%{box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 3) var(--f1)}55%{box-shadow:0 0 0 2px #fff,0 0 calc(var(--fw) * 7) var(--f2)}57%{box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 4) var(--f1)}}
+.f-storm .bolt{fill:none;stroke:#fff;stroke-width:1.6;stroke-linejoin:round;filter:drop-shadow(0 0 2px var(--f2)) drop-shadow(0 0 4px var(--f1));opacity:0;animation:pc-bzap calc(var(--fs) * 1.3) steps(1) infinite;animation-delay:var(--dl)}
+@keyframes pc-bzap{0%,100%{opacity:0}8%{opacity:1}11%{opacity:0}13%{opacity:.9}16%{opacity:0}}
+
+/* -- Kitty: cat ears that twitch now and then -- */
+.f-cat::before{inset:0;box-shadow:0 0 0 2px var(--f1)}
+.f-cat .ear{transform-box:fill-box;transform-origin:50% 100%;animation:pc-twitch 4.5s ease-in-out infinite}
+.f-cat .ear.r{animation-delay:-2.2s}
+@keyframes pc-twitch{0%,86%,100%{transform:rotate(0)}89%{transform:rotate(-14deg)}92%{transform:rotate(4deg)}95%{transform:rotate(-6deg)}}
+.f-cat .o{fill:var(--f1)}.f-cat .i{fill:var(--f2)}
+
+/* -- Angel: a floating halo and soft twinkles -- */
+.f-angel::before{inset:calc(var(--fw) * -.4);box-shadow:0 0 0 2px color-mix(in srgb,var(--f1) 80%,#fff),0 0 calc(var(--fw) * 5) color-mix(in srgb,var(--f2) 70%,transparent)}
+.f-angel .halo{transform-origin:50px -10px;animation:pc-bob 2.6s ease-in-out infinite}
+@keyframes pc-bob{50%{transform:translateY(-3px)}}
+.f-angel .halo ellipse{fill:none;stroke:var(--f1);stroke-width:3.4;filter:drop-shadow(0 0 3px var(--f1)) drop-shadow(0 0 7px var(--f1))}
+.f-angel .glint{fill:#fff;filter:drop-shadow(0 0 2px var(--f1));transform-box:fill-box;transform-origin:center;animation:pc-tw 2.4s ease-in-out infinite;animation-delay:var(--dl)}
+
+/* -- Demon: horns and a hot red flicker -- */
+.f-demon::before{inset:0;box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 4) var(--f1);animation:pc-heat2 calc(var(--fs) * .7) ease-in-out infinite alternate}
+@keyframes pc-heat2{to{box-shadow:0 0 0 2px var(--f2),0 0 calc(var(--fw) * 7) var(--f1)}}
+.f-demon .horn{fill:url(#pc-horn);stroke:#1a0505;stroke-width:.8}
+
+/* -- HUD: a targeting screen: corner brackets, a scan line and a turning dial -- */
+.f-hud::before{inset:0;box-shadow:0 0 0 1px color-mix(in srgb,var(--f1) 45%,transparent)}
+.f-hud .br{fill:none;stroke:var(--f1);stroke-width:3;stroke-linecap:square;filter:drop-shadow(0 0 2px var(--f1));animation:pc-lock calc(var(--fs) * 1.4) ease-in-out infinite;transform-origin:50px 50px}
+@keyframes pc-lock{50%{transform:scale(1.07)}}
+.f-hud .dial{fill:none;stroke:var(--f2);stroke-width:1.2;stroke-dasharray:3 5 14 5;transform-origin:50px 50px;animation:pc-rot calc(var(--fs) * 5) linear infinite;opacity:.8}
+.f-hud .scan{position:absolute;left:0;right:0;top:0;height:16%;border-radius:0;background:linear-gradient(to bottom,transparent,color-mix(in srgb,var(--f1) 50%,transparent) 85%,var(--f1));mix-blend-mode:screen;animation:pc-scanl calc(var(--fs) * 1.6) linear infinite}
+@keyframes pc-scanl{0%{transform:translateY(-100%);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(625%);opacity:0}}
+.f-hud .rec{font:700 7.5px var(--f-mono);fill:var(--f2)}
+.f-hud .dot{fill:#ff3b36;animation:pc-blink 1s steps(1) infinite}
+@keyframes pc-blink{50%{opacity:0}}
+
+/* -- Lovestruck: pixel hearts float up around you -- */
+.f-hearts::before{inset:0;box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 3) var(--f1);animation:pc-beat 1.2s ease-in-out infinite}
+@keyframes pc-beat{0%,40%,100%{transform:scale(1)}10%{transform:scale(1.04)}25%{transform:scale(1.02)}}
+.f-hearts .ht{position:absolute;left:var(--x);top:var(--y);width:var(--s);height:var(--s);opacity:0;animation:pc-heartup var(--t) ease-out infinite;animation-delay:var(--dl)}
+.f-hearts .ht svg{width:100%;height:100%;display:block;fill:var(--f1);filter:drop-shadow(0 0 2px var(--f2))}
+@keyframes pc-heartup{0%{transform:translateY(0) scale(.4);opacity:0}20%{opacity:1;transform:translateY(-30%) scale(1)}100%{transform:translateY(-200%) scale(.8);opacity:0}}
+
+/* -- Overgrown: vines with leaves and flowers that open and close -- */
+.f-vines::before{inset:0;box-shadow:0 0 0 2px color-mix(in srgb,var(--f1) 70%,#000)}
+.f-vines .vine{fill:none;stroke:color-mix(in srgb,var(--f1) 75%,#000);stroke-width:2.4;stroke-linecap:round}
+.f-vines .leaf{fill:var(--f1);transform-box:fill-box;transform-origin:0 50%;animation:pc-sway 3s ease-in-out infinite alternate;animation-delay:var(--dl)}
+@keyframes pc-sway{to{transform:rotate(12deg)}}
+.f-vines .flw{transform-box:fill-box;transform-origin:center;animation:pc-bloom 4s ease-in-out infinite;animation-delay:var(--dl)}
+.f-vines .flw circle{fill:var(--f2)}.f-vines .flw .c{fill:#ffe14a}
+@keyframes pc-bloom{0%,100%{transform:scale(.55) rotate(0)}50%{transform:scale(1.05) rotate(40deg)}}
+
+/* Matrix code rain (replaces the green lines) */
+.hfx.fx-data{background:linear-gradient(to bottom,rgba(0,20,8,.35),rgba(0,0,0,0))}
+.hfx.fx-data i{top:0;border-radius:0;width:1ch;font:700 13px/1.05 var(--f-mono);white-space:pre;text-align:center;color:transparent;
+  background:linear-gradient(to bottom,transparent 0,rgba(0,255,102,.25) 35%,#00ff66 82%,#d8ffe6 94%,#fff 100%);-webkit-background-clip:text;background-clip:text;
+  text-shadow:0 0 6px rgba(0,255,102,.35);animation-name:pc-code;animation-timing-function:linear}
+.hfx.fx-data i.sm{font-size:10px;opacity:.55}
+@keyframes pc-code{from{transform:translateY(-105%)}to{transform:translateY(var(--hh,340px))}}
+/* Aurora */
+.hfx.fx-aurora{-webkit-mask:linear-gradient(to bottom,#000 0,#000 35%,transparent 80%);mask:linear-gradient(to bottom,#000 0,#000 35%,transparent 80%)}
+.hfx.fx-aurora i{left:-30%!important;width:160%;height:55%;border-radius:40% 40% 50% 50%;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.0) 0 7px,rgba(255,255,255,.22) 9px,rgba(255,255,255,0) 13px),linear-gradient(90deg,transparent 0,#3bff9a 22%,#3bd5ff 45%,#b04bff 68%,#3bff9a 88%,transparent 100%);
+  background-size:120px 100%,200% 100%;filter:blur(7px);opacity:.38;mix-blend-mode:screen;transform-origin:50% 0;
+  animation:pc-aurora var(--t) ease-in-out infinite alternate,pc-aurflow var(--t2) linear infinite}
+@keyframes pc-aurora{0%{transform:translateX(-10%) skewX(-18deg) scaleY(.75)}50%{transform:translateX(4%) skewX(10deg) scaleY(1.05)}100%{transform:translateX(12%) skewX(-6deg) scaleY(.85)}}
+@keyframes pc-aurflow{to{background-position:240px 0,200% 0}}
+/* Thunderstorm */
+.hfx.fx-storm i.r{top:-20%;width:1.5px;height:22px;border-radius:2px;background:linear-gradient(transparent,rgba(170,200,255,.8));transform:rotate(12deg);animation-name:pc-srain}
+@keyframes pc-srain{to{transform:translate(-70px,360px) rotate(12deg)}}
+.hfx.fx-storm i.f{inset:0;left:0!important;border-radius:0;background:rgba(200,220,255,.85);opacity:0;animation:pc-flash 6s steps(1) infinite}
+@keyframes pc-flash{0%,100%{opacity:0}40%{opacity:.35}41%{opacity:0}42.5%{opacity:.2}43.5%{opacity:0}}
+.hfx.fx-storm svg{position:absolute;top:0;height:100%;width:60px;opacity:0;animation:pc-flash2 6s steps(1) infinite}
+.hfx.fx-storm svg path{fill:none;stroke:#fff;stroke-width:2.2;stroke-linejoin:round;filter:drop-shadow(0 0 4px #9ab8ff) drop-shadow(0 0 10px #6f8cff)}
+@keyframes pc-flash2{0%,100%{opacity:0}40%{opacity:1}41%{opacity:0}42.5%{opacity:1}43.5%{opacity:0}}
+/* Confetti */
+.hfx.fx-confetti i{top:-10%;width:6px;height:10px;border-radius:1px;background:var(--c);animation-name:pc-confetti}
+@keyframes pc-confetti{0%{transform:translate(0,0) rotateX(0) rotateZ(0)}100%{transform:translate(40px,340px) rotateX(1440deg) rotateZ(320deg)}}
+/* Autumn leaves */
+.hfx.fx-leaves i{top:-12%;width:12px;height:12px;border-radius:0 80% 0 80%;background:var(--c);opacity:.95;animation-name:pc-leaf;animation-timing-function:ease-in-out}
+@keyframes pc-leaf{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(26px,80px) rotate(90deg)}50%{transform:translate(-8px,165px) rotate(160deg)}75%{transform:translate(28px,250px) rotate(250deg)}100%{transform:translate(0,340px) rotate(340deg)}}
+/* Shooting stars */
+.hfx.fx-shoot i.s{width:2px;height:2px;background:#fff;opacity:.6;animation-name:pc-twk;animation-timing-function:ease-in-out}
+@keyframes pc-twk{0%,100%{opacity:.1}50%{opacity:.9}}
+.hfx.fx-shoot i.m{width:90px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#fff);transform:rotate(25deg);opacity:0;animation-name:pc-meteor;animation-timing-function:ease-out}
+@keyframes pc-meteor{0%,70%{opacity:0;transform:translate(0,0) rotate(25deg)}72%{opacity:1}86%{opacity:0;transform:translate(220px,100px) rotate(25deg)}100%{opacity:0}}
+/* Hearts */
+.hfx.fx-hearts i{bottom:-14%;font-style:normal;font-size:var(--s);line-height:1;color:var(--c);border-radius:0;filter:drop-shadow(0 0 4px var(--c));animation-name:pc-hrise;animation-timing-function:ease-in}
+@keyframes pc-hrise{0%{transform:translate(0,0) scale(.6);opacity:0}15%{opacity:1}50%{transform:translate(14px,-130px)}100%{transform:translate(-10px,-280px) scale(1.1);opacity:0}}
+/* Fog */
+.hfx.fx-fog i{top:10%;width:70%;height:120%;border-radius:50%;background:radial-gradient(closest-side,rgba(220,220,235,.35),transparent);filter:blur(6px);animation-name:pc-fog;animation-timing-function:ease-in-out;animation-direction:alternate}
+@keyframes pc-fog{from{transform:translateX(-30%)}to{transform:translateX(40%)}}
+
+.nm.n-neon{color:color-mix(in srgb,var(--c1) 30%,#fff);text-shadow:0 0 2px #fff,0 0 6px var(--c1),0 0 12px var(--c1),0 0 22px var(--c1);animation:pc-neonf 4s steps(1) infinite}
+@keyframes pc-neonf{0%,100%{opacity:1}12%{opacity:.55}13%{opacity:1}14%{opacity:.4}15%{opacity:1}70%{opacity:.75}71%{opacity:1}}
+.nm.n-chrome{background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.95) 48%,transparent 60%),linear-gradient(180deg,#ffffff 0%,#e6e9ee 38%,#727b88 50%,#c9ced6 62%,#ffffff 100%);background-size:250% 100%,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:pc-chrome 3.2s ease-in-out infinite}
+@keyframes pc-chrome{0%{background-position:150% 0,0 0}60%,100%{background-position:-60% 0,0 0}}
+.nm.n-wave .w{display:inline-block;color:var(--c1);animation:pc-wave 1.6s ease-in-out infinite;animation-delay:calc(var(--i) * -.11s)}
+@keyframes pc-wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-.22em)}}
+.nm.n-sparkle{background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nm.n-sparkle::before,.nm.n-sparkle::after{content:"✦";position:absolute;font-size:.55em;color:#fff;text-shadow:0 0 6px var(--c1);animation:pc-spark 1.8s ease-in-out infinite;-webkit-text-fill-color:#fff}
+.nm.n-sparkle::before{left:-.35em;top:-.3em}.nm.n-sparkle::after{right:-.4em;bottom:-.1em;animation-delay:-.9s}
+@keyframes pc-spark{0%,100%{transform:scale(0) rotate(0);opacity:0}50%{transform:scale(1) rotate(90deg);opacity:1}}
+.nm.n-typing{color:var(--c1)}
+.nm.n-typing .tt{display:inline-block;clip-path:inset(0 100% 0 0);animation:pc-type 5s steps(var(--n)) infinite}
+.nm.n-typing::after{content:"";display:inline-block;width:.09em;height:1em;margin-left:.06em;vertical-align:-.12em;background:var(--c1);animation:pc-caret .8s steps(1) infinite}
+@keyframes pc-type{0%{clip-path:inset(0 100% 0 0)}30%,92%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 0 0);opacity:0}}
+@keyframes pc-caret{50%{opacity:0}}
+.nm.n-jitter .w{display:inline-block;color:var(--c1);animation:pc-jit .28s steps(2) infinite;animation-delay:calc(var(--i) * -.07s)}
+.nm.n-jitter{filter:drop-shadow(0 0 3px color-mix(in srgb,var(--c1) 50%,transparent))}
+@keyframes pc-jit{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(-.04em,.03em) rotate(-3deg)}50%{transform:translate(.04em,-.03em) rotate(2deg)}75%{transform:translate(-.02em,-.04em) rotate(3deg)}100%{transform:translate(.03em,.02em) rotate(-2deg)}}
+/* Name fonts: each file is only downloaded when a name on the page uses it */
+@font-face{font-family:"PC Pixel";font-weight:400;font-display:swap;src:url("fonts/pixel.woff") format("woff")}
+.ft-pixel{font-family:"PC Pixel",var(--f-body);font-weight:400;font-size:.92em;}
+@font-face{font-family:"PC Horror";font-weight:400;font-display:swap;src:url("fonts/horror.woff") format("woff")}
+.ft-horror{font-family:"PC Horror",var(--f-body);font-weight:400;font-size:1.12em;letter-spacing:.02em;}
+@font-face{font-family:"PC Sci-fi";font-weight:800;font-display:swap;src:url("fonts/scifi.woff") format("woff")}
+.ft-scifi{font-family:"PC Sci-fi",var(--f-body);font-weight:800;font-size:.9em;letter-spacing:.02em;}
+@font-face{font-family:"PC Comic";font-weight:400;font-display:swap;src:url("fonts/comic.woff") format("woff")}
+.ft-comic{font-family:"PC Comic",var(--f-body);font-weight:400;font-size:1.12em;letter-spacing:.04em;}
+@font-face{font-family:"PC Gothic";font-weight:400;font-display:swap;src:url("fonts/gothic.woff") format("woff")}
+.ft-gothic{font-family:"PC Gothic",var(--f-body);font-weight:400;font-size:1.1em;}
+@font-face{font-family:"PC Royal";font-weight:800;font-display:swap;src:url("fonts/royal.woff") format("woff")}
+.ft-royal{font-family:"PC Royal",var(--f-body);font-weight:800;font-size:.98em;}
+@font-face{font-family:"PC Marker";font-weight:400;font-display:swap;src:url("fonts/marker.woff") format("woff")}
+.ft-marker{font-family:"PC Marker",var(--f-body);font-weight:400;font-size:1em;}
+@font-face{font-family:"PC Typewriter";font-weight:400;font-display:swap;src:url("fonts/type.woff") format("woff")}
+.ft-type{font-family:"PC Typewriter",var(--f-body);font-weight:400;font-size:1em;}
+@font-face{font-family:"PC Bubbly";font-weight:600;font-display:swap;src:url("fonts/cute.woff") format("woff")}
+.ft-cute{font-family:"PC Bubbly",var(--f-body);font-weight:600;font-size:1em;}
+@font-face{font-family:"PC Script";font-weight:400;font-display:swap;src:url("fonts/script.woff") format("woff")}
+.ft-script{font-family:"PC Script",var(--f-body);font-weight:400;font-size:.95em;}
+@font-face{font-family:"PC Western";font-weight:400;font-display:swap;src:url("fonts/western.woff") format("woff")}
+.ft-western{font-family:"PC Western",var(--f-body);font-weight:400;font-size:.92em;}
+@font-face{font-family:"PC Glitch";font-weight:400;font-display:swap;src:url("fonts/glitch.woff") format("woff")}
+.ft-glitch{font-family:"PC Glitch",var(--f-body);font-weight:400;font-size:1em;}
+.ft-mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:500;font-size:.95em}
+.sitem .art .ft-big{font-size:22px;font-weight:800;line-height:1.3;text-align:center;overflow-wrap:anywhere;padding:0 6px}
 </style>
 </head>
 <body>
+<!-- shared SVG pieces (filters, gradients, the rune circle) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="pc-goo" x="-30%" y="-30%" width="160%" height="260%" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="3.4" result="b"/><feColorMatrix in="b" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9"/></filter>
+    <filter id="pc-goo-s" x="-30%" y="-30%" width="160%" height="260%" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="1.3" result="b"/><feColorMatrix in="b" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"/></filter>
+    <filter id="pc-fire" x="-40%" y="-60%" width="180%" height="200%"><feTurbulence type="fractalNoise" baseFrequency="0.035 0.075" numOctaves="2" seed="3" result="n"><animate attributeName="baseFrequency" dur="3s" values="0.035 0.075;0.04 0.095;0.035 0.075" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="pc-fire-s" x="-40%" y="-60%" width="180%" height="200%"><feTurbulence type="fractalNoise" baseFrequency="0.09 0.18" numOctaves="1" seed="3" result="n"><animate attributeName="baseFrequency" dur="3s" values="0.09 0.18;0.11 0.22;0.09 0.18" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <linearGradient id="pc-horn" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#7a0f0e"/><stop offset=".6" stop-color="#d42a1f"/><stop offset="1" stop-color="#ffb08a"/></linearGradient>
+    <linearGradient id="pc-icefill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#bfefff"/><stop offset="1" stop-color="#5ab8ff" stop-opacity=".7"/></linearGradient>
+    <path id="pc-rune-c" d="M50 -7 a57 57 0 1 1 -0.01 0"/>
+    <path id="pc-rune-c2" d="M50 2 a48 48 0 1 1 -0.01 0"/>
+  </defs>
+</svg>
+
 
 
 
@@ -1401,7 +1593,7 @@ svg.stk{display:block}
   <section id="view-profile">
     <div class="banner" id="banner" data-edit="✎ Change header"></div>
     <div class="ident">
-      <div class="fr-host" id="avatar-fr"><div class="avatar" id="avatar" data-edit="✎ Edit"></div><span class="fr-deco" id="avatar-deco"></span></div>
+      <div class="fr-host" id="avatar-fr"><span class="fr-back" id="avatar-back"></span><div class="avatar" id="avatar" data-edit="✎ Edit"></div><span class="fr-deco" id="avatar-deco"></span></div>
       <div class="ident-text">
         <h1><span id="p-name"></span><span id="p-staff"></span></h1>
         <div class="handle"><span id="p-handle"></span><span id="p-title"></span></div>
@@ -1523,7 +1715,7 @@ svg.stk{display:block}
         <li><b>XP:</b> you earn XP for posting, adding your work, commenting, signing guestbooks, giving stickers and getting likes. Each has a daily limit, so spamming doesn't help.</li>
         <li><b>Levels and ranks:</b> your level shows next to your name. Every 10 levels you get a new rank: Spark, Charged, Amped, Overclocked, Supercharged and Power Creep.</li>
         <li><b>Quests:</b> new daily quests every day and weekly quests every Monday (midnight UTC). Press <b>Claim</b> when one is done.</li>
-        <li><b>Volts:</b> you get Volts for leveling up and finishing quests. Spend them in the <b>Shop</b> on avatar frames, stickers, name styles and header effects. Volts can only be earned, never bought.</li>
+        <li><b>Volts:</b> you get Volts for leveling up and finishing quests. Spend them in the <b>Shop</b> on avatar frames, stickers, name styles, name fonts and header effects. Volts can only be earned, never bought.</li>
         <li><b>Stickers:</b> press <b>＋ Sticker</b> under someone's post to give them one. One sticker per post.</li>
         <li><b>Badges:</b> special badges, like Bug Hunter or Jam Winner, are handed out by the POWER CREEP account and show on your profile.</li>
         <li><b>Customize:</b> put on your frame, name style, header effect and profile color from <b>Customize</b> in your account menu.</li>
@@ -1544,7 +1736,7 @@ svg.stk{display:block}
     <div class="pg-h"><div><h1>Quests</h1><p>Finish quests to earn XP and ⚡ Volts. Daily quests reset at midnight (UTC), weekly ones on Monday.</p></div><span class="vbal" id="q-volts"></span></div>
     <div id="quests-body"></div></div></section>
   <section id="view-shop" hidden><div class="pg">
-    <div class="pg-h"><div><h1>Shop</h1><p>Spend ⚡ Volts on frames, stickers, name styles and header effects. Volts can only be earned, never bought.</p></div><span class="vbal" id="s-volts"></span></div>
+    <div class="pg-h"><div><h1>Shop</h1><p>Spend ⚡ Volts on frames, stickers, name styles, fonts and header effects. Volts can only be earned, never bought.</p></div><span class="vbal" id="s-volts"></span></div>
     <div id="shop-body"></div></div></section>
   <section id="view-staff" hidden>
     <div id="staff-body"></div>
@@ -1929,7 +2121,7 @@ function renderProfileHeader(){
   $("#avatar").innerHTML=avatarInner(u.avatar,u.name); $("#avatar").style.cssText=u.avatar.url?"":"";
   $("#banner").style.background=bannerBg(u.banner);
   const lk=u.look||{}; $("#banner").innerHTML=hfxHtml(lk.hfx);
-  const fh=$("#avatar-fr"); fh.className=lk.frame?`fr lg f-${lk.frame}`:"fr-host"; fh.style.cssText=lk.frame?frameVars(lk):""; $("#avatar-deco").innerHTML=lk.frame?frameDeco(lk.frame):"";
+  const fh=$("#avatar-fr"); fh.className=lk.frame?`fr lg f-${lk.frame}`:"fr-host"; fh.style.cssText=lk.frame?frameVars(lk):""; $("#avatar-deco").innerHTML=lk.frame?frameDeco(lk.frame):""; $("#avatar-back").innerHTML=lk.frame?frameParts(lk.frame).back:"";
   $("#view-profile").style.cssText=lk.acc?`--accent:${lk.acc};--accent-ink:${inkFor(lk.acc)};--accent-soft:color-mix(in srgb,${lk.acc} 20%,var(--surface))`:"";
   $("#p-level").innerHTML=profileLevelHtml(VIEW.key); renderBadges(VIEW.key);
   const L=u.links.slice(); if(u.twitch&&!L.some(l=>l.plat==="twitch")) L.push({plat:"twitch",url:"https://www.twitch.tv/"+u.twitch});
@@ -3746,12 +3938,15 @@ const boltSvg=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2L5 14h6
 const fmtN=n=>Number(n||0).toLocaleString("en");
 function lvChip(key){ const u=U(key); if(!u.lv||u.brand) return ""; const r=rankOf(u.lv); return `<span class="lvc" style="--rk:${r[2]}" title="Level ${u.lv} · ${r[1]}">${boltSvg}${u.lv}</span>`; }
 
-const FRAMES=[["spark","Spark"],["over","Overcharged"],["circuit","Circuit"],["pixel","8-Bit"],["neon","Neon Nights"],["ember","Inferno"],["glitch","Glitch"],["legend","Legend"],["orbit","Orbit"],["pulse","Heartbeat"],["holo","Hologram"],["drip","Toxic Drip"],["aurora","Aurora"]];
-const NSTYLES=[["solid","Solid color",1],["gradient","Gradient",2],["glow","Glow",1],["shift","Color shift",3],["glitch","Glitch",2],["fire","Fire",0],["outline","Outline",1],["retro","Retro 3D",2],["rainbow","Rainbow",0]];
-const HFX=[["snow","Snowfall",30,[4,8]],["sparks","Static sparks",20,[2,3.5]],["rain","Neon rain",40,[.6,1.1]],["embers","Embers",26,[2.5,4.5]],["stars","Starfield",40,[1.5,4]],["sakura","Sakura petals",22,[5,10]],["fireflies","Fireflies",18,[3,6]],["data","Data stream",26,[1.2,2.6]],["bubbles","Bubbles",18,[4,8]]];
-const FRAME_DEF={ember:["#ff3b00","#ffd23b"],legend:["#d79a00","#fff6d0"],circuit:["#3bd5ff","#ff3b36"],neon:["#ff3bd5","#3bd5ff"],orbit:["#3bb4ff","#ffffff"],pulse:["#ff3b6b","#ff9ab0"],holo:["#3bd5ff","#ff3bd5"],drip:["#5dff3b","#c8ff8a"],aurora:["#3bff9a","#b04bff"]};
+const FRAMES=[["spark","Spark"],["over","Overcharged"],["circuit","Circuit"],["pixel","8-Bit"],["neon","Neon Nights"],["ember","Inferno"],["glitch","Glitch"],["legend","Legend"],["orbit","Orbit"],["pulse","Heartbeat"],["holo","Hologram"],["drip","Toxic Drip"],["aurora","Aurora"],
+  ["frost","Frostbite"],["arcane","Arcane Circle"],["storm","Thunderstruck"],["cat","Kitty Ears"],["angel","Angel"],["demon","Demon"],["hud","Target Lock"],["hearts","Lovestruck"],["vines","Overgrown"]];
+const NSTYLES=[["solid","Solid color",1],["gradient","Gradient",2],["glow","Glow",1],["shift","Color shift",3],["glitch","Glitch",2],["fire","Fire",0],["outline","Outline",1],["retro","Retro 3D",2],["rainbow","Rainbow",0],["neon","Neon sign",1],["chrome","Chrome",0],["wave","Wave",1],["sparkle","Sparkle",2],["typing","Typing",1],["jitter","Rage shake",1]];
+const HFX=[["snow","Snowfall",30,[4,8]],["sparks","Static sparks",20,[2,3.5]],["rain","Neon rain",40,[.6,1.1]],["embers","Embers",26,[2.5,4.5]],["stars","Starfield",40,[1.5,4]],["sakura","Sakura petals",22,[5,10]],["fireflies","Fireflies",18,[3,6]],["data","Data stream",0,[0,0]],["bubbles","Bubbles",18,[4,8]],
+  ["aurora","Aurora",0,[0,0]],["storm","Thunderstorm",0,[0,0]],["confetti","Confetti",0,[0,0]],["leaves","Autumn leaves",0,[0,0]],["shoot","Shooting stars",0,[0,0]],["hearts","Floating hearts",0,[0,0]],["fog","Haunted fog",0,[0,0]]];
+const FONTS=[["pixel","Pixel"],["horror","Horror"],["scifi","Sci-fi"],["comic","Comic"],["gothic","Gothic"],["royal","Royal"],["marker","Marker"],["type","Typewriter"],["cute","Bubbly"],["script","Script"],["western","Western"],["glitch","Glitch"],["mono","Code"]];
+const FRAME_DEF={ember:["#ff3b00","#ffd23b"],legend:["#d79a00","#fff6d0"],circuit:["#3bd5ff","#ff3b36"],neon:["#ff3bd5","#3bd5ff"],orbit:["#3bb4ff","#ffffff"],pulse:["#ff3b6b","#ff9ab0"],holo:["#3bd5ff","#ff3bd5"],drip:["#5dff3b","#c8ff8a"],aurora:["#3bff9a","#b04bff"],ember:["#ff3b00","#ffd23b"],drip:["#5dff3b","#d4ff8a"],frost:["#7fd4ff","#3b7bff"],arcane:["#b04bff","#ffd0ff"],storm:["#3b8cff","#bfe0ff"],cat:["#f2f2f5","#ff8fc0"],angel:["#ffd23b","#ffffff"],demon:["#ff2a1a","#ff8a3b"],hud:["#3bffd5","#3bb4ff"],hearts:["#ff3b7a","#ffc2d6"],vines:["#3bbf5a","#ff8fc0"]};
 const NAME_DEF=["#ff3b36","#ff9a3b","#b04bff"];
-const KIND_WORD={frame:"frame",name:"name style",hfx:"header effect",sticker:"sticker",badge:"badge"};
+const KIND_WORD={frame:"frame",name:"name style",hfx:"header effect",sticker:"sticker",badge:"badge",font:"name font"};
 const BADGE_ART={tester:"crown",bug:"bug",jam:"trophy",helper:"heart",artist:"ink"};
 const badgeSvg=id=>stkSvg(BADGE_ART[id.split(":")[1]]||"bolt");
 const hexOk=v=>/^#[0-9a-f]{6}$/i.test(v||"")?String(v).toLowerCase():null;
@@ -3759,18 +3954,98 @@ function cleanLook(l){ l=l&&typeof l==="object"?l:{}; const o={};
   if(FRAMES.some(f=>f[0]===l.frame)) o.frame=l.frame;
   if(NSTYLES.some(f=>f[0]===l.name)) o.name=l.name;
   if(HFX.some(f=>f[0]===l.hfx)) o.hfx=l.hfx;
+  if(FONTS.some(f=>f[0]===l.ft)) o.ft=l.ft;
   ["f1","f2","c1","c2","c3","acc"].forEach(k=>{ const v=hexOk(l[k]); if(v) o[k]=v; });
   if(l.gd==="v") o.gd="v";
   return o; }
-function frameDeco(frame){ return frame==="ember"?'<i class="fl"></i>'.repeat(5)+'<i class="sp"></i>'.repeat(4):frame==="legend"?'<span class="crown">👑</span>':frame==="drip"?'<i class="dr"></i>'.repeat(4):""; }
+/* Frame decorations: back = behind the avatar, front = on top of it */
+function frameParts(id){
+  const st=o=>Object.entries(o).map(([k,v])=>`--${k}:${v}`).join(";");
+  let back="",front="";
+  if(id==="ember"){
+    const T=[[8,-12,30,44,-6,.52],[29,-15,30,56,-2,.61],[50,-17,32,66,0,.47],[71,-15,30,56,2,.58],[92,-12,30,44,6,.5],[-3,16,22,44,-10,.55],[-2,48,18,32,-6,.66],[103,16,22,44,10,.6],[102,48,18,32,6,.5]];
+    front=`<b class="heat"></b><span class="fire">${T.map(t=>`<i class="tg" style="${st({x:t[0]+"%",b:t[1]+"%",w:t[2]+"%",h:t[3]+"%",r:t[4]+"deg",d:t[5]+"s"})}"></i>`).join("")}</span>`
+      +[[18,8,1],[44,4,1.3],[70,8,1.1],[88,30,.9],[10,40,1.2],[60,2,1.5]].map((s,i)=>`<i class="sp" style="${st({x:s[0]+"%",b:s[1]+"%",t:s[2],dl:(-i*.37).toFixed(2)+"s"})}"></i>`).join("");
+  }
+  if(id==="drip"){
+    // [left, width, length, time, delay]: drips hang off the bottom edge and the lower corners
+    const D=[[8,7,"18%",3.4,-.4],[24,8,"30%",3.9,0],[43,7,"20%",2.9,-1.1],[60,9,"36%",4.4,-2.3],[78,7,"24%",3.3,-.7],[93,6,"16%",3,-1.8]];
+    front=`<span class="goo"><b class="gring"></b>`
+      +D.map(d=>`<b class="dd" style="${st({x:d[0]+"%",s:d[1]+"%",l:d[2],t:d[3]+"s",dl:d[4]+"s"})}"></b><b class="dp" style="${st({x:d[0]+"%",s:d[1]+"%",l:d[2],t:d[3]+"s",dl:d[4]+"s"})}"></b>`).join("")
+      +`</span>`;
+  }
+  if(id==="frost"){
+    const shard=(pts)=>`<polygon points="${pts}" fill="url(#pc-icefill)" stroke="#ffffff" stroke-width=".6" stroke-opacity=".9"/>`;
+    const star=(x,y,s,dl)=>`<path class="tw" style="--dl:${dl}s" d="M${x} ${y-s}L${x+s*.25} ${y-s*.25}L${x+s} ${y}L${x+s*.25} ${y+s*.25}L${x} ${y+s}L${x-s*.25} ${y+s*.25}L${x-s} ${y}L${x-s*.25} ${y-s*.25}Z" fill="#fff"/>`;
+    back=`<svg class="fx-svg" viewBox="0 0 100 100"><g class="ice">${shard("6,26 -14,-6 16,8")}${shard("10,10 4,-18 24,6")}${shard("18,6 30,-12 32,8")}${shard("6,16 -20,8 6,6")}${shard("90,90 114,106 94,80")}${shard("92,84 118,82 96,72")}${shard("84,92 92,118 76,94")}</g></svg>`;
+    front=`<svg class="fx-svg" viewBox="0 0 100 100">`
+      +star(92,8,6,0)+star(6,88,5,-.8)+star(78,-4,4,-1.5)+`</svg>`
+      +[[20,3,-1],[55,4,-2.5],[80,3.5,-.4],[38,5,-3.2]].map(f=>`<i class="fl" style="${st({x:f[0]+"%",t:f[1]+"s",dl:f[2]+"s"})}"></i>`).join("");
+  }
+  if(id==="arcane"){
+    const runes="ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛊ ᛏ ᛒ ᛖ ᛗ ᛚ ᛜ ᛞ ᛟ ";
+    back=`<svg class="fx-svg" viewBox="0 0 100 100"><g class="rot"><circle cx="50" cy="50" r="64" fill="none" stroke="var(--f1)" stroke-width=".8"/><circle cx="50" cy="50" r="61.5" fill="none" stroke="var(--f1)" stroke-width=".4"/><text class="runes" textLength="356" lengthAdjust="spacing"><textPath href="#pc-rune-c" textLength="356" lengthAdjust="spacing">${runes+runes}</textPath></text></g>`
+      +`<g class="rot rev"><circle cx="50" cy="50" r="54" fill="none" stroke="var(--f2)" stroke-width="1" stroke-dasharray="2 4"/><polygon points="50,-10 102,80 -2,80" fill="none" stroke="var(--f1)" stroke-width="1" opacity=".75"/><polygon points="50,110 102,20 -2,20" fill="none" stroke="var(--f1)" stroke-width="1" opacity=".75"/></g></svg>`;
+  }
+  if(id==="storm"){
+    const bolts=["M-4 18 L6 8 L3 2 L16 -5 L13 -1 L26 -8","M108 30 L98 42 L105 48 L96 62 L104 66 L97 80","M84 106 L72 98 L66 104 L54 96 L48 104 L36 98","M-6 70 L4 60 L-3 52 L6 40","M60 -6 L70 4 L76 -3 L88 6 L94 0"];
+    front=`<svg class="fx-svg" viewBox="0 0 100 100">${bolts.map((d,i)=>`<path class="bolt" style="--dl:${(-i*.53).toFixed(2)}s" d="${d}"/>`).join("")}</svg>`;
+  }
+  if(id==="cat"){
+    const ear=(cls,o,i)=>`<g class="ear ${cls}"><path class="o" d="${o}"/><path class="i" d="${i}"/></g>`;
+    front=`<svg class="fx-svg" viewBox="0 0 100 100">${ear("l","M4 14 L10 -24 Q14 -26 18 -22 L40 4 Z","M12 8 L14 -14 L30 4 Z")}${ear("r","M96 14 L90 -24 Q86 -26 82 -22 L60 4 Z","M88 8 L86 -14 L70 4 Z")}</svg>`;
+  }
+  if(id==="angel"){
+    front=`<svg class="fx-svg" viewBox="0 0 100 100"><g class="halo"><ellipse cx="50" cy="-12" rx="28" ry="7"/></g>${[[8,10,0],[94,24,-.9],[90,92,-1.7],[4,78,-2.4]].map(t=>`<path class="glint" style="--dl:${t[2]}s" d="M${t[0]} ${t[1]-5}L${t[0]+1.3} ${t[1]-1.3}L${t[0]+5} ${t[1]}L${t[0]+1.3} ${t[1]+1.3}L${t[0]} ${t[1]+5}L${t[0]-1.3} ${t[1]+1.3}L${t[0]-5} ${t[1]}L${t[0]-1.3} ${t[1]-1.3}Z"/>`).join("")}</svg>`;
+  }
+  if(id==="demon"){
+    front=`<svg class="fx-svg" viewBox="0 0 100 100"><path class="horn" d="M10 10 C2 -4 2 -18 10 -28 C10 -16 18 -6 30 0 Z"/><path class="horn" d="M90 10 C98 -4 98 -18 90 -28 C90 -16 82 -6 70 0 Z"/>`
+      +`</svg>`;
+  }
+  if(id==="hud"){
+    front=`<svg class="fx-svg" viewBox="0 0 100 100"><circle class="dial" cx="50" cy="50" r="62"/><g class="br"><path d="M-6 16 V-6 H16"/><path d="M84 -6 H106 V16"/><path d="M106 84 V106 H84"/><path d="M16 106 H-6 V84"/></g><circle class="dot" cx="70" cy="-10" r="2.4"/><text class="rec" x="75" y="-7.4">REC</text></svg><b class="scan"></b>`;
+  }
+  if(id==="hearts"){
+    const px=`<svg viewBox="0 0 7 6" shape-rendering="crispEdges"><path d="M1 0h2v1h1V0h2v1h1v2h-1v1h-1v1h-1v1h-1v-1h-1v-1h-1v-1H0V1h1z"/></svg>`;
+    front=[[-14,62,22,2.6,0],[94,52,20,2.2,-.8],[6,-10,16,2.8,-1.6],[78,-8,22,2.4,-.4],[42,88,18,3,-2],[100,10,14,3.2,-1.2]].map(h=>`<i class="ht" style="${st({x:h[0]+"%",y:h[1]+"%",s:h[2]+"%",t:h[3]+"s",dl:h[4]+"s"})}">${px}</i>`).join("");
+  }
+  if(id==="vines"){
+    const leaf=(x,y,r,dl)=>`<ellipse class="leaf" style="--dl:${dl}s" cx="${x+5}" cy="${y}" rx="5.5" ry="2.6" transform="rotate(${r} ${x} ${y})"/>`;
+    const flw=(x,y,dl)=>`<g class="flw" style="--dl:${dl}s">${[0,72,144,216,288].map(a=>`<circle cx="${x+3.4*Math.cos(a*Math.PI/180)}" cy="${y+3.4*Math.sin(a*Math.PI/180)}" r="2.6"/>`).join("")}<circle class="c" cx="${x}" cy="${y}" r="1.8"/></g>`;
+    front=`<svg class="fx-svg" viewBox="0 0 100 100"><path class="vine" d="M-3 104 C-6 80 4 66 -2 48 C-6 34 2 22 -1 8"/><path class="vine" d="M-3 104 C14 108 28 98 46 104"/><path class="vine" d="M103 -3 C80 -6 70 4 56 -2"/><path class="vine" d="M103 -3 C106 12 98 24 104 36"/>`
+      +leaf(-2,84,200,0)+leaf(2,60,-20,-.8)+leaf(-3,36,190,-1.6)+leaf(18,104,70,-.4)+leaf(36,102,-60,-1.2)+leaf(78,-3,-110,-.6)+leaf(104,18,20,-1.8)+leaf(64,-2,110,-1)
+      +flw(-1,22,0)+flw(28,103,-1.3)+flw(102,30,-2.6)+flw(90,-4,-.6)+`</svg>`;
+  }
+  return {back,front};
+}
+function frameDeco(frame){ return frame==="legend"?'<span class="crown">👑</span>':frameParts(frame).front; }
 function frameVars(look){ const d=FRAME_DEF[look.frame]||["#ff3b36","#ffd23b"]; return `--f1:${look.f1||d[0]};--f2:${look.f2||d[1]}`; }
 function frameWrap(look,inner,lg){ if(!look||!look.frame) return inner;
-  const deco=frameDeco(look.frame);
-  return `<span class="fr f-${look.frame}${lg?" lg":""}" style="${frameVars(look)}">${inner}${deco?`<span class="fr-deco">${deco}</span>`:""}</span>`; }
-function nameStyled(look,name){ if(!look||!look.name) return esc(name);
-  return `<span class="nm n-${look.name}${look.gd==="v"?" n-v":""}" data-t="${esc(name)}" style="--c1:${look.c1||NAME_DEF[0]};--c2:${look.c2||NAME_DEF[1]};--c3:${look.c3||NAME_DEF[2]}">${esc(name)}</span>`; }
+  const deco=frameDeco(look.frame), back=frameParts(look.frame).back;
+  return `<span class="fr f-${look.frame}${lg?" lg":""}" style="${frameVars(look)}">${back?`<span class="fr-back">${back}</span>`:""}${inner}${deco?`<span class="fr-deco">${deco}</span>`:""}</span>`; }
+function nameStyled(look,name){ if(!look||(!look.name&&!look.ft)) return esc(name);
+  const ft=look.ft?` ft-${look.ft}`:"";
+  if(!look.name) return `<span class="${ft.trim()}">${esc(name)}</span>`;
+  const n=look.name, chars=[...name];
+  const body=n==="wave"||n==="jitter"?chars.map((ch,i)=>`<span class="w" style="--i:${i}">${ch===" "?"&nbsp;":esc(ch)}</span>`).join("")
+    :n==="typing"?`<span class="tt" style="--n:${Math.max(1,chars.length)}">${esc(name)}</span>`:esc(name);
+  return `<span class="nm n-${n}${look.gd==="v"?" n-v":""}${ft}" data-t="${esc(name)}" style="--c1:${look.c1||NAME_DEF[0]};--c2:${look.c2||NAME_DEF[1]};--c3:${look.c3||NAME_DEF[2]}">${body}</span>`; }
 const nameHtml=key=>nameStyled(U(key).look,U(key).name);
+const CODE="ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789Z:=*+<>|", R=(a,b)=>a+Math.random()*(b-a);
 function hfxHtml(id){ const f=HFX.find(x=>x[0]===id); if(!f) return ""; let h="";
+  if(!f[2]){
+  const dur=(a,b)=>{ const d=R(a,b); return `animation-duration:${d.toFixed(2)}s;animation-delay:-${R(0,d).toFixed(2)}s`; };
+  if(id==="data"){ const cols=26; for(let c=0;c<cols;c++){ const n=Math.round(R(8,20)), sm=Math.random()<.35; let t=""; for(let k=0;k<n;k++) t+=CODE[Math.floor(Math.random()*CODE.length)]+(k<n-1?"\n":"");
+      h+=`<i class="${sm?"sm":""}" style="left:${(c/cols*100+R(-1,1)).toFixed(1)}%;${dur(sm?3.4:2.2,sm?6:4.4)}">${t}</i>`; } }
+  if(id==="aurora") for(let k=0;k<3;k++) h+=`<i style="top:${-14+k*12}%;--t:${(3.6+k*1.3).toFixed(1)}s;--t2:${(6+k*2).toFixed(1)}s;animation-delay:-${k*1.7}s,-${k*2.3}s;${k===1?"filter:blur(9px) hue-rotate(60deg);opacity:.3":""}"></i>`;
+  if(id==="storm"){ for(let k=0;k<45;k++) h+=`<i class="r" style="left:${R(0,115).toFixed(1)}%;${dur(.45,.8)}"></i>`; h+=`<i class="f"></i>`;
+    h+=`<svg viewBox="0 0 60 120" style="left:${R(15,40).toFixed(0)}%" preserveAspectRatio="none"><path d="M34 0 L24 34 L36 38 L18 74 L30 78 L14 120"/></svg><svg viewBox="0 0 60 120" style="left:${R(60,85).toFixed(0)}%;animation-delay:-3s" preserveAspectRatio="none"><path d="M30 0 L38 30 L26 36 L40 64 L28 70 L36 120"/></svg>`; }
+  if(id==="confetti"){ const C=["#ff3b36","#ffd23b","#3bd5ff","#3bff7a","#ff3bd5","#b04bff","#ffffff"]; for(let k=0;k<40;k++) h+=`<i style="left:${R(-5,100).toFixed(1)}%;--c:${C[k%C.length]};${dur(2.4,4.6)}"></i>`; }
+  if(id==="leaves"){ const C=["#e8590c","#f59f00","#c92a2a","#ffa94d","#a0522d"]; for(let k=0;k<16;k++) h+=`<i style="left:${R(-5,95).toFixed(1)}%;--c:${C[k%C.length]};${dur(5,9)};width:${R(9,15).toFixed(0)}px;height:${R(9,15).toFixed(0)}px"></i>`; }
+  if(id==="shoot"){ for(let k=0;k<34;k++) h+=`<i class="s" style="left:${R(0,100).toFixed(1)}%;top:${R(0,95).toFixed(1)}%;${dur(1.5,4)}"></i>`; for(let k=0;k<4;k++) h+=`<i class="m" style="left:${R(-10,60).toFixed(1)}%;top:${R(-15,45).toFixed(1)}%;animation-duration:${R(4,7).toFixed(1)}s;animation-delay:-${R(0,6).toFixed(1)}s"></i>`; }
+  if(id==="hearts"){ const C=["#ff3b7a","#ff8fc0","#ff3b36","#ffc2d6"]; for(let k=0;k<16;k++) h+=`<i style="left:${R(0,96).toFixed(1)}%;--c:${C[k%C.length]};--s:${R(12,24).toFixed(0)}px;${dur(3.5,6.5)}">♥</i>`; }
+  if(id==="fog"){ for(let k=0;k<4;k++) h+=`<i style="left:${k*25-20}%;top:${R(-10,30).toFixed(0)}%;animation-duration:${R(9,15).toFixed(1)}s;animation-delay:-${R(0,10).toFixed(1)}s"></i>`; }
+    return `<div class="hfx fx-${id}" aria-hidden="true">${h}</div>`; }
   const anyTop=["stars","fireflies"].includes(id);
   for(let i=0;i<f[2];i++){ const d=f[3][0]+Math.random()*(f[3][1]-f[3][0]); h+=`<i style="left:${(Math.random()*100).toFixed(1)}%;${anyTop?`top:${(Math.random()*92).toFixed(1)}%;`:""}animation-duration:${d.toFixed(2)}s;animation-delay:-${(Math.random()*d).toFixed(2)}s"></i>`; }
   return `<div class="hfx fx-${id}" aria-hidden="true">${h}</div>`; }
@@ -3861,17 +4136,20 @@ function renderQuests(){
 }
 
 /* ---------- Shop ---------- */
-const SHOP_TABS=[["frame","Frames"],["sticker","Stickers"],["name","Name styles"],["hfx","Header effects"]];
+const SHOP_TABS=[["frame","Frames"],["sticker","Stickers"],["name","Name styles"],["font","Fonts"],["hfx","Header effects"]];
+// Shop order: things you buy first, then things you unlock by level (lowest level first)
+const shopOrder=(a,b)=>(a.unlock_level!=null)-(b.unlock_level!=null)||(a.unlock_level||0)-(b.unlock_level||0)||a.sort-b.sort;
 function itemArt(it){ const me=U("me"), key=it.id.split(":")[1], look=me.look||{};
   if(it.kind==="frame") return frameWrap({frame:key,...(look.frame===key?{f1:look.f1,f2:look.f2}:{})},`<div class="avatar">${avatarInner(me.avatar,me.name)}</div>`,true);
   if(it.kind==="sticker") return stkSvg(key);
-  if(it.kind==="name") return nameStyled({name:key,c1:look.c1,c2:look.c2,c3:look.c3,gd:look.gd},me.name.slice(0,14));
+  if(it.kind==="name") return nameStyled({name:key,c1:look.c1,c2:look.c2,c3:look.c3,gd:look.gd,ft:look.ft},me.name.slice(0,14));
+  if(it.kind==="font") return `<div class="ft-big">${nameStyled({ft:key,...(look.name?{name:look.name,c1:look.c1,c2:look.c2,c3:look.c3,gd:look.gd}:{})},me.name.slice(0,14))}</div>`;
   return `<div class="fxbox">${hfxHtml(key)}</div>`; }
 function renderShop(){
   const el=$("#shop-body"), me=U("me");
   if(LV.missing){ el.innerHTML=`<div class="empty">The shop isn't switched on yet. (The site owner needs to run update 6 in Supabase.)</div>`; $("#s-volts").hidden=true; return; }
   $("#s-volts").hidden=false; $("#s-volts").innerHTML=`⚡ ${fmtN(me.volts)} <span class="meta" style="font-weight:600">Volts</span>`;
-  const list=LV.items.filter(i=>i.kind===LV.shopTab&&!(i.kind==="name"&&i.id==="name:solid"));
+  const list=LV.items.filter(i=>i.kind===LV.shopTab&&!(i.kind==="name"&&i.id==="name:solid")).sort(shopOrder);
   el.innerHTML=`<div class="shop-tabs" role="group" aria-label="Shop sections">${SHOP_TABS.map(([k,n])=>`<button data-stab="${k}" aria-pressed="${LV.shopTab===k}">${n}</button>`).join("")}</div>
     <div class="shop-grid">${list.map(it=>{ const own=owns(it.id), key=it.id.split(":")[1];
       const btn=own?(it.kind==="sticker"?`<button class="buy own" disabled>✓ Yours</button>`:`<button class="buy use" data-use="${esc(it.id)}">Use it</button>`)
@@ -3892,7 +4170,7 @@ async function buyItem(id,btn){
 /* ---------- Customize your look ---------- */
 let czDraft=null;
 function czPreview(){ const me=U("me"), d=czDraft;
-  const look={...d, frame:d.frame==="none"?undefined:d.frame, name:d.name==="none"?undefined:d.name};
+  const look={...d, frame:d.frame==="none"?undefined:d.frame, name:d.name==="none"?undefined:d.name, ft:d.ft==="none"?undefined:d.ft};
   const box=$("#cz-prev");
   if(!box.querySelector(".cz-fg")){ box.innerHTML=`<div class="cz-bg" id="cz-bg" style="background:${esc(bannerBg(me.banner))}"></div><div class="cz-fg" id="cz-fg"></div>`; box.dataset.hfx="-"; }
   if(box.dataset.hfx!==d.hfx){ box.dataset.hfx=d.hfx; $("#cz-bg").innerHTML=d.hfx==="none"?"":hfxHtml(d.hfx); }   // only redraw the effect when it changes
@@ -3906,20 +4184,22 @@ function czPreview(){ const me=U("me"), d=czDraft;
 function openCustomize(pre){
   if(LV.missing){ toast("Customizing isn't switched on yet."); return; }
   closeAcct(); const me=U("me"), L=me.look||{};
-  czDraft={frame:L.frame||"none",name:L.name||"none",hfx:L.hfx||"none",f1:L.f1,f2:L.f2,c1:L.c1||NAME_DEF[0],c2:L.c2||NAME_DEF[1],c3:L.c3||NAME_DEF[2],acc:L.acc||null,gd:L.gd||"h"};
+  czDraft={frame:L.frame||"none",name:L.name||"none",hfx:L.hfx||"none",ft:L.ft||"none",f1:L.f1,f2:L.f2,c1:L.c1||NAME_DEF[0],c2:L.c2||NAME_DEF[1],c3:L.c3||NAME_DEF[2],acc:L.acc||null,gd:L.gd||"h"};
   const myBadges=LV.items.filter(i=>i.kind==="badge"&&(me.brand||LV.owned.has(i.id))).map(i=>i.id);
   czDraft.badges=new Set(me.badgesShown?me.badgesShown.filter(b=>myBadges.includes(b)):myBadges.slice(0,6)); const badgesBefore=[...czDraft.badges].sort().join();
-  if(pre){ const [k,v]=pre.split(":"); czDraft[k]=v; }
+  if(pre){ const [k,v]=pre.split(":"); czDraft[k==="font"?"ft":k]=v; }
   const d0=FRAME_DEF[czDraft.frame]||["#ff3b36","#ffd23b"]; czDraft.f1=czDraft.f1||d0[0]; czDraft.f2=czDraft.f2||d0[1];
-  const opts=(list,kind,cur,none)=>`<option value="none">${none}</option>`+list.filter(f=>owns(kind+":"+f[0])).map(f=>`<option value="${f[0]}" ${cur===f[0]?"selected":""}>${esc(f[1])}</option>`).join("");
+  const ord=(list,kind)=>list.map(f=>[f,LV.items.find(i=>i.id===kind+":"+f[0])||{sort:0}]).sort((a,b)=>shopOrder(a[1],b[1])).map(x=>x[0]);
+  const opts=(list,kind,cur,none)=>`<option value="none">${none}</option>`+ord(list,kind).filter(f=>owns(kind+":"+f[0])).map(f=>`<option value="${f[0]}" ${cur===f[0]?"selected":""}>${esc(f[1])}</option>`).join("");
   $("#modal-root").innerHTML=`<div class="scrim" id="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="czt">
     <h2 id="czt">Customize</h2>
-    <p class="sub">How you look to everyone on Power Creep. Get more frames, name styles and effects in the <a href="#shop" id="cz-shop">shop</a>.</p>
+    <p class="sub">How you look to everyone on Power Creep. Get more frames, name styles, fonts and effects in the <a href="#shop" id="cz-shop">shop</a>.</p>
     <div class="cz-prev" id="cz-prev"></div>
     <div class="field"><label for="cz-frame">Avatar frame</label><div class="cz-row"><select id="cz-frame">${opts(FRAMES,"frame",czDraft.frame,"No frame")}</select><input type="text" readonly class="cswatch" id="cz-f1" value="${czDraft.f1}" aria-label="Frame main color"><input type="text" readonly class="cswatch" id="cz-f2" value="${czDraft.f2}" aria-label="Frame second color"></div></div>
     <div class="field"><label for="cz-name">Name style</label><div class="cz-row"><select id="cz-name">${opts(NSTYLES,"name",czDraft.name,"Plain")}</select><input type="text" readonly class="cswatch" id="cz-c1" value="${czDraft.c1}" aria-label="Name color 1"><input type="text" readonly class="cswatch" id="cz-c2" value="${czDraft.c2}" aria-label="Name color 2"><input type="text" readonly class="cswatch" id="cz-c3" value="${czDraft.c3}" aria-label="Name color 3"></div>
       <div class="cz-row cz-gd" id="cz-gd-row"><span class="meta">Direction</span><div class="seg" role="group" aria-label="Gradient direction"><button type="button" data-gd="h">↔ Left to right</button><button type="button" data-gd="v">↕ Top to bottom</button></div></div>
       <p class="cz-note">Pick colors that are easy to read in both light and dark mode.</p></div>
+    <div class="field"><label for="cz-ft">Name font</label><select id="cz-ft">${opts(FONTS,"font",czDraft.ft,"Default font")}</select></div>
     <div class="field"><label for="cz-hfx">Header effect</label><select id="cz-hfx">${opts(HFX,"hfx",czDraft.hfx,"None")}</select></div>
     ${myBadges.length?`<div class="field"><label>Badges on your profile <span class="meta" style="font-weight:500">(pick up to 6)</span></label><div class="cz-badges" id="cz-badges">${myBadges.map(id=>{ const it=LV.items.find(i=>i.id===id); return `<button type="button" class="bdg-t" data-bdg="${id}" aria-pressed="${czDraft.badges.has(id)}">${badgeSvg(id)}${esc(it.name)}</button>`; }).join("")}</div></div>`:""}
     <div class="field"><label for="cz-acc">Profile color</label><div class="cz-row"><input type="text" readonly class="cswatch" id="cz-acc" value="${czDraft.acc||"#ff3b36"}" aria-label="Profile color"><span class="meta" style="flex:1">Buttons and tabs on your profile</span><button type="button" class="btn sm ghost" id="cz-acc-reset" ${czDraft.acc?"":"hidden"}>Use default</button></div></div>
@@ -3942,6 +4222,7 @@ function openCustomize(pre){
     if(d.frame!=="none"){ p.frame=d.frame; p.f1=d.f1; p.f2=d.f2; }
     if(d.name!=="none"){ p.name=d.name; p.c1=d.c1; p.c2=d.c2; p.c3=d.c3; if(d.gd==="v"&&["gradient","shift"].includes(d.name)) p.gd="v"; }
     if(d.hfx!=="none") p.hfx=d.hfx;
+    if(d.ft&&d.ft!=="none") p.ft=d.ft;
     if(d.acc) p.acc=d.acc;
     $("#cz-save").disabled=true;
     try{ await api.rpc("set_look",{p}); USERS.me.look=cleanLook(p);

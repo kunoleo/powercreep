@@ -4789,32 +4789,47 @@ document.addEventListener("click",e=>{
 
 /* ---------- Upload images to ImgBB (the picture goes from your browser to ImgBB; we keep only the link) ---------- */
 const UP_TARGETS={"c-images":"append","f-cover":"set","hd-url-in":"set","av-url-in":"set","a-cover":"set","a-imgurl":"set"};
-// Big photos are made smaller in your browser before uploading (max 2400 px wide or tall). GIFs are left alone so they keep moving.
-async function shrinkImage(file){
-  if(/gif/i.test(file.type)||file.size<3e6||typeof createImageBitmap!=="function") return file;
-  try{ const bmp=await createImageBitmap(file), sc=Math.min(1,2400/Math.max(bmp.width,bmp.height));
-    const c=document.createElement("canvas"); c.width=Math.round(bmp.width*sc); c.height=Math.round(bmp.height*sc); c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
-    const blob=await new Promise(ok=>c.toBlob(ok,"image/webp",.9)); if(!blob||blob.size>=file.size) return file;
-    return new File([blob],(file.name||"image").replace(/\.\w+$/,"")+".webp",{type:"image/webp"}); }
+// Pictures are re-saved in your browser before uploading when that helps: big ones are made smaller (max 2400 px),
+// and if ImgBB has trouble with a file we try again with a plain JPEG/PNG copy. GIFs are left alone so they keep moving.
+async function reencode(file,max,force){
+  if(/gif/i.test(file.type)||typeof createImageBitmap!=="function") return file;
+  if(!force&&file.size<3e6) return file;
+  try{ const bmp=await createImageBitmap(file), sc=Math.min(1,max/Math.max(bmp.width,bmp.height));
+    const c=document.createElement("canvas"); c.width=Math.max(1,Math.round(bmp.width*sc)); c.height=Math.max(1,Math.round(bmp.height*sc));
+    const g=c.getContext("2d"); g.drawImage(bmp,0,0,c.width,c.height);
+    // keep transparency (PNG) only when the picture actually has see-through parts
+    const t=document.createElement("canvas"); t.width=t.height=48; const tg=t.getContext("2d"); tg.drawImage(bmp,0,0,48,48);
+    const px=tg.getImageData(0,0,48,48).data; let alpha=false; for(let k=3;k<px.length;k+=4) if(px[k]<250){ alpha=true; break; }
+    const type=alpha?"image/png":"image/jpeg";
+    const blob=await new Promise(ok=>c.toBlob(ok,type,.9)); if(!blob||(!force&&blob.size>=file.size)) return file;
+    return new File([blob],(file.name||"image").replace(/\.\w+$/,"")+(alpha?".png":".jpg"),{type}); }
   catch(_){ return file; }
 }
+const toB64=f=>new Promise((ok,no)=>{ const fr=new FileReader(); fr.onload=()=>ok(String(fr.result).split(",")[1]||""); fr.onerror=()=>no(fr.error); fr.readAsDataURL(f); });
 async function uploadImage(file){
   if(!/^image\/(png|jpe?g|gif|webp|bmp)$/i.test(file.type||"")) throw new Error("Pick a PNG, JPG, GIF or WebP image.");
   if(file.size>16*1024*1024) throw new Error("That image is bigger than 16 MB.");
-  file=await shrinkImage(file);
   const url="https://api.imgbb.com/1/upload?key="+encodeURIComponent(IMGBB_KEY);
-  const send=()=>{ const fd=new FormData(); fd.append("image",file,file.name||"image"); return fetch(url,{method:"POST",body:fd}); };
-  let r;
-  try{ r=await send(); }
-  catch(_){ // one more try, in case the connection blipped
-    await new Promise(ok=>setTimeout(ok,900));
-    try{ r=await send(); }
-    catch(__){ throw new Error("Couldn't connect to ImgBB, the image host. If you use an ad blocker or a privacy extension, allow imgbb.com and try again. You can also paste an image link instead."); } }
-  let d=null; try{ d=await r.json(); }catch(_){}
-  if(!r.ok||!d||!d.success) throw new Error("ImgBB didn't accept that image"+(d&&d.error&&d.error.message?": "+d.error.message:` (error ${r.status})`)+". Try a smaller picture, or paste an image link instead.");
-  const u=(d.data&&(d.data.url||(d.data.image&&d.data.image.url)))||"";
-  const pl=parseLink(u); if(!pl||pl.kind!=="image") throw new Error("The upload didn't work. Try again.");
-  return pl.img;
+  const first=await reencode(file,2400,false);
+  // Different ways to send the same picture. If ImgBB has a problem with one, the next one is tried.
+  const tries=[
+    async()=>{ const fd=new FormData(); fd.append("image",first,first.name||"image"); return fd; },
+    async()=>{ const fd=new FormData(); fd.append("image",await toB64(first)); return fd; },
+    async()=>{ const f2=await reencode(file,1600,true); const fd=new FormData(); fd.append("image",await toB64(f2)); return fd; }];
+  let lastStatus=null, lastMsg="", reached=false;
+  for(let i=0;i<tries.length;i++){
+    let r; try{ r=await fetch(url,{method:"POST",body:await tries[i]()}); }
+    catch(_){ await new Promise(ok=>setTimeout(ok,700)); continue; }
+    reached=true;
+    let d=null; try{ d=await r.json(); }catch(_){}
+    if(r.ok&&d&&d.success){ const u=(d.data&&(d.data.url||(d.data.image&&d.data.image.url)))||""; const pl=parseLink(u); if(pl&&pl.kind==="image") return pl.img; }
+    lastStatus=r.status; lastMsg=d&&d.error&&d.error.message||"";
+    if(r.status>=400&&r.status<500&&r.status!==408&&r.status!==429) break;   // ImgBB said no to the picture itself: trying again won't help
+    await new Promise(ok=>setTimeout(ok,700));
+  }
+  if(!reached) throw new Error("Couldn't connect to ImgBB, the image host. If you use an ad blocker or a privacy extension, allow imgbb.com and try again. You can also paste an image link instead.");
+  if(lastStatus>=500) throw new Error(`ImgBB, the image host, is having problems right now (error ${lastStatus}). Try again in a little while, or paste an image link instead.`);
+  throw new Error("ImgBB didn't accept that image"+(lastMsg?": "+lastMsg:lastStatus?` (error ${lastStatus})`:"")+". Try a different picture, or paste an image link instead.");
 }
 function putUploaded(id,url){
   const el=document.getElementById(id); if(!el) return;

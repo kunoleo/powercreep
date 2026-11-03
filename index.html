@@ -719,6 +719,7 @@ body[data-swipe="right"] main>section:not([hidden]){animation:pc-swr .28s ease-o
 .men-n{font-weight:700;font-size:14.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .men-u{margin-left:auto;font-size:12.5px;color:var(--muted);white-space:nowrap;padding-left:10px}
 .up-row{display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap}
+.up-off{flex-basis:100%;font-size:12.5px;font-weight:600;color:var(--ai,#c77d00);background:color-mix(in srgb,#ffb03b 14%,transparent);border-radius:8px;padding:6px 9px}
 .up-btn{display:inline-flex;align-items:center;gap:6px}
 .up-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .ps-user-row{display:flex;align-items:center;gap:6px}
@@ -1652,6 +1653,7 @@ svg.stk{display:block}
       <h2 id="h-images">Adding pictures</h2>
       <p>Press <b>Upload image</b> wherever you can add a picture (posts, avatar, header and art), and pick a file from your device. In the post box you can also just paste a picture or drag it in.</p>
       <p>Power Creep doesn't store pictures itself: your upload goes straight to <b>ImgBB</b>, a free image host, and only the link is saved here.</p>
+      <p><b>"Uploads are offline"?</b> That means ImgBB isn't working at the moment. It's their service, so we have to wait for them to fix it. Meanwhile you can upload your picture to <a href="https://postimages.org" target="_blank" rel="noopener">postimages.org</a> and paste the link (see below).</p>
       <h3 style="font-size:16px;margin:14px 0 6px">Prefer pasting a link?</h3>
       <ol class="help-steps">
         <li>Upload your picture to an image site, like <a href="https://imgbb.com" target="_blank" rel="noopener">imgbb.com</a> or <a href="https://postimages.org" target="_blank" rel="noopener">postimages.org</a>.</li>
@@ -4822,13 +4824,12 @@ async function uploadImage(file){
     catch(_){ await new Promise(ok=>setTimeout(ok,700)); continue; }
     reached=true;
     let d=null; try{ d=await r.json(); }catch(_){}
-    if(r.ok&&d&&d.success){ const u=(d.data&&(d.data.url||(d.data.image&&d.data.image.url)))||""; const pl=parseLink(u); if(pl&&pl.kind==="image") return pl.img; }
+    if(r.ok&&d&&d.success){ const u=(d.data&&(d.data.url||(d.data.image&&d.data.image.url)))||""; const pl=parseLink(u); if(pl&&pl.kind==="image"){ setUploadsDown(false); return pl.img; } }
     lastStatus=r.status; lastMsg=d&&d.error&&d.error.message||"";
     if(r.status>=400&&r.status<500&&r.status!==408&&r.status!==429) break;   // ImgBB said no to the picture itself: trying again won't help
     await new Promise(ok=>setTimeout(ok,700));
   }
-  if(!reached) throw new Error("Couldn't connect to ImgBB, the image host. If you use an ad blocker or a privacy extension, allow imgbb.com and try again. You can also paste an image link instead.");
-  if(lastStatus>=500) throw new Error(`ImgBB, the image host, is having problems right now (error ${lastStatus}). Try again in a little while, or paste an image link instead.`);
+  if(!reached||lastStatus>=500){ setUploadsDown(true); throw new Error("Picture uploads are offline right now, because ImgBB (the free picture host Power Creep uses) isn't working. You can still upload your picture to a site like postimages.org and paste its link here instead."); }
   throw new Error("ImgBB didn't accept that image"+(lastMsg?": "+lastMsg:lastStatus?` (error ${lastStatus})`:"")+". Try a different picture, or paste an image link instead.");
 }
 function putUploaded(id,url){
@@ -4845,10 +4846,16 @@ async function uploadFiles(id,files,btn){
   finally{ if(btn&&btn.isConnected){ btn.disabled=false; btn.innerHTML=label; } }
 }
 const upSvg=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>`;
+/* When ImgBB is down, every upload button says so (for 15 minutes, or until an upload works again), so people know to paste a link instead. */
+const UP_DOWN_KEY="pc-imgbb-down";
+function uploadsDown(){ try{ return Date.now()-(+localStorage.getItem(UP_DOWN_KEY)||0)<15*60e3; }catch(_){ return !!uploadsDown.mem&&Date.now()-uploadsDown.mem<15*60e3; } }
+function setUploadsDown(on){ uploadsDown.mem=on?Date.now():0; try{ on?localStorage.setItem(UP_DOWN_KEY,String(Date.now())):localStorage.removeItem(UP_DOWN_KEY); }catch(_){} refreshUpRows(); }
+const upOffNote=`<span class="up-off" role="status">⚠ Uploads are offline right now: ImgBB, the picture host, isn't working. Paste a picture link instead.</span>`;
+function refreshUpRows(){ const down=uploadsDown(); document.querySelectorAll(".up-row").forEach(r=>{ const n=r.querySelector(".up-off"); if(down&&!n) r.insertAdjacentHTML("beforeend",upOffNote); else if(!down&&n) n.remove(); }); }
 function addUploadButtons(){
-  if(!IMGBB_KEY) return;
+  if(!IMGBB_KEY) return; const down=uploadsDown();
   Object.keys(UP_TARGETS).forEach(id=>{ const el=document.getElementById(id); if(!el||el.dataset.up) return; el.dataset.up="1";
-    el.insertAdjacentHTML("afterend",`<div class="up-row"><button type="button" class="btn sm up-btn" data-upfor="${id}">${upSvg}${UP_TARGETS[id]==="append"?"Upload images":"Upload an image"}</button><span class="meta">or paste a link</span></div>`); });
+    el.insertAdjacentHTML("afterend",`<div class="up-row"><button type="button" class="btn sm up-btn" data-upfor="${id}">${upSvg}${UP_TARGETS[id]==="append"?"Upload images":"Upload an image"}</button><span class="meta">or paste a link</span>${down?upOffNote:""}</div>`); });
 }
 new MutationObserver(addUploadButtons).observe(document.body,{childList:true,subtree:true}); addUploadButtons();
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-upfor]"); if(!b) return;

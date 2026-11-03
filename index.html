@@ -2107,7 +2107,7 @@ function labelsHtml(it){ const full=it.ai?(it.ai.lvl==="generated"?"AI-made":"AI
 const flagSvg = `<svg viewBox="0 0 24 24"><path d="M4 21V4m0 0h12l-2 4 2 4H4"/></svg>`;
 const playSvg = `<svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>`;
 
-function toast(msg){const t=$("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,3200)}
+function toast(msg){const t=$("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,Math.max(3200,String(msg).length*55))}
 
 function visible(it){
   if(state.filter==="nogen" && it.ai && it.ai.lvl==="generated") return false;
@@ -4789,13 +4789,29 @@ document.addEventListener("click",e=>{
 
 /* ---------- Upload images to ImgBB (the picture goes from your browser to ImgBB; we keep only the link) ---------- */
 const UP_TARGETS={"c-images":"append","f-cover":"set","hd-url-in":"set","av-url-in":"set","a-cover":"set","a-imgurl":"set"};
+// Big photos are made smaller in your browser before uploading (max 2400 px wide or tall). GIFs are left alone so they keep moving.
+async function shrinkImage(file){
+  if(/gif/i.test(file.type)||file.size<3e6||typeof createImageBitmap!=="function") return file;
+  try{ const bmp=await createImageBitmap(file), sc=Math.min(1,2400/Math.max(bmp.width,bmp.height));
+    const c=document.createElement("canvas"); c.width=Math.round(bmp.width*sc); c.height=Math.round(bmp.height*sc); c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
+    const blob=await new Promise(ok=>c.toBlob(ok,"image/webp",.9)); if(!blob||blob.size>=file.size) return file;
+    return new File([blob],(file.name||"image").replace(/\.\w+$/,"")+".webp",{type:"image/webp"}); }
+  catch(_){ return file; }
+}
 async function uploadImage(file){
   if(!/^image\/(png|jpe?g|gif|webp|bmp)$/i.test(file.type||"")) throw new Error("Pick a PNG, JPG, GIF or WebP image.");
   if(file.size>16*1024*1024) throw new Error("That image is bigger than 16 MB.");
-  const fd=new FormData(); fd.append("image",file);
-  let r,d; try{ r=await fetch("https://api.imgbb.com/1/upload?key="+encodeURIComponent(IMGBB_KEY),{method:"POST",body:fd}); d=await r.json(); }
-  catch(_){ throw new Error("Couldn't reach the image host. Check your connection and try again."); }
-  if(!r.ok||!d||!d.success) throw new Error((d&&d.error&&d.error.message)||"The upload didn't work. Try again.");
+  file=await shrinkImage(file);
+  const url="https://api.imgbb.com/1/upload?key="+encodeURIComponent(IMGBB_KEY);
+  const send=()=>{ const fd=new FormData(); fd.append("image",file,file.name||"image"); return fetch(url,{method:"POST",body:fd}); };
+  let r;
+  try{ r=await send(); }
+  catch(_){ // one more try, in case the connection blipped
+    await new Promise(ok=>setTimeout(ok,900));
+    try{ r=await send(); }
+    catch(__){ throw new Error("Couldn't connect to ImgBB, the image host. If you use an ad blocker or a privacy extension, allow imgbb.com and try again. You can also paste an image link instead."); } }
+  let d=null; try{ d=await r.json(); }catch(_){}
+  if(!r.ok||!d||!d.success) throw new Error("ImgBB didn't accept that image"+(d&&d.error&&d.error.message?": "+d.error.message:` (error ${r.status})`)+". Try a smaller picture, or paste an image link instead.");
   const u=(d.data&&(d.data.url||(d.data.image&&d.data.image.url)))||"";
   const pl=parseLink(u); if(!pl||pl.kind!=="image") throw new Error("The upload didn't work. Try again.");
   return pl.img;

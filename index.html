@@ -1179,6 +1179,57 @@ svg.stk{display:block}
 @keyframes pc-sway{to{transform:rotate(12deg)}}
 .f-vines .flw{transform-box:fill-box;transform-origin:center;animation:pc-bloom 4s ease-in-out infinite;animation-delay:var(--dl)}
 .f-vines .flw circle{fill:var(--f2)}.f-vines .flw .c{fill:#ffe14a}
+
+/* -- Kitsune mask: fox mask markings painted over your avatar. The eyes open with glowing pupils -- */
+.f-kitsune{--kt:9s}
+.f-kitsune::before{inset:0;box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 3) color-mix(in srgb,var(--f2) 45%,transparent)}
+.f-kitsune .mk{fill:var(--f2);filter:drop-shadow(0 0 1.5px color-mix(in srgb,var(--f2) 70%,transparent))}
+.f-kitsune .eye{transform-box:fill-box;transform-origin:60% 60%;animation:pc-kteye var(--kt) ease-in-out infinite}
+.f-kitsune .eye .lid{fill:#141418}
+.f-kitsune .eye .pu{fill:#fff;animation:pc-ktpupil var(--kt) ease-in-out infinite}
+@keyframes pc-kteye{0%,10%{transform:scaleY(0);opacity:0}11%{opacity:1}15%{transform:scaleY(1.12)}17%,54%{transform:scaleY(1)}56%{transform:scaleY(.08)}58%,86%{transform:scaleY(1);opacity:1}91%,100%{transform:scaleY(0);opacity:0}}
+@keyframes pc-ktpupil{0%,15%{opacity:0;filter:none}20%{opacity:1;filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px var(--f2))}35%{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 0 3px var(--f2))}50%{filter:drop-shadow(0 0 2.5px #fff) drop-shadow(0 0 6px var(--f2))}70%{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 0 3px var(--f2))}84%{opacity:1;filter:drop-shadow(0 0 2.5px #fff) drop-shadow(0 0 6px var(--f2))}88%,100%{opacity:0}}
+
+/* -- Nebula: a slowly turning galaxy ring with twinkling stars -- */
+.f-nebula::before{inset:calc(var(--fw) * -1.2);padding:calc(var(--fw) * 1.2);background:conic-gradient(from var(--pca),var(--f1),var(--f2),#ffffff,var(--f1),#1a0b3a,var(--f2),var(--f1));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:pc-ca calc(var(--fs) * 4) linear infinite;filter:drop-shadow(0 0 4px var(--f1)) drop-shadow(0 0 10px var(--f2))}
+@keyframes pc-ca{to{--pca:360deg}}
+.f-nebula .glow{position:absolute;inset:-22%;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--f1) 45%,transparent),color-mix(in srgb,var(--f2) 18%,transparent) 60%,transparent);filter:blur(6px);animation:pc-breathe 4s ease-in-out infinite alternate}
+@keyframes pc-breathe{to{transform:scale(1.08);opacity:.7}}
+.f-nebula .st{fill:#fff;transform-box:fill-box;transform-origin:center;animation:pc-tw 2.6s ease-in-out infinite;animation-delay:var(--dl)}
+
+/* -- Sakura branch: a blossoming branch on the corner and petals drifting down -- */
+.f-sakura::before{inset:0;box-shadow:0 0 0 2px color-mix(in srgb,var(--f1) 85%,#fff),0 0 calc(var(--fw) * 3) color-mix(in srgb,var(--f1) 50%,transparent)}
+.f-sakura .br{fill:none;stroke:#5a3424;stroke-width:3;stroke-linecap:round}
+.f-sakura .br.t{stroke-width:1.8}
+.f-sakura .bl{transform-box:fill-box;transform-origin:center;animation:pc-bloom2 5s ease-in-out infinite;animation-delay:var(--dl)}
+.f-sakura .bl circle{fill:var(--f1)}.f-sakura .bl .c{fill:var(--f2)}
+@keyframes pc-bloom2{0%,100%{transform:scale(.85) rotate(0)}50%{transform:scale(1.05) rotate(25deg)}}
+.f-sakura .pt{position:absolute;top:-6%;left:var(--x);width:8%;height:6%;min-width:3px;min-height:2px;border-radius:80% 0 80% 0;background:var(--f1);opacity:0;animation:pc-sakpetal var(--t) linear infinite;animation-delay:var(--dl)}
+@keyframes pc-sakpetal{0%{transform:translate(0,0) rotate(0);opacity:0}10%{opacity:.95}50%{transform:translate(28%,800%) rotate(200deg)}100%{transform:translate(-10%,1700%) rotate(420deg);opacity:0}}
+
+/* -- Haunted: mist creeps over your avatar, a cobweb with a dangling spider -- */
+.f-ghosts::before{inset:0;box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 4) color-mix(in srgb,var(--f1) 70%,transparent);animation:pc-spook 3s ease-in-out infinite alternate}
+@keyframes pc-spook{to{box-shadow:0 0 0 2px var(--f2),0 0 calc(var(--fw) * 6) color-mix(in srgb,var(--f2) 60%,transparent)}}
+.f-ghosts .fog{position:absolute;inset:0;overflow:hidden;border-radius:inherit}
+.f-ghosts .fog i{position:absolute;left:0;width:200%;height:50%;bottom:-10%;background:radial-gradient(closest-side,color-mix(in srgb,var(--f2) 45%,#fff),transparent) repeat-x;background-size:25% 100%;opacity:.55;filter:blur(5px);animation:pc-fogdrift 10s linear infinite}
+.f-ghosts .fog i+i{bottom:12%;height:38%;opacity:.3;animation-duration:15s;animation-direction:reverse}
+.fr:not(.lg).f-ghosts .fog i{filter:blur(2px)}
+@keyframes pc-fogdrift{from{transform:translateX(0)}to{transform:translateX(-25%)}}
+.f-ghosts .web{fill:none;stroke:rgba(235,230,255,.7);stroke-width:.6;stroke-linecap:round}
+.f-ghosts .spider{animation:pc-spider 4s ease-in-out infinite alternate}
+.f-ghosts .spider .th{stroke:rgba(235,230,255,.7);stroke-width:.4}.f-ghosts .spider .bd{fill:#140c1c;stroke:color-mix(in srgb,var(--f2) 60%,#fff);stroke-width:.4}
+.f-ghosts .spider .sl{fill:none;stroke:#140c1c;stroke-width:.7;stroke-linecap:round}
+@keyframes pc-spider{0%,30%{transform:translateY(0)}100%{transform:translateY(14px)}}
+
+/* -- Laurel: a golden wreath with a shine running over it. Makes your avatar round so the wreath and shine fit -- */
+.fr.f-laurel,.fr.f-laurel>.avatar,.fr.f-laurel>.mini-av{border-radius:50%!important}
+.f-laurel::before{inset:0;border-radius:50%;box-shadow:0 0 0 2px color-mix(in srgb,var(--f1) 80%,#fff),0 0 calc(var(--fw) * 3) color-mix(in srgb,var(--f1) 60%,transparent)}
+.f-laurel .lf{fill:var(--f1);stroke:color-mix(in srgb,var(--f1) 55%,#5a3a00);stroke-width:.5}.f-laurel .lf:nth-of-type(2n){fill:color-mix(in srgb,var(--f1) 70%,var(--f2))}
+.f-laurel .stem{fill:none;stroke:color-mix(in srgb,var(--f1) 70%,#5a3a00);stroke-width:1.6;stroke-linecap:round}
+.f-laurel svg{filter:drop-shadow(0 0 2px color-mix(in srgb,var(--f1) 70%,transparent))}
+.f-laurel .shine{position:absolute;inset:-14%;border-radius:50%;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.75) 50%,transparent 60%);background-size:300% 100%;mix-blend-mode:overlay;animation:pc-lshine 3.4s ease-in-out infinite;-webkit-mask:radial-gradient(closest-side,transparent 70%,#000 72%);mask:radial-gradient(closest-side,transparent 70%,#000 72%)}
+@keyframes pc-lshine{0%{background-position:120% 0}60%,100%{background-position:-60% 0}}
 @keyframes pc-bloom{0%,100%{transform:scale(.55) rotate(0)}50%{transform:scale(1.05) rotate(40deg)}}
 
 /* Matrix code rain (replaces the green lines) */
@@ -1221,6 +1272,17 @@ svg.stk{display:block}
 /* Fog */
 .hfx.fx-fog i{top:10%;width:70%;height:120%;border-radius:50%;background:radial-gradient(closest-side,rgba(220,220,235,.35),transparent);filter:blur(6px);animation-name:pc-fog;animation-timing-function:ease-in-out;animation-direction:alternate}
 @keyframes pc-fog{from{transform:translateX(-30%)}to{transform:translateX(40%)}}
+/* Foxfire */
+.hfx.fx-foxfire i{bottom:-20%;width:var(--s);height:calc(var(--s) * 1.35);border-radius:50% 50% 50% 50%/62% 62% 38% 38%;background:radial-gradient(ellipse 50% 55% at 50% 70%,#ffffff 0 15%,#9fe8ff 40%,#3ba8ff 66%,transparent 78%);filter:drop-shadow(0 0 6px #5cc8ff) drop-shadow(0 0 14px #2f7dff);animation-name:pc-wisp;animation-timing-function:ease-in-out}
+@keyframes pc-wisp{0%{transform:translate(0,0) scale(.6);opacity:0}15%{opacity:1}40%{transform:translate(18px,-90px) scale(1)}70%{transform:translate(-14px,-190px) scale(.9);opacity:.9}100%{transform:translate(8px,-300px) scale(.5);opacity:0}}
+/* Fireworks */
+.hfx.fx-fireworks .fw{position:absolute;width:0;height:0;animation:pc-fwcycle var(--t) linear infinite;animation-delay:var(--dl);opacity:0}
+.hfx.fx-fireworks .fw b{position:absolute;left:-2px;top:-2px;width:4px;height:4px;border-radius:50%;background:var(--c);box-shadow:0 0 6px var(--c),0 0 12px var(--c);transform:rotate(var(--a)) translateX(0);animation:pc-burst var(--t) cubic-bezier(.15,.7,.3,1) infinite;animation-delay:var(--dl)}
+@keyframes pc-fwcycle{0%,59%{opacity:0}60%{opacity:1}100%{opacity:1}}
+@keyframes pc-burst{0%,60%{transform:rotate(var(--a)) translateX(0) scale(1);opacity:1}92%{opacity:.8}100%{transform:rotate(var(--a)) translateX(var(--r)) translateY(14px) scale(.4);opacity:0}}
+/* Lanterns */
+.hfx.fx-lanterns i{bottom:-30%;width:var(--s);height:calc(var(--s) * 1.25);border-radius:30% 30% 34% 34%;background:radial-gradient(ellipse at 50% 60%,#fff2c2 0 12%,#ffb347 45%,#e8590c 80%);box-shadow:0 0 14px 3px rgba(255,160,60,.6),0 0 40px 8px rgba(255,120,40,.25);animation-name:pc-lantern;animation-timing-function:ease-in-out}
+@keyframes pc-lantern{0%{transform:translate(0,0) rotate(-4deg);opacity:0}10%{opacity:.95}50%{transform:translate(12px,-130px) rotate(4deg)}100%{transform:translate(-6px,-280px) rotate(-3deg);opacity:0}}
 
 .nm.n-neon{color:color-mix(in srgb,var(--c1) 30%,#fff);text-shadow:0 0 2px #fff,0 0 6px var(--c1),0 0 12px var(--c1),0 0 22px var(--c1);animation:pc-neonf 4s steps(1) infinite}
 @keyframes pc-neonf{0%,100%{opacity:1}12%{opacity:.55}13%{opacity:1}14%{opacity:.4}15%{opacity:1}70%{opacity:.75}71%{opacity:1}}
@@ -1240,6 +1302,12 @@ svg.stk{display:block}
 .nm.n-jitter .w{display:inline-block;color:var(--c1);animation:pc-jit .28s steps(2) infinite;animation-delay:calc(var(--i) * -.07s)}
 .nm.n-jitter{filter:drop-shadow(0 0 3px color-mix(in srgb,var(--c1) 50%,transparent))}
 @keyframes pc-jit{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(-.04em,.03em) rotate(-3deg)}50%{transform:translate(.04em,-.03em) rotate(2deg)}75%{transform:translate(-.02em,-.04em) rotate(3deg)}100%{transform:translate(.03em,.02em) rotate(-2deg)}}
+.nm.n-foxfire{background:linear-gradient(0deg,#2f7dff,#9fe8ff 55%,#ffffff);-webkit-background-clip:text;background-clip:text;color:transparent;animation:pc-foxname .7s ease-in-out infinite alternate}
+@keyframes pc-foxname{from{filter:drop-shadow(0 0 2px #5cc8ff)}to{filter:drop-shadow(0 -2px 7px #3ba8ff) drop-shadow(0 0 2px #fff)}}
+.nm.n-gold{background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.95) 48%,transparent 60%),linear-gradient(180deg,#fff6c8 0%,#ffd23b 38%,#b07a00 52%,#ffe27a 66%,#fff3b0 100%);background-size:250% 100%,100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1px 0 rgba(90,60,0,.6));animation:pc-goldshine 3.4s ease-in-out infinite}
+@keyframes pc-goldshine{0%{background-position:150% 0,0 0}60%,100%{background-position:-60% 0,0 0}}
+.nm.n-ghost{color:#f3efff;animation:pc-ghostname 4s ease-in-out infinite}
+@keyframes pc-ghostname{0%,100%{opacity:1;filter:blur(0) drop-shadow(0 0 4px #b98cff);transform:translateY(0)}50%{opacity:.35;filter:blur(1.2px) drop-shadow(0 0 10px #b98cff);transform:translateY(-2px)}}
 /* Name fonts: each file is only downloaded when a name on the page uses it */
 @font-face{font-family:"PC Pixel";font-weight:400;font-display:swap;src:url("fonts/pixel.woff") format("woff")}
 .ft-pixel{font-family:"PC Pixel",var(--f-body) !important;font-weight:400 !important;font-size:.92em;}
@@ -4108,12 +4176,14 @@ const fmtN=n=>Number(n||0).toLocaleString("en");
 function lvChip(key){ const u=U(key); if(!u.lv||u.brand) return ""; const r=rankOf(u.lv); return `<span class="lvc" style="--rk:${r[2]}" title="Level ${u.lv} · ${r[1]}">${boltSvg}${u.lv}</span>`; }
 
 const FRAMES=[["spark","Spark"],["over","Overcharged"],["circuit","Circuit"],["pixel","8-Bit"],["neon","Neon Nights"],["ember","Inferno"],["glitch","Glitch"],["legend","Legend"],["orbit","Orbit"],["pulse","Heartbeat"],["holo","Hologram"],["drip","Toxic Drip"],["aurora","Aurora"],
-  ["frost","Frostbite"],["arcane","Arcane Circle"],["storm","Thunderstruck"],["cat","Kitty Ears"],["angel","Angel"],["demon","Demon"],["hud","Target Lock"],["hearts","Lovestruck"],["vines","Overgrown"]];
-const NSTYLES=[["solid","Solid color",1],["gradient","Gradient",2],["glow","Glow",1],["shift","Color shift",3],["glitch","Glitch",2],["fire","Fire",0],["outline","Outline",1],["retro","Retro 3D",2],["rainbow","Rainbow",0],["neon","Neon sign",1],["chrome","Chrome",0],["wave","Wave",1],["sparkle","Sparkle",2],["typing","Typing",1],["jitter","Rage shake",1]];
+  ["frost","Frostbite"],["arcane","Arcane Circle"],["storm","Thunderstruck"],["cat","Kitty Ears"],["angel","Angel"],["demon","Demon"],["hud","Target Lock"],["hearts","Lovestruck"],["vines","Overgrown"],
+  ["kitsune","Kitsune Mask"],["nebula","Nebula"],["sakura","Sakura Branch"],["ghosts","Haunted"],["laurel","Golden Laurel"]];
+const NSTYLES=[["solid","Solid color",1],["gradient","Gradient",2],["glow","Glow",1],["shift","Color shift",3],["glitch","Glitch",2],["fire","Fire",0],["outline","Outline",1],["retro","Retro 3D",2],["rainbow","Rainbow",0],["neon","Neon sign",1],["chrome","Chrome",0],["wave","Wave",1],["sparkle","Sparkle",2],["typing","Typing",1],["jitter","Rage shake",1],["foxfire","Foxfire",0],["gold","Gold",0],["ghost","Ghostly",0]];
 const HFX=[["snow","Snowfall",30,[4,8]],["sparks","Static sparks",20,[2,3.5]],["rain","Neon rain",40,[.6,1.1]],["embers","Embers",26,[2.5,4.5]],["stars","Starfield",40,[1.5,4]],["sakura","Sakura petals",22,[5,10]],["fireflies","Fireflies",18,[3,6]],["data","Data stream",0,[0,0]],["bubbles","Bubbles",18,[4,8]],
-  ["aurora","Aurora",0,[0,0]],["storm","Thunderstorm",0,[0,0]],["confetti","Confetti",0,[0,0]],["leaves","Autumn leaves",0,[0,0]],["shoot","Shooting stars",0,[0,0]],["hearts","Floating hearts",0,[0,0]],["fog","Haunted fog",0,[0,0]]];
+  ["aurora","Aurora",0,[0,0]],["storm","Thunderstorm",0,[0,0]],["confetti","Confetti",0,[0,0]],["leaves","Autumn leaves",0,[0,0]],["shoot","Shooting stars",0,[0,0]],["hearts","Floating hearts",0,[0,0]],["fog","Haunted fog",0,[0,0]],
+  ["foxfire","Foxfire",0,[0,0]],["fireworks","Fireworks",0,[0,0]],["lanterns","Sky lanterns",0,[0,0]]];
 const FONTS=[["pixel","Pixel"],["horror","Horror"],["scifi","Sci-fi"],["comic","Comic"],["gothic","Gothic"],["royal","Royal"],["marker","Marker"],["type","Typewriter"],["cute","Bubbly"],["script","Script"],["western","Western"],["glitch","Glitch"],["mono","Code"]];
-const FRAME_DEF={ember:["#ff3b00","#ffd23b"],legend:["#d79a00","#fff6d0"],circuit:["#3bd5ff","#ff3b36"],neon:["#ff3bd5","#3bd5ff"],orbit:["#3bb4ff","#ffffff"],pulse:["#ff3b6b","#ff9ab0"],holo:["#3bd5ff","#ff3bd5"],drip:["#5dff3b","#c8ff8a"],aurora:["#3bff9a","#b04bff"],ember:["#ff3b00","#ffd23b"],drip:["#5dff3b","#d4ff8a"],frost:["#7fd4ff","#3b7bff"],arcane:["#b04bff","#ffd0ff"],storm:["#3b8cff","#bfe0ff"],cat:["#f2f2f5","#ff8fc0"],angel:["#ffd23b","#ffffff"],demon:["#ff2a1a","#ff8a3b"],hud:["#3bffd5","#3bb4ff"],hearts:["#ff3b7a","#ffc2d6"],vines:["#3bbf5a","#ff8fc0"]};
+const FRAME_DEF={ember:["#ff3b00","#ffd23b"],legend:["#d79a00","#fff6d0"],circuit:["#3bd5ff","#ff3b36"],neon:["#ff3bd5","#3bd5ff"],orbit:["#3bb4ff","#ffffff"],pulse:["#ff3b6b","#ff9ab0"],holo:["#3bd5ff","#ff3bd5"],drip:["#5dff3b","#c8ff8a"],aurora:["#3bff9a","#b04bff"],ember:["#ff3b00","#ffd23b"],drip:["#5dff3b","#d4ff8a"],frost:["#7fd4ff","#3b7bff"],arcane:["#b04bff","#ffd0ff"],storm:["#3b8cff","#bfe0ff"],cat:["#f2f2f5","#ff8fc0"],angel:["#ffd23b","#ffffff"],demon:["#ff2a1a","#ff8a3b"],hud:["#3bffd5","#3bb4ff"],hearts:["#ff3b7a","#ffc2d6"],vines:["#3bbf5a","#ff8fc0"],kitsune:["#ffffff","#e01b24"],nebula:["#b04bff","#3bd5ff"],sakura:["#ff9ec7","#ffe14a"],ghosts:["#8a4bff","#c9a2ff"],laurel:["#ffd23b","#fff3b0"]};
 const NAME_DEF=["#ff3b36","#ff9a3b","#b04bff"];
 const KIND_WORD={frame:"frame",name:"name style",hfx:"header effect",sticker:"sticker",badge:"badge",font:"name font"};
 const BADGE_ART={tester:"crown",bug:"bug",jam:"trophy",helper:"heart",artist:"ink"};
@@ -4185,6 +4255,48 @@ function frameParts(id){
       +leaf(-2,84,200,0)+leaf(2,60,-20,-.8)+leaf(-3,36,190,-1.6)+leaf(18,104,70,-.4)+leaf(36,102,-60,-1.2)+leaf(78,-3,-110,-.6)+leaf(104,18,20,-1.8)+leaf(64,-2,110,-1)
       +flw(-1,22,0)+flw(28,103,-1.3)+flw(102,30,-2.6)+flw(90,-4,-.6)+`</svg>`;
   }
+  if(id==="kitsune"){
+    // Everything sits on top of the avatar: forehead drops, cheek stripes and eyes (drawn in a 100x100 box over the avatar)
+    const drop="M0 -24 C 3 -16, 6 -10, 6 -5.5 C 6 -1.5, 3 1, 0 1 C -3 1, -6 -1.5, -6 -5.5 C -6 -10, -3 -16, 0 -24 Z";
+    const side=m=>{ const X=v=>m>0?100-v:v, f=v=>X(v).toFixed(1);   // m=1 mirrors to the right side
+      return `<path class="mk" d="M${f(2)} 44 C ${f(12)} 48, ${f(23)} 55, ${f(31)} 66 C ${f(21)} 60.5, ${f(11)} 55.5, ${f(2)} 51 Z"/>`
+        +`<path class="mk" d="M${f(3)} 56.5 C ${f(11)} 59.5, ${f(19)} 64, ${f(25.5)} 72.5 C ${f(17)} 68.5, ${f(10)} 65.5, ${f(3)} 62.5 Z"/>`
+        +`<path class="mk" d="M${f(5)} 67 C ${f(10)} 68.5, ${f(15)} 71.5, ${f(19)} 77 C ${f(13)} 74.5, ${f(9)} 73, ${f(5)} 71.5 Z"/>`
+        +`<g class="eye"><path class="lid" d="M${f(4)} 37 C ${f(12)} 26, ${f(29)} 31, ${f(43)} 59 C ${f(31)} 50, ${f(17)} 43, ${f(4)} 37 Z"/><circle class="pu" cx="${f(29)}" cy="44.5" r="3"/></g>`; };
+    front=`<svg class="fx-svg" viewBox="0 0 100 100">
+      <path class="mk" transform="translate(50 32)" d="${drop}"/><path class="mk" transform="translate(38.5 33) rotate(-32) scale(.7)" d="${drop}"/><path class="mk" transform="translate(61.5 33) rotate(32) scale(.7)" d="${drop}"/>
+      ${side(-1)}${side(1)}</svg>`;
+  }
+  if(id==="nebula"){
+    back=`<b class="glow"></b>`;
+    const star=(x,y,s,dl)=>`<path class="st" style="--dl:${dl}s" d="M${x} ${y-s}L${x+s*.25} ${y-s*.25}L${x+s} ${y}L${x+s*.25} ${y+s*.25}L${x} ${y+s}L${x-s*.25} ${y+s*.25}L${x-s} ${y}L${x-s*.25} ${y-s*.25}Z"/>`;
+    front=`<svg class="fx-svg" viewBox="0 0 100 100">${star(-6,20,4,0)+star(104,70,5,-.7)+star(86,-6,3.5,-1.4)+star(14,106,4,-2)+star(108,24,3,-1.1)+star(-8,84,3,-1.8)}</svg>`;
+  }
+  if(id==="sakura"){
+    const bl=(x,y,s,dl)=>`<g class="bl" style="--dl:${dl}s">${[0,72,144,216,288].map(a=>`<circle cx="${(x+s*Math.cos((a-90)*Math.PI/180)).toFixed(2)}" cy="${(y+s*Math.sin((a-90)*Math.PI/180)).toFixed(2)}" r="${(s*.78).toFixed(2)}"/>`).join("")}<circle class="c" cx="${x}" cy="${y}" r="${(s*.45).toFixed(2)}"/></g>`;
+    front=`<svg class="fx-svg" viewBox="0 0 100 100"><path class="br" d="M-10 72 C 0 52, 2 30, 14 14 C 22 4, 34 -2, 52 -6"/><path class="br t" d="M4 40 C 12 36, 20 38, 26 30"/><path class="br t" d="M22 6 C 26 14, 34 16, 40 12"/>`
+      +bl(0,58,4.2,0)+bl(26,30,3.4,-1)+bl(10,22,4.6,-2)+bl(40,12,3.6,-3)+bl(52,-6,4,-1.6)+bl(-6,80,3.2,-2.6)+`</svg>`
+      +[[30,4.5,0],[60,5.5,-1.8],[85,4,-3.1],[15,6,-2.4]].map(p=>`<i class="pt" style="${st({x:p[0]+"%",t:p[1]+"s",dl:p[2]+"s"})}"></i>`).join("");
+  }
+  if(id==="ghosts"){
+    // cobweb in the top-right corner with a spider on a thread, mist along the bottom
+    const web=[0,22,45,68,90].map(a=>{ const r=a*Math.PI/180; return `M100 0 L${(100-36*Math.cos(r)).toFixed(1)} ${(36*Math.sin(r)).toFixed(1)}`; }).join(" ")
+      +[12,22,32].map(r=>{ const pts=[0,22,45,68,90].map(a=>{ const q=a*Math.PI/180; return [(100-r*Math.cos(q)).toFixed(1),(r*Math.sin(q)).toFixed(1)]; });
+        return "M"+pts[0].join(" ")+pts.slice(1).map((pt,k)=>{ const pr=pts[k], mx=((+pr[0]+ +pt[0])/2-1.2*Math.cos((k*22.5+11)*Math.PI/180)).toFixed(1), my=((+pr[1]+ +pt[1])/2-1.2*Math.sin((k*22.5+11)*Math.PI/180)).toFixed(1); return ` Q${mx} ${my} ${pt.join(" ")}`; }).join(""); }).join(" ");
+    back="";
+    front=`<span class="fog"><i></i><i></i></span><svg class="fx-svg" viewBox="0 0 100 100">
+      <path class="web" d="${web}"/>
+      <g class="spider"><line class="th" x1="84" y1="10" x2="84" y2="30"/><path class="sl" d="M81 30 l-3 -2 M81 31.5 l-3.4 .4 M81 33 l-3 2 M87 30 l3 -2 M87 31.5 l3.4 .4 M87 33 l3 2"/><ellipse class="bd" cx="84" cy="32" rx="2.6" ry="3.2"/></g></svg>`;
+  }
+  if(id==="laurel"){
+    // leaves follow a circle around the avatar, from the bottom up both sides, in two rows
+    const leaves=(from,to,dir)=>{ let h=""; const n=9; for(let k=0;k<n;k++){ const th=from+(to-from)*k/(n-1), rr=th*Math.PI/180;
+        for(const side of [-1,1]){ const r=62+side*4.5, x=50+r*Math.cos(rr), y=50+r*Math.sin(rr), tang=th+90*dir, rot=tang+side*32*dir;
+          h+=`<ellipse class="lf" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${(7-k*.35).toFixed(1)}" ry="${(2.9-k*.12).toFixed(1)}" transform="rotate(${rot.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`; } }
+      return h; };
+    const arc=(a,b)=>{ const p=t=>[50+62*Math.cos(t*Math.PI/180),50+62*Math.sin(t*Math.PI/180)].map(v=>v.toFixed(1)).join(" "); return `M${p(a)} A62 62 0 0 ${b>a?1:0} ${p(b)}`; };
+    front=`<svg class="fx-svg" viewBox="0 0 100 100"><path class="stem" d="${arc(100,222)}"/><path class="stem" d="${arc(80,-42)}"/>${leaves(100,222,1)}${leaves(80,-42,-1)}</svg><b class="shine"></b>`;
+  }
   return {back,front};
 }
 function frameDeco(frame){ return frame==="legend"?'<span class="crown">👑</span>':frameParts(frame).front; }
@@ -4214,6 +4326,11 @@ function hfxHtml(id){ const f=HFX.find(x=>x[0]===id); if(!f) return ""; let h=""
   if(id==="shoot"){ for(let k=0;k<34;k++) h+=`<i class="s" style="left:${R(0,100).toFixed(1)}%;top:${R(0,95).toFixed(1)}%;${dur(1.5,4)}"></i>`; for(let k=0;k<4;k++) h+=`<i class="m" style="left:${R(-10,60).toFixed(1)}%;top:${R(-15,45).toFixed(1)}%;animation-duration:${R(4,7).toFixed(1)}s;animation-delay:-${R(0,6).toFixed(1)}s"></i>`; }
   if(id==="hearts"){ const C=["#ff3b7a","#ff8fc0","#ff3b36","#ffc2d6"]; for(let k=0;k<16;k++) h+=`<i style="left:${R(0,96).toFixed(1)}%;--c:${C[k%C.length]};--s:${R(12,24).toFixed(0)}px;${dur(3.5,6.5)}">♥</i>`; }
   if(id==="fog"){ for(let k=0;k<4;k++) h+=`<i style="left:${k*25-20}%;top:${R(-10,30).toFixed(0)}%;animation-duration:${R(9,15).toFixed(1)}s;animation-delay:-${R(0,10).toFixed(1)}s"></i>`; }
+  if(id==="foxfire") for(let k=0;k<12;k++) h+=`<i style="left:${R(2,96).toFixed(1)}%;--s:${R(10,20).toFixed(0)}px;${dur(4,8)}"></i>`;
+  if(id==="fireworks"){ const C=["#ff3b36","#ffd23b","#3bd5ff","#ff3bd5","#7cff6b","#ffffff","#b04bff"];
+    for(let k=0;k<5;k++){ const t=R(2.6,4).toFixed(2), dl=(-R(0,4)).toFixed(2), c=C[k%C.length], n=14, r=R(30,55).toFixed(0);
+      h+=`<span class="fw" style="left:${R(8,92).toFixed(0)}%;top:${R(15,60).toFixed(0)}%;--t:${t}s;--dl:${dl}s">${Array.from({length:n},(_,j)=>`<b style="--a:${(j*360/n).toFixed(0)}deg;--r:${r}px;--c:${c}"></b>`).join("")}</span>`; } }
+  if(id==="lanterns") for(let k=0;k<9;k++) h+=`<i style="left:${R(2,94).toFixed(1)}%;--s:${R(12,22).toFixed(0)}px;${dur(7,12)}"></i>`;
     return `<div class="hfx fx-${id}" aria-hidden="true">${h}</div>`; }
   const anyTop=["stars","fireflies"].includes(id);
   for(let i=0;i<f[2];i++){ const d=f[3][0]+Math.random()*(f[3][1]-f[3][0]); h+=`<i style="left:${(Math.random()*100).toFixed(1)}%;${anyTop?`top:${(Math.random()*92).toFixed(1)}%;`:""}animation-duration:${d.toFixed(2)}s;animation-delay:-${(Math.random()*d).toFixed(2)}s"></i>`; }

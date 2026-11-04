@@ -1266,6 +1266,62 @@ svg.stk{display:block}
 .ft-glitch{font-family:"PC Glitch",var(--f-body) !important;font-weight:400 !important;font-size:1em;}
 .ft-mono{font-family:"JetBrains Mono",ui-monospace,monospace !important;font-weight:500 !important;font-size:.95em}
 .sitem .art .ft-big{font-size:22px;font-weight:800;line-height:1.3;text-align:center;overflow-wrap:anywhere;padding:0 6px}
+
+/* ===== Polls, reposts, saves, credits ===== */
+.poll{display:grid;gap:7px;max-width:460px;margin-top:8px}
+.poll .opt{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--surface);overflow:hidden;text-align:left;font:inherit;font-weight:600;color:var(--ink);width:100%}
+.poll button.opt{cursor:pointer}.poll button.opt:hover{border-color:var(--accent)}
+.poll .opt .bar{position:absolute;inset:0 auto 0 0;background:color-mix(in srgb,var(--accent) 20%,transparent)}
+.poll .opt.mine{border-color:var(--accent)}.poll .opt.mine .bar{background:color-mix(in srgb,var(--accent) 36%,transparent)}
+.poll .opt span{position:relative;min-width:0;overflow-wrap:anywhere}
+.poll .opt .pc{font-weight:800;font-variant-numeric:tabular-nums;flex:none}
+.c-poll .c-poll-g{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+@media (max-width:520px){.c-poll .c-poll-g{grid-template-columns:1fr}}
+.c-poll select{border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;font-size:14px;padding:6px 10px}
+#c-poll-btn.on{color:var(--accent)}
+.icon-btn.reposted{color:var(--ok,#2fae66)}
+.icon-btn.saved{color:#e0a400}.icon-btn.saved svg{fill:currentColor}
+.rp-wrap>.rp-line{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--muted);padding:10px 4px 0 56px;flex-wrap:wrap}
+.rp-wrap>.rp-line svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2}
+.rp-wrap>.rp-line button{border:0;background:none;color:inherit;font:inherit;padding:0;cursor:pointer;text-decoration:underline}
+.rp-wrap>.post{border-top:0;padding-top:6px}
+.q-box{display:grid;gap:4px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:8px;background:var(--bg);color:inherit;text-decoration:none;max-width:560px;min-width:0}
+a.q-box:hover{border-color:var(--accent)}
+.q-box .q-h{display:flex;align-items:center;gap:6px;font-size:13px;flex-wrap:wrap}
+.q-box .q-h .mini-av{width:20px;height:20px;font-size:10px;border-radius:6px}
+.q-box .q-h .fr-deco,.q-box .q-h .fr-back{display:none}
+.q-box .q-t{font-size:14px;overflow-wrap:anywhere;white-space:pre-wrap}
+.q-box img{max-width:100%;max-height:220px;border-radius:8px;object-fit:cover;justify-self:start}
+.q-cmts{display:grid;gap:6px;margin-bottom:8px}
+.q-cmt{display:flex;gap:10px;align-items:flex-start;border:1px dashed var(--line);border-radius:10px;padding:8px 10px;color:inherit;text-decoration:none}
+.q-cmt:hover{border-color:var(--accent)}
+.q-cmt .q-b{min-width:0;font-size:14px}.q-cmt .q-b span{white-space:pre-wrap;overflow-wrap:anywhere}
+.rp-modal .q-box{max-width:none}
+.rp-modal textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;font-size:15px;padding:10px;resize:vertical}
+.cr-line{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);flex-wrap:wrap;margin-top:2px}
+.cr-line b{color:var(--ink);font-weight:700}
+.cr-stack{display:inline-flex}
+.cr-stack .mini-av{width:20px;height:20px;font-size:10px;border-radius:6px;border:2px solid var(--surface);margin-left:-6px}
+.cr-stack>*:first-child .mini-av,.cr-stack>.mini-av:first-child{margin-left:0}
+.cr-stack .fr-deco,.cr-stack .fr-back{display:none}
+.cr-tag{font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;border-radius:5px;padding:2px 7px;background:color-mix(in srgb,var(--ok,#2fae66) 16%,transparent);color:var(--ok,#2fae66)}
+.cr-list{display:grid;gap:6px;margin-top:6px}
+.cr-list .who{display:flex;align-items:center;gap:8px;font-size:14px}
+.cr-list .who .mini-av{width:26px;height:26px;font-size:12px;border-radius:8px}
+.cr-edit{display:grid;gap:6px}
+.cr-edit .cr-p{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:5px 8px;font-size:14px}
+.cr-edit .cr-p .mini-av{width:24px;height:24px;font-size:11px;border-radius:7px}
+.cr-edit .cr-p .sp{flex:1}
+.cr-edit select{width:auto!important}
+.sv-filters{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 12px}
+.sv-list{display:grid;gap:8px}
+.sv-row{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:8px;background:var(--surface);color:inherit;text-decoration:none;text-align:left;font:inherit;width:100%;min-width:0;cursor:pointer}
+.sv-row:hover{border-color:var(--accent)}
+.sv-row .t{width:96px;aspect-ratio:16/9;border-radius:8px;flex:none;background:var(--surface-2) center/cover no-repeat;display:grid;place-items:center;font-size:22px;overflow:hidden}
+.sv-row .t.sq{width:54px;aspect-ratio:1}
+.sv-row .tx{min-width:0;flex:1;display:grid;gap:2px}
+.sv-row .tx b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sv-row .tx span{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 </style>
 </head>
 <body>
@@ -1391,7 +1447,7 @@ svg.stk{display:block}
 
     <article class="legal" id="doc-privacy" hidden>
       <h1>Privacy Policy</h1>
-      <p class="legal-date">Last updated 2 November 2026</p>
+      <p class="legal-date">Last updated 4 November 2026</p>
       <div class="legal-short"><b>The short version:</b> We store as little as we can. No ads, no tracking, and we never sell or share your data. You can download or delete everything at any time.</div>
 
       <h2>1. Who's responsible for your data</h2>
@@ -1408,6 +1464,9 @@ svg.stk{display:block}
           <tr><td>Notifications</td><td>When someone comments on your post, signs your guestbook or follows you, so we can tell you. Only you can see them. Deleted after 3 months, or when you clear them.</td><td>Needed to run your account</td></tr>
           <tr><td>Levels, XP and Volts</td><td>Your level, XP and Volts (shown on your profile), the stickers and cosmetics you own, the stickers you gave, and a list of what you earned XP for and when (like "commented" or "gave a sticker"), so we can count quests and daily limits. Only you can see that list.</td><td>Needed to run your account</td></tr>
           <tr><td>Old usernames</td><td>If you change your @username, the old one is kept so old links and @mentions still lead to you, and so nobody else can take it for 30 days. Old usernames can be seen by anyone, like your current one.</td><td>Needed to run your account</td></tr>
+          <tr><td>Saved items</td><td>The posts and uploads you save for later, so they're in your Saved tab on any device. Only you can see them.</td><td>Needed to run your account</td></tr>
+          <tr><td>Poll votes</td><td>Which option you picked in a poll, so you can't vote twice and we can show your choice. Only you can see what you voted for. Everyone sees the totals.</td><td>Needed to run your account</td></tr>
+          <tr><td>Credits</td><td>When someone credits you on their game, track or other upload, your username and what you did (like "Music") are shown on it and on your profile. You can remove yourself any time.</td><td>Needed to run your account</td></tr>
           <tr><td>Articles</td><td>The title, cover link, text and AI label of articles you publish, so people can read them. Articles you haven't published yet are only saved in your own browser, not on Power Creep.</td><td>Needed to run your account</td></tr>
           <tr><td>Favorite GIFs</td><td>The links to GIFs you star, so they're there on any device. Only you can see them.</td><td>Needed to run your account</td></tr>
           <tr><td>People you mute or block</td><td>So their content stays hidden for you. Only you can see this list.</td><td>Needed to run your account</td></tr>
@@ -1540,6 +1599,12 @@ svg.stk{display:block}
                 <textarea id="c-images" rows="2" placeholder="https://i.imgur.com/….png"></textarea>
                 <div id="c-images-msg"></div>
               </div>
+              <div class="c-field c-poll" id="c-poll-wrap" hidden>
+                <label>Poll options <i>(2 to 4)</i></label>
+                <div class="c-poll-g"><input id="c-po1" maxlength="80" placeholder="Option 1" autocomplete="off"><input id="c-po2" maxlength="80" placeholder="Option 2" autocomplete="off"><input id="c-po3" maxlength="80" placeholder="Option 3 (optional)" autocomplete="off"><input id="c-po4" maxlength="80" placeholder="Option 4 (optional)" autocomplete="off"></div>
+                <label for="c-poll-len" style="display:inline;margin-right:8px">Poll ends in</label><select id="c-poll-len"><option value="1">1 day</option><option value="3" selected>3 days</option><option value="7">1 week</option></select>
+                <button type="button" class="linkbtn" id="c-poll-x" style="margin-left:10px">Remove poll</button>
+              </div>
               <div class="c-field c-ai-box" id="c-ai-wrap" hidden>
                 <label for="c-ai">Made with AI?</label>
                 <select id="c-ai"><option value="">No AI</option><option value="assisted">AI-assisted: I made it, AI helped somewhere</option><option value="generated">AI-made: mostly or fully generated</option></select>
@@ -1551,6 +1616,7 @@ svg.stk{display:block}
                 <button type="button" class="icon-btn" id="c-add-img"></button>
                 <button type="button" class="icon-btn" id="c-emoji" data-emoji-for="c-rich"></button>
                 <span class="fmt-btns" role="group" aria-label="Text formatting"><button type="button" class="icon-btn" data-fmt="**" title="Bold (Ctrl+B)" aria-label="Bold"><b>B</b></button><button type="button" class="icon-btn" data-fmt="*" title="Italic (Ctrl+I)" aria-label="Italic"><i>I</i></button><button type="button" class="icon-btn" data-fmt="__" title="Underline (Ctrl+U)" aria-label="Underline"><u>U</u></button><button type="button" class="icon-btn" data-fmt="~~" title="Strikethrough" aria-label="Strikethrough"><s>S</s></button><button type="button" class="icon-btn" data-fmt="# " title="Big text (whole line)" aria-label="Big text"><span style="font-weight:800;font-size:15px">T</span><span style="font-size:10px;font-weight:800">T</span></button></span>
+                <button type="button" class="icon-btn" id="c-poll-btn" aria-expanded="false" aria-controls="c-poll-wrap" title="Add a poll">📊 Poll</button>
                 <button type="button" class="icon-btn" id="c-ai-btn" aria-expanded="false" aria-controls="c-ai-wrap">AI label</button>
                 <span class="c-count" id="c-count">500</span>
                 <button class="btn primary" id="c-post" disabled>Post</button>
@@ -1638,7 +1704,7 @@ svg.stk{display:block}
       </div>
       <div class="seg" id="br-days" role="group" aria-label="Time range"><button data-bdays="1">Today</button><button data-bdays="7">This week</button><button data-bdays="30">This month</button><button data-bdays="null">All time</button></div>
     </div>
-    <div class="br-types" id="br-types" hidden role="group" aria-label="Story type"></div>
+    <div class="br-types" id="br-types" hidden role="group" aria-label="Type"></div>
     <div class="br-tags" id="br-tags"></div>
     <div class="grid" id="br-grid"></div>
     <div style="display:flex;justify-content:center;margin:20px 0"><button class="btn" id="br-more" hidden>Load more</button></div>
@@ -1648,7 +1714,7 @@ svg.stk{display:block}
     <article class="legal help">
       <h1>Help</h1>
       <p class="legal-date">Quick answers for using Power Creep.</p>
-      <nav class="help-toc"><a href="#help" data-hjump="h-images">Adding pictures</a><a href="#help" data-hjump="h-sizes">Avatar and header sizes</a><a href="#help" data-hjump="h-media">Adding games, music, art and videos</a><a href="#help" data-hjump="h-articles">Articles and Stories</a><a href="#help" data-hjump="h-format">Bold, italic and big text</a><a href="#help" data-hjump="h-tags">Hashtags</a><a href="#help" data-hjump="h-ai">AI labels</a><a href="#help" data-hjump="h-safety">Muting, blocking and reporting</a><a href="#help" data-hjump="h-levels">Levels, quests and the shop</a></nav>
+      <nav class="help-toc"><a href="#help" data-hjump="h-images">Adding pictures</a><a href="#help" data-hjump="h-sizes">Avatar and header sizes</a><a href="#help" data-hjump="h-media">Adding games, music, art and videos</a><a href="#help" data-hjump="h-articles">Articles and Stories</a><a href="#help" data-hjump="h-social">Polls, reposts, saving and credits</a><a href="#help" data-hjump="h-format">Bold, italic and big text</a><a href="#help" data-hjump="h-tags">Hashtags</a><a href="#help" data-hjump="h-ai">AI labels</a><a href="#help" data-hjump="h-safety">Muting, blocking and reporting</a><a href="#help" data-hjump="h-levels">Levels, quests and the shop</a></nav>
 
       <h2 id="h-images">Adding pictures</h2>
       <p>Press <b>Upload image</b> wherever you can add a picture (posts, avatar, header and art), and pick a file from your device. In the post box you can also just paste a picture or drag it in.</p>
@@ -1675,7 +1741,7 @@ svg.stk{display:block}
       <p>On your profile, click <b>+ Add media</b> and pick a type. You paste a link to where your work already lives:</p>
       <ul>
         <li><b>Games:</b> itch.io, Game Jolt or Steam. Add a YouTube trailer or a cover image to make the card look great.</li>
-        <li><b>Music:</b> SoundCloud, Spotify or Bandcamp tracks, albums and playlists, or a YouTube playlist.</li>
+        <li><b>Music:</b> SoundCloud, Spotify or Bandcamp tracks, albums and playlists, or a YouTube playlist. Pick what it is (Single, EP, Album, Playlist or Mix), so people can filter by it on the Music page.</li>
         <li><b>Videos:</b> YouTube, Vimeo, or Twitch past broadcasts and clips. Your live Twitch channel goes in the <b>Live</b> tab on your profile.</li>
         <li><b>Art:</b> an image link (see above), plus an optional link to the post on ArtStation, DeviantArt, Bluesky and more.</li>
       </ul>
@@ -1691,6 +1757,14 @@ svg.stk{display:block}
         <li>It shows up in the feed as a card, and on your profile under <b>Articles</b>. Edit it any time from the ⋯ menu or the <b>Edit</b> button on the article.</li>
       </ul>
       <p><b>Stories</b> are for novels, light novels, short stories, comics, poems and reviews that you post somewhere else, like AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, your blog or YouTube. Press <b>+</b> and pick <b>Story</b>, paste the link, pick what it is and add a cover. Like games and music, the story stays where it is and Power Creep links to it. Find them all on the <b>Stories</b> page.</p>
+
+      <h2 id="h-social">Polls, reposts, saving and credits</h2>
+      <ul>
+        <li><b>Polls:</b> press <b>📊 Poll</b> in the post box and add 2 to 4 options. You see the results after you vote. Who voted for what is private.</li>
+        <li><b>Reposts:</b> press the repost arrows on a post or upload. Add a comment if you like, or leave it empty to just share it with your followers. With a comment, it also shows up under the original. Press the green arrows again to undo.</li>
+        <li><b>Save for later:</b> press the bookmark on any post, game, track or artwork. Find everything in the <b>Saved</b> tab on your profile. Only you can see it.</li>
+        <li><b>Credits:</b> when adding or editing your work, add the people who helped under <b>Made with</b>. It shows on their profile too, and they can remove themselves.</li>
+      </ul>
 
       <h2 id="h-format">Bold, italic and big text</h2>
       <p>In the post box, use the <b>B</b>, <i>I</i>, <u>U</u>, <s>S</s> and big <b>T</b> buttons (or Ctrl+B, Ctrl+I, Ctrl+U). You see the result right away while you type.</p>
@@ -1777,6 +1851,15 @@ Object.assign(PLAT,{ao3:{n:"AO3",c:"#990000"},wattpad:{n:"Wattpad",c:"#c2410c"},
 const TABS = [["games","Games"],["music","Music"],["videos","Videos"],["art","Art"],["stories","Stories"]];
 const TAB_TYPE={games:"game",music:"music",videos:"video",art:"art",stories:"story"};
 const STYPES={novel:"Novel",lightnovel:"Light novel",short:"Short story",comic:"Comic",poetry:"Poetry",review:"Review",other:"Other"};
+// Music: what kind of release it is. Guessed from the link, and the uploader can change it.
+const MTYPES={single:"Single",ep:"EP",album:"Album",playlist:"Playlist",mix:"Mix / DJ set"};
+const collIcon=it=>({album:"💿",ep:"💿",playlist:"📃",mix:"🎧"})[it.stype]||(it.coll==="Album"?"💿":"🎵");
+function guessMType(pl){ if(!pl) return "single";
+  if(pl.ytList) return "playlist";
+  if(pl.spotify) return pl.spotify.type==="album"?"album":pl.spotify.type==="playlist"?"playlist":"single";
+  if(pl.plat==="bandcamp") return pl.coll==="Album"?"album":"single";
+  if(pl.scUrl) return pl.coll?"album":"single";
+  return "single"; }
 const SSTATUS={ongoing:"Ongoing",complete:"Complete",oneshot:"One-shot",hiatus:"On hiatus"};
 // Stories can live on lots of sites, so any https link works. Known sites get their own name and color.
 function storyLink(raw){
@@ -1967,6 +2050,10 @@ let VIEW = {key:"me", followers:0, following:0};
 let SUGG = [];           // people to suggest following
 let reports = [];        // staff inbox groups
 const myLikes = new Set();
+const MYVOTES = {};       // poll post id → the option you picked
+const MYREPOSTS = {};     // "p:id" or "m:id" → the id of your plain repost
+let SAVED = [];           // your saved things, newest first: {k:"p"|"m", id, t}
+const CREDITS = {};       // media id → [{id, role}] people credited on it
 
 const keyOf=id=>id===ME_ID?"me":id;
 const idOf=key=>key==="me"?ME_ID:key;
@@ -1998,7 +2085,7 @@ function itemFromRow(m){
     it.stype=STYPES[d.stype]?d.stype:"other"; it.status=SSTATUS[d.status]?d.status:null;
     it.meta=`${STYPES[it.stype]}${it.status?" · "+SSTATUS[it.status]:""}`;
     it.tags=(Array.isArray(m.tags)?m.tags:[]).map(cleanTag).filter(Boolean).slice(0,5);
-    it.likes=m.like_count||0; it.cc=m.comment_count||0; it.liked=myMediaLikes.has(m.id); it.created=m.created_at;
+    it.likes=m.like_count||0; it.cc=m.comment_count||0; it.reposts=m.repost_count||0; it.liked=myMediaLikes.has(m.id); it.created=m.created_at;
     const old=MEDIA[it.id]; if(old&&old.comments) it.comments=old.comments;
     MEDIA[it.id]=it; return it; }
   const pl=d.link?parseLink(d.link):null, want={game:["game"],music:["audio","playlist"],video:["video","playlist"],art:["post","game"]}[type];
@@ -2006,9 +2093,10 @@ function itemFromRow(m){
   if(type==="game"){ it.game=1; const tp=d.trailer?parseLink(d.trailer):null; if(tp&&tp.yt) it.yt=tp.yt; if(tp&&tp.vimeo) it.vimeo=tp.vimeo; }
   if(type==="game"||type==="art"){ const cp=d.cover?parseLink(d.cover):null; if(cp&&cp.kind==="image") it.img=cp.img; }
   if(type==="art"){ if(!it.img) return null; it.plat=it.plat||"image"; if(!it.url) it.url=it.img; }
+  if(type==="music"){ it.stype=MTYPES[d.stype]?d.stype:guessMType(pl); it.coll=MTYPES[it.stype]; }
   it.meta=type==="game"?`Game on ${PLAT[it.plat].n}${it.yt||it.vimeo?" · with trailer":""}`:type==="art"?"Art":type==="music"?`${it.coll||"Track"} on ${PLAT[it.plat].n}`:`${it.coll||"Video"} on ${PLAT[it.plat].n}`;
   it.tags=(Array.isArray(m.tags)?m.tags:[]).map(cleanTag).filter(Boolean).slice(0,5);
-  it.likes=m.like_count||0; it.cc=m.comment_count||0; it.liked=myMediaLikes.has(m.id); it.created=m.created_at;
+  it.likes=m.like_count||0; it.cc=m.comment_count||0; it.reposts=m.repost_count||0; it.liked=myMediaLikes.has(m.id); it.created=m.created_at;
   const old=MEDIA[it.id]; if(old&&old.comments) it.comments=old.comments;
   MEDIA[it.id]=it; return it;
 }
@@ -2016,7 +2104,7 @@ const mediaById=id=>MEDIA[id]||null;
 async function ensureMedia(ids){
   const need=[...new Set(ids)].filter(id=>id&&!MEDIA[id]);
   if(!need.length) return;
-  (await api.get("media?select=*&id="+inList(need))).forEach(itemFromRow);
+  (await api.get("media?select=*&id="+inList(need))).forEach(itemFromRow); await loadCredits(need);
 }
 function postFromRow(r){
   const old=posts.find(p=>p.id===r.id);
@@ -2027,16 +2115,29 @@ function postFromRow(r){
     p.art={t:String(a.t||"Untitled").slice(0,120),s:String(a.s||"").slice(0,200),c:cv&&cv.kind==="image"?cv.img:null,x:String(a.x||"").slice(0,300),w:Math.max(0,+a.w||0)|0,
       body:old&&old.art&&old.art.t===String(a.t||"Untitled").slice(0,120)&&old.art.w===(Math.max(0,+a.w||0)|0)?old.art.body:undefined}; }
   else p.art=null;
+  p.poll=r.poll&&Array.isArray(r.poll.o)?{o:r.poll.o.map(x=>String(x).slice(0,80)).slice(0,4),ends:Date.parse(r.poll.ends)||0}:null;
+  p.pollCounts=Array.isArray(r.poll_counts)?r.poll_counts.map(n=>+n||0):[];
+  p.refPost=r.ref_post||null; p.refMedia=r.ref_media||null; p.reposts=r.repost_count||0;
   if(old) Object.assign(old,p); else posts.push(p);
   return old||p;
 }
 async function loadPosts(query){
   const rows=await api.get("posts?select=*&"+query);
-  await Promise.all([ensureUsers(rows.map(r=>r.author)), ensureMedia(rows.map(r=>r.media_id))]);
-  const out=rows.map(postFromRow).filter(p=>!p.kind||mediaById(p.itemId));
-  await loadStickers(rows.map(r=>r.id));
+  // reposts and quotes need the post they point to
+  const refP=[...new Set(rows.map(r=>r.ref_post).filter(id=>id&&!posts.some(p=>p.id===id)&&!rows.some(r=>r.id===id)))];
+  const refRows=refP.length?await api.get("posts?select=*&id="+inList(refP)).catch(()=>[]):[];
+  const all=rows.concat(refRows);
+  await Promise.all([ensureUsers(all.map(r=>r.author)), ensureMedia(all.map(r=>r.media_id).concat(all.map(r=>r.ref_media)))]);
+  refRows.forEach(postFromRow);
+  const out=rows.map(postFromRow).filter(p=>p.kind==="repost"?(p.refPost?posts.some(x=>x.id===p.refPost):!!mediaById(p.refMedia)):(!p.kind||mediaById(p.itemId)));
+  await Promise.all([loadStickers(all.map(r=>r.id)), loadVotes(all.filter(r=>r.poll).map(r=>r.id))]);
   return out;
 }
+async function loadVotes(ids){ ids=ids.filter(id=>!(id in MYVOTES)); if(!ids.length||!ME_ID) return;
+  try{ (await api.get("poll_votes?select=post_id,choice&post_id="+inList(ids))).forEach(v=>MYVOTES[v.post_id]=v.choice); }catch(_){} }
+async function loadCredits(ids){ ids=[...new Set(ids)].filter(id=>id&&!CREDITS[id]); if(!ids.length) return;
+  try{ const rows=await api.get("media_credits?select=media_id,user_id,role&order=created_at.asc&media_id="+inList(ids));
+    ids.forEach(id=>CREDITS[id]=[]); rows.forEach(r=>CREDITS[r.media_id].push({id:r.user_id,role:r.role})); await ensureUsers(rows.map(r=>r.user_id)); }catch(_){} }
 
 /* ---------- loading ---------- */
 async function loadMe(){
@@ -2052,6 +2153,8 @@ async function loadMe(){
   myLikes.clear(); likes.forEach(l=>myLikes.add(l.post_id));
   try{ const cl=await api.get("comment_likes?select=comment_id&order=created_at.desc&limit=5000"); myCmtLikes.clear(); cl.forEach(l=>myCmtLikes.add(l.comment_id)); }catch(_){}
   try{ const ml=await api.get("media_likes?select=media_id&order=created_at.desc&limit=2000"); myMediaLikes.clear(); ml.forEach(l=>myMediaLikes.add(l.media_id)); }catch(_){}
+  try{ const rp=await api.get("posts?select=id,ref_post,ref_media&kind=eq.repost&author=eq."+ME_ID+"&limit=2000"); rp.forEach(r=>MYREPOSTS[(r.ref_post?"p:"+r.ref_post:"m:"+r.ref_media)]=r.id); }catch(_){}
+  try{ const sv=await api.get("saves?select=post_id,media_id,created_at&order=created_at.desc&limit=1000"); SAVED=sv.map(r=>({k:r.post_id?"p":"m",id:r.post_id||r.media_id,t:Date.parse(r.created_at)})); }catch(_){ SAVED=[]; }
 }
 async function loadFeed(){
   const tasks=[loadPosts("order=created_at.desc&limit=100")];
@@ -2074,6 +2177,10 @@ async function loadProfile(key){
     api.count("follows?select=follower&following=eq."+id),
     api.count("follows?select=following&follower=eq."+id)]);
   items=media.map(itemFromRow).filter(Boolean);
+  // things this person is credited on (made by someone else)
+  try{ const cr=await api.get("media_credits?select=media_id&user_id=eq."+id+"&limit=200"); const ids=cr.map(c=>c.media_id).filter(m=>!items.some(i=>i.id===m));
+    if(ids.length){ await ensureMedia(ids); const extra=ids.map(m=>MEDIA[m]).filter(Boolean); await ensureUsers(extra.map(i=>i.owner)); items=items.concat(extra); } }catch(_){}
+  await loadCredits(items.map(i=>i.id));
   const pin=U(key).pinned; if(pin&&!posts.some(p=>p.id===pin)) await loadPosts("id=eq."+pin).catch(()=>{});
   VIEW={key,followers,following}; await loadGuestbook(key).catch(()=>{ VIEW.gb=[]; });
   state.twitch=U(key).twitch; state.liveOn=false; state.chatOn=false;
@@ -2138,11 +2245,11 @@ function renderProfileHeader(){
 }
 function profileTabs(){
   const own=state.role==="owner";
-  const has=k=>k==="feed"?posts.some(p=>p.u===VIEW.key&&!p.kind):k==="articles"?viewArticles().length>0:k==="liked"?posts.some(p=>p.liked):items.some(i=>i.tab===k);
+  const has=k=>k==="saved"?true:k==="feed"?posts.some(p=>p.u===VIEW.key&&(!p.kind||p.kind==="repost")):k==="articles"?viewArticles().length>0:k==="liked"?posts.some(p=>p.liked):items.some(i=>i.tab===k);
   const gbShow=own||(VIEW.gb&&VIEW.gb.length)||U(VIEW.key).guestbook!=="off";
-  return [["feed","Feed"],["articles","Articles"],...TABS,...(own?[["liked","Liked"]]:[])].filter(([k])=>has(k)).concat(gbShow?[["guestbook","Guestbook"]]:[],state.twitch||own?[["live","Live"]]:[]);
+  return [["feed","Feed"],["articles","Articles"],...TABS,...(own?[["liked","Liked"],["saved","Saved"]]:[])].filter(([k])=>has(k)).concat(gbShow?[["guestbook","Guestbook"]]:[],state.twitch||own?[["live","Live"]]:[]);
 }
-const viewPosts=()=>{ const pin=U(VIEW.key).pinned; return posts.filter(p=>p.u===VIEW.key&&!p.kind&&(!p.ai||visible({ai:p.ai}))).sort((a,b)=>(b.id===pin)-(a.id===pin)||b.t-a.t); };
+const viewPosts=()=>{ const pin=U(VIEW.key).pinned; return posts.filter(p=>p.u===VIEW.key&&(!p.kind||(p.kind==="repost"&&postVisible(p)))&&(!p.ai||visible({ai:p.ai}))).sort((a,b)=>(b.id===pin)-(a.id===pin)||b.t-a.t); };
 const viewArticles=()=>posts.filter(p=>p.u===VIEW.key&&p.art&&(!p.ai||visible({ai:p.ai}))).sort((a,b)=>b.t-a.t);
 const likedPosts=()=>posts.filter(p=>p.liked&&(!p.ai||visible({ai:p.ai}))).sort((a,b)=>b.t-a.t);
 function renderProfile(){
@@ -2153,8 +2260,8 @@ function renderProfile(){
 function renderTabs(){
   const tabs=profileTabs(); if(!tabs.some(t=>t[0]===state.tab)) state.tab=tabs.length?tabs[0][0]:"none";
   $("#tabs").innerHTML=tabs.map(([k,n])=>{
-    const c=k==="feed"?viewPosts().length:k==="articles"?viewArticles().length:k==="liked"?likedPosts().length:k==="guestbook"?(VIEW.gb||[]).length:k==="live"?null:items.filter(i=>i.tab===k&&visible(i)).length;
-    const lock=k==="liked"?`<svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2;margin-left:5px;vertical-align:-1px" aria-label="private"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>`:"";
+    const c=k==="saved"?SAVED.length:k==="feed"?viewPosts().length:k==="articles"?viewArticles().length:k==="liked"?likedPosts().length:k==="guestbook"?(VIEW.gb||[]).length:k==="live"?null:items.filter(i=>i.tab===k&&visible(i)).length;
+    const lock=k==="liked"||k==="saved"?`<svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2;margin-left:5px;vertical-align:-1px" aria-label="private"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>`:"";
     const dot=k==="live"&&state.twitch?`<span class="live-dot" aria-hidden="true"></span>`:"";
     return `<button role="tab" id="tab-${k}" aria-selected="${state.tab===k}" data-tab="${k}">${dot}${n}${lock}${c===null?"":`<small>${c}</small>`}</button>`;
   }).join("");
@@ -2255,7 +2362,7 @@ function liveHtml(){
 }
 function liveChatHidden(){ try{ return localStorage.getItem("pc-live-chat-hidden")==="1"; }catch(_){ return false; } }
 function renderGrid(){
-  const g=$("#grid"); g.classList.toggle("as-list",["feed","liked","live","guestbook","articles"].includes(state.tab)); g.classList.toggle("stories",state.tab==="stories");
+  const g=$("#grid"); g.classList.toggle("as-list",["feed","liked","live","guestbook","articles","saved"].includes(state.tab)); g.classList.toggle("stories",state.tab==="stories");
   if(VIEW.key!=="me"&&BLOCKED.has(idOf(VIEW.key))){ g.classList.add("as-list"); g.innerHTML=blockedNotice(); return; }
   if(state.tab==="guestbook"){ g.innerHTML=guestbookHtml(); return; }
   if(state.tab==="feed"||state.tab==="liked"){
@@ -2265,6 +2372,7 @@ function renderGrid(){
     if(LIVE) fillScThumbs(); return;
   }
   if(state.tab==="live"){ g.innerHTML=liveHtml(); return; }
+  if(state.tab==="saved"){ g.innerHTML=savedHtml(); if(LIVE) fillScThumbs(); return; }
   if(state.tab==="articles"){ const l=viewArticles(); g.innerHTML=l.length?`<div class="a-list">${l.map(artRowHtml).join("")}</div>`:`<div class="empty">No articles yet.</div>`; return; }
   if(state.tab==="none"){ g.innerHTML=`<div class="empty">Nothing here yet.</div>`; return; }
   const all=items.filter(i=>i.tab===state.tab);
@@ -2413,7 +2521,8 @@ function openForm(type,ex){
   const T=TYPES[type];
   let f="";
   if(type==="game") f=field("f-link","Game page link",0,"https://you.itch.io/your-game","itch.io, Game Jolt or Steam")+field("f-trailer","Trailer video",1,"https://www.youtube.com/watch?v=…","YouTube or Vimeo. Becomes the card thumbnail and plays in the pop-up.")+field("f-cover","Cover image link",1,"https://img.itch.zone/…","Used if there's no trailer. Supported: "+IMG_SITE_NAMES+' <a href="#help" class="help-link" data-hjump="h-images">How do I get an image link?</a>');
-  if(type==="music") f=field("f-link","Track, album or playlist link",0,"https://soundcloud.com/you/track","SoundCloud, Spotify, Bandcamp, or a YouTube playlist");
+  if(type==="music") f=field("f-link","Track, album or playlist link",0,"https://soundcloud.com/you/track","SoundCloud, Spotify, Bandcamp, or a YouTube playlist")
+    +`<div class="field"><label for="f-stype">What is it?</label><select id="f-stype">${Object.entries(MTYPES).map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select><div class="hint">Picked for you from the link. Change it if it's wrong, for example a Spotify "album" that's really a single or an EP.</div></div>`;
   if(type==="video") f=field("f-link","Video link",0,"https://www.youtube.com/watch?v=…","YouTube (videos or playlists), Vimeo or Twitch (past broadcasts and clips)");
   if(type==="story") f=field("f-link","Link to your story",0,"https://www.royalroad.com/fiction/…","Where people read it: AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, your blog, a YouTube review…")
     +`<div class="field"><label for="f-stype">What is it?</label><select id="f-stype">${Object.entries(STYPES).map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select></div>`
@@ -2430,6 +2539,7 @@ function openForm(type,ex){
         ${tagPickerHtml(T.tab)}
         ${f}
         ${type==="music"?"":`<div class="field"><label for="f-desc">Description <i>(optional)</i></label><textarea id="f-desc" maxlength="1000" rows="4" placeholder="${{game:"What's the game about? Controls, platforms, credits…",video:"What's the video about?",art:"Tell people about this piece: tools, process, the story behind it…",story:"The blurb: what's it about? Add content warnings here too."}[type]}"></textarea><div class="hint">Shown when people open it.</div></div>`}
+        ${creditsFieldHtml()}
         <div class="field"><label for="f-ai">Made with AI?</label>
           <select id="f-ai"><option value="">No AI used</option><option value="assisted">AI-assisted: I made it, AI helped somewhere</option><option value="generated">AI-made: mostly or fully generated</option></select></div>
         <div class="field" id="f-ainote-wrap" hidden><label for="f-ainote">What was made with AI?</label><textarea id="f-ainote" placeholder="e.g. Music is mine, cover art made with AI"></textarea></div>
@@ -2446,8 +2556,9 @@ function openForm(type,ex){
   if(ex){ const set=(id,v)=>{const el=$("#"+id); if(el&&v) el.value=v;};
     set("f-title",ex.title); set("f-ai",ex.ai?ex.ai.lvl:""); set("f-ainote",ex.ai?ex.ai.note:"");
     const r=ex.raw||{}; set("f-link",r.link); set("f-trailer",r.trailer); set("f-cover",r.cover); set("f-stype",r.stype); set("f-status",r.status); set("f-desc",typeof r.desc==="string"?r.desc:""); }
-  draft={type};
+  draft={type}; draftCredits=ex?(CREDITS[ex.id]||[]).map(c=>({...c})):[]; drawCreditList();
   const form=$("#amform");
+  if(type==="music"){ const sel=$("#f-stype"); if(ex&&ex.raw&&MTYPES[ex.raw.stype]) sel.dataset.touched="1"; ["input","change"].forEach(ev=>sel.addEventListener(ev,()=>sel.dataset.touched="1")); }
   form.addEventListener("input",()=>updateDraft(type));
   form.addEventListener("submit",e=>{ e.preventDefault(); saveMedia(type,ex); });
   updateDraft(type); $("#f-title").focus();
@@ -2479,6 +2590,7 @@ function updateDraft(type){
     if(type==="art"){ it.plat=it.plat||"image"; if(!pl) it.url=it.img; }
   }
   if(type==="game"){ srcUsed=it.yt||it.vimeo?0:it.img?1:pl?2:3; }
+  if(type==="music"){ const sel=$("#f-stype"); if(sel&&!sel.dataset.touched&&pl) sel.value=guessMType(pl); it.stype=sel?sel.value:"single"; it.coll=MTYPES[it.stype]; }
   meta: { it.meta = type==="game"?`Game on ${it.plat?PLAT[it.plat].n:"…"}${it.yt||it.vimeo?" · with trailer":""}`:type==="art"?"Art":type==="music"?`${it.coll||"Track"} on ${it.plat?PLAT[it.plat].n:"…"}`:`${it.coll||"Video"} on ${it.plat?PLAT[it.plat].n:"…"}`; }
   if(!it.plat) it.plat=type==="game"?"itch":type==="music"?"soundcloud":type==="video"?"youtube":"image";
   const prevSrc=($("#am-preview img.thumb-img")||{}).src;
@@ -2613,6 +2725,8 @@ function openAvatar(){
 
 /* ===================== FEED ===================== */
 const heartSvg=`<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>`;
+const rpSvg=`<svg viewBox="0 0 24 24"><path d="M4 9h13l-3-3M20 15H7l3 3"/></svg>`;
+const bmSvg=`<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg>`;
 const cmtSvg=`<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>`;
 const imgSvg=`<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-6-6-8 8"/></svg>`;
 const trashSvg=`<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>`;
@@ -2670,6 +2784,7 @@ function wrapSel(ta,mark){
 function postVisible(p){
   if(hiddenId(p.author)) return false;
   if(p.ai&&!visible({ai:p.ai})) return false;
+  if(p.kind==="repost"){ const o=p.refPost&&posts.find(x=>x.id===p.refPost); if(o) return postVisible(o); const it=mediaById(p.refMedia); return !!it&&visible(it)&&!hiddenId(it.owner)&&!(fs.tag&&!(it.tags||[]).includes(fs.tag)); }
   if(p.kind){const it=mediaById(p.itemId); if(!it||!visible(it)) return false;}
   if(fs.tag&&!tagsOf(p).includes(fs.tag)) return false;
   return true;
@@ -2692,7 +2807,37 @@ function computeFY(){
 }
 function bump(p,w){tagsOf(p).forEach(t=>fs.interest[t]=Math.max(0,(fs.interest[t]||0)+w)); if(p.u!=="me") fs.affinity[p.u]=Math.max(0,(fs.affinity[p.u]||0)+w); fs.stale=true;}
 
+const pollLeft=ms=>{ const m=Math.max(1,Math.round((ms-Date.now())/6e4)); return m<60?m+" min":m<1440?Math.round(m/60)+" h":Math.round(m/1440)+" days"; };
+function pollHtml(p){ const P=p.poll; if(!P) return "";
+  const mine=MYVOTES[p.id], ended=Date.now()>P.ends, show=mine!==undefined||ended||p.u==="me";
+  const total=P.o.reduce((a,_,i)=>a+(p.pollCounts[i]||0),0);
+  return `<div class="poll">${P.o.map((o,i)=>{ const pc=total?Math.round((p.pollCounts[i]||0)/total*100):0;
+    return show?`<div class="opt ${mine===i?"mine":""}"><i class="bar" style="width:${pc}%"></i><span>${esc(o)}${mine===i?" ✓":""}</span><span class="pc">${pc}%</span></div>`
+      :`<button class="opt" data-vote="${p.id}:${i}"><span>${esc(o)}</span></button>`; }).join("")}
+    <div class="meta">${show?`${total.toLocaleString("en")} vote${total===1?"":"s"}`:"Vote to see the results"} · ${ended?"Final results":pollLeft(P.ends)+" left"}</div></div>`; }
+const qHead=(k,t)=>`<span class="q-h">${avHtml(k)}<b>${nameHtml(k)}</b><span class="meta">${esc(U(k).handle)}${t?" · "+timeAgo(t):""}</span></span>`;
+function quoteHtml(p){
+  if(p.refPost){ const o=posts.find(x=>x.id===p.refPost); if(!o||hiddenKey(o.u)) return `<div class="q-box meta">The original post isn't available.</div>`;
+    return `<a class="q-box" href="#p/${o.id}">${qHead(o.u,o.t)}${o.art?`<b>${esc(o.art.t)}</b>`:""}${o.text?`<span class="q-t">${esc(o.text.slice(0,260))}${o.text.length>260?"…":""}</span>`:""}${o.images[0]?`<img src="${esc(o.images[0].img)}" alt="" loading="lazy" onerror="this.remove()">`:o.art&&o.art.c?`<img src="${esc(o.art.c)}" alt="" loading="lazy" onerror="this.remove()">`:""}${o.poll?`<span class="meta">📊 Poll</span>`:""}</a>`; }
+  const it=p.refMedia&&mediaById(p.refMedia); return it?embedHtml(it,p.id,true):`<div class="q-box meta">The original isn't available.</div>`;
+}
+const repostBtn=(k,id,n)=>{ const on=!!MYREPOSTS[k+":"+id]; return `<button class="icon-btn ${on?"reposted":""}" data-repost="${k}:${id}" aria-pressed="${on}" aria-label="${on?"Undo repost":"Repost"}" title="${on?"Undo repost":"Repost"}">${rpSvg}<span class="n">${n||0}</span></button>`; };
+const isSaved=(k,id)=>SAVED.some(x=>x.k===k&&x.id===id);
+const saveBtn=(k,id)=>{ const on=isSaved(k,id); return `<button class="icon-btn ${on?"saved":""}" data-save="${k}:${id}" aria-pressed="${on}" aria-label="${on?"Remove from saved":"Save for later"}" title="${on?"Saved":"Save for later"}">${bmSvg}</button>`; };
+function mediaPostHtml(it){ const k=keyOf(it.owner), u=U(k);
+  return `<article class="post"><button class="p-av-btn" data-user="${esc(k)}" aria-label="${esc(u.name)}" style="border:0;background:none;padding:0;align-self:flex-start">${avHtml(k)}</button><div class="p-body">
+    <div class="p-head"><button class="p-name" data-user="${esc(k)}">${nameHtml(k)}</button>${lvChip(k)}${staffTag(k)}<span class="handle">${esc(u.handle)}</span></div>
+    ${embedHtml(it,"m"+it.id,true)}
+    <div class="p-actions"><button class="icon-btn ${it.liked?"liked":""}" data-mlike="${it.id}" aria-pressed="${!!it.liked}" aria-label="Like">${heartSvg}<span class="n">${it.likes||0}</span></button>
+      <button class="icon-btn" data-mopen="${it.id}" aria-label="Comments">${cmtSvg}<span class="n">${it.cc||0}</span></button>${repostBtn("m",it.id,it.reposts)}${saveBtn("m",it.id)}</div></div></article>`; }
 function postHtml(p,ctx){
+  if(p.kind==="repost"){
+    const by=p.u==="me"?"You":`<button data-user="${esc(p.u)}">${esc(U(p.u).name)}</button>`;
+    const line=`<div class="rp-line">${rpSvg}${by} reposted · ${timeAgo(p.t)}${p.u==="me"?` · <button data-unrepost="${p.id}">Undo</button>`:""}</div>`;
+    const o=p.refPost&&posts.find(x=>x.id===p.refPost);
+    if(o) return `<div class="rp-wrap">${line}${postHtml(o,ctx)}</div>`;
+    const it=p.refMedia&&mediaById(p.refMedia); return it?`<div class="rp-wrap">${line}${mediaPostHtml(it)}</div>`:"";
+  }
   const u=U(p.u), liked=!!p.liked, open=fs.open.has(p.id)||ctx==="pg", mine=p.u==="me", pre=ctx?ctx+"-":"";
   const it=p.kind?mediaById(p.itemId):null;
   let body="";
@@ -2700,13 +2845,15 @@ function postHtml(p,ctx){
   if(p.kind==="update") body=`<div class="activity">updated <b>${esc(it.title)}</b></div>${p.text?`<div class="p-note">${linkify(p.text)}</div>`:""}`;
   if(!p.kind&&p.text) body=`<p class="p-text">${linkify(p.text,true)}</p>`;
   if(p.art&&ctx!=="pg") body+=artCardHtml(p);
+  if(p.poll) body+=pollHtml(p);
+  if(!p.kind&&(p.refPost||p.refMedia)) body+=quoteHtml(p);
   const ai="", aiChip=p.ai?`<button class="ai-chip" data-ainote="${esc((p.ai.lvl==="generated"?"AI-made":"AI-assisted")+(p.ai.note?": "+p.ai.note:""))}" title="${esc((p.ai.lvl==="generated"?"AI-made":"AI-assisted")+(p.ai.note?": "+p.ai.note:""))}">${aiShort(p.ai)}</button>`:"";
   const imgs=p.images.length?`<div class="p-imgs n${p.images.length}">${p.images.map((im,i)=>`<button data-pimg="${p.id}:${i}" aria-label="View image ${i+1}"><img src="${esc(im.img)}" alt="" loading="lazy" onerror="this.remove()"></button>`).join("")}</div>`:"";
-  const emb=p.kind?embedHtml(it,p.id,true):p.art?"":(embedFor(p)?embedHtml(embedFor(p),p.id):"");
+  const emb=p.kind?embedHtml(it,p.id,true):(p.art||p.refPost||p.refMedia)?"":(embedFor(p)?embedHtml(embedFor(p),p.id):"");
   const reason=!ctx&&fs.ftab==="foryou"&&fs.reasons&&fs.reasons[p.id]&&!mine?`<span class="reason">${esc(fs.reasons[p.id])}</span>`:"";
   const followBtn=!ctx&&!mine&&!fs.following.has(p.u)&&USERS[p.u]?`<button class="btn sm" data-follow="${esc(p.u)}">Follow</button>`:"";
   const cl=p.comments||[];
-  const comments=open?`<div class="comments">${p.comments===null?`<div class="meta">Loading comments…</div>`:threadHtml(p)}
+  const comments=open?`<div class="comments">${p.comments===null?`<div class="meta">Loading comments…</div>`:quotesHtml(p.quotes)+threadHtml(p)}
     ${REPLYTO[p.id]?`<div class="reply-to">Replying to <b>${esc(U(REPLYTO[p.id].u).name)}</b><button type="button" data-creplyx="${p.id}" aria-label="Cancel reply">×</button></div>`:""}<form class="cmt-form" data-cform="${p.id}"><input id="cmt-${pre}${p.id}" placeholder="Write a comment…" autocomplete="off" aria-label="Comment" maxlength="300"><button type="button" class="icon-btn emo-sm" data-emoji-for="cmt-${pre}${p.id}" aria-label="Add emoji">${smileSvg}</button>${gifBtn("cmt-"+pre+p.id)}<button class="btn sm primary">Reply</button></form></div>`:"";
   return `<article class="post" id="post-${pre}${p.id}" data-pid="${p.id}">
     <button class="p-av-btn" data-user="${esc(p.u)}" aria-label="${esc(u.name)}" style="border:0;background:none;padding:0;align-self:flex-start">${avHtml(p.u)}</button>
@@ -2716,13 +2863,13 @@ function postHtml(p,ctx){
       ${stickerShelf(p)}<div class="p-actions">
         <button class="icon-btn ${liked?"liked":""}" data-like="${p.id}" aria-pressed="${liked}" aria-label="Like">${heartSvg}<span class="n">${p.likes}</span></button>
         <button class="icon-btn" data-cmt="${p.id}" aria-expanded="${open}" aria-label="Comments">${cmtSvg}<span class="n">${p.cc}</span></button>
-        ${stickerBar(p)}<button class="icon-btn p-more" data-pmore="${p.id}" aria-label="More options for this post" title="More">⋯</button>
+        ${p.kind?(it?repostBtn("m",it.id,it.reposts)+saveBtn("m",it.id):""):repostBtn("p",p.id,p.reposts)+saveBtn("p",p.id)}${stickerBar(p)}<button class="icon-btn p-more" data-pmore="${p.id}" aria-label="More options for this post" title="More">⋯</button>
       </div>
       ${comments}
     </div>
   </article>`;
 }
-function refreshPosts(){ if(state.modalPost) renderPostModal(); renderFeed(); if(!$("#view-profile").hidden){ renderTabs(); if(["feed","liked","none","articles"].includes(state.tab)) renderGrid(); } }
+function refreshPosts(){ if(state.modalPost) renderPostModal(); renderFeed(); if(!$("#view-profile").hidden){ renderTabs(); if(["feed","liked","none","articles","saved"].includes(state.tab)) renderGrid(); } }
 const focusCmt=id=>{const el=[...document.querySelectorAll(`[data-cform="${id}"] input`)].find(x=>x.offsetParent); if(el) el.focus();};
 function renderFeed(){
   if(!$("#feed-list")||!ME_ID) return;
@@ -2733,6 +2880,7 @@ function renderFeed(){
   if(fs.ftab==="foryou"){ list=fs.fyOrder.map(id=>posts.find(p=>p.id===id)).filter(Boolean); }
   else list=posts.filter(p=>p.u==="me"||fs.following.has(p.u)).sort((a,b)=>b.t-a.t).slice(0,150);
   const all=list.length; list=list.filter(postVisible);
+  { const seen=new Set(); list=list.filter(p=>{ const k=p.kind==="repost"?(p.refPost||"m"+p.refMedia):p.kind==="media"?"m"+p.itemId:p.id; if(seen.has(k)) return false; seen.add(k); return true; }); }
   $("#feed-top").innerHTML=(fs.tag?`<div class="tagbar">Showing posts tagged <b>#${esc(fs.tag)}</b><button class="btn sm" data-tagf="">Clear</button></div>`:"")
     +(fs.ftab==="foryou"&&fs.stale?`<div class="stale"><button class="btn sm" id="fy-refresh">↻ Update For you with your latest likes</button></div>`:"");
   let html=list.map(p=>postHtml(p)).join("");
@@ -2765,14 +2913,17 @@ function readComposer(){
   const aiLvl=$("#c-ai").value, aiNote=$("#c-ainote").value.trim();
   $("#c-ainote-wrap").hidden=!aiLvl; $("#c-ai-btn").textContent=aiLvl==="generated"?"AI-made ✓":aiLvl==="assisted"?"AI-assisted ✓":"AI label"; $("#c-ai-btn").classList.toggle("on",!!aiLvl);
   const left=500-text.length; const cnt=$("#c-count"); cnt.textContent=left; cnt.classList.toggle("warn",left<40);
-  let ok=!!(text.trim()||imgsRaw.length), errs=[]; const images=[];
+  const pollOn=!$("#c-poll-wrap").hidden, pollOpts=["#c-po1","#c-po2","#c-po3","#c-po4"].map(s=>$(s).value.trim()).filter(Boolean);
+  $("#c-poll-btn").classList.toggle("on",pollOn);
+  let ok=!!(text.trim()||imgsRaw.length||(pollOn&&pollOpts.length>=2)), errs=[]; const images=[];
+  if(pollOn&&pollOpts.length<2) ok=false;
   imgsRaw.forEach((r,i)=>{const pl=parseLink(r); if(!pl||pl.kind!=="image") errs.push(`Link ${i+1} isn't from a supported image site.`); else images.push({img:pl.img});});
   if(imgsRaw.length>4) errs.push("You can add up to 4 images.");
   $("#c-images-msg").innerHTML=errs.length?`<div class="err" style="color:var(--danger);font-size:12.5px;font-weight:600;margin-top:4px">${errs.join(" ")} Supported: ${IMG_SITE_NAMES}.</div>`:"";
   if(errs.length) ok=false;
   if(aiLvl&&!aiNote) ok=false;
   if(text.length>500) ok=false;
-  const p={id:"draft",u:"me",t:Date.now(),text:text.trim(),images,ai:aiLvl?{lvl:aiLvl,note:aiNote}:null,likes:0,comments:[]};
+  const p={id:"draft",u:"me",t:Date.now(),text:text.trim(),images,ai:aiLvl?{lvl:aiLvl,note:aiNote}:null,likes:0,comments:[],newPoll:pollOn?{o:pollOpts,d:$("#c-poll-len").value}:null};
   const emb=embedFor(p);
   $("#c-preview").innerHTML=(images.length?`<div class="p-imgs n${Math.min(images.length,4)}">${images.slice(0,4).map(im=>`<button type="button" tabindex="-1" style="cursor:default"><img src="${esc(im.img)}" alt="" onerror="this.remove()"></button>`).join("")}</div>`:"")+(emb?embedHtml(emb,"draft").replace(/data-pplay="draft"/,'type="button" tabindex="-1"'):"");
   $("#c-post").disabled=!ok;
@@ -2783,9 +2934,9 @@ async function postFromComposer(e){
   e.preventDefault(); if(ART.mode==="article") return; const p=readComposer(); if(!p) return;
   $("#c-post").disabled=true;
   try{
-    const row=await api.insert("posts",{text:p.text,images:p.images,ai:p.ai});
+    const row=await api.insert("posts",{text:p.text,images:p.images,ai:p.ai,...(p.newPoll?{poll:p.newPoll}:{})});
     const np=postFromRow(row); fs.fyOrder.unshift(np.id);
-    ["#c-text","#c-images","#c-ainote"].forEach(s=>$(s).value=""); clearRich(); $("#c-ai").value=""; $("#c-images-wrap").hidden=true; $("#c-ai-wrap").hidden=true; $("#c-ai-btn").setAttribute("aria-expanded","false");
+    ["#c-text","#c-images","#c-ainote","#c-po1","#c-po2","#c-po3","#c-po4"].forEach(s=>$(s).value=""); $("#c-poll-wrap").hidden=true; $("#c-poll-btn").setAttribute("aria-expanded","false"); clearRich(); $("#c-ai").value=""; $("#c-images-wrap").hidden=true; $("#c-ai-wrap").hidden=true; $("#c-ai-btn").setAttribute("aria-expanded","false");
     readComposer(); refreshPosts(); toast("Posted."); if(document.querySelector("#modal-root #composer")) closeModal();
   }catch(err){ fail(err); readComposer(); }
 }
@@ -2857,7 +3008,7 @@ async function toggleLike(p){
 async function openComments(p){
   if(fs.open.has(p.id)){ fs.open.delete(p.id); refreshPosts(); return; }
   fs.open.add(p.id); refreshPosts(); focusCmt(p.id);
-  try{ const rows=await api.get("comments?select=*&order=created_at.asc&limit=200&post_id=eq."+p.id); await ensureUsers(rows.map(r=>r.author));
+  try{ const [rows,qs]=await Promise.all([api.get("comments?select=*&order=created_at.asc&limit=200&post_id=eq."+p.id),loadQuotes("ref_post",p.id)]); await ensureUsers(rows.map(r=>r.author)); p.quotes=qs;
     p.comments=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,likes:r.like_count||0,t:Date.parse(r.created_at)})); p.cc=Math.max(p.cc,p.comments.length); refreshPosts(); focusCmt(p.id); }
   catch(err){ p.comments=[]; refreshPosts(); fail(err); }
 }
@@ -2885,6 +3036,7 @@ document.addEventListener("click",async e=>{
   else if(t.id==="fy-reset"){ fs.interest={}; fs.affinity={}; computeFY(); renderFeed(); toast("For you was reset. It now shows popular and new posts."); }
   else if(t.dataset.ainote){ toast(t.dataset.ainote); }
   else if(t.id==="c-ai-btn"){ const w=$("#c-ai-wrap"); w.hidden=!w.hidden; t.setAttribute("aria-expanded",String(!w.hidden)); if(!w.hidden) $("#c-ai").focus(); }
+  else if(t.id==="c-poll-btn"||t.id==="c-poll-x"){ const w=$("#c-poll-wrap"); w.hidden=t.id==="c-poll-x"?true:!w.hidden; $("#c-poll-btn").setAttribute("aria-expanded",String(!w.hidden)); readComposer(); if(!w.hidden) $("#c-po1").focus(); }
   else if(t.id==="c-add-img"){ const w=$("#c-images-wrap"); w.hidden=!w.hidden; if(!w.hidden) $("#c-images").focus(); }
 });
 /* A small "are you sure?" that replaces the button for a moment, since pop-up confirms are blocked in some browsers. */
@@ -2908,17 +3060,17 @@ async function saveMedia(type,ex){
   const T=TYPES[type], it=updateDraft(type); if(!it) return;
   const v=id=>($("#"+id)||{}).value?.trim()||"";
   if(!draftTags.length){ toast("Pick at least one hashtag so people can find it."); $("#tag-pick")?.scrollIntoView({block:"center"}); return; }
-  const row={tab:T.tab,title:it.title,data:{link:v("f-link"),trailer:v("f-trailer"),cover:v("f-cover"),...(type==="story"?{stype:v("f-stype")||"other",...(v("f-status")?{status:v("f-status")}:{})}:{}),...(v("f-desc")?{desc:v("f-desc").slice(0,1000)}:{})},ai:it.ai,tags:draftTags.slice(0,5)};
+  const row={tab:T.tab,title:it.title,data:{link:v("f-link"),trailer:v("f-trailer"),cover:v("f-cover"),...(type==="music"?{stype:v("f-stype")||"single"}:{}),...(type==="story"?{stype:v("f-stype")||"other",...(v("f-status")?{status:v("f-status")}:{})}:{}),...(v("f-desc")?{desc:v("f-desc").slice(0,1000)}:{})},ai:it.ai,tags:draftTags.slice(0,5)};
   $("#am-submit").disabled=true;
   try{
     if(ex){
       const note=v("f-update"), share=$("#f-share").checked;
       const [r]=await api.update("media","id=eq."+ex.id,{...row,updated_at:new Date().toISOString()});
-      const ni=itemFromRow(r); items=items.map(i=>i.id===ex.id?ni:i);
+      const ni=itemFromRow(r); items=items.map(i=>i.id===ex.id?ni:i); await syncCredits(ex.id);
       closeModal(); renderTabs(); renderGrid(); if(share) await addActivity("update",ex.id,note);
       toast(share?"Saved and shared to your followers' feeds.":"Changes saved.");
     } else {
-      const r=await api.insert("media",row); const ni=itemFromRow(r); const here=!$("#view-profile").hidden&&VIEW.key==="me";
+      const r=await api.insert("media",row); const ni=itemFromRow(r); CREDITS[ni.id]=[]; await syncCredits(ni.id); const here=!$("#view-profile").hidden&&VIEW.key==="me";
       if(here){ items.unshift(ni); state.tab=T.tab; } else if(ni){ MEDIA[ni.id]=ni; if(VIEW.key==="me"&&VIEW.loaded) items.unshift(ni); }
       closeModal(); if(here){ renderTabs(); renderGrid(); } await addActivity("media",ni.id); refreshPosts(); toast(`Posted to ${T.n}. It's also in your followers' feeds.`);
     }
@@ -2939,14 +3091,14 @@ async function exportData(){
       api.get("posts?select=id,kind,text,images,ai,article,created_at&author=eq."+ME_ID).then(async ps=>{ const ids=ps.filter(x=>x.kind==="article").map(x=>x.id);
         const b=ids.length?await api.get("article_bodies?select=post_id,body&post_id="+inList(ids)).catch(()=>[]):[]; ps.forEach(x=>{ const f=b.find(y=>y.post_id===x.id); if(f) x.article_text=f.body; delete x.id; }); return ps; }),
       api.get("comments?select=*&author=eq."+ME_ID),
-      api.get("likes?select=post_id,created_at"),
+      api.get("likes?select=post_id,created_at").then(async l=>{ try{ const [sv,pv]=await Promise.all([api.get("saves?select=post_id,media_id,created_at"),api.get("poll_votes?select=post_id,choice,created_at")]); l.saved=sv; l.poll_votes=pv; }catch(_){} return l; }),
       api.get("follows?select=following,created_at&follower=eq."+ME_ID),
       api.get("reports?select=target_type,part,reason,note,status,created_at&reporter=eq."+ME_ID)]);
     await ensureUsers(follows.map(f=>f.following));
     const data={exported:new Date().toISOString(),
       note:"Everything Power Creep stores about your account. Your password is never stored in readable form, so it isn't included.",
       account:{email:api.session&&api.session.user?api.session.user.email:null},
-      profile:profile[0],media,posts:myPosts,comments,likes,
+      profile:profile[0],media,posts:myPosts,comments,likes,saved:likes.saved||[],poll_votes:likes.poll_votes||[],
       following:follows.map(f=>({user:U(keyOf(f.following)).handle,since:f.created_at})),reports_you_sent:reps,...(await levelExport())};
     const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"})); a.download="power-creep-data.json";
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); toast("Your data was downloaded.");
@@ -3146,7 +3298,7 @@ async function openNotifs(){
     const [ns,staff]=await Promise.all([
       api.get("notifications?select=*&order=created_at.desc&limit=50"),
       api.get("notices?select=*&order=created_at.desc&limit=20")]);
-    await ensureUsers(ns.map(n=>n.actor));
+    await Promise.all([ensureUsers(ns.map(n=>n.actor)), ensureMedia(ns.filter(n=>n.kind==="repost"||n.kind==="quote"||n.kind==="credit").map(n=>n.media_id).filter(Boolean)).catch(()=>{})]);
     const cids=ns.filter(n=>n.comment_id).map(n=>n.comment_id);
     const cm=cids.length?await api.get("comments?select=id,text&id="+inList(cids)):[];
     const gids=ns.filter(n=>n.entry_id).map(n=>n.entry_id);
@@ -3162,6 +3314,8 @@ async function openNotifs(){
         if(n.kind==="levelup"){ const rk=rankOf(n.level||1); return `<a class="np-item ${x.read?"":"unread"}" href="#quests"><span class="mini-av" style="background:${rk[2]};color:#111;font-size:18px">⚡</span><div class="np-t"><div>You reached <b>level ${Number(n.level)||""}</b>${(n.level||1)===rk[0]?` and the rank <b>${rk[1]}</b>`:""}! You got Volts to spend in the shop.</div><span>${timeAgo(x.t)} ago</span></div></a>`; }
         if(n.kind==="gift"){ const it=LV.items.find(i=>i.id===n.item_id); const nm=it?`${esc(it.name)} ${KIND_WORD[it.kind]}`:"a gift"; return `<a class="np-item ${x.read?"":"unread"}" href="${it&&it.kind==="badge"?"#u/"+esc(U("me").username):it&&it.kind!=="sticker"?"#shop":"#feed"}">${avHtml(k)}<div class="np-t"><div>🎁 ${who} gave you the <b>${nm}</b>!${it&&it.kind!=="sticker"&&it.kind!=="badge"?" Put it on in Customize.":""}</div><span>${timeAgo(x.t)} ago</span></div></a>`; }
         if(n.kind==="reply"){ const c=cm.find(c=>c.id===n.comment_id); return `<button class="np-item ${x.read?"":"unread"}" ${n.media_id?`data-mopen="${n.media_id}"`:`data-npost="${n.post_id}"`}>${avHtml(k)}<div class="np-t"><div>${who} replied to your comment${c?(c.text?`: “${esc(c.text.slice(0,90))}${c.text.length>90?"…":""}”`:" with a GIF"):""}</div><span>${timeAgo(x.t)} ago</span></div></button>`; }
+        if(n.kind==="repost"||n.kind==="quote"){ const it=n.media_id&&mediaById(n.media_id); return `<button class="np-item ${x.read?"":"unread"}" ${n.kind==="repost"&&n.media_id?`data-mopen="${n.media_id}"`:`data-npost="${n.post_id}"`}>${avHtml(k)}<div class="np-t"><div>${who} reposted your ${n.media_id?(it?`<b>${esc(it.title)}</b>`:"upload"):"post"}${n.kind==="quote"?" with a comment":""}</div><span>${timeAgo(x.t)} ago</span></div></button>`; }
+        if(n.kind==="credit"){ const it=n.media_id&&mediaById(n.media_id); return `<button class="np-item ${x.read?"":"unread"}" data-mopen="${n.media_id}">${avHtml(k)}<div class="np-t"><div>${who} credited you on ${it?`<b>${esc(it.title)}</b>`:"their upload"}. It's on your profile now.</div><span>${timeAgo(x.t)} ago</span></div></button>`; }
         if(n.kind==="follow") return `<button class="np-item ${x.read?"":"unread"}" data-user="${esc(k)}">${avHtml(k)}<div class="np-t"><div>${who} started following you</div><span>${timeAgo(x.t)} ago</span></div></button>`;
         const c=cm.find(c=>c.id===n.comment_id);
         return `<button class="np-item ${x.read?"":"unread"}" ${n.media_id?`data-mopen="${n.media_id}"`:`data-npost="${n.post_id}"`}>${avHtml(k)}<div class="np-t"><div>${who} commented on your ${n.media_id?"upload":"post"}${c?(c.text?`: “${esc(c.text.slice(0,90))}${c.text.length>90?"…":""}”`:" with a GIF"):""}</div><span>${timeAgo(x.t)} ago</span></div></button>`;
@@ -3479,19 +3633,25 @@ function addOwnTag(tab){ const t=cleanTag($("#tp-own").value); if(!t) return; if
 
 /* ===================== MEDIA CARDS (profiles + browse pages) ===================== */
 const myMediaLikes=new Set();
+// "with @a, @b" under a card, only when someone else is credited. On a credited person's profile: "Credited · Music"
+function creditLine(it,showOwner){ const cr=(CREDITS[it.id]||[]).filter(c=>USERS[keyOf(c.id)]&&!hiddenId(c.id));
+  const onProf=!showOwner&&!$("#view-profile").hidden&&VIEW.key&&it.owner!==idOf(VIEW.key);
+  if(onProf){ const mine=cr.find(c=>c.id===idOf(VIEW.key)); const ok=keyOf(it.owner); return `<div class="cr-line"><span class="cr-tag">Credited</span>${mine?esc(mine.role)+" · ":""}by <button class="linkbtn" data-user="${esc(ok)}">${esc(U(ok).name)}</button></div>`; }
+  if(!cr.length) return "";
+  return `<div class="cr-line"><span class="cr-stack">${cr.slice(0,3).map(c=>avHtml(keyOf(c.id))).join("")}</span><span>with ${cr.slice(0,3).map(c=>`<b>${esc(U(keyOf(c.id)).name)}</b>`).join(", ")}${cr.length>3?` and ${cr.length-3} more`:""}</span></div>`; }
 function cardHtml(it,showOwner){
   const own=it.owner===ME_ID;
   return `<article class="card">
 ${thumbHtml(it)}
     <div class="card-body">
       <h3><button class="card-title" data-mopen="${it.id}">${esc(it.title)}</button>${isNewUpdate(it)?`<span class="upd">Updated</span>`:""}${it.hidden?`<span class="tag red" style="margin-left:6px">Hidden by staff</span>`:""}</h3>
-      ${showOwner&&USERS[keyOf(it.owner)]?`<button class="card-owner" data-user="${esc(keyOf(it.owner))}">${avHtml(keyOf(it.owner))}<span>${esc(U(keyOf(it.owner)).name)}</span>${staffTag(keyOf(it.owner))}</button>`:`<div class="meta">${esc(it.meta)}</div>`}
-      ${it.coll?`<span class="coll-tag">${it.coll==="Album"?"💿":"🎵"} ${esc(it.coll)}</span>`:""}${it.tags&&it.tags.length?`<div class="card-tags">${it.tags.map(t=>`<button class="btag" data-btag="${it.tab}:${t}">#${esc(t)}</button>`).join("")}</div>`:""}
+      ${creditLine(it,showOwner)}${showOwner&&USERS[keyOf(it.owner)]?`<button class="card-owner" data-user="${esc(keyOf(it.owner))}">${avHtml(keyOf(it.owner))}<span>${esc(U(keyOf(it.owner)).name)}</span>${staffTag(keyOf(it.owner))}</button>`:`<div class="meta">${esc(it.meta)}</div>`}
+      ${it.coll?`<span class="coll-tag">${collIcon(it)} ${esc(it.coll)}</span>`:""}${it.tags&&it.tags.length?`<div class="card-tags">${it.tags.map(t=>`<button class="btag" data-btag="${it.tab}:${t}">#${esc(t)}</button>`).join("")}</div>`:""}
       ${labelsHtml(it)}
       <div class="card-foot">
         <span class="card-acts">
           <button class="icon-btn ${it.liked?"liked":""}" data-mlike="${it.id}" aria-pressed="${!!it.liked}" aria-label="Like">${heartSvg}<span class="n">${it.likes||0}</span></button>
-          <button class="icon-btn" data-mopen="${it.id}" aria-label="Comments">${cmtSvg}<span class="n">${it.cc||0}</span></button>
+          <button class="icon-btn" data-mopen="${it.id}" aria-label="Comments">${cmtSvg}<span class="n">${it.cc||0}</span></button>${saveBtn("m",it.id)}
         </span>
         ${own&&state.role==="owner"&&!showOwner?`<span style="display:flex;gap:2px"><button class="icon-btn" data-editm="${it.id}">Edit</button><button class="icon-btn" data-remove="${it.id}">Remove</button></span>`
           :own?"":`<button class="icon-btn" data-report="${it.id}" aria-label="Report">${flagSvg}${state.reported.has("media-"+it.id)?"Reported":"Report"}</button>`}
@@ -3523,6 +3683,8 @@ async function openItem(id){
   $("#modal-root").innerHTML=`<div class="scrim" id="scrim"><div class="modal wide item-modal" role="dialog" aria-modal="true" aria-labelledby="im-t"><div id="item-body"></div><div class="modal-actions"><button class="btn ghost" id="im-close">Close</button></div></div></div>`;
   $("#im-close").onclick=closeModal; $("#scrim").addEventListener("click",e=>{if(e.target.id==="scrim")closeModal()});
   renderItemModal();
+  loadCredits([id]).then(()=>{ if(state.modalItem===id) renderItemModal(); });
+  loadQuotes("ref_media",id).then(qs=>{ it.quotes=qs; if(state.modalItem===id) renderItemModal(); });
   try{ const rows=await api.get("comments?select=*&order=created_at.asc&limit=300&media_id=eq."+id); await ensureUsers(rows.map(r=>r.author));
     it.comments=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,likes:r.like_count||0,t:Date.parse(r.created_at)})); it.cc=Math.max(it.cc||0,it.comments.length); renderItemModal(); }
   catch(err){ it.comments=[]; renderItemModal(); fail(err); }
@@ -3535,15 +3697,16 @@ function renderItemModal(){
       <button class="card-owner" data-user="${esc(ok)}">${avHtml(ok)}<span>${esc(U(ok).name)}</span>${staffTag(ok)}</button>
       <div class="meta">${esc(it.meta)} · added ${timeAgo(Date.parse(it.created||Date.now()))} ago</div>
       ${it.story?labelsHtml({...it,ai:null}):chip(it.plat)?`<div class="card-labels">${chip(it.plat)}</div>`:""}
-      ${it.coll?`<span class="coll-tag">${it.coll==="Album"?"💿":"🎵"} ${esc(it.coll)}</span>`:""}${it.tags&&it.tags.length?`<div class="card-tags">${it.tags.map(t=>`<button class="btag" data-btag="${it.tab}:${t}">#${esc(t)}</button>`).join("")}</div>`:""}
+      ${it.coll?`<span class="coll-tag">${collIcon(it)} ${esc(it.coll)}</span>`:""}${it.tags&&it.tags.length?`<div class="card-tags">${it.tags.map(t=>`<button class="btag" data-btag="${it.tab}:${t}">#${esc(t)}</button>`).join("")}</div>`:""}
       ${it.desc?`<div class="im-desc">${linkify(it.desc)}</div>`:""}
       ${it.ai?`<div class="ai-note"><b>${it.ai.lvl==="generated"?"AI-made":"AI-assisted"}:</b> ${esc(it.ai.note)}</div>`:""}
-      <div class="p-actions"><button class="icon-btn ${it.liked?"liked":""}" data-mlike="${it.id}" aria-pressed="${!!it.liked}">${heartSvg}<span class="n">${it.likes||0}</span> Like</button>
+      ${(CREDITS[it.id]||[]).length?`<div><b style="font-size:13px">Made with</b><div class="cr-list">${CREDITS[it.id].map(c=>{ const k=keyOf(c.id); return `<div class="who">${avHtml(k)}<button class="linkbtn" data-user="${esc(k)}" style="font-weight:700">${esc(U(k).name)}</button><span class="meta">${esc(c.role)}</span>${c.id===ME_ID?`<button class="btn sm ghost" data-uncredit="${it.id}" style="margin-left:auto">Remove me</button>`:""}</div>`; }).join("")}</div></div>`:""}
+      <div class="p-actions"><button class="icon-btn ${it.liked?"liked":""}" data-mlike="${it.id}" aria-pressed="${!!it.liked}">${heartSvg}<span class="n">${it.likes||0}</span> Like</button>${repostBtn("m",it.id,it.reposts)}${saveBtn("m",it.id)}
         ${it.story?`<a class="btn primary" style="text-decoration:none" href="${esc(it.url)}" target="_blank" rel="noopener nofollow ugc">${it.stype==="review"&&it.plat==="youtube"?"Watch":"Read"} on ${esc(platName(it))} ↗</a>`:urlOf(it)?`<a class="icon-btn" href="${esc(urlOf(it))}" target="_blank" rel="noopener nofollow ugc">↗ Open on ${PLAT[it.plat].n}</a>`:""}
         ${it.owner!==ME_ID?`<button class="icon-btn" data-report="${it.id}">${flagSvg}Report</button>`:""}</div>
     </div></div>
     <h3 class="im-h">Comments <span class="meta">${it.cc||0}</span></h3>
-    <div class="comments im-comments">${cl===null?`<div class="meta">Loading comments…</div>`:cl.length?cl.filter(c=>!hiddenKey(c.u)).map(c=>`<div class="cmt">${avHtml(c.u)}<div class="cmt-b"><button class="p-name" style="font-size:13.5px" data-user="${esc(c.u)}">${nameHtml(c.u)}</button>${lvChip(c.u)}${staffTag(c.u)} <span class="meta">${timeAgo(c.t)}</span>${c.u==="me"||it.owner===ME_ID?`<button class="cmt-report" data-mcdel="${c.id}">Delete</button>`:""}${c.u!=="me"?`<button class="cmt-report" data-mcrep="${c.id}">${state.reported.has("comment-"+c.id)?"Reported":"Report"}</button>`:""}<div>${linkify(c.text)}</div>${c.gif?gifImg(c.gif):""}</div></div>`).join(""):`<div class="meta">No comments yet. Say something nice!</div>`}
+    <div class="comments im-comments">${quotesHtml(it.quotes)}${cl===null?`<div class="meta">Loading comments…</div>`:cl.length?cl.filter(c=>!hiddenKey(c.u)).map(c=>`<div class="cmt">${avHtml(c.u)}<div class="cmt-b"><button class="p-name" style="font-size:13.5px" data-user="${esc(c.u)}">${nameHtml(c.u)}</button>${lvChip(c.u)}${staffTag(c.u)} <span class="meta">${timeAgo(c.t)}</span>${c.u==="me"||it.owner===ME_ID?`<button class="cmt-report" data-mcdel="${c.id}">Delete</button>`:""}${c.u!=="me"?`<button class="cmt-report" data-mcrep="${c.id}">${state.reported.has("comment-"+c.id)?"Reported":"Report"}</button>`:""}<div>${linkify(c.text)}</div>${c.gif?gifImg(c.gif):""}</div></div>`).join(""):`<div class="meta">No comments yet. Say something nice!</div>`}
       <form class="cmt-form" id="im-form"><input id="im-cmt" placeholder="Write a comment…" autocomplete="off" aria-label="Comment" maxlength="300"><button type="button" class="icon-btn emo-sm" data-emoji-for="im-cmt" aria-label="Add emoji">${smileSvg}</button>${gifBtn("im-cmt")}<button class="btn sm primary">Reply</button></form></div>`;
   fillScThumbs();
 }
@@ -3563,9 +3726,9 @@ async function loadBrowse(more){
   if(BROWSE.loading) return; BROWSE.loading=true;
   if(!more){ BROWSE.items=[]; BROWSE.done=false; renderBrowse(); }
   try{
-    const rows=await api.rpc("browse_media",{p_tab:BROWSE.tab,p_sort:BROWSE.sort,p_days:BROWSE.sort==="latest"?null:BROWSE.days,p_tag:BROWSE.tag,p_limit:40,p_offset:more?BROWSE.items.length:0,...(BROWSE.tab==="stories"&&BROWSE.stype?{p_stype:BROWSE.stype}:{})});
+    const rows=await api.rpc("browse_media",{p_tab:BROWSE.tab,p_sort:BROWSE.sort,p_days:BROWSE.sort==="latest"?null:BROWSE.days,p_tag:BROWSE.tag,p_limit:40,p_offset:more?BROWSE.items.length:0,...((BROWSE.tab==="stories"||BROWSE.tab==="music")&&BROWSE.stype?{p_stype:BROWSE.stype}:{})});
     await ensureUsers(rows.map(r=>r.owner));
-    const got=rows.map(itemFromRow).filter(Boolean);
+    const got=rows.map(itemFromRow).filter(Boolean); await loadCredits(got.map(i=>i.id));
     BROWSE.items=more?BROWSE.items.concat(got):got; BROWSE.done=rows.length<40;
   }catch(err){ fail(err); }
   BROWSE.loading=false; renderBrowse();
@@ -3580,8 +3743,8 @@ function renderBrowse(){
     ...TAG_PRESETS[BROWSE.tab].map(t=>`<button class="btag big" data-bfilter="${t}" aria-pressed="${BROWSE.tag===t}">#${t}</button>`),
     ...(BROWSE.tag&&!TAG_PRESETS[BROWSE.tab].includes(BROWSE.tag)?[`<button class="btag big" data-bfilter="${esc(BROWSE.tag)}" aria-pressed="true">#${esc(BROWSE.tag)}</button>`]:[])].join("");
   document.querySelectorAll("#view-browse [data-f]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===state.filter));
-  const bt=$("#br-types"); bt.hidden=BROWSE.tab!=="stories";
-  if(!bt.hidden) bt.innerHTML=[["","All types"],...Object.entries(STYPES)].map(([k,n])=>`<button class="btn sm ${(BROWSE.stype||"")===k?"primary":""}" data-bstype="${k}" aria-pressed="${(BROWSE.stype||"")===k}">${n}</button>`).join("");
+  const bt=$("#br-types"), TY=BROWSE.tab==="stories"?STYPES:BROWSE.tab==="music"?MTYPES:null; bt.hidden=!TY;
+  if(!bt.hidden) bt.innerHTML=[["","All types"],...Object.entries(TY)].map(([k,n])=>`<button class="btn sm ${(BROWSE.stype||"")===k?"primary":""}" data-bstype="${k}" aria-pressed="${(BROWSE.stype||"")===k}">${n}</button>`).join("");
   $("#br-grid").classList.toggle("stories",BROWSE.tab==="stories");
   renderBrowseGrid();
 }
@@ -3621,7 +3784,8 @@ async function runSearch(q,limits){
     api.get(`profiles?select=*&or=(username.ilike.${pat},display_name.ilike.${pat})&order=username.asc&limit=${limits[0]}`),
     api.get(`media?select=*&title=ilike.${mpat}&order=like_count.desc&limit=${limits[1]}`)]);
   users.forEach(putUser); await ensureUsers(media.map(m=>m.owner));
-  return {users:users.map(r=>keyOf(r.id)),media:media.map(itemFromRow).filter(it=>it&&!hiddenId(it.owner))};
+  const mm=media.map(itemFromRow).filter(it=>it&&!hiddenId(it.owner)); await loadCredits(mm.map(i=>i.id));
+  return {users:users.map(r=>keyOf(r.id)),media:mm};
 }
 const userRow=k=>{ const u=U(k); return `<a class="sr-item" href="#u/${esc(u.username)}">${avHtml(k)}<span class="sr-t"><b>${esc(u.name)}${staffTag(k)}</b><span>${esc(u.handle)}${u.title?" · "+esc(u.title):""}</span></span></a>`; };
 const mediaRow=it=>`<button class="sr-item" data-mopen="${it.id}"><span class="sr-thumb" style="${grad(it.h)}">${imgOf(it)?`<img src="${esc(imgOf(it))}" alt="" onerror="this.remove()">`:""}</span><span class="sr-t"><b>${esc(it.title)}</b><span>${esc(U(keyOf(it.owner)).name)} · ${esc(PLAT[it.plat].n)}</span></span></button>`;
@@ -3788,7 +3952,7 @@ async function route(){
     renderProfile(); setNav("profile",key==="me"); return;
   }
   if(["games","art","music","videos","stories"].includes(v)){ showSection("browse"); setNav(v);
-    if(BROWSE.tab!==v||!BROWSE.loaded||BROWSE.forceTag){ if(BROWSE.tab!==v&&!BROWSE.forceTag) BROWSE.tag=null; BROWSE.forceTag=false; BROWSE.tab=v; BROWSE.loaded=true; loadBrowse(); } else renderBrowse(); return; }
+    if(BROWSE.tab!==v||!BROWSE.loaded||BROWSE.forceTag){ if(BROWSE.tab!==v&&!BROWSE.forceTag) BROWSE.tag=null; if(BROWSE.tab!==v) BROWSE.stype=null; BROWSE.forceTag=false; BROWSE.tab=v; BROWSE.loaded=true; loadBrowse(); } else renderBrowse(); return; }
   if(v==="help"){ showSection("help"); setNav("help"); $("#help-sites").textContent=IMG_SITE_NAMES; document.title="Help · Power Creep"; window.scrollTo(0,0); return; }
   if(v==="search"){ showSection("search"); setNav("search"); if(!SEARCH.q){ location.hash="feed"; return; } $("#search-in").value=SEARCH.q; openSearchPage(); return; }
   if(v==="staff"&&U("me").staff){ showSection("staff"); setNav("staff"); $("#staff-body").innerHTML=`<div class="empty">Loading reports…</div>`; try{ await loadStaff(); }catch(e){ fail(e); } renderStaff(); return; }
@@ -4418,11 +4582,15 @@ async function toggleCmtLike(pid,cid,btn){
 let PP=null;
 function cmtHtml(p,c,isReply){
   return `<div class="cmt${isReply?" reply":""}" id="c-${c.id}">${avHtml(c.u)}<div class="cmt-b"><button class="p-name" style="font-size:13.5px" data-user="${esc(c.u)}">${nameHtml(c.u)}</button>${lvChip(c.u)}${staffTag(c.u)} <span class="meta">${timeAgo(c.t)}</span>${c.u!=="me"?`<button class="cmt-report" data-creport="${p.id}:${c.id}">${state.reported.has("comment-"+c.id)?"Reported":"Report"}</button>`:`<button class="cmt-report" data-cdel="${p.id}:${c.id}">Delete</button>`}<div>${linkify(c.text)}</div>${c.gif?gifImg(c.gif):""}<div class="cmt-acts"><button class="cmt-like ${myCmtLikes.has(c.id)?"liked":""}" data-clike="${p.id}:${c.id}" aria-pressed="${myCmtLikes.has(c.id)}" aria-label="Like this comment">${heartSvg}${c.likes?`<span>${c.likes}</span>`:""}</button><button class="cmt-reply" data-creply="${p.id}:${c.id}">Reply</button></div></div></div>`; }
+// "X reposted with a comment" shown above the comments of the original
+function quotesHtml(qs){ qs=(qs||[]).filter(q=>!hiddenKey(q.u)); if(!qs.length) return "";
+  return `<div class="q-cmts">${qs.map(q=>`<a class="q-cmt" href="#p/${q.id}">${avHtml(q.u)}<span class="q-b"><b>${nameHtml(q.u)}</b> <span class="meta">reposted with a comment · ${timeAgo(q.t)}</span><br><span>${esc(q.text.slice(0,300))}</span></span></a>`).join("")}</div>`; }
+async function loadQuotes(col,id){ try{ return await loadPosts(`order=created_at.asc&limit=50&kind=is.null&${col}=eq.${id}`); }catch(_){ return []; } }
 function threadHtml(p){
   const cl=(p.comments||[]).filter(c=>!hiddenKey(c.u)), ids=new Set(cl.map(c=>c.id));
   return cl.filter(c=>!c.parent||!ids.has(c.parent)).map(c=>cmtHtml(p,c)+cl.filter(x=>x.parent===c.id).map(x=>cmtHtml(p,x,true)).join("")).join(""); }
 async function fetchComments(p){
-  try{ const rows=await api.get("comments?select=*&order=created_at.asc&limit=300&post_id=eq."+p.id); await ensureUsers(rows.map(r=>r.author));
+  try{ const [rows,qs]=await Promise.all([api.get("comments?select=*&order=created_at.asc&limit=300&post_id=eq."+p.id),loadQuotes("ref_post",p.id)]); await ensureUsers(rows.map(r=>r.author)); p.quotes=qs;
     p.comments=rows.map(r=>({id:r.id,u:keyOf(r.author),text:r.text||"",gif:cleanGif(r.gif),parent:r.parent_id||null,likes:r.like_count||0,t:Date.parse(r.created_at)})); p.cc=Math.max(p.cc,p.comments.length); }
   catch(err){ p.comments=p.comments||[]; fail(err); }
 }
@@ -4462,6 +4630,106 @@ document.addEventListener("click",e=>{
   if(String(getSelection())) return;
   location.hash="p/"+art.dataset.pid;
 });
+
+
+/* ===================== POLLS, REPOSTS, SAVES, CREDITS ===================== */
+async function votePoll(pid,i){ const p=posts.find(x=>x.id===pid); if(!p||!p.poll||pid in MYVOTES) return;
+  if(Date.now()>p.poll.ends){ toast("This poll has ended."); return; }
+  MYVOTES[pid]=i; p.pollCounts[i]=(p.pollCounts[i]||0)+1; refreshPosts();
+  try{ await api.insert("poll_votes",{post_id:pid,choice:i}); }
+  catch(err){ if(/duplicate/i.test(err.message)) return; delete MYVOTES[pid]; p.pollCounts[i]=Math.max(0,p.pollCounts[i]-1); refreshPosts(); fail(err); } }
+function repostTarget(key){ const [k,id]=key.split(":"); return k==="p"?{k,id,post:posts.find(x=>x.id===id)}:{k,id,item:mediaById(id)}; }
+function bumpReposts(key,d){ const t=repostTarget(key); if(t.post) t.post.reposts=Math.max(0,(t.post.reposts||0)+d); if(t.item) t.item.reposts=Math.max(0,(t.item.reposts||0)+d); }
+function rerenderAll(){ refreshPosts(); if(state.modalItem) renderItemModal(); if(!$("#view-browse").hidden) renderBrowseGrid(); if(!$("#view-profile").hidden&&TABS.some(t=>t[0]===state.tab)) renderGrid(); if(!$("#view-profile").hidden&&state.tab==="saved") renderGrid(); }
+async function undoRepost(key){ const rid=MYREPOSTS[key]; if(!rid) return;
+  try{ await api.remove("posts","id=eq."+rid); delete MYREPOSTS[key]; posts=posts.filter(p=>p.id!==rid); bumpReposts(key,-1); rerenderAll(); toast("Repost removed."); }catch(err){ fail(err); } }
+function openRepost(key){
+  const t=repostTarget(key); if(!t.post&&!t.item) return;
+  const owner=t.post?t.post.u:keyOf(t.item.owner);
+  if(BLOCKED.has(idOf(owner))) return toast("You can't repost from someone you've blocked.");
+  const prev=t.post?quoteHtml({refPost:t.id}):embedHtml(t.item,"rp",true).replace(/data-mopen="[^"]*"/,'tabindex="-1"');
+  $("#modal-root").innerHTML=`<div class="scrim" id="scrim"><div class="modal rp-modal" role="dialog" aria-modal="true" aria-labelledby="rpt"><h2 id="rpt">Repost</h2>
+    <p class="sub">Say something about it, or leave it empty to just share it with your followers.</p>
+    <textarea id="rp-text" maxlength="500" placeholder="Add a comment (optional)…" aria-label="Your comment"></textarea>
+    <div class="rp-prev" style="pointer-events:none">${prev}</div>
+    <div class="modal-actions"><button class="btn ghost" id="rp-cancel">Cancel</button><button class="btn primary" id="rp-go">Repost</button></div></div></div>`;
+  $("#rp-cancel").onclick=closeModal; $("#scrim").addEventListener("click",e=>{ if(e.target.id==="scrim") closeModal(); });
+  setTimeout(()=>$("#rp-text").focus(),30);
+  $("#rp-go").onclick=async()=>{ const text=$("#rp-text").value.trim(), btn=$("#rp-go"); btn.disabled=true;
+    const ref=t.k==="p"?{ref_post:t.id}:{ref_media:t.id};
+    if(!text&&MYREPOSTS[key]){ closeModal(); return toast("You already reposted this."); }
+    try{ const row=await api.insert("posts",text?{text,...ref}:{kind:"repost",...ref}); const np=postFromRow(row); fs.fyOrder.unshift(np.id);
+      if(!text) MYREPOSTS[key]=np.id; bumpReposts(key,1); if(text&&t.post&&t.post.quotes) t.post.quotes.push(np); if(text&&t.item&&t.item.quotes) t.item.quotes.push(np);
+      closeModal(); rerenderAll(); toast(text?"Reposted with your comment.":"Reposted to your followers."); }
+    catch(err){ btn.disabled=false; fail(/duplicate/i.test(err.message)?new Error("You already reposted this."):err); } };
+}
+async function toggleSave(key){ const [k,id]=key.split(":"), on=!isSaved(k,id);
+  if(on) SAVED.unshift({k,id,t:Date.now()}); else SAVED=SAVED.filter(x=>!(x.k===k&&x.id===id));
+  rerenderAll(); if(!$("#view-profile").hidden) renderTabs();
+  try{ if(on){ await api.insert("saves",k==="p"?{post_id:id}:{media_id:id}); toast("Saved. Find it in the Saved tab on your profile."); }
+       else await api.remove("saves",(k==="p"?"post_id=eq.":"media_id=eq.")+id+"&user_id=eq."+ME_ID); }
+  catch(err){ if(/duplicate/i.test(err.message)) return; if(on) SAVED=SAVED.filter(x=>!(x.k===k&&x.id===id)); else SAVED.unshift({k,id,t:Date.now()}); rerenderAll(); fail(err); } }
+document.addEventListener("click",e=>{ const t=e.target.closest("[data-vote],[data-repost],[data-save],[data-unrepost],[data-uncredit],[data-svf]"); if(!t) return;
+  if(t.dataset.vote){ const [pid,i]=t.dataset.vote.split(":"); votePoll(pid,+i); }
+  else if(t.dataset.repost){ const k=t.dataset.repost; if(MYREPOSTS[k]) undoRepost(k); else openRepost(k); }
+  else if(t.dataset.unrepost){ const p=posts.find(x=>x.id===t.dataset.unrepost); if(p) undoRepost(p.refPost?"p:"+p.refPost:"m:"+p.refMedia); }
+  else if(t.dataset.save){ e.preventDefault(); e.stopPropagation(); toggleSave(t.dataset.save); }
+  else if(t.dataset.uncredit){ const id=t.dataset.uncredit; confirmInline(t,"Remove?",async()=>{ try{ await api.remove("media_credits","media_id=eq."+id+"&user_id=eq."+ME_ID); CREDITS[id]=(CREDITS[id]||[]).filter(c=>c.id!==ME_ID); rerenderAll(); toast("You were removed from the credits."); }catch(err){ fail(err); } }); }
+  else if(t.dataset.svf!==undefined){ state.svf=t.dataset.svf; renderGrid(); }
+},true);
+
+/* ---------- Saved tab (only you see it) ---------- */
+const SV_FILTERS=[["all","All"],["p","Posts"],["games","Games"],["music","Music"],["art","Art"],["videos","Videos"],["stories","Stories"]];
+async function loadSavedThings(){ if(state.svLoading) return; const needP=SAVED.filter(x=>x.k==="p"&&!posts.some(p=>p.id===x.id)).map(x=>x.id), needM=SAVED.filter(x=>x.k==="m"&&!MEDIA[x.id]).map(x=>x.id);
+  if(!needP.length&&!needM.length) return; state.svLoading=true;
+  try{ await Promise.all([needP.length?loadPosts("id="+inList(needP.slice(0,300))):null, ensureMedia(needM.slice(0,300))]); }catch(_){}
+  state.svLoading=false; state.svTried=true; if(state.tab==="saved") renderGrid(); }
+function savedHtml(){
+  const f=state.svf||"all";
+  const rows=SAVED.map(x=>x.k==="p"?{x,p:posts.find(p=>p.id===x.id)}:{x,it:MEDIA[x.id]}).filter(r=>r.p||r.it)
+    .filter(r=>f==="all"||(f==="p"?!!r.p:r.it&&r.it.tab===f))
+    .filter(r=>r.p?!hiddenKey(r.p.u):!hiddenId(r.it.owner));
+  const missing=SAVED.some(x=>x.k==="p"?!posts.some(p=>p.id===x.id):!MEDIA[x.id]);
+  if(missing&&!state.svTried) loadSavedThings();
+  const row=r=>{ if(r.p){ const p=r.p, img=p.images[0]?p.images[0].img:p.art&&p.art.c, title=p.art?p.art.t:(p.text||"Post with images").slice(0,90);
+      return `<div style="display:flex;gap:6px;align-items:center"><a class="sv-row" href="#p/${p.id}"><span class="t ${img?"":"sq"}" ${img?`style="background-image:url(&quot;${esc(img.replace(/["\\()]/g,encodeURIComponent))}&quot;)"`:""}>${img?"":p.poll?"📊":"✍️"}</span><span class="tx"><b>${esc(title)}</b><span>${p.art?"Article":"Post"} · by ${esc(U(p.u).name)} · saved ${timeAgo(r.x.t)} ago</span></span></a>${saveBtn("p",p.id)}</div>`; }
+    const it=r.it, img=imgOf(it);
+    return `<div style="display:flex;gap:6px;align-items:center"><button class="sv-row" data-mopen="${it.id}"><span class="t ${it.sq||it.tall?"sq":""}" style="${img?`background-image:url(&quot;${esc(img.replace(/["\\()]/g,encodeURIComponent))}&quot;)`:grad(it.h)}"></span><span class="tx"><b>${esc(it.title)}</b><span>${esc(it.meta)} · by ${esc(U(keyOf(it.owner)).name)}</span></span></button>${saveBtn("m",it.id)}</div>`; };
+  return `<p class="private-note"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Only you can see this tab. Press the bookmark on any post, game, track or artwork to save it here.</p>
+    <div class="sv-filters">${SV_FILTERS.map(([k,n])=>`<button class="btag big" data-svf="${k}" aria-pressed="${f===k}">${n}</button>`).join("")}</div>
+    <div class="sv-list">${rows.length?rows.map(row).join(""):`<div class="empty">${state.svLoading?"Loading…":SAVED.length&&f!=="all"?"Nothing saved in this group.":"Nothing saved yet."}</div>`}</div>`;
+}
+
+/* ---------- Credits in the add/edit form ---------- */
+let draftCredits=[];
+const CREDIT_ROLES=["Music","Art","Code","Writing","Voice","Sound","Animation","Design","Other"];
+function creditsFieldHtml(){ return `<div class="field"><label for="f-cr-in">Made with <i>(optional, up to 8 people)</i></label><div class="cr-edit"><div id="f-cr-list" class="cr-edit"></div>
+  <div class="cz-row"><input id="f-cr-in" placeholder="@username" autocomplete="off" style="flex:1;min-width:120px"><select id="f-cr-role" aria-label="What they did">${CREDIT_ROLES.map(r=>`<option>${r}</option>`).join("")}</select><button type="button" class="btn sm" id="f-cr-add">Add</button></div></div>
+  <div class="hint">They get a notification, and it shows on their profile too. They can remove themselves.</div></div>`; }
+function drawCreditList(){ const el=$("#f-cr-list"); if(!el) return;
+  el.innerHTML=draftCredits.map((c,i)=>{ const k=keyOf(c.id); return `<div class="cr-p">${avHtml(k)}<b>${esc(U(k).name)}</b><span class="meta">${esc(U(k).handle)}</span><span class="sp"></span><select data-crrole="${i}" aria-label="What ${esc(U(k).name)} did">${CREDIT_ROLES.map(r=>`<option ${r===c.role?"selected":""}>${r}</option>`).join("")}</select><button type="button" class="icon-btn" data-crrm="${i}" aria-label="Remove">✕</button></div>`; }).join(""); }
+async function addDraftCredit(){ const inp=$("#f-cr-in"), name=inp.value.trim().replace(/^@/,"");
+  if(!/^[A-Za-z0-9_.]{3,20}$/.test(name)) return toast("Type their username, like @nordlys.");
+  if(draftCredits.length>=8) return toast("You can credit up to 8 people.");
+  let k=Object.keys(USERS).find(k=>USERS[k].username&&USERS[k].username.toLowerCase()===name.toLowerCase());
+  if(!k){ try{ const rows=await api.get("profiles?select=*&username=ilike."+encodeURIComponent(name.replace(/[_%\\]/g,"\\$&"))); if(rows[0]) k=keyOf(putUser(rows[0]).id); }catch(_){} }
+  if(!k) return toast(`There's no one called @${name}.`);
+  if(k==="me") return toast("You're already the creator.");
+  if(BLOCKED.has(idOf(k))) return toast("You can't credit someone you've blocked.");
+  if(draftCredits.some(c=>c.id===idOf(k))) return toast("They're already credited.");
+  draftCredits.push({id:idOf(k),role:$("#f-cr-role").value}); inp.value=""; drawCreditList(); inp.focus(); }
+document.addEventListener("click",e=>{ const t=e.target.closest("#f-cr-add,[data-crrm]"); if(!t) return;
+  if(t.id==="f-cr-add") addDraftCredit(); else { draftCredits.splice(+t.dataset.crrm,1); drawCreditList(); } });
+document.addEventListener("change",e=>{ const t=e.target.closest("[data-crrole]"); if(t) draftCredits[+t.dataset.crrole].role=t.value; });
+document.addEventListener("keydown",e=>{ if(e.target.id==="f-cr-in"&&e.key==="Enter"){ e.preventDefault(); addDraftCredit(); } });
+async function syncCredits(mediaId){
+  const before=CREDITS[mediaId]||[], after=draftCredits.slice();
+  const gone=before.filter(b=>!after.some(a=>a.id===b.id&&a.role===b.role)), added=after.filter(a=>!before.some(b=>b.id===a.id&&b.role===a.role));
+  try{ for(const g of gone) await api.remove("media_credits","media_id=eq."+mediaId+"&user_id=eq."+g.id);
+    for(const a of added) await api.insert("media_credits",{media_id:mediaId,user_id:a.id,role:a.role});
+    CREDITS[mediaId]=after; }
+  catch(err){ delete CREDITS[mediaId]; await loadCredits([mediaId]); toast("Couldn't save everyone in the credits: "+(err.message||"try again")); }
+}
 
 /* ---------- The + button: make a post or add your work from any page ---------- */
 const COMPOSER=$("#composer"), COMPOSER_HOME=COMPOSER.parentNode, COMPOSER_NEXT=COMPOSER.nextSibling;

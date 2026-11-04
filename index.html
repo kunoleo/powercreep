@@ -1749,8 +1749,8 @@ a.q-box:hover{border-color:var(--accent)}
           </div>
         </form>
         <div class="feed-tabs" role="tablist">
-          <button role="tab" id="ftab-foryou" data-ftab="foryou" aria-selected="true">For you</button>
-          <button role="tab" id="ftab-following" data-ftab="following" aria-selected="false">Following</button>
+          <button role="tab" id="ftab-following" data-ftab="following" aria-selected="true">Following</button>
+          <button role="tab" id="ftab-foryou" data-ftab="foryou" aria-selected="false">For you</button>
         </div>
         <div class="new-pill-wrap"><button class="new-pill" id="new-pill" hidden></button></div>
         <div id="feed-top"></div>
@@ -2831,7 +2831,7 @@ const bmSvg=`<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg>`;
 const cmtSvg=`<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>`;
 const imgSvg=`<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 17l-6-6-8 8"/></svg>`;
 const trashSvg=`<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>`;
-const fs={ftab:"foryou",following:new Set(),interest:{},affinity:{},open:new Set(),tag:null,fyOrder:[],stale:false,loading:true};
+const fs={ftab:"following",ftabPicked:false,following:new Set(),interest:{},affinity:{},open:new Set(),tag:null,fyOrder:[],stale:false,loading:true};
 const tagsOf=p=>p.tags||(p.tags=[...new Set(((p.text||"").match(/#(\w{1,30})/g)||[]).map(x=>x.slice(1).toLowerCase()))].concat(p.kind?[{games:"gamedev",music:"music",videos:"video",art:"art",stories:"stories"}[(mediaById(p.itemId)||{}).tab]||"media"]:[]));
 const timeAgo=t=>{const m=Math.max(1,Math.round((Date.now()-t)/60000));return m<60?m+"m":m<1440?Math.round(m/60)+"h":Math.round(m/1440)+"d";};
 function avHtml(key){const u=U(key);return frameWrap(u.look,`<span class="mini-av" style="${grad(u.h)}">${avatarInner(u.avatar,u.name)}</span>`);}
@@ -2977,6 +2977,8 @@ function renderFeed(){
   $("#c-av").innerHTML=avHtml("me");
   document.querySelectorAll("[data-ftab]").forEach(b=>b.setAttribute("aria-selected",b.dataset.ftab===fs.ftab));
   if(fs.loading){ $("#feed-list").innerHTML=`<div class="feed-empty">Loading…</div>`; return; }
+  // Following is the default, but someone who doesn't follow anyone yet starts on For you
+  if(!fs.ftabPicked&&fs.ftab==="following"&&!fs.following.size){ fs.ftab="foryou"; document.querySelectorAll("[data-ftab]").forEach(b=>b.setAttribute("aria-selected",b.dataset.ftab===fs.ftab)); }
   let list;
   if(fs.ftab==="foryou"){ list=fs.fyOrder.map(id=>posts.find(p=>p.id===id)).filter(Boolean); }
   else list=posts.filter(p=>p.u==="me"||fs.following.has(p.u)).sort((a,b)=>b.t-a.t).slice(0,150);
@@ -3116,7 +3118,7 @@ async function openComments(p){
 document.addEventListener("click",async e=>{
   const t=e.target.closest("button,a"); if(!t) return;
   const P=id=>posts.find(p=>p.id===id);
-  if(t.dataset.ftab){ fs.ftab=t.dataset.ftab; if(fs.ftab==="foryou") computeFY(); renderFeed(); updateNewPill(); }
+  if(t.dataset.ftab){ fs.ftab=t.dataset.ftab; fs.ftabPicked=true; if(fs.ftab==="foryou") computeFY(); renderFeed(); updateNewPill(); }
   else if(t.dataset.user){ openUser(t.dataset.user); }
   else if(t.dataset.follow){ toggleFollow(t.dataset.follow); }
   else if(t.dataset.like){ toggleLike(P(t.dataset.like)); }

@@ -552,6 +552,7 @@ button.sr-item{width:100%;border:0;background:none;text-align:left;font:inherit}
 .bk-list li{margin-bottom:6px}
 .icon-only{font-size:18px;line-height:1;font-weight:800}
 .p-more{font-size:17px;font-weight:800;line-height:1;padding:4px 9px;margin-left:auto}
+.p-right{margin-left:auto;display:inline-flex;align-items:center;gap:2px}.p-right .p-more{margin-left:0}
 .danger-item{color:var(--danger)}
 /* feed */
 .feed-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;margin-top:20px;align-items:start}
@@ -1615,8 +1616,8 @@ a.q-box:hover{border-color:var(--accent)}
               <div class="c-tools">
                 <button type="button" class="icon-btn" id="c-add-img"></button>
                 <button type="button" class="icon-btn" id="c-emoji" data-emoji-for="c-rich"></button>
+                <button type="button" class="icon-btn" id="c-poll-btn" aria-expanded="false" aria-controls="c-poll-wrap" title="Add a poll" aria-label="Add a poll"><svg viewBox="0 0 24 24" aria-hidden="true" style="fill:currentColor;stroke:none"><rect x="4.5" y="4" width="4" height="16" rx=".6"/><rect x="10.5" y="11" width="4" height="9" rx=".6"/><rect x="16.5" y="8" width="4" height="12" rx=".6"/></svg></button>
                 <span class="fmt-btns" role="group" aria-label="Text formatting"><button type="button" class="icon-btn" data-fmt="**" title="Bold (Ctrl+B)" aria-label="Bold"><b>B</b></button><button type="button" class="icon-btn" data-fmt="*" title="Italic (Ctrl+I)" aria-label="Italic"><i>I</i></button><button type="button" class="icon-btn" data-fmt="__" title="Underline (Ctrl+U)" aria-label="Underline"><u>U</u></button><button type="button" class="icon-btn" data-fmt="~~" title="Strikethrough" aria-label="Strikethrough"><s>S</s></button><button type="button" class="icon-btn" data-fmt="# " title="Big text (whole line)" aria-label="Big text"><span style="font-weight:800;font-size:15px">T</span><span style="font-size:10px;font-weight:800">T</span></button></span>
-                <button type="button" class="icon-btn" id="c-poll-btn" aria-expanded="false" aria-controls="c-poll-wrap" title="Add a poll">📊 Poll</button>
                 <button type="button" class="icon-btn" id="c-ai-btn" aria-expanded="false" aria-controls="c-ai-wrap">AI label</button>
                 <span class="c-count" id="c-count">500</span>
                 <button class="btn primary" id="c-post" disabled>Post</button>
@@ -1760,7 +1761,7 @@ a.q-box:hover{border-color:var(--accent)}
 
       <h2 id="h-social">Polls, reposts, saving and credits</h2>
       <ul>
-        <li><b>Polls:</b> press <b>📊 Poll</b> in the post box and add 2 to 4 options. You see the results after you vote. Who voted for what is private.</li>
+        <li><b>Polls:</b> press the <b>poll button</b> (three bars, next to the emoji button) in the post box and add 2 to 4 options. You see the results after you vote. Who voted for what is private.</li>
         <li><b>Reposts:</b> press the repost arrows on a post or upload. Add a comment if you like, or leave it empty to just share it with your followers. With a comment, it also shows up under the original. Press the green arrows again to undo.</li>
         <li><b>Save for later:</b> press the bookmark on any post, game, track or artwork. Find everything in the <b>Saved</b> tab on your profile. Only you can see it.</li>
         <li><b>Credits:</b> when adding or editing your work, add the people who helped under <b>Made with</b>. It shows on their profile too, and they can remove themselves.</li>
@@ -2863,7 +2864,7 @@ function postHtml(p,ctx){
       ${stickerShelf(p)}<div class="p-actions">
         <button class="icon-btn ${liked?"liked":""}" data-like="${p.id}" aria-pressed="${liked}" aria-label="Like">${heartSvg}<span class="n">${p.likes}</span></button>
         <button class="icon-btn" data-cmt="${p.id}" aria-expanded="${open}" aria-label="Comments">${cmtSvg}<span class="n">${p.cc}</span></button>
-        ${p.kind?(it?repostBtn("m",it.id,it.reposts)+saveBtn("m",it.id):""):repostBtn("p",p.id,p.reposts)+saveBtn("p",p.id)}${stickerBar(p)}<button class="icon-btn p-more" data-pmore="${p.id}" aria-label="More options for this post" title="More">⋯</button>
+        ${p.kind?(it?repostBtn("m",it.id,it.reposts):""):repostBtn("p",p.id,p.reposts)}${stickerBar(p)}<span class="p-right">${p.kind?(it?saveBtn("m",it.id):""):saveBtn("p",p.id)}<button class="icon-btn p-more" data-pmore="${p.id}" aria-label="More options for this post" title="More">⋯</button></span>
       </div>
       ${comments}
     </div>

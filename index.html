@@ -3146,7 +3146,7 @@ function postHtml(p,ctx){
     </div>
   </article>`;
 }
-function refreshPosts(){ if(state.modalPost) renderPostModal(); renderFeed(); if(!$("#view-profile").hidden){ renderTabs(); if(["feed","liked","none","articles","saved"].includes(state.tab)) renderGrid(); } }
+function refreshPosts(){ if(state.modalPost) renderPostModal(); renderFeed(); if(!$("#view-community").hidden) renderCommunity(); if(!$("#view-profile").hidden){ renderTabs(); if(["feed","liked","none","articles","saved"].includes(state.tab)) renderGrid(); } }
 const focusCmt=id=>{const el=[...document.querySelectorAll(`[data-cform="${id}"] input`)].find(x=>x.offsetParent); if(el) el.focus();};
 function renderFeed(){
   if(!$("#feed-list")||!(ME_ID||GUEST)) return;
@@ -5113,7 +5113,7 @@ document.addEventListener("click",e=>{
   if(t&&t.dataset.creplyx){ delete REPLYTO[t.dataset.creplyx]; refreshPosts(); return; }
   // Clicking an empty part of a post opens its own page
   if(t||!$("#view-post").hidden) return;
-  const art=e.target.closest(".post[data-pid]"); if(!art||!art.closest("#view-feed,#view-profile")) return;
+  const art=e.target.closest(".post[data-pid]"); if(!art||!art.closest("#view-feed,#view-profile,#view-community")) return;
   if(e.target.closest("input,textarea,iframe,img,video,form,.comments,.p-imgs,.p-embed,.stk-shelf,[contenteditable]")) return;
   if(String(getSelection())) return;
   location.hash="p/"+art.dataset.pid;

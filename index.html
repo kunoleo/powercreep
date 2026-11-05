@@ -986,7 +986,7 @@ h1 .lvc{margin-left:8px}
 .cm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr));gap:14px}
 .ccard{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:var(--ink)}
 .ccard:hover{border-color:var(--muted)}
-.ccard .bn{height:74px;background-size:cover;background-position:center}
+.ccard .bn{aspect-ratio:4/1;width:100%;background-size:cover;background-position:center}
 .ccard .bd{padding:0 14px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
 .ccard .cico{width:52px;height:52px;margin-top:-26px;border:3px solid var(--surface);font-size:22px}
 .ccard h3{margin:0;font-size:16px}.ccard p{margin:0;color:var(--muted);font-size:13.5px;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
@@ -995,8 +995,8 @@ h1 .lvc{margin-left:8px}
 .owner-tag{font-size:11px;font-weight:800;color:#ffd23b;background:rgba(255,210,59,.12);border-radius:999px;padding:2px 8px;white-space:nowrap}
 .off-tag{font-size:11px;font-weight:800;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 8px;white-space:nowrap}
 .btn.joined{background:none;color:var(--ok);border-color:var(--line)}
-.cv-bn{height:150px;border-radius:16px 16px 0 0;background-size:cover;background-position:center}
-.cv-head{background:var(--surface);border:1px solid var(--line);border-top:0;border-radius:0 0 16px 16px;padding:0 18px;margin-bottom:16px}
+.cv-bn{aspect-ratio:4/1;width:100%;border-radius:16px 16px 0 0;background-size:cover;background-position:center}   /* same shape as the 1200 × 300 banner, so nothing gets cut off */
+.cv-head{background:var(--surface);border:1px solid var(--line);border-top:0;border-radius:0 0 16px 16px;padding:0 18px;margin-bottom:16px;display:flow-root}
 .cv-id{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin-top:-34px;position:relative;z-index:1}
 .cv-id .cico{width:84px;height:84px;border:4px solid var(--surface);border-radius:20px;font-size:34px}
 .cv-id .t{flex:1;min-width:180px;padding:40px 0 6px}.cv-id h1{margin:0;font-size:24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}

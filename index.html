@@ -1856,7 +1856,7 @@ a.q-box:hover{border-color:var(--accent)}
       <p>On your profile, click <b>+ Add media</b> and pick a type. You paste a link to where your work already lives:</p>
       <ul>
         <li><b>Games:</b> itch.io, Game Jolt or Steam. Add a YouTube trailer or a cover image to make the card look great.</li>
-        <li><b>Music:</b> SoundCloud, Spotify or Bandcamp tracks, albums and playlists, or a YouTube playlist. Pick what it is (Single, EP, Album, Playlist or Mix), so people can filter by it on the Music page.</li>
+        <li><b>Music:</b> SoundCloud, Spotify or Bandcamp tracks, albums and playlists, or a YouTube playlist. Pick what it is (Single, EP, Album, Playlist or Mix), so people can filter by it on the Music page. The artwork comes from SoundCloud or Spotify, or you can add your own cover image (Bandcamp needs one, since it doesn't share its artwork).</li>
         <li><b>Videos:</b> YouTube, Vimeo, or Twitch past broadcasts and clips. Your live Twitch channel goes in the <b>Live</b> tab on your profile.</li>
         <li><b>Art:</b> an image link (see above), plus an optional link to the post on ArtStation, DeviantArt, Bluesky and more.</li>
       </ul>
@@ -2207,7 +2207,7 @@ function itemFromRow(m){
   const pl=d.link?parseLink(d.link):null, want={game:["game"],music:["audio","playlist"],video:["video","playlist"],art:["post","game"]}[type];
   if(pl&&want.includes(pl.kind)){ Object.assign(it,pl); delete it.kind; } else if(type!=="art") return null;
   if(type==="game"){ it.game=1; const tp=d.trailer?parseLink(d.trailer):null; if(tp&&tp.yt) it.yt=tp.yt; if(tp&&tp.vimeo) it.vimeo=tp.vimeo; }
-  if(type==="game"||type==="art"){ const cp=d.cover?parseLink(d.cover):null; if(cp&&cp.kind==="image") it.img=cp.img; }
+  if(type==="game"||type==="art"||type==="music"){ const cp=d.cover?parseLink(d.cover):null; if(cp&&cp.kind==="image") it.img=cp.img; }
   if(type==="art"){ if(!it.img) return null; it.plat=it.plat||"image"; if(!it.url) it.url=it.img; }
   if(type==="music"){ it.stype=MTYPES[d.stype]?d.stype:guessMType(pl); it.coll=MTYPES[it.stype]; }
   it.meta=type==="game"?`Game on ${PLAT[it.plat].n}${it.yt||it.vimeo?" · with trailer":""}`:type==="art"?"Art":type==="music"?`${it.coll||"Track"} on ${PLAT[it.plat].n}`:`${it.coll||"Video"} on ${PLAT[it.plat].n}`;
@@ -2389,7 +2389,8 @@ function thumbHtml(it){
   const inner=`<span class="play">${playSvg}</span>`;   // platform and AI labels sit under the title, not on the picture
   const src=imgOf(it);
   const img = src ? `<img class="thumb-img" src="${esc(src)}" alt="" loading="lazy" onerror="this.remove()">`
-            : it.scUrl ? `<img class="thumb-img" data-sc="${esc(it.scUrl)}" data-scfb="${esc(scFallback(it))}" alt="" hidden>` : "";
+            : it.scUrl ? `<img class="thumb-img" data-sc="${esc(it.scUrl)}" data-scfb="${esc(scFallback(it))}" alt="" hidden>`
+            : it.spotify ? `<img class="thumb-img" data-sp="${esc(urlOf(it))}" data-scfb="${esc(scFallback(it))}" alt="" hidden>` : "";
   const cls=`thumb ${it.sq?"sq":""}`;
   if(LIVE && playable(it)) return `<button class="${cls}" style="${grad(it.h)}" data-play="${it.id}" aria-label="Play ${esc(it.title)} from ${PLAT[it.plat].n}">${img}${inner}</button>`;
   if(LIVE && it.img) return `<button class="${cls} is-img" style="${grad(it.h)}" data-play="${it.id}" aria-label="View ${esc(it.title)}">${img}</button>`;
@@ -2400,6 +2401,16 @@ function thumbHtml(it){
 const scThumbs={};
 function scFallback(it){ const u=it.owner?U(keyOf(it.owner)):null; return u&&u.avatar&&u.avatar.url?u.avatar.url:""; }
 function fillScThumbs(){
+  // Spotify artwork, from Spotify's public oEmbed (the same info Spotify gives any website that embeds a track)
+  document.querySelectorAll("img[data-sp]").forEach(img=>{
+    const link=img.dataset.sp, fb=img.dataset.scfb||""; img.removeAttribute("data-sp");
+    const show=u=>{ if(u==="none"){ if(fb){ img.src=fb; img.hidden=false; img.classList.add("thumb-fb"); } return; } img.src=u; img.hidden=false; };
+    if(scThumbs[link]) return show(scThumbs[link]);
+    fetch("https://open.spotify.com/oembed?url="+encodeURIComponent(link))
+      .then(r=>r.ok?r.json():Promise.reject())
+      .then(d=>{ const u=String(d.thumbnail_url||""); scThumbs[link]=/^https:\/\/[a-z0-9.-]*(scdn\.co|spotifycdn\.com)\//.test(u)?u:"none"; show(scThumbs[link]); })
+      .catch(()=>{ scThumbs[link]="none"; show("none"); });
+  });
   document.querySelectorAll("img[data-sc]").forEach(img=>{
     const slug=img.dataset.sc, fb=img.dataset.scfb||""; img.removeAttribute("data-sc");
     const show=u=>{ if(u==="none"){ if(fb){ img.src=fb; img.hidden=false; img.classList.add("thumb-fb"); } return; } img.src=u;img.hidden=false;};
@@ -2638,7 +2649,8 @@ function openForm(type,ex){
   let f="";
   if(type==="game") f=field("f-link","Game page link",0,"https://you.itch.io/your-game","itch.io, Game Jolt or Steam")+field("f-trailer","Trailer video",1,"https://www.youtube.com/watch?v=…","YouTube or Vimeo. Becomes the card thumbnail and plays in the pop-up.")+field("f-cover","Cover image link",1,"https://img.itch.zone/…","Used if there's no trailer. Supported: "+IMG_SITE_NAMES+' <a href="#help" class="help-link" data-hjump="h-images">How do I get an image link?</a>');
   if(type==="music") f=field("f-link","Track, album or playlist link",0,"https://soundcloud.com/you/track","SoundCloud, Spotify, Bandcamp, or a YouTube playlist")
-    +`<div class="field"><label for="f-stype">What is it?</label><select id="f-stype">${Object.entries(MTYPES).map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select><div class="hint">Picked for you from the link. Change it if it's wrong, for example a Spotify "album" that's really a single or an EP.</div></div>`;
+    +`<div class="field"><label for="f-stype">What is it?</label><select id="f-stype">${Object.entries(MTYPES).map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select><div class="hint">Picked for you from the link. Change it if it's wrong, for example a Spotify "album" that's really a single or an EP.</div></div>`
+    +field("f-cover","Cover image",1,"https://i.ibb.co/….png","A square picture looks best, like album art. Leave it empty to use the artwork from SoundCloud or Spotify. Supported: "+IMG_SITE_NAMES);
   if(type==="video") f=field("f-link","Video link",0,"https://www.youtube.com/watch?v=…","YouTube (videos or playlists), Vimeo or Twitch (past broadcasts and clips)");
   if(type==="story") f=field("f-link","Link to your story",0,"https://www.royalroad.com/fiction/…","Where people read it: AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, your blog, a YouTube review…")
     +`<div class="field"><label for="f-stype">What is it?</label><select id="f-stype">${Object.entries(STYPES).map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select></div>`
@@ -2699,7 +2711,7 @@ function updateDraft(type){
     const tr=v("f-trailer"), tp=tr?parseLink(tr):null;
     if(tr){ if(!tp||(!tp.yt&&!tp.vimeo)){setMsg("f-trailer","err","Trailer must be a YouTube or Vimeo video link.");ok=false;} else {setMsg("f-trailer","ok",`✓ ${PLAT[tp.plat].n} trailer`); if(tp.yt) it.yt=tp.yt; if(tp.vimeo) it.vimeo=tp.vimeo;} } else setMsg("f-trailer");
   }
-  if(type==="game"||type==="art"){
+  if(type==="game"||type==="art"||type==="music"){
     const cv=v("f-cover"), cp=cv?parseLink(cv):null;
     if(cv){ if(!cp||cp.kind!=="image"){setMsg("f-cover","err","That image site isn't supported. Use one of: "+IMG_SITE_NAMES+". Unmoderated hosts can swap the picture after it's posted.");ok=false;} else {setMsg("f-cover","ok","✓ Approved image host"); it.img=cp.img;} }
     else { setMsg("f-cover"); if(type==="art") ok=false; }
@@ -2718,7 +2730,9 @@ function updateDraft(type){
     pi.addEventListener("error",()=>setMsg("f-cover","err","That image couldn't be loaded. The link may be wrong, or the site blocks its images from showing on other websites. Try uploading it to Imgur or ImgBB and use that link."));
   }
   $("#am-source").innerHTML = type==="game" ? `Card image, first one available:<ol>${["Trailer thumbnail","Your cover image link","The game page's own preview image (fetched when you post)","Colored placeholder"].map((x,i)=>`<li class="${i===srcUsed?"on":""}">${x}</li>`).join("")}</ol>`
-    : type==="art" ? "The image stays on its host. Power Creep only shows it." : "Artwork and player come from the platform when someone presses play.";
+    : type==="art" ? "The image stays on its host. Power Creep only shows it."
+    : type==="music" ? (v("f-cover")?"Card image: your cover image. The player still comes from the platform.":"Card image: the artwork from SoundCloud or Spotify. Bandcamp doesn't share its artwork, so add a cover image for Bandcamp links.")
+    : "Artwork and player come from the platform when someone presses play.";
   $("#am-submit").disabled=!ok;
   return ok?it:null;
 }

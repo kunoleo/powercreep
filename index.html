@@ -975,6 +975,9 @@ h1 .lvc{margin-left:8px}
 .shop-tabs button{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:6px 14px;font-weight:700;font-size:13.5px}
 .shop-tabs button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.sv-row{display:flex;gap:6px;align-items:center}.sv-row input{flex:1;min-width:0}
+.sv-wait{background:var(--accent-soft);border:1px solid var(--accent);border-radius:10px;padding:10px 12px;font-size:14px;margin:10px 0}
+.sv-msg{color:var(--accent);font-size:13.5px;min-height:1em}
 .bnd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr));gap:14px}
 .bnd{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
 .bnd-prev{position:relative;height:118px;background:linear-gradient(120deg,#26151f,#141218 65%);isolation:isolate;overflow:hidden;display:flex;align-items:flex-end;padding:14px 16px}
@@ -1967,7 +1970,7 @@ a.q-box:hover{border-color:var(--accent)}
         <li><b>XP:</b> you earn XP for posting, adding your work, commenting, signing guestbooks, giving stickers and getting likes. Each has a daily limit, so spamming doesn't help.</li>
         <li><b>Levels and ranks:</b> your level shows next to your name. Every 10 levels you get a new rank: Spark, Charged, Amped, Overclocked, Supercharged and Power Creep.</li>
         <li><b>Quests:</b> new daily quests every day and weekly quests every Monday (midnight UTC). Press <b>Claim</b> when one is done.</li>
-        <li><b>Volts:</b> you get Volts for leveling up and finishing quests. Spend them in the <b>Shop</b> on avatar frames, stickers, name styles, name fonts and header effects. <b>Bundles</b> are themed sets that cost less than buying each piece. If you already own some pieces, you only pay for the rest, and finishing a set (bundle or not) gives you its badge. Volts can only be earned, never bought.</li>
+        <li><b>Volts:</b> you get Volts for leveling up and finishing quests. Spend them in the <b>Shop</b> on avatar frames, stickers, name styles, name fonts and header effects. You can also send Volts to other members from the ⋯ menu on their profile, with a little message if you like (your account needs to be a week old first). <b>Bundles</b> are themed sets that cost less than buying each piece. If you already own some pieces, you only pay for the rest, and finishing a set (bundle or not) gives you its badge. Volts can only be earned, never bought.</li>
         <li><b>Stickers:</b> press <b>＋ Sticker</b> under someone's post to give them one. One sticker per post.</li>
         <li><b>Badges:</b> special badges, like Bug Hunter or Jam Winner, are handed out by the POWER CREEP account and show on your profile.</li>
         <li><b>Customize:</b> put on your frame, name style, header effect and profile color from <b>Customize</b> in your account menu.</li>
@@ -2234,7 +2237,7 @@ const CREDITS = {};       // media id → [{id, role}] people credited on it
 const keyOf=id=>id===ME_ID?"me":id;
 const idOf=key=>key==="me"?ME_ID:key;
 function userFromRow(r){
-  return {id:r.id,name:r.display_name,username:r.username,handle:"@"+r.username,title:r.title||"",bio:r.bio||"",
+  return {id:r.id,name:r.display_name,username:r.username,handle:"@"+r.username,joined:r.created_at?Date.parse(r.created_at):null,title:r.title||"",bio:r.bio||"",
     links:cleanLinks(r.links),avatar:cleanAvatar(r.avatar),banner:cleanBanner(r.banner),
     twitch:/^[a-z0-9_]{3,25}$/.test(r.twitch||"")?r.twitch:null,staff:!!r.is_staff,suspended:!!r.suspended,h:hueOf(r.id),pinned:r.pinned_post||null,
     lv:r.level==null?undefined:Math.max(1,Math.min(100,+r.level||1)),xp:Math.max(0,+r.xp||0),volts:Math.max(0,+r.volts||0),look:cleanLook(r.look),
@@ -3512,6 +3515,7 @@ async function openNotifs(){
         if(n.kind==="reply"){ const c=cm.find(c=>c.id===n.comment_id); return `<button class="np-item ${x.read?"":"unread"}" ${n.media_id?`data-mopen="${n.media_id}"`:`data-npost="${n.post_id}"`}>${avHtml(k)}<div class="np-t"><div>${who} replied to your comment${c?(c.text?`: “${esc(c.text.slice(0,90))}${c.text.length>90?"…":""}”`:" with a GIF"):""}</div><span>${timeAgo(x.t)} ago</span></div></button>`; }
         if(n.kind==="repost"||n.kind==="quote"){ const it=n.media_id&&mediaById(n.media_id); return `<button class="np-item ${x.read?"":"unread"}" ${n.kind==="repost"&&n.media_id?`data-mopen="${n.media_id}"`:`data-npost="${n.post_id}"`}>${avHtml(k)}<div class="np-t"><div>${who} reposted your ${n.media_id?(it?`<b>${esc(it.title)}</b>`:"upload"):"post"}${n.kind==="quote"?" with a comment":""}</div><span>${timeAgo(x.t)} ago</span></div></button>`; }
         if(n.kind==="credit"){ const it=n.media_id&&mediaById(n.media_id); return `<button class="np-item ${x.read?"":"unread"}" data-mopen="${n.media_id}">${avHtml(k)}<div class="np-t"><div>${who} credited you on ${it?`<b>${esc(it.title)}</b>`:"their upload"}. It's on your profile now.</div><span>${timeAgo(x.t)} ago</span></div></button>`; }
+        if(n.kind==="volts") return `<a class="np-item ${x.read?"":"unread"}" href="#shop">${avHtml(k)}<div class="np-t"><div>${who} sent you <b>⚡ ${fmtN(n.amount||0)} Volts</b>${n.note?`: “${esc(String(n.note).slice(0,100))}”`:""}</div><span>${timeAgo(x.t)} ago</span></div></a>`;
         if(n.kind==="follow") return `<button class="np-item ${x.read?"":"unread"}" data-user="${esc(k)}">${avHtml(k)}<div class="np-t"><div>${who} started following you</div><span>${timeAgo(x.t)} ago</span></div></button>`;
         const c=cm.find(c=>c.id===n.comment_id);
         return `<button class="np-item ${x.read?"":"unread"}" ${n.media_id?`data-mopen="${n.media_id}"`:`data-npost="${n.post_id}"`}>${avHtml(k)}<div class="np-t"><div>${who} commented on your ${n.media_id?"upload":"post"}${c?(c.text?`: “${esc(c.text.slice(0,90))}${c.text.length>90?"…":""}”`:" with a GIF"):""}</div><span>${timeAgo(x.t)} ago</span></div></button>`;
@@ -4093,7 +4097,7 @@ function openMore(btn,key){
   m.dataset.key=key;
   m.innerHTML=`<button class="am-item" data-mute="${esc(key)}">${MUTED.has(id)?"🔊 Unmute":"🔇 Mute"} ${esc(u.name)}</button>
     <button class="am-item" data-block="${esc(key)}">${BLOCKED.has(id)?"✓ Unblock":"⛔ Block"} ${esc(u.name)}</button>
-    <button class="am-item" data-reportuser="${esc(key)}">⚑ Report profile</button>${U("me").brand&&!LV.missing?`<button class="am-item" data-giftto="${esc(key)}">🎁 Give an item</button>`:""}`;
+    <button class="am-item" data-reportuser="${esc(key)}">⚑ Report profile</button>${key!=="me"&&!LV.missing?`<button class="am-item" data-sendv="${esc(key)}">⚡ Send Volts</button>`:""}${U("me").brand&&!LV.missing?`<button class="am-item" data-giftto="${esc(key)}">🎁 Give an item</button>`:""}`;
   m.hidden=false;
   const r=btn.getBoundingClientRect(), w=m.offsetWidth;
   m.style.top=(r.bottom+6)+"px"; m.style.left=Math.max(12,Math.min(r.right-w,innerWidth-w-12))+"px";
@@ -4107,6 +4111,7 @@ document.addEventListener("click",e=>{
   else if(t.dataset.block){ $("#more-menu").hidden=true; closeModal(); confirmBlock(t.dataset.block); }
   else if(t.dataset.unblock){ doBlock(t.dataset.unblock,false); if($("#pset")) openSettings(); }
   else if(t.dataset.unmute){ toggleMute(t.dataset.unmute); setTimeout(()=>{ if($("#pset")) openSettings(); },50); }
+  else if(t.dataset.sendv){ $("#more-menu").hidden=true; openSendVolts(t.dataset.sendv); }
   else if(t.dataset.reportuser){ $("#more-menu").hidden=true; const k=t.dataset.reportuser; openReport({type:"profile",id:idOf(k),title:"Profile: "+U(k).name,parts:PROFILE_PARTS}); }
   else if(t.dataset.pin){ setPin(t.dataset.pin); }
 });
@@ -4694,6 +4699,33 @@ function openBundle(id){
     <div class="row-btns" style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button class="btn" id="bn-no">Not now</button><button class="btn primary" id="bn-yes">Buy for ⚡ ${fmtN(I.pay)}</button></div></div></div>`;
   $("#scrim").addEventListener("click",e=>{ if(e.target.id==="scrim") closeModal(); }); $("#bn-no").onclick=closeModal;
   $("#bn-yes").onclick=()=>buyBundle(b,$("#bn-yes"));
+}
+/* ---------- Send Volts to someone ---------- */
+function openSendVolts(key){
+  const me=U("me"), u=U(key), ready=me.joined?me.joined+7*864e5:0, wait=ready>Date.now();
+  const when=wait?new Date(ready).toLocaleDateString("en-GB",{day:"numeric",month:"long"}):"";
+  $("#modal-root").innerHTML=`<div class="scrim" id="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="svt" style="max-width:420px">
+    <h2 id="svt">Send Volts to ${esc(u.name)}</h2>
+    <p class="sub">A thank-you, a prize, or just because. You have <b>⚡ ${fmtN(me.volts||0)}</b>.</p>
+    ${wait?`<div class="sv-wait">Your account needs to be a week old before you can send Volts. You can send them from <b>${esc(when)}</b>.</div>`:""}
+    <div class="field"><label for="sv-amt">How many?</label>
+      <div class="sv-row"><input id="sv-amt" type="number" inputmode="numeric" min="1" max="${me.volts||0}" value="${Math.min(50,me.volts||0)||""}" ${wait?"disabled":""}>
+      ${[10,50,100].map(n=>`<button type="button" class="btn sm" data-svq="${n}" ${wait||n>(me.volts||0)?"disabled":""}>${n}</button>`).join("")}</div></div>
+    <div class="field"><label for="sv-note">Add a message <i>(optional)</i></label><input id="sv-note" maxlength="100" placeholder="Thanks for the music!" autocomplete="off" ${wait?"disabled":""}><div class="hint"><span id="sv-left">100</span> characters left. ${esc(u.name)} sees it in their notifications.</div></div>
+    <div class="sv-msg" id="sv-msg"></div>
+    <div class="modal-actions"><button class="btn" id="sv-no">Cancel</button><button class="btn primary" id="sv-go" ${wait?"disabled":""}>Send</button></div></div></div>`;
+  $("#scrim").addEventListener("click",e=>{ if(e.target.id==="scrim") closeModal(); }); $("#sv-no").onclick=closeModal;
+  const amt=$("#sv-amt"), go=$("#sv-go");
+  const sync=()=>{ const n=Math.floor(+amt.value||0); const ok=!wait&&n>=1&&n<=(me.volts||0);
+    go.disabled=!ok; go.textContent=n>=1?`Send ⚡ ${fmtN(n)}`:"Send";
+    $("#sv-msg").textContent=n>(me.volts||0)?"You don't have that many Volts.":""; $("#sv-left").textContent=100-$("#sv-note").value.length; };
+  amt.addEventListener("input",sync); $("#sv-note").addEventListener("input",sync);
+  document.querySelectorAll("[data-svq]").forEach(b=>b.onclick=()=>{ amt.value=b.dataset.svq; sync(); });
+  go.onclick=async()=>{ const n=Math.floor(+amt.value||0); go.disabled=true;
+    try{ const left=await api.rpc("send_volts",{p_to:idOf(key),p_amount:n,p_note:$("#sv-note").value.trim()}); me.volts=+left; closeModal();
+      toast(`Sent ⚡ ${fmtN(n)} Volts to ${u.name}!`); renderAccountBtn(); if(!$("#view-shop").hidden) renderShop(); refreshMe(); }
+    catch(e){ $("#sv-msg").textContent=e.message; go.disabled=false; } };
+  sync(); if(!wait) amt.focus();
 }
 async function buyItem(id,btn){
   const it=LV.items.find(i=>i.id===id); if(!it) return; btn.disabled=true;
@@ -5642,7 +5674,7 @@ async function startGuest(){
 const GUEST_ACTIONS=[["[data-like],[data-mlike],[data-clike]","like things"],[".cmt-form button,[data-creply]","comment"],["[data-follow],#follow","follow people"],
   ["[data-repost],[data-unrepost]","repost"],["[data-save]","save things for later"],["[data-spick]","give stickers"],["[data-vote]","vote in polls"],
   [".gb-form button","sign guestbooks"],["[data-buy],[data-bbuy],[data-bclaim],[data-use],[data-customize]","collect cosmetics"],["[data-claim]","do quests"],
-  ["[data-report],[data-preport],[data-creport],[data-gbrep],[data-mcrep],[data-reportuser],#live-report,#report-profile","report things"],["[data-mute],[data-block]","mute or block people"]];
+  ["[data-report],[data-preport],[data-creport],[data-gbrep],[data-mcrep],[data-reportuser],#live-report,#report-profile","report things"],["[data-mute],[data-block]","mute or block people"],["[data-sendv]","send Volts"]];
 const GUEST_SEL=GUEST_ACTIONS.map(a=>a[0]).join(",");
 function guestPrompt(what){
   closeStkPick&&closeStkPick();

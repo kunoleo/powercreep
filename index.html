@@ -487,12 +487,24 @@ h1 .staff-badge{font-size:12.5px;padding:2px 9px 2px 6px;vertical-align:4px}
 .br-sort{display:flex;gap:6px;flex-wrap:wrap}
 .br-sort button{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:7px 14px;font:inherit;font-weight:700;font-size:14px}
 .br-sort button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.br-tags{display:flex;gap:6px;overflow-x:auto;padding:14px 0 4px;scrollbar-width:thin}
+.br-tagbar{display:flex;gap:6px;align-items:flex-start;padding-top:14px}
+.br-tags{display:flex;gap:6px;overflow-x:auto;padding:0 0 4px;scrollbar-width:thin;min-width:0;flex:1}
+.br-tagbar .tag-find{flex:none}
+@media (max-width:600px){.tag-find input{width:120px}}
 .btag{border:0;background:none;color:var(--accent);font:inherit;font-size:12.5px;font-weight:600;padding:0;cursor:pointer;white-space:nowrap}
 .btag:hover{text-decoration:underline}
 .btag.big{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:13.5px}
 .btag.big[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
 .btag.big:hover{text-decoration:none;border-color:var(--muted)}
+.tag-find{position:relative;display:inline-flex}
+.tag-find input{border:1px dashed var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:5px 12px;font:inherit;font-size:13.5px;width:150px}
+.tag-find input:focus{outline:none;border-style:solid;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.tag-sug{position:absolute;top:calc(100% + 6px);left:0;min-width:200px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:6px;z-index:15}
+.tag-sug button{display:flex;justify-content:space-between;gap:12px;width:100%;border:0;background:none;color:var(--ink);font:inherit;font-size:14px;padding:7px 9px;border-radius:8px;cursor:pointer;text-align:left}
+.tag-sug button:hover,.tag-sug button:focus{background:var(--surface-2);outline:none}
+.tag-sug small,.sr-tag small{color:var(--muted);font-size:12.5px;white-space:nowrap}
+.tag-sug .none{color:var(--muted);font-size:13px;padding:7px 9px}
+.sr-tag{justify-content:space-between}.sr-tag b{font-weight:700}
 .card-tags{display:flex;gap:8px;flex-wrap:wrap}
 .card-title{border:0;background:none;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
 .card-title:hover{text-decoration:underline}
@@ -1458,7 +1470,7 @@ a.q-box:hover{border-color:var(--accent)}
     </nav>
     <div class="search" id="search" role="search">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
-      <input id="search-in" type="search" placeholder="Search games, art, music, people…" aria-label="Search Power Creep" autocomplete="off" spellcheck="false">
+      <input id="search-in" type="search" placeholder="Search games, art, people or #tags…" aria-label="Search Power Creep" autocomplete="off" spellcheck="false">
       <div class="search-res" id="search-res" hidden></div>
     </div>
     <button class="bell" id="bell" aria-label="Notifications" aria-expanded="false" aria-controls="notif-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><span class="bell-n" id="bell-n" hidden></span></button>
@@ -1807,7 +1819,8 @@ a.q-box:hover{border-color:var(--accent)}
       <div class="seg" id="br-days" role="group" aria-label="Time range"><button data-bdays="1">Today</button><button data-bdays="7">This week</button><button data-bdays="30">This month</button><button data-bdays="null">All time</button></div>
     </div>
     <div class="br-types" id="br-types" hidden role="group" aria-label="Type"></div>
-    <div class="br-tags" id="br-tags"></div>
+    <div class="br-tagbar"><span class="tag-find"><input id="br-tagq" maxlength="25" placeholder="# Find a tag" autocomplete="off" spellcheck="false" aria-label="Find a tag on this page"><span class="tag-sug" id="br-tagsug" hidden></span></span>
+      <div class="br-tags" id="br-tags"></div></div>
     <div class="grid" id="br-grid"></div>
     <div style="display:flex;justify-content:center;margin:20px 0"><button class="btn" id="br-more" hidden>Load more</button></div>
   </section>
@@ -1858,7 +1871,7 @@ a.q-box:hover{border-color:var(--accent)}
         <li>Your article is saved as a draft in your browser while you write, so you can switch back to a normal post and come back later.</li>
         <li>It shows up in the feed as a card, and on your profile under <b>Articles</b>. Edit it any time from the ⋯ menu or the <b>Edit</b> button on the article.</li>
       </ul>
-      <p><b>Stories</b> are for novels, light novels, short stories, comics, poems and reviews that you post somewhere else, like AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, your blog or YouTube. Press <b>+</b> and pick <b>Story</b>, paste the link, pick what it is and add a cover. Like games and music, the story stays where it is and Power Creep links to it. Find them all on the <b>Stories</b> page.</p>
+      <p><b>Stories</b> are for novels, short stories, comics, poems and reviews that you post somewhere else, like AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, your blog or YouTube. Press <b>+</b> and pick <b>Story</b>, paste the link, pick what it is and add a cover. Like games and music, the story stays where it is and Power Creep links to it. Find them all on the <b>Stories</b> page.</p>
 
       <h2 id="h-social">Polls, reposts, saving and credits</h2>
       <ul>
@@ -1877,7 +1890,8 @@ a.q-box:hover{border-color:var(--accent)}
         <li>Big text (the <b>T</b> button) makes a whole line large. Great for announcements. It only works in posts.</li>
       </ul>
       <h2 id="h-tags">Hashtags</h2>
-      <p>Everything you add needs 1–5 hashtags, like #horror or #pixel, so people can find it on the Games, Art, Music and Videos pages. You can also use hashtags in normal posts, and popular ones show up in Trending.</p>
+      <p>Everything you add needs 1–5 hashtags, like #horror or #pixel, so people can find it on the Games, Art, Music, Stories and Videos pages. You can also use hashtags in normal posts, and popular ones show up in Trending.</p>
+      <p>To find a tag, use <b># Find a tag</b> at the end of the tag list on each page, or type a # in the search bar at the top, like <b>#metroidvania</b>, to search tags on every page.</p>
 
       <h2 id="h-ai">AI labels</h2>
       <p>If you used AI, add a label: <b>AI-assisted</b> if you made it and AI helped somewhere, or <b>AI-made</b> if it was mostly generated. Add a short note saying what was AI. People can choose to hide AI content, and unlabeled AI work can be reported.</p>
@@ -1952,7 +1966,7 @@ Object.assign(PLAT,{ao3:{n:"AO3",c:"#990000"},wattpad:{n:"Wattpad",c:"#c2410c"},
   globalcomix:{n:"GlobalComix",c:"#5b3cc4"},kofi:{n:"Ko-fi",c:"#1f7aa8"},patreon:{n:"Patreon",c:"#c2410c"},web:{n:"Website",c:"#5a5f6b"}});
 const TABS = [["games","Games"],["music","Music"],["videos","Videos"],["art","Art"],["stories","Stories"]];
 const TAB_TYPE={games:"game",music:"music",videos:"video",art:"art",stories:"story"};
-const STYPES={novel:"Novel",lightnovel:"Light novel",short:"Short story",comic:"Comic",poetry:"Poetry",review:"Review",other:"Other"};
+const STYPES={novel:"Novel",short:"Short story",comic:"Comic",poetry:"Poetry",review:"Review",other:"Other"};
 // Music: what kind of release it is. Guessed from the link, and the uploader can change it.
 const MTYPES={single:"Single",ep:"EP",album:"Album",playlist:"Playlist",mix:"Mix / DJ set"};
 const collIcon=it=>({album:"💿",ep:"💿",playlist:"📃",mix:"🎧"})[it.stype]||(it.coll==="Album"?"💿":"🎵");
@@ -2184,7 +2198,7 @@ function itemFromRow(m){
     updated:m.updated_at?Date.parse(m.updated_at):null,h:hueOf(m.id),sq:type==="music"||type==="art"?1:0,hidden:m.hidden,raw:d,desc:typeof d.desc==="string"?d.desc.slice(0,1000):""};
   if(type==="story"){ const sl=storyLink(d.link); if(!sl) return null; Object.assign(it,sl,{story:1,tall:1,sq:0});
     const cp=d.cover?parseLink(d.cover):null; if(cp&&cp.kind==="image") it.img=cp.img;
-    it.stype=STYPES[d.stype]?d.stype:"other"; it.status=SSTATUS[d.status]?d.status:null;
+    it.stype=d.stype==="lightnovel"?"novel":STYPES[d.stype]?d.stype:"other"; it.status=SSTATUS[d.status]?d.status:null;
     it.meta=`${STYPES[it.stype]}${it.status?" · "+SSTATUS[it.status]:""}`;
     it.tags=(Array.isArray(m.tags)?m.tags:[]).map(cleanTag).filter(Boolean).slice(0,5);
     it.likes=m.like_count||0; it.cc=m.comment_count||0; it.reposts=m.repost_count||0; it.liked=myMediaLikes.has(m.id); it.created=m.created_at;
@@ -2602,7 +2616,7 @@ const TYPES={
   music:{n:"Music",d:"A track, album or playlist",hosts:"SoundCloud, Spotify, Bandcamp",tab:"music",sq:1},
   video:{n:"Video",d:"A video or stream",hosts:"YouTube, Vimeo, Twitch",tab:"videos"},
   art:{n:"Art",d:"An image, with an optional link to the post",hosts:"Image links, plus posts on ArtStation, DeviantArt, Bluesky, X, Reddit, Tumblr, Newgrounds or Game Jolt",tab:"art",sq:1},
-  story:{n:"Story",d:"A novel, light novel, comic, poem or review you posted somewhere else",hosts:"AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, a blog or any website",tab:"stories",tall:1}
+  story:{n:"Story",d:"A novel, short story, comic, poem or review you posted somewhere else",hosts:"AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, a blog or any website",tab:"stories",tall:1}
 };
 let draft=null;
 function openAddMedia(){
@@ -2657,7 +2671,7 @@ function openForm(type,ex){
   if($("#amback")) $("#amback").onclick=openAddMedia; $("#amcancel2").onclick=closeModal;
   if(ex){ const set=(id,v)=>{const el=$("#"+id); if(el&&v) el.value=v;};
     set("f-title",ex.title); set("f-ai",ex.ai?ex.ai.lvl:""); set("f-ainote",ex.ai?ex.ai.note:"");
-    const r=ex.raw||{}; set("f-link",r.link); set("f-trailer",r.trailer); set("f-cover",r.cover); set("f-stype",r.stype); set("f-status",r.status); set("f-desc",typeof r.desc==="string"?r.desc:""); }
+    const r=ex.raw||{}; set("f-link",r.link); set("f-trailer",r.trailer); set("f-cover",r.cover); set("f-stype",r.stype==="lightnovel"?"novel":r.stype); set("f-status",r.status); set("f-desc",typeof r.desc==="string"?r.desc:""); }
   draft={type}; draftCredits=ex?(CREDITS[ex.id]||[]).map(c=>({...c})):[]; drawCreditList();
   const form=$("#amform");
   if(type==="music"){ const sel=$("#f-stype"); if(ex&&ex.raw&&MTYPES[ex.raw.stype]) sel.dataset.touched="1"; ["input","change"].forEach(ev=>sel.addEventListener(ev,()=>sel.dataset.touched="1")); }
@@ -3452,12 +3466,45 @@ function renderPostModal(){
   box.innerHTML=postHtml(p,"md");
 }
 
+/* ===================== TAG SEARCH ===================== */
+// Find tags people have used, on one page (the "# Find a tag" box) or everywhere (type #something in the big search bar)
+const TAB_NAMES={games:"Games",art:"Art",music:"Music",stories:"Stories",videos:"Videos"};
+async function findTags(q,tab,limit){ q=cleanTag(q); if(!q) return []; return await api.rpc("search_tags",{p_q:q,p_tab:tab||null,p_limit:limit||8}); }
+let tagSeq=0;
+async function brTagFind(){
+  const inp=$("#br-tagq"), box=$("#br-tagsug"); if(!inp) return;
+  const q=cleanTag(inp.value); if(!q){ box.hidden=true; return; }
+  const n=++tagSeq; box.hidden=false;
+  try{ const rows=await findTags(q,BROWSE.tab,8); if(n!==tagSeq) return;
+    box.innerHTML=rows.length?rows.map(r=>`<button type="button" data-bfilter="${esc(r.tag)}">#${esc(r.tag)}<small>${r.uses}</small></button>`).join("")
+      :`<div class="none">No ${esc(TAB_NAMES[BROWSE.tab].toLowerCase())} tagged #${esc(q)} yet.</div>`;
+  }catch(err){ if(n===tagSeq) box.innerHTML=`<div class="none">${esc(err.message)}</div>`; }
+}
+document.addEventListener("input",e=>{ if(e.target.id==="br-tagq"){ clearTimeout(brTagFind.t); brTagFind.t=setTimeout(brTagFind,200); } });
+document.addEventListener("keydown",e=>{
+  if(e.target.id!=="br-tagq") return;
+  if(e.key==="Enter"){ e.preventDefault(); const first=$("#br-tagsug button"); const q=cleanTag(e.target.value);
+    if(first) first.click(); else if(q){ BROWSE.tag=q; loadBrowse(); } }
+  if(e.key==="Escape"){ $("#br-tagsug").hidden=true; e.target.blur(); }
+  if(e.key==="ArrowDown"){ const first=$("#br-tagsug button"); if(first){ e.preventDefault(); first.focus(); } }
+});
+document.addEventListener("click",e=>{ const b=$("#br-tagsug"); if(b&&!b.hidden&&!e.target.closest(".tag-find")) b.hidden=true; });
+
 /* ===================== MEMBER SEARCH ===================== */
 let searchSeq=0;
 function closeSearch(){ $("#search-res").hidden=true; }
 async function doSearch(){
   const raw=$("#search-in").value, q=raw.replace(/[^\p{L}\p{N} _.\-]/gu,"").trim().slice(0,30);
   const box=$("#search-res");
+  if(raw.trim().startsWith("#")){   // #something: look for tags instead of people and uploads
+    const t=cleanTag(raw); if(!t){ box.hidden=false; box.innerHTML=`<div class="sr-empty">Type a tag, like #pixelart</div>`; return; }
+    const n=++searchSeq; box.hidden=false; box.innerHTML=`<div class="sr-empty">Searching…</div>`;
+    try{ const rows=await findTags(t,null,10); if(n!==searchSeq) return;
+      box.innerHTML=rows.length?`<div class="sr-h">Tags</div>`+rows.map(r=>`<button class="sr-item sr-tag" data-btag="${esc(r.tab)}:${esc(r.tag)}"><b>#${esc(r.tag)}</b><small>${r.uses} in ${TAB_NAMES[r.tab]||esc(r.tab)}</small></button>`).join("")
+        :`<div class="sr-empty">No tags start with #${esc(t)} yet.</div>`;
+    }catch(err){ if(n===searchSeq) box.innerHTML=`<div class="sr-empty">${esc(err.message)}</div>`; }
+    return;
+  }
   if(!q){ box.hidden=true; return; }
   const n=++searchSeq; box.hidden=false; box.innerHTML=`<div class="sr-empty">Searching…</div>`;
   try{
@@ -3472,6 +3519,7 @@ $("#search-in").addEventListener("input",()=>{ clearTimeout(doSearch.t); doSearc
 $("#search-in").addEventListener("focus",()=>{ if($("#search-in").value.trim()) doSearch(); });
 $("#search-in").addEventListener("keydown",e=>{
   if(e.key==="Escape"){ closeSearch(); $("#search-in").blur(); }
+  if(e.key==="Enter"&&$("#search-in").value.trim().startsWith("#")){ e.preventDefault(); const first=$("#search-res .sr-tag"); if(first) first.click(); return; }
   if(e.key==="Enter"){ e.preventDefault(); const q=$("#search-in").value.replace(/[^\p{L}\p{N} _.\-]/gu,"").trim().slice(0,30); if(!q) return; SEARCH.q=q; closeSearch(); if(location.hash==="#search") openSearchPage(); else location.hash="search"; }
   if(e.key==="ArrowDown"){ const first=$("#search-res .sr-item"); if(first){ e.preventDefault(); first.focus(); } }
 });
@@ -3721,7 +3769,7 @@ const smileSvg=`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="
 const TAG_PRESETS={
   games:["adventure","horror","puzzle","platformer","rpg","shooter","survival","visualnovel","simulation","strategy","racing","multiplayer","gamejam","other"],
   art:["digital","traditional","pixel","3d","animation","fanart","character","concept","landscape","comic","other"],
-  stories:["fantasy","scifi","horror","romance","mystery","comedy","adventure","isekai","litrpg","fanfic","sliceoflife","drama","review","other"],
+  stories:["fantasy","scifi","horror","romance","mystery","comedy","adventure","sliceoflife","drama","review","other"],
   music:["electronic","chiptune","rock","pop","hiphop","lofi","ambient","metal","orchestral","soundtrack","other"],
   videos:["letsplay","tutorial","devlog","musicvideo","documentary","animation","trailer","stream","vlog","review","other"]
 };
@@ -3827,7 +3875,7 @@ document.addEventListener("submit",async e=>{
 /* ===================== BROWSE PAGES ===================== */
 const BROWSE={tab:"games",sort:"latest",days:7,tag:null,stype:null,items:[],done:false,loading:false};
 const BROWSE_INFO={games:["Games","Games made by the community, playable on itch.io, Game Jolt and Steam."],art:["Art","Drawings, pixel art, 3D and more from people on Power Creep."],
-  music:["Music","Tracks and albums from SoundCloud, Spotify and Bandcamp."],stories:["Stories","Novels, light novels, comics, poems and reviews. Read them where they're posted: AO3, Wattpad, Royal Road, Webtoon and more."],videos:["Videos","Let's plays, devlogs, tutorials and more from YouTube, Vimeo and Twitch."]};
+  music:["Music","Tracks and albums from SoundCloud, Spotify and Bandcamp."],stories:["Stories","Novels, comics, poems and reviews. Read them where they're posted: AO3, Wattpad, Royal Road, Webtoon and more."],videos:["Videos","Let's plays, devlogs, tutorials and more from YouTube, Vimeo and Twitch."]};
 async function loadBrowse(more){
   if(BROWSE.loading) return; BROWSE.loading=true;
   if(!more){ BROWSE.items=[]; BROWSE.done=false; renderBrowse(); }
@@ -3840,6 +3888,7 @@ async function loadBrowse(more){
   BROWSE.loading=false; renderBrowse();
 }
 function renderBrowse(){
+  { const tq=$("#br-tagq"); if(tq&&document.activeElement!==tq){ tq.value=""; $("#br-tagsug").hidden=true; } }
   const [title,desc]=BROWSE_INFO[BROWSE.tab];
   $("#br-title").textContent=title; $("#br-desc").textContent=desc;
   document.querySelectorAll("[data-bsort]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.bsort===BROWSE.sort));
@@ -3868,8 +3917,8 @@ document.addEventListener("click",e=>{
   if(t.dataset.bsort){ BROWSE.sort=t.dataset.bsort; loadBrowse(); }
   else if(t.dataset.bdays!==undefined){ BROWSE.days=t.dataset.bdays==="null"?null:+t.dataset.bdays; loadBrowse(); }
   else if(t.dataset.bstype!==undefined){ BROWSE.stype=t.dataset.bstype||null; loadBrowse(); }
-  else if(t.dataset.bfilter!==undefined){ BROWSE.tag=t.dataset.bfilter||null; loadBrowse(); }
-  else if(t.dataset.btag){ const [tab,tag]=t.dataset.btag.split(":"); closeModal(); BROWSE.tag=tag; BROWSE.tab=tab; BROWSE.forceTag=true; if(location.hash==="#"+tab) loadBrowse(); else location.hash=tab; }
+  else if(t.dataset.bfilter!==undefined){ BROWSE.tag=t.dataset.bfilter||null; if(t.closest("#br-tagsug")){ $("#br-tagq").value=""; $("#br-tagsug").hidden=true; $("#br-tagq").blur(); } loadBrowse(); }
+  else if(t.dataset.btag){ const [tab,tag]=t.dataset.btag.split(":"); closeModal(); closeSearch(); if(t.closest("#search-res")) $("#search-in").value=""; BROWSE.tag=tag; BROWSE.tab=tab; BROWSE.forceTag=true; if(location.hash==="#"+tab) loadBrowse(); else location.hash=tab; }
   else if(t.id==="br-more") loadBrowse(true);
   else if(t.dataset.mlike){ const it=MEDIA[t.dataset.mlike]; if(it) toggleMediaLike(it); }
   else if(t.dataset.mopen){ openItem(t.dataset.mopen); }

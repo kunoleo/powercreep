@@ -417,6 +417,13 @@ h1 .staff-badge{font-size:12.5px;padding:2px 9px 2px 6px;vertical-align:4px}
 .post-modal .post{border-bottom:0;padding-top:0}
 @media (max-width:700px){.search{order:5;flex:1 1 100%}}
 /* account menu, guestbook, comments */
+/* Guests (not logged in) can look around; anything that needs an account is hidden or asks them to join */
+.guest-auth{display:none;gap:6px;align-items:center}.guest-auth .btn{text-decoration:none;white-space:nowrap}.guest-auth .btn:not(.primary){color:var(--ink)}
+body.guest .guest-auth{display:flex}
+body.guest #acct-btn,body.guest #bell,body.guest #composer,body.guest #fab-wrap,body.guest #ftab-following,body.guest #nav-profile,body.guest #s-volts,body.guest #v-float,body.guest .stale,body.guest #fy-reset{display:none!important}
+.j-back{display:none;font-size:13.5px;font-weight:600;color:var(--muted);text-decoration:none;margin-bottom:12px}.j-back:hover{color:var(--ink)}
+body.guest .j-back{display:inline-block}
+.gj-perks{margin:12px 0 4px;padding:0;list-style:none;display:grid;gap:6px;font-size:14px}.gj-perks li::before{content:"⚡ ";}
 .acct-btn{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:3px 9px 3px 3px;font:inherit;font-weight:600;font-size:14px;max-width:190px}
 .acct-btn:hover,.acct-btn[aria-expanded="true"]{border-color:var(--muted)}
 .acct-btn .mini-av{width:28px;height:28px;font-size:13px;border-radius:999px}
@@ -1525,6 +1532,7 @@ a.q-box:hover{border-color:var(--accent)}
     <button class="bell" id="bell" aria-label="Notifications" aria-expanded="false" aria-controls="notif-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><span class="bell-n" id="bell-n" hidden></span></button>
     <div class="notif-panel" id="notif-panel" hidden></div>
     <button class="acct-btn" id="acct-btn" aria-label="Account menu" aria-expanded="false" aria-controls="acct-menu"></button>
+    <div class="guest-auth" id="guest-auth"><a class="btn sm" href="#login" data-gjoin="login">Log in</a><a class="btn sm primary" href="#signup" data-gjoin="signup">Sign up</a></div>
     <div class="acct-menu" id="acct-menu" hidden></div>
   </div>
 </header>
@@ -1732,6 +1740,7 @@ a.q-box:hover{border-color:var(--accent)}
         <p class="tagline">A place to gather all your work you've posted from all over the internet.</p>
       </div>
       <div class="join-card">
+        <a class="j-back" id="j-back" href="#feed">← Keep browsing without an account</a>
         <form id="j-form" novalidate>
           <div class="jf" id="jf-email"><input id="j-email" type="email" placeholder="Email" aria-label="Email" autocomplete="email"><div class="jmsg" id="j-email-m"></div></div>
           <div class="jf" id="jf-user"><input id="j-user" placeholder="Username" aria-label="Username" autocomplete="username" maxlength="20" spellcheck="false"><div class="jmsg" id="j-user-m"></div></div>
@@ -2212,6 +2221,7 @@ let posts = [];          // every post loaded so far (feed + profiles)
 const MEDIA = {};        // every media item loaded so far, by id
 const USERS = {};        // profiles by key: "me" for you, otherwise the user's id
 let ME_ID = null;
+let GUEST = false;   // true when someone is looking around without an account
 let VIEW = {key:"me", followers:0, following:0};
 let SUGG = [];           // people to suggest following
 let reports = [];        // staff inbox groups
@@ -3054,7 +3064,7 @@ function postHtml(p,ctx){
 function refreshPosts(){ if(state.modalPost) renderPostModal(); renderFeed(); if(!$("#view-profile").hidden){ renderTabs(); if(["feed","liked","none","articles","saved"].includes(state.tab)) renderGrid(); } }
 const focusCmt=id=>{const el=[...document.querySelectorAll(`[data-cform="${id}"] input`)].find(x=>x.offsetParent); if(el) el.focus();};
 function renderFeed(){
-  if(!$("#feed-list")||!ME_ID) return;
+  if(!$("#feed-list")||!(ME_ID||GUEST)) return;
   $("#c-av").innerHTML=avHtml("me");
   document.querySelectorAll("[data-ftab]").forEach(b=>b.setAttribute("aria-selected",b.dataset.ftab===fs.ftab));
   if(fs.loading){ $("#feed-list").innerHTML=`<div class="feed-empty">Loading…</div>`; return; }
@@ -3449,7 +3459,9 @@ $("#j-form").addEventListener("submit",async e=>{ e.preventDefault(); if(!checkJ
       if(!ok){ $("#j-err").textContent="Check your email to confirm your account, then log in."; btn.disabled=false; return; }
       toast(`Welcome to Power Creep, @${un}!`); }
     else { await api.signIn(em,pw); toast("Logged in."); }
-    $("#j-form").reset(); await start(); const go=state.afterJoin||(joinMode==="signup"?"profile":"feed"); state.afterJoin=null; if(location.hash==="#"+go) route(); else location.hash=go;
+    $("#j-form").reset();
+    if(GUEST){ const go=state.afterJoin||(joinMode==="signup"?"profile":"feed"); location.hash=go; location.reload(); return; }
+    await start(); const go=state.afterJoin||(joinMode==="signup"?"profile":"feed"); state.afterJoin=null; if(location.hash==="#"+go) route(); else location.hash=go;
   }catch(err){ $("#j-err").textContent=err.message; btn.disabled=false; }
 });
 $("#j-show").onclick=()=>{ const i=$("#j-pass"), show=i.type==="password"; i.type=show?"text":"password"; $("#j-show").textContent=show?"Hide":"Show"; $("#j-show").setAttribute("aria-label",show?"Hide password":"Show password"); i.focus(); };
@@ -3747,7 +3759,7 @@ document.addEventListener("click",async e=>{
 /* ===================== NEW POSTS PILL ===================== */
 let newTimer=null;
 async function checkNew(){
-  if(!ME_ID||fs.loading||document.hidden||$("#view-feed").hidden) return;
+  if(!(ME_ID||GUEST)||fs.loading||document.hidden||$("#view-feed").hidden) return;
   const latest=posts.reduce((m,p)=>Math.max(m,p.t),0);
   try{
     const rows=await api.get("posts?select=id,author&order=created_at.desc&limit=100&created_at=gt."+encodeURIComponent(new Date(latest).toISOString()));
@@ -4148,13 +4160,14 @@ async function route(){
     document.title={terms:"Terms of Use",privacy:"Privacy Policy",cookies:"Cookie Policy"}[v]+" · Power Creep"; window.scrollTo(0,0); return;
   }
   if(!started){ if(v.startsWith("p/")||userRoute!==null) state.afterJoin=v; if(v!=="login") v="signup"; }
-  if(v==="signup"||v==="login"){ if(started){ location.hash="feed"; return; } showSection("join"); setJoinMode(v); return; }
+  if(GUEST&&(v==="profile"||v==="quests"||v==="staff")){ state.afterJoin=null; v="signup"; }
+  if(v==="signup"||v==="login"){ if(started&&!GUEST){ location.hash="feed"; return; } showSection("join"); setJoinMode(v); $("#j-back").href="#"+(state.afterJoin||"feed"); return; }
   document.title="Power Creep";
   if(userRoute!==null||v==="profile"){
     const wasHidden=$("#view-profile").hidden;
     showSection("profile");
     let key="me";
-    if(userRoute&&userRoute.toLowerCase()!==U("me").username.toLowerCase()){
+    if(userRoute&&(GUEST||userRoute.toLowerCase()!==U("me").username.toLowerCase())){
       const k=Object.keys(USERS).find(k=>USERS[k].username&&USERS[k].username.toLowerCase()===userRoute.toLowerCase());
       if(k) key=k; else { try{ const rows=await api.get("profiles?select=*&username=ilike."+encodeURIComponent(userRoute.replace(/[_%\\]/g,"\\$&"))); if(rows[0]) key=keyOf(putUser(rows[0]).id); else {
         // an old username? send them to the new one
@@ -4623,7 +4636,7 @@ function bundleCard(b){
   const rows=I.its.map(it=>`<li class="${owns(it.id)?"got":""}"><span class="k">${KIND_LABEL[it.kind]||""}</span><span class="n">${esc(it.name)}</span><span class="p">${owns(it.id)?"✓ Owned":"⚡ "+fmtN(it.price)}</span></li>`).join("");
   const btn=done&&I.hasBadge?`<button class="buy own" disabled>✓ Set complete</button>`
     :done?`<button class="buy" data-bclaim="${b.id}">Claim your badge</button>`
-    :`<button class="buy" data-bbuy="${b.id}" ${me.volts<I.pay?`disabled title="You need ${fmtN(I.pay-me.volts)} more Volts"`:""}>Buy bundle · ⚡ ${fmtN(I.pay)}</button>`;
+    :`<button class="buy" data-bbuy="${b.id}" ${!GUEST&&me.volts<I.pay?`disabled title="You need ${fmtN(I.pay-me.volts)} more Volts"`:""}>Buy bundle · ⚡ ${fmtN(I.pay)}</button>`;
   const priceLine=done?`<span class="bnd-note">You have every item${I.hasBadge?" and the badge":", so the badge is free"}.</span>`
     :I.missing.length<I.its.length?`<span class="bnd-note">You own ${I.its.length-I.missing.length} of ${I.its.length}, so you only pay for the rest.</span><span class="bnd-price"><s>⚡ ${fmtN(I.missing.reduce((n,i)=>n+i.price,0))}</s> <b>⚡ ${fmtN(I.pay)}</b><span class="save">Save ${fmtN(I.save)}</span></span>`
     :`<span class="bnd-price"><s>⚡ ${fmtN(I.full)}</s> <b>⚡ ${fmtN(I.pay)}</b><span class="save">Save ${fmtN(I.save)}</span></span>`;
@@ -4657,7 +4670,7 @@ function renderShop(){
       const btn=own?(it.kind==="sticker"?`<button class="buy own" disabled>✓ Yours</button>`:`<button class="buy use" data-use="${esc(it.id)}">Use it</button>`)
         :it.unlock_level!=null?`<span class="lock">🔒 Reach level ${it.unlock_level}</span>`
         :it.price==null?`<span class="lock">🎁 Special: a gift from POWER CREEP</span>`
-        :`<button class="buy" data-buy="${esc(it.id)}" ${me.volts<it.price?`disabled title="You need ${fmtN(it.price-me.volts)} more Volts"`:""}>⚡ ${fmtN(it.price)}</button>`;
+        :`<button class="buy" data-buy="${esc(it.id)}" ${!GUEST&&me.volts<it.price?`disabled title="You need ${fmtN(it.price-me.volts)} more Volts"`:""}>⚡ ${fmtN(it.price)}</button>`;
       const rar=it.kind==="sticker"&&STK[key]?`<span class="rar">${esc(STK[key].r)}</span>`:"";
       return `<div class="sitem"><div class="art">${itemArt(it)}</div><b>${esc(it.name)}</b>${rar}${btn}</div>`; }).join("")}</div>
     <p class="meta" style="margin-top:14px">Earn Volts by leveling up and finishing <a href="#quests">quests</a>. Change what you're wearing in <button class="linkbtn" data-customize="">Customize</button>.</p>`;
@@ -5611,10 +5624,54 @@ async function start(){
   clearInterval(newTimer); newTimer=setInterval(checkNew,45000);
   checkLevelSeen(); loadGifFavs();
 }
+/* ---------- Guests: look around without an account ---------- */
+async function startGuest(){
+  GUEST=true; ME_ID=null; document.body.classList.add("guest");
+  USERS.me={name:"Guest",username:"",handle:"",h:[0,0],avatar:{type:"letter"},links:[],bio:"",look:{},volts:0};
+  try{ const items=await api.get("items?select=*&order=kind,sort"); LV.items=items; LV.owned=new Set(); LV.quests=[]; LV.missing=false;
+    try{ const rows=await api.get("bundles?select=*&order=sort");
+      BUNDLES=rows.map(r=>({id:r.id,name:r.name,price:r.price,items:r.items||[],badge:String(r.badge||"").split(":")[1]||"",badgeName:(items.find(i=>i.id===r.badge)||{}).name||""}))
+        .filter(b=>b.items.length&&b.items.every(id=>items.some(i=>i.id===id))); }catch(_){ BUNDLES=[]; }
+  }catch(_){ LV.missing=true; }
+  started=true; fs.ftab="foryou"; fs.ftabPicked=true;
+  fs.loading=true; renderFeed();
+  try{ await loadFeed(); }catch(e){ console.warn(e); }
+  fs.loading=false; renderFeed(); loadTop();
+  clearInterval(newTimer); newTimer=setInterval(checkNew,45000);
+}
+const GUEST_ACTIONS=[["[data-like],[data-mlike],[data-clike]","like things"],[".cmt-form button,[data-creply]","comment"],["[data-follow],#follow","follow people"],
+  ["[data-repost],[data-unrepost]","repost"],["[data-save]","save things for later"],["[data-spick]","give stickers"],["[data-vote]","vote in polls"],
+  [".gb-form button","sign guestbooks"],["[data-buy],[data-bbuy],[data-bclaim],[data-use],[data-customize]","collect cosmetics"],["[data-claim]","do quests"],
+  ["[data-report],[data-preport],[data-creport],[data-gbrep],[data-mcrep],[data-reportuser],#live-report,#report-profile","report things"],["[data-mute],[data-block]","mute or block people"]];
+const GUEST_SEL=GUEST_ACTIONS.map(a=>a[0]).join(",");
+function guestPrompt(what){
+  closeStkPick&&closeStkPick();
+  $("#modal-root").innerHTML=`<div class="scrim" id="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="gjt" style="max-width:400px">
+    <h2 id="gjt">Join Power Creep to ${esc(what)}</h2>
+    <p class="sub">It's free, with no ads and no tracking. With an account you can:</p>
+    <ul class="gj-perks"><li>Like, comment and give stickers</li><li>Follow creators and get a feed of their work</li><li>Share your games, art, music, videos and stories</li><li>Level up and collect frames, name styles and more</li></ul>
+    <div class="modal-actions"><button class="btn" id="gj-stay">Keep browsing</button><button class="btn" data-gjoin="login">Log in</button><button class="btn primary" data-gjoin="signup">Sign up</button></div></div></div>`;
+  $("#scrim").addEventListener("click",e=>{ if(e.target.id==="scrim") closeModal(); }); $("#gj-stay").onclick=closeModal;
+  const first=$("#modal-root [data-gjoin='signup']"); if(first) first.focus();
+}
+document.addEventListener("click",e=>{
+  const j=e.target.closest("[data-gjoin]");
+  if(j){ e.preventDefault(); const here=location.hash.slice(1); if(here&&!["signup","login"].includes(here)) state.afterJoin=here; closeModal(); location.hash=j.dataset.gjoin; return; }
+  if(!GUEST) return;
+  const t=e.target.closest(GUEST_SEL); if(!t) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  const what=(GUEST_ACTIONS.find(a=>t.matches(a[0]))||[0,"do that"])[1]; guestPrompt(what);
+},true);
+document.addEventListener("focusin",e=>{
+  if(!GUEST||!e.target.closest(".cmt-form,.gb-form")||!e.target.matches("input,textarea")) return;
+  e.target.blur(); guestPrompt(e.target.closest(".gb-form")?"sign guestbooks":"comment");
+});
+
 (async()=>{
   if(!CONFIGURED){ route(); return; }
   try{ if(await api.ready()&&api.session){ showSection("feed"); await start(); } }
   catch(e){ if(e.status===401||e.status===403){ api.forget(); } else { fail(e); } }
+  if(!started){ try{ await startGuest(); }catch(e){ console.warn(e); } }
   route();
 })();
 

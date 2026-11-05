@@ -826,6 +826,12 @@ h1 .lvc{font-size:13px;padding:1px 9px 1px 7px}h1 .lvc svg{width:12px;height:12p
 .nm{position:relative;display:inline-block}
 .nm.n-solid{color:var(--c1)}
 .nm.n-gradient{background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nm.n-holo{background:repeating-linear-gradient(180deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px),linear-gradient(90deg,var(--c1),var(--c2),var(--c1)) 0 0/200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(1px 0 0 color-mix(in srgb,var(--c1) 70%,transparent)) drop-shadow(-1px 0 0 color-mix(in srgb,var(--c2) 70%,transparent));
+  animation:pc-holo 4s linear infinite,pc-holoflick 5s steps(1) infinite}
+@keyframes pc-holo{to{background-position:0 0,200% 0}}
+@keyframes pc-holoflick{0%,86%,90%,100%{opacity:1}87%,89%{opacity:.55}}
 .nm.n-gradient.n-v{background:linear-gradient(180deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text}
 .nm.n-shift.n-v{background:linear-gradient(180deg,var(--c1),var(--c2),var(--c3),var(--c1));background-size:100% 300%;-webkit-background-clip:text;background-clip:text;animation-name:pc-flowv}
 @keyframes pc-flowv{to{background-position:0 300%}}
@@ -957,6 +963,23 @@ h1 .lvc{margin-left:8px}
 .shop-tabs button{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:6px 14px;font-weight:700;font-size:13.5px}
 .shop-tabs button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.bnd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr));gap:14px}
+.bnd{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.bnd-prev{position:relative;height:118px;background:linear-gradient(120deg,#26151f,#141218 65%);isolation:isolate;overflow:hidden;display:flex;align-items:flex-end;padding:14px 16px}
+.bnd-id{position:relative;z-index:2;display:flex;align-items:center;gap:12px;min-width:0}
+.bnd-nm{font-family:var(--f-display);font-weight:800;font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.bnd-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.bnd-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.bnd-head h3{margin:0;font-size:17px}
+.bdg svg.stk{width:20px;height:20px}
+.bnd-items{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.bnd-items li{display:grid;grid-template-columns:86px 1fr auto;gap:8px;align-items:center;font-size:14px;padding:5px 0;border-bottom:1px solid var(--line)}
+.bnd-items li:last-child{border-bottom:0}.bnd-items .k{color:var(--muted);font-size:12.5px}.bnd-items .p{font-weight:700;font-size:13px;white-space:nowrap}
+.bnd-items li.got .n{color:var(--muted)}.bnd-items li.got .p{color:var(--ok)}
+.bnd-items .bdg-row .n{display:flex;align-items:center;gap:6px;font-weight:700}.bnd-items .bdg-row svg.stk{width:22px;height:22px}
+.bnd-price{display:flex;align-items:baseline;gap:8px;margin-top:auto}.bnd-price s{color:var(--muted);font-size:14px}.bnd-price b{font-size:20px}
+.bnd-price .save{font-size:12px;font-weight:800;color:#3ccf8e;background:color-mix(in srgb,#3ccf8e 14%,transparent);border-radius:999px;padding:2px 8px}
+.bnd-note{font-size:13px;color:var(--muted)}
+.bnd-sum{display:flex;justify-content:space-between;margin-top:8px;font-size:15px}.bnd-sum.meta{margin-top:2px;font-size:13.5px}
 .sitem{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 12px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
 .sitem .art{height:120px;display:grid;place-items:center;width:100%}
 .sitem .art .avatar{width:84px;height:84px;font-size:30px;border-width:0}
@@ -1192,6 +1215,16 @@ svg.stk{display:block}
 .f-vines .flw{transform-box:fill-box;transform-origin:center;animation:pc-bloom 4s ease-in-out infinite;animation-delay:var(--dl)}
 .f-vines .flw circle{fill:var(--f2)}.f-vines .flw .c{fill:#ffe14a}
 
+/* -- Hexagon: your avatar becomes a hexagon, and the border twists a sixth of a turn every few seconds -- */
+.fr.f-hex>.avatar,.fr.f-hex>.mini-av{clip-path:polygon(50% 0,93.3% 25%,93.3% 75%,50% 100%,6.7% 75%,6.7% 25%);border-radius:0!important}
+.acct-btn .fr.f-hex>.mini-av{clip-path:none;border-radius:999px!important}
+.f-hex .fx-svg{inset:-12%;left:-12%;top:-12%;width:124%;height:124%}
+.f-hex .rim{fill:none;stroke:var(--f1);stroke-width:7;stroke-linejoin:round;filter:drop-shadow(0 0 3px color-mix(in srgb,var(--f1) 60%,transparent))}
+.f-hex .inner{fill:none;stroke:var(--f2);stroke-width:1.6;stroke-linejoin:round;opacity:.9}
+.fr:not(.lg).f-hex .rim{stroke-width:9}.fr:not(.lg).f-hex .inner{display:none}
+.f-hex .rimg{transform-box:view-box;transform-origin:50px 50px;animation:pc-hextwist 4s cubic-bezier(.65,0,.35,1) infinite}
+@keyframes pc-hextwist{0%,70%{transform:rotate(0)}90%{transform:rotate(66deg)}100%{transform:rotate(60deg)}}
+
 /* -- Kitsune mask: fox mask markings painted over your avatar. The eyes open with glowing pupils -- */
 .f-kitsune{--kt:9s}
 .f-kitsune::before{inset:0;box-shadow:0 0 0 2px var(--f1),0 0 calc(var(--fw) * 3) color-mix(in srgb,var(--f2) 45%,transparent)}
@@ -1284,6 +1317,17 @@ svg.stk{display:block}
 /* Fog */
 .hfx.fx-fog i{top:10%;width:70%;height:120%;border-radius:50%;background:radial-gradient(closest-side,rgba(220,220,235,.35),transparent);filter:blur(6px);animation-name:pc-fog;animation-timing-function:ease-in-out;animation-direction:alternate}
 @keyframes pc-fog{from{transform:translateX(-30%)}to{transform:translateX(40%)}}
+/* Hex grid: a faint honeycomb, cells lighting up and a scan line sweeping across */
+.hfx.fx-hexgrid svg{position:absolute;inset:0;width:100%;height:100%}
+.hfx.fx-hexgrid .hg{fill:none;stroke:#ff8fd0;stroke-width:1;opacity:.22}
+.hfx.fx-hexgrid .cell{fill:#ff8fd0;opacity:0;animation:pc-hexcell 5s ease-in-out infinite}.hfx.fx-hexgrid .cell.b{fill:#8fe9ff}
+@keyframes pc-hexcell{0%,100%{opacity:0}12%{opacity:.55}40%{opacity:0}}
+.hfx.fx-hexgrid .scan{position:absolute;top:0;bottom:0;width:140px;left:-140px;background:linear-gradient(90deg,transparent,rgba(143,233,255,.22),transparent);animation:pc-hexscan 6s linear infinite}
+@keyframes pc-hexscan{to{left:100%}}
+/* Checker: a slow scrolling Y2K checkerboard that fades out toward the bottom */
+.hfx.fx-checker::before{content:"";position:absolute;inset:-35%;background:repeating-conic-gradient(rgba(255,143,208,.55) 0 25%,rgba(143,233,255,.16) 0 50%) 0 0/48px 48px;
+  transform:rotate(-12deg);animation:pc-check 6s linear infinite;-webkit-mask:linear-gradient(180deg,#000 10%,transparent 85%);mask:linear-gradient(180deg,#000 10%,transparent 85%)}
+@keyframes pc-check{to{background-position:48px 48px}}
 /* Foxfire */
 .hfx.fx-foxfire i{bottom:-20%;width:var(--s);height:calc(var(--s) * 1.35);border-radius:50% 50% 50% 50%/62% 62% 38% 38%;background:radial-gradient(ellipse 50% 55% at 50% 70%,#ffffff 0 15%,#9fe8ff 40%,#3ba8ff 66%,transparent 78%);filter:drop-shadow(0 0 6px #5cc8ff) drop-shadow(0 0 14px #2f7dff);animation-name:pc-wisp;animation-timing-function:ease-in-out}
 @keyframes pc-wisp{0%{transform:translate(0,0) scale(.6);opacity:0}15%{opacity:1}40%{transform:translate(18px,-90px) scale(1)}70%{transform:translate(-14px,-190px) scale(.9);opacity:.9}100%{transform:translate(8px,-300px) scale(.5);opacity:0}}
@@ -1909,7 +1953,7 @@ a.q-box:hover{border-color:var(--accent)}
         <li><b>XP:</b> you earn XP for posting, adding your work, commenting, signing guestbooks, giving stickers and getting likes. Each has a daily limit, so spamming doesn't help.</li>
         <li><b>Levels and ranks:</b> your level shows next to your name. Every 10 levels you get a new rank: Spark, Charged, Amped, Overclocked, Supercharged and Power Creep.</li>
         <li><b>Quests:</b> new daily quests every day and weekly quests every Monday (midnight UTC). Press <b>Claim</b> when one is done.</li>
-        <li><b>Volts:</b> you get Volts for leveling up and finishing quests. Spend them in the <b>Shop</b> on avatar frames, stickers, name styles, name fonts and header effects. Volts can only be earned, never bought.</li>
+        <li><b>Volts:</b> you get Volts for leveling up and finishing quests. Spend them in the <b>Shop</b> on avatar frames, stickers, name styles, name fonts and header effects. <b>Bundles</b> are themed sets that cost less than buying each piece. If you already own some pieces, you only pay for the rest, and finishing a set (bundle or not) gives you its badge. Volts can only be earned, never bought.</li>
         <li><b>Stickers:</b> press <b>＋ Sticker</b> under someone's post to give them one. One sticker per post.</li>
         <li><b>Badges:</b> special badges, like Bug Hunter or Jam Winner, are handed out by the POWER CREEP account and show on your profile.</li>
         <li><b>Customize:</b> put on your frame, name style, header effect and profile color from <b>Customize</b> in your account menu.</li>
@@ -4277,18 +4321,30 @@ function lvChip(key){ const u=U(key); if(!u.lv||u.brand) return ""; const r=rank
 
 const FRAMES=[["spark","Spark"],["over","Overcharged"],["circuit","Circuit"],["pixel","8-Bit"],["neon","Neon Nights"],["ember","Inferno"],["glitch","Glitch"],["legend","Legend"],["orbit","Orbit"],["pulse","Heartbeat"],["holo","Hologram"],["drip","Toxic Drip"],["aurora","Aurora"],
   ["frost","Frostbite"],["arcane","Arcane Circle"],["storm","Thunderstruck"],["cat","Kitty Ears"],["angel","Angel"],["demon","Demon"],["hud","Target Lock"],["hearts","Lovestruck"],["vines","Overgrown"],
-  ["kitsune","Kitsune Mask"],["nebula","Nebula"],["sakura","Sakura Branch"],["ghosts","Haunted"],["laurel","Golden Laurel"]];
-const NSTYLES=[["solid","Solid color",1],["gradient","Gradient",2],["glow","Glow",1],["shift","Color shift",3],["glitch","Glitch",2],["fire","Fire",0],["outline","Outline",1],["retro","Retro 3D",2],["rainbow","Rainbow",0],["neon","Neon sign",1],["chrome","Chrome",0],["wave","Wave",1],["sparkle","Sparkle",2],["typing","Typing",1],["jitter","Rage shake",1],["foxfire","Foxfire",0],["gold","Gold",0],["ghost","Ghostly",0]];
+  ["kitsune","Kitsune Mask"],["nebula","Nebula"],["sakura","Sakura Branch"],["ghosts","Haunted"],["laurel","Golden Laurel"],["hex","Hexagon"]];
+const NSTYLES=[["solid","Solid color",1],["gradient","Gradient",2],["glow","Glow",1],["shift","Color shift",3],["glitch","Glitch",2],["fire","Fire",0],["outline","Outline",1],["retro","Retro 3D",2],["rainbow","Rainbow",0],["neon","Neon sign",1],["chrome","Chrome",0],["wave","Wave",1],["sparkle","Sparkle",2],["typing","Typing",1],["jitter","Rage shake",1],["foxfire","Foxfire",0],["gold","Gold",0],["ghost","Ghostly",0],["holo","Hologram",2]];
 const HFX=[["snow","Snowfall",30,[4,8]],["sparks","Static sparks",20,[2,3.5]],["rain","Neon rain",40,[.6,1.1]],["embers","Embers",26,[2.5,4.5]],["stars","Starfield",40,[1.5,4]],["sakura","Sakura petals",22,[5,10]],["fireflies","Fireflies",18,[3,6]],["data","Data stream",0,[0,0]],["bubbles","Bubbles",18,[4,8]],
   ["aurora","Aurora",0,[0,0]],["storm","Thunderstorm",0,[0,0]],["confetti","Confetti",0,[0,0]],["leaves","Autumn leaves",0,[0,0]],["shoot","Shooting stars",0,[0,0]],["hearts","Floating hearts",0,[0,0]],["fog","Haunted fog",0,[0,0]],
-  ["foxfire","Foxfire",0,[0,0]],["fireworks","Fireworks",0,[0,0]],["lanterns","Sky lanterns",0,[0,0]]];
+  ["foxfire","Foxfire",0,[0,0]],["fireworks","Fireworks",0,[0,0]],["lanterns","Sky lanterns",0,[0,0]],["hexgrid","Hex grid",0,[0,0]],["checker","Checker",0,[0,0]]];
 const FONTS=[["pixel","Pixel"],["horror","Horror"],["scifi","Sci-fi"],["comic","Comic"],["gothic","Gothic"],["royal","Royal"],["marker","Marker"],["type","Typewriter"],["cute","Bubbly"],["script","Script"],["western","Western"],["glitch","Glitch"],["mono","Code"],
   ["graffiti","Graffiti"],["retro","Retro wave"],["arcade","Arcade"],["chunky","Chunky"],["cartoon","Cartoon"],["stencil","Stencil"],["terminal","Terminal"],["space","Space"],["racing","Racing"],["samurai","Samurai"],["brush","Brush"],["fantasy","Fantasy"],["celtic","Celtic"],["elegant","Elegant"],["hand","Handwritten"],["bloody","Bloody"]];
-const FRAME_DEF={ember:["#ff3b00","#ffd23b"],legend:["#d79a00","#fff6d0"],circuit:["#3bd5ff","#ff3b36"],neon:["#ff3bd5","#3bd5ff"],orbit:["#3bb4ff","#ffffff"],pulse:["#ff3b6b","#ff9ab0"],holo:["#3bd5ff","#ff3bd5"],drip:["#5dff3b","#c8ff8a"],aurora:["#3bff9a","#b04bff"],ember:["#ff3b00","#ffd23b"],drip:["#5dff3b","#d4ff8a"],frost:["#7fd4ff","#3b7bff"],arcane:["#b04bff","#ffd0ff"],storm:["#3b8cff","#bfe0ff"],cat:["#f2f2f5","#ff8fc0"],angel:["#ffd23b","#ffffff"],demon:["#ff2a1a","#ff8a3b"],hud:["#3bffd5","#3bb4ff"],hearts:["#ff3b7a","#ffc2d6"],vines:["#3bbf5a","#ff8fc0"],kitsune:["#ffffff","#e01b24"],nebula:["#b04bff","#3bd5ff"],sakura:["#ff9ec7","#ffe14a"],ghosts:["#8a4bff","#c9a2ff"],laurel:["#ffd23b","#fff3b0"]};
+const FRAME_DEF={ember:["#ff3b00","#ffd23b"],legend:["#d79a00","#fff6d0"],circuit:["#3bd5ff","#ff3b36"],neon:["#ff3bd5","#3bd5ff"],orbit:["#3bb4ff","#ffffff"],pulse:["#ff3b6b","#ff9ab0"],holo:["#3bd5ff","#ff3bd5"],drip:["#5dff3b","#c8ff8a"],aurora:["#3bff9a","#b04bff"],ember:["#ff3b00","#ffd23b"],drip:["#5dff3b","#d4ff8a"],frost:["#7fd4ff","#3b7bff"],arcane:["#b04bff","#ffd0ff"],storm:["#3b8cff","#bfe0ff"],cat:["#f2f2f5","#ff8fc0"],angel:["#ffd23b","#ffffff"],demon:["#ff2a1a","#ff8a3b"],hud:["#3bffd5","#3bb4ff"],hearts:["#ff3b7a","#ffc2d6"],vines:["#3bbf5a","#ff8fc0"],kitsune:["#ffffff","#e01b24"],nebula:["#b04bff","#3bd5ff"],sakura:["#ff9ec7","#ffe14a"],ghosts:["#8a4bff","#c9a2ff"],laurel:["#ffd23b","#fff3b0"],hex:["#ff8fd0","#ffe0f3"]};
 const NAME_DEF=["#ff3b36","#ff9a3b","#b04bff"];
 const KIND_WORD={frame:"frame",name:"name style",hfx:"header effect",sticker:"sticker",badge:"badge",font:"name font"};
 const BADGE_ART={tester:"crown",bug:"bug",jam:"trophy",helper:"heart",artist:"ink"};
-const badgeSvg=id=>stkSvg(BADGE_ART[id.split(":")[1]]||"bolt");
+const BUNDLE_BADGE_SVG={
+ hexagons:`<path d="M50 4l40 23v46L50 96 10 73V27z" fill="#fff"/><path d="M50 14l31 18v36L50 86 19 68V32z" fill="#ff8fd0"/><path d="M50 30l17 10v20L50 70 33 60V40z" fill="#1b1424"/><path d="M50 40l8 5v10l-8 5-8-5V45z" fill="#8fe9ff"/>`,
+ foxspirit:`<path d="M12 10l26 22h24l26-22-6 44c0 20-14 36-32 36S18 74 18 54z" fill="#fff"/><path d="M20 20l18 16h24l18-16-4 34c0 16-12 28-26 28S24 70 24 54z" fill="#fff3ef" stroke="#e01b24" stroke-width="3"/><path d="M50 20c3 6 3 12 0 18-3-6-3-12 0-18z" fill="#e01b24"/><path d="M28 50c6-6 12-6 16 2-6 2-11 1-16-2zM72 50c-6-6-12-6-16 2 6 2 11 1 16-2z" fill="#1b1b1f"/><path d="M26 62l12 4M74 62l-12 4" stroke="#e01b24" stroke-width="3.5" stroke-linecap="round"/>`,
+ playerone:`<rect x="6" y="14" width="88" height="72" rx="18" fill="#fff"/><rect x="13" y="21" width="74" height="58" rx="12" fill="#3b2bff"/><path d="M26 42h8v-8h8v8h8v8h-8v8h-8v-8h-8z" fill="#fff"/><circle cx="64" cy="44" r="6" fill="#ffd23b"/><circle cx="74" cy="56" r="6" fill="#ff3b6b"/>`,
+ sweetheart:`<path d="M50 90L14 56C2 44 4 22 22 16c12-4 22 2 28 12 6-10 16-16 28-12 18 6 20 28 8 40z" fill="#fff"/><path d="M50 80L20 52c-9-9-8-25 5-29 9-3 18 2 25 13 7-11 16-16 25-13 13 4 14 20 5 29z" fill="#ff3b7a"/><path d="M30 34c4-3 8-3 11 0" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none"/>`,
+ hacker:`<rect x="6" y="14" width="88" height="72" rx="14" fill="#fff"/><rect x="12" y="20" width="76" height="60" rx="9" fill="#0d1a12"/><path d="M24 38l12 10-12 10" stroke="#3bff7a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M44 62h22" stroke="#3bff7a" stroke-width="6" stroke-linecap="round"/>`,
+ haunted:`<path d="M50 6c22 0 36 16 36 38v44l-10-8-9 8-9-8-8 8-8-8-9 8-9-8-10 8V44C14 22 28 6 50 6z" fill="#fff"/><path d="M50 14c17 0 29 13 29 31v32l-6-5-8 7-8-7-7 7-7-7-8 7-8-7-6 5V45c0-18 12-31 29-31z" fill="#c9a2ff"/><ellipse cx="39" cy="44" rx="6" ry="9" fill="#1b1424"/><ellipse cx="61" cy="44" rx="6" ry="9" fill="#1b1424"/><ellipse cx="50" cy="64" rx="5" ry="7" fill="#1b1424"/>`,
+ stargazer:`<circle cx="50" cy="50" r="44" fill="#fff"/><circle cx="50" cy="50" r="38" fill="#1a1440"/><path d="M50 22l7 15 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2z" fill="#ffd23b"/><circle cx="26" cy="72" r="3" fill="#8fe9ff"/><circle cx="74" cy="28" r="2.5" fill="#fff"/>`,
+ synthwave:`<circle cx="50" cy="50" r="44" fill="#fff"/><circle cx="50" cy="50" r="38" fill="#2a0f3d"/><path d="M22 58a28 28 0 0 1 56 0z" fill="#ff8a3b"/><path d="M22 58a28 28 0 0 1 56 0" fill="none"/><path d="M24 50h52M23 56h54" stroke="#2a0f3d" stroke-width="3"/><path d="M14 66h72M18 74h64M26 81h48" stroke="#ff3bd5" stroke-width="2.5"/>`,
+ firestarter:`<path d="M50 4c6 18 30 26 30 52a30 30 0 0 1-60 0c0-14 8-20 12-28 2 8 6 12 10 12 0-14 0-24 8-36z" fill="#fff"/><path d="M50 16c5 14 24 22 24 40a24 24 0 0 1-48 0c0-10 5-15 8-21 3 7 7 10 11 10 0-12-1-20 5-29z" fill="#ff5a1f"/><path d="M50 50c4 6 12 9 12 18a12 12 0 0 1-24 0c0-6 6-10 12-18z" fill="#ffd23b"/>`,
+ hanami:`<g fill="#fff">${[0,72,144,216,288].map(a=>`<ellipse cx="50" cy="24" rx="17" ry="24" transform="rotate(${a} 50 50)"/>`).join("")}</g><g fill="#ffb3d1">${[0,72,144,216,288].map(a=>`<path d="M50 50C38 40 38 16 46 8l4 6 4-6c8 8 8 32-4 42z" transform="rotate(${a} 50 50)"/>`).join("")}</g><circle cx="50" cy="50" r="8" fill="#ffe14a"/>`
+};
+const badgeSvg=id=>{ const k=id.split(":")[1]; return BUNDLE_BADGE_SVG[k]?`<svg class="stk" viewBox="0 0 100 100" aria-hidden="true">${BUNDLE_BADGE_SVG[k]}</svg>`:stkSvg(BADGE_ART[k]||"bolt"); };
 const hexOk=v=>/^#[0-9a-f]{6}$/i.test(v||"")?String(v).toLowerCase():null;
 function cleanLook(l){ l=l&&typeof l==="object"?l:{}; const o={};
   if(FRAMES.some(f=>f[0]===l.frame)) o.frame=l.frame;
@@ -4398,6 +4454,10 @@ function frameParts(id){
     const arc=(a,b)=>{ const p=t=>[50+62*Math.cos(t*Math.PI/180),50+62*Math.sin(t*Math.PI/180)].map(v=>v.toFixed(1)).join(" "); return `M${p(a)} A62 62 0 0 ${b>a?1:0} ${p(b)}`; };
     front=`<svg class="fx-svg" viewBox="0 0 100 100"><path class="stem" d="${arc(100,222)}"/><path class="stem" d="${arc(80,-42)}"/>${leaves(100,222,1)}${leaves(80,-42,-1)}</svg><b class="shine"></b>`;
   }
+  if(id==="hex"){
+    const HEX="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z";
+    front=`<svg class="fx-svg" viewBox="0 0 100 100"><g class="rimg"><path class="rim" d="${HEX}"/><path class="inner" d="${HEX}" transform="translate(50 50) scale(.88) translate(-50 -50)"/></g></svg>`;
+  }
   return {back,front};
 }
 function frameDeco(frame){ return frame==="legend"?'<span class="crown">👑</span>':frameParts(frame).front; }
@@ -4431,6 +4491,11 @@ function hfxHtml(id){ const f=HFX.find(x=>x[0]===id); if(!f) return ""; let h=""
   if(id==="fireworks"){ const C=["#ff3b36","#ffd23b","#3bd5ff","#ff3bd5","#7cff6b","#ffffff","#b04bff"];
     for(let k=0;k<5;k++){ const t=R(2.6,4).toFixed(2), dl=(-R(0,4)).toFixed(2), c=C[k%C.length], n=14, r=R(30,55).toFixed(0);
       h+=`<span class="fw" style="left:${R(8,92).toFixed(0)}%;top:${R(15,60).toFixed(0)}%;--t:${t}s;--dl:${dl}s">${Array.from({length:n},(_,j)=>`<b style="--a:${(j*360/n).toFixed(0)}deg;--r:${r}px;--c:${c}"></b>`).join("")}</span>`; } }
+  if(id==="hexgrid"){ const w=1000,hh=260,r=22,dx=r*Math.sqrt(3),dy=r*1.5,pts=(cx,cy)=>[0,1,2,3,4,5].map(i=>{const a=Math.PI/180*(60*i-90);return `${(cx+r*Math.cos(a)).toFixed(1)},${(cy+r*Math.sin(a)).toFixed(1)}`;}).join(" ");
+    let lines="",cells="",n=0;
+    for(let row=-1;row*dy<hh+r;row++) for(let col=-1;col*dx<w+dx;col++){ const cx=col*dx+(row%2?dx/2:0), cy=row*dy; lines+=`M${pts(cx,cy).replace(/ /g," L")} Z `;
+      if(Math.random()<.12){ n++; cells+=`<polygon class="cell${n%3?"":" b"}" points="${pts(cx,cy)}" style="animation-delay:-${R(0,5).toFixed(2)}s"/>`; } }
+    h=`<svg viewBox="0 0 ${w} ${hh}" preserveAspectRatio="xMidYMid slice"><path class="hg" d="${lines}"/>${cells}</svg><span class="scan"></span>`; }
   if(id==="lanterns") for(let k=0;k<9;k++) h+=`<i style="left:${R(2,94).toFixed(1)}%;--s:${R(12,22).toFixed(0)}px;${dur(7,12)}"></i>`;
     return `<div class="hfx fx-${id}" aria-hidden="true">${h}</div>`; }
   const anyTop=["stars","fireflies"].includes(id);
@@ -4446,6 +4511,9 @@ async function loadLevels(){
   try{
     const [items,owned,q]=await Promise.all([api.get("items?select=*&order=kind,sort"),api.get("owned_items?select=item_id"),api.rpc("my_quests")]);
     LV.items=items; LV.owned=new Set(owned.map(o=>o.item_id)); LV.quests=q||[]; LV.missing=false;
+    try{ const rows=await api.get("bundles?select=*&order=sort");
+      BUNDLES=rows.map(r=>({id:r.id,name:r.name,price:r.price,items:r.items||[],badge:String(r.badge||"").split(":")[1]||"",badgeName:(items.find(i=>i.id===r.badge)||{}).name||""}))
+        .filter(b=>b.items.length&&b.items.every(id=>items.some(i=>i.id===id))); }catch(_){ BUNDLES=[]; }
   }catch(e){ console.warn(e); LV.missing=true; }
   loadTop();
 }
@@ -4523,7 +4591,33 @@ function renderQuests(){
 }
 
 /* ---------- Shop ---------- */
-const SHOP_TABS=[["frame","Frames"],["sticker","Stickers"],["name","Name styles"],["font","Fonts"],["hfx","Header effects"]];
+const SHOP_TABS_ALL=[["frame","Frames"],["sticker","Stickers"],["name","Name styles"],["font","Fonts"],["hfx","Header effects"],["bundle","Bundles"]];
+const shopTabs=()=>SHOP_TABS_ALL.filter(t=>t[0]!=="bundle"||BUNDLES.length);
+// Bundles: a themed set of items for less than buying them one by one. Completing a set (bundle or not) gives its badge.
+let BUNDLES=[];   // loaded from the database (update 23); each row: id, name, badge, items, price
+const KIND_LABEL={frame:"Frame",hfx:"Header",name:"Name style",font:"Font"};
+function bundleInfo(b){
+  const its=b.items.map(id=>LV.items.find(i=>i.id===id)).filter(Boolean), full=its.reduce((n,i)=>n+(i.price||0),0);
+  const missing=its.filter(i=>!owns(i.id)), mv=missing.reduce((n,i)=>n+(i.price||0),0);
+  const pay=missing.length===its.length?b.price:Math.round(b.price*mv/Math.max(1,full)/10)*10;
+  return {its,full,missing,pay,save:Math.max(0,mv-pay),hasBadge:owns("badge:"+b.badge)};
+}
+function bundleLook(b){ const L={}; b.items.forEach(id=>{ const [k,v]=id.split(":"); if(k==="font") L.ft=L.ft||v; else if(!L[k]) L[k]=v; });
+  const f=FRAME_DEF[L.frame]; if(f){ L.f1=f[0]; L.f2=f[1]; } L.c1="#ff8fd0"; L.c2="#8fe9ff"; L.c3="#b04bff"; return L; }
+function bundleCard(b){
+  const me=U("me"), I=bundleInfo(b), L=bundleLook(b), done=!I.missing.length;
+  const rows=I.its.map(it=>`<li class="${owns(it.id)?"got":""}"><span class="k">${KIND_LABEL[it.kind]||""}</span><span class="n">${esc(it.name)}</span><span class="p">${owns(it.id)?"✓ Owned":"⚡ "+fmtN(it.price)}</span></li>`).join("");
+  const btn=done&&I.hasBadge?`<button class="buy own" disabled>✓ Set complete</button>`
+    :done?`<button class="buy" data-bclaim="${b.id}">Claim your badge</button>`
+    :`<button class="buy" data-bbuy="${b.id}" ${me.volts<I.pay?`disabled title="You need ${fmtN(I.pay-me.volts)} more Volts"`:""}>Buy bundle · ⚡ ${fmtN(I.pay)}</button>`;
+  const priceLine=done?`<span class="bnd-note">You have every item${I.hasBadge?" and the badge":", so the badge is free"}.</span>`
+    :I.missing.length<I.its.length?`<span class="bnd-note">You own ${I.its.length-I.missing.length} of ${I.its.length}, so you only pay for the rest.</span><span class="bnd-price"><s>⚡ ${fmtN(I.missing.reduce((n,i)=>n+i.price,0))}</s> <b>⚡ ${fmtN(I.pay)}</b><span class="save">Save ${fmtN(I.save)}</span></span>`
+    :`<span class="bnd-price"><s>⚡ ${fmtN(I.full)}</s> <b>⚡ ${fmtN(I.pay)}</b><span class="save">Save ${fmtN(I.save)}</span></span>`;
+  return `<div class="bnd">
+    <div class="bnd-prev">${L.hfx?hfxHtml(L.hfx):""}<div class="bnd-id">${frameWrap(L,`<span class="mini-av" style="width:56px;height:56px;font-size:22px;border-radius:14px;${grad(me.h)}">${avatarInner(me.avatar,me.name)}</span>`)}<span class="bnd-nm">${nameStyled(L,me.name.slice(0,14))}</span></div></div>
+    <div class="bnd-body"><div class="bnd-head"><h3>${esc(b.name)}</h3><span class="bdg">${badgeSvg("badge:"+b.badge)}${esc(b.badgeName)} badge</span></div>
+      <ul class="bnd-items">${rows}</ul>${priceLine}${btn}</div></div>`;
+}
 // Shop order: free and cheapest first, then more expensive, then things you unlock by level (lowest level first), then special gifts
 const shopGroup=i=>i.unlock_level!=null?1:i.price==null?2:0;
 const shopOrder=(a,b)=>shopGroup(a)-shopGroup(b)||(a.price||0)-(b.price||0)||(a.unlock_level||0)-(b.unlock_level||0)||a.sort-b.sort;
@@ -4538,7 +4632,13 @@ function renderShop(){
   if(LV.missing){ el.innerHTML=`<div class="empty">The shop isn't switched on yet. (The site owner needs to run update 6 in Supabase.)</div>`; $("#s-volts").hidden=true; return; }
   $("#s-volts").hidden=false; $("#s-volts").innerHTML=`⚡ ${fmtN(me.volts)} <span class="meta" style="font-weight:600">Volts</span>`;
   const list=LV.items.filter(i=>i.kind===LV.shopTab&&!(i.kind==="name"&&i.id==="name:solid")).sort(shopOrder);
-  el.innerHTML=`<div class="shop-tabs" role="group" aria-label="Shop sections">${SHOP_TABS.map(([k,n])=>`<button data-stab="${k}" aria-pressed="${LV.shopTab===k}">${n}</button>`).join("")}</div>
+  if(LV.shopTab==="bundle"&&!BUNDLES.length) LV.shopTab="frame";
+  if(LV.shopTab==="bundle"){
+    el.innerHTML=`<div class="shop-tabs" role="group" aria-label="Shop sections">${shopTabs().map(([k,n])=>`<button data-stab="${k}" aria-pressed="${LV.shopTab===k}">${n}</button>`).join("")}</div>
+      <p class="meta" style="margin:0 0 14px">Themed sets for less than buying each piece. Already own some? You only pay for the rest. Finish a set, bundle or not, and you get its badge.</p>
+      <div class="bnd-grid">${BUNDLES.slice().sort((a,b)=>a.price-b.price).map(bundleCard).join("")}</div>`;
+    return; }
+  el.innerHTML=`<div class="shop-tabs" role="group" aria-label="Shop sections">${shopTabs().map(([k,n])=>`<button data-stab="${k}" aria-pressed="${LV.shopTab===k}">${n}</button>`).join("")}</div>
     <div class="shop-grid">${list.map(it=>{ const own=owns(it.id), key=it.id.split(":")[1];
       const btn=own?(it.kind==="sticker"?`<button class="buy own" disabled>✓ Yours</button>`:`<button class="buy use" data-use="${esc(it.id)}">Use it</button>`)
         :it.unlock_level!=null?`<span class="lock">🔒 Reach level ${it.unlock_level}</span>`
@@ -4547,6 +4647,26 @@ function renderShop(){
       const rar=it.kind==="sticker"&&STK[key]?`<span class="rar">${esc(STK[key].r)}</span>`:"";
       return `<div class="sitem"><div class="art">${itemArt(it)}</div><b>${esc(it.name)}</b>${rar}${btn}</div>`; }).join("")}</div>
     <p class="meta" style="margin-top:14px">Earn Volts by leveling up and finishing <a href="#quests">quests</a>. Change what you're wearing in <button class="linkbtn" data-customize="">Customize</button>.</p>`;
+}
+async function buyBundle(b,btn){
+  if(btn) btn.disabled=true;
+  try{ await api.rpc("buy_bundle",{p_bundle:b.id}); bundleInfo(b).missing.forEach(it=>LV.owned.add(it.id)); LV.owned.add("badge:"+b.badge);
+    closeModal(); await refreshMe(); renderShop(); toast(`Got the ${b.name} set and the ${b.badgeName} badge! Put it on in Customize.`); }
+  catch(e){ fail(e); if(btn) btn.disabled=false; }
+}
+function openBundle(id){
+  const b=BUNDLES.find(x=>x.id===id); if(!b) return; const me=U("me"), I=bundleInfo(b);
+  $("#modal-root").innerHTML=`<div class="scrim" id="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="bnt" style="max-width:420px">
+    <h2 id="bnt">Buy the ${esc(b.name)} bundle?</h2>
+    <p class="sub">You get these right away:</p>
+    <ul class="bnd-items">${I.missing.map(it=>`<li><span class="k">${KIND_LABEL[it.kind]}</span><span class="n">${esc(it.name)}</span><span class="p">⚡ ${fmtN(it.price)}</span></li>`).join("")}
+      <li class="bdg-row"><span class="k">Badge</span><span class="n">${badgeSvg("badge:"+b.badge)}${esc(b.badgeName)}</span><span class="p">Free</span></li></ul>
+    <div class="bnd-sum"><span>Bundle price</span><b>⚡ ${fmtN(I.pay)}</b></div>
+    <div class="bnd-sum meta"><span>You save</span><span>⚡ ${fmtN(I.save)}</span></div>
+    <div class="bnd-sum meta"><span>Volts left after</span><span>⚡ ${fmtN(me.volts-I.pay)}</span></div>
+    <div class="row-btns" style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button class="btn" id="bn-no">Not now</button><button class="btn primary" id="bn-yes">Buy for ⚡ ${fmtN(I.pay)}</button></div></div></div>`;
+  $("#scrim").addEventListener("click",e=>{ if(e.target.id==="scrim") closeModal(); }); $("#bn-no").onclick=closeModal;
+  $("#bn-yes").onclick=()=>buyBundle(b,$("#bn-yes"));
 }
 async function buyItem(id,btn){
   const it=LV.items.find(i=>i.id===id); if(!it) return; btn.disabled=true;
@@ -5455,6 +5575,8 @@ document.addEventListener("click",e=>{
   else if(t.dataset.claim) claimQuest(t.dataset.claim,t);
   else if(t.dataset.stab){ LV.shopTab=t.dataset.stab; renderShop(); }
   else if(t.dataset.buy) buyItem(t.dataset.buy,t);
+  else if(t.dataset.bbuy) openBundle(t.dataset.bbuy);
+  else if(t.dataset.bclaim){ const b=BUNDLES.find(x=>x.id===t.dataset.bclaim); if(b) buyBundle(b,t); }
   else if(t.dataset.use){ openCustomize(t.dataset.use); }
   else if(t.dataset.giftto){ $("#more-menu").hidden=true; openGift(t.dataset.giftto); }
   else if(t.dataset.customize!==undefined||t.id==="am-customize") openCustomize();

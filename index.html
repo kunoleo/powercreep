@@ -85,7 +85,9 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
 .ident-text{flex:1;min-width:220px;padding-bottom:4px}
 .ident-text h1{font-size:30px;line-height:1.1;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .handle{color:var(--muted);font-size:14px}
-.bio{max-width:62ch;margin:10px 0 0}
+.bio{max-width:62ch;margin:10px 0 0;white-space:pre-line;overflow-wrap:anywhere}
+.bio.folded{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.bio-more{border:0;background:none;color:var(--accent);font:inherit;font-weight:700;font-size:13.5px;padding:2px 0;cursor:pointer}
 .ident-actions{display:flex;gap:8px;padding-bottom:6px}
 .btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 14px;font-weight:600;font-size:14px}
 .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
@@ -1897,7 +1899,7 @@ a.q-box:hover{border-color:var(--accent)}
         <div class="pstats" id="pstats"></div>
         <div id="p-level"></div>
         <div class="p-badges" id="p-badges"></div>
-        <p class="bio" id="p-bio"></p>
+        <p class="bio" id="p-bio"></p><button class="bio-more" id="p-bio-more" hidden aria-controls="p-bio">Show more</button>
         <div class="links" id="profile-links"></div>
       </div>
       <div class="ident-actions">
@@ -2471,7 +2473,8 @@ function avatarInner(a,name){ const L=esc(((name||"?").trim()[0]||"?").toUpperCa
 function renderProfileHeader(){
   const u=U(VIEW.key), own=VIEW.key==="me";
   $("#p-name").innerHTML=nameHtml(VIEW.key)+lvChip(VIEW.key); $("#p-staff").innerHTML=staffTag(VIEW.key); $("#p-handle").textContent=u.handle+(u.pronouns?" · "+u.pronouns:""); $("#p-title").textContent=u.title?" · "+u.title:"";
-  $("#p-bio").textContent=u.bio; $("#p-bio").hidden=!u.bio;
+  $("#p-bio").textContent=u.bio; $("#p-bio").hidden=!u.bio; $("#p-bio").classList.add("folded");
+  requestAnimationFrame(()=>{ const b=$("#p-bio"), m=$("#p-bio-more"); m.hidden=!u.bio||b.scrollHeight<=b.clientHeight+2; m.textContent="Show more"; m.setAttribute("aria-expanded","false"); });
   $("#avatar").innerHTML=avatarInner(u.avatar,u.name); $("#avatar").style.cssText=u.avatar.url?"":"";
   $("#banner").style.background=bannerBg(u.banner);
   const lk=u.look||{}; $("#banner").innerHTML=hfxHtml(lk.hfx);
@@ -3410,7 +3413,7 @@ function openSettings(){
           <div class="field"><label for="ps-pro">Pronouns <i>(optional)</i></label>
             <div class="pro-row"><select id="ps-pro"><option value="">Don't show</option><option>he/him</option><option>she/her</option><option>they/them</option><option>he/they</option><option>she/they</option><option value="other">Other…</option></select>
             <input id="ps-pro-o" maxlength="20" placeholder="Write your own" autocomplete="off" hidden></div><div class="hint">Shown next to your handle.</div></div>
-          <div class="field"><label for="ps-bio">Bio <i>(optional)</i></label><textarea id="ps-bio" maxlength="300"></textarea><div class="hint" id="ps-bio-n"></div></div>
+          <div class="field"><label for="ps-bio">Bio <i>(optional)</i></label><textarea id="ps-bio" maxlength="1000" rows="5"></textarea><div class="hint" id="ps-bio-n"></div></div>
           <div class="field"><label>Links <i>(up to 8)</i></label><div id="ps-links" class="ps-links"></div>
             <button type="button" class="btn sm" id="ps-add" style="margin-top:8px">+ Add link</button>
             <div class="hint">Paste a link and the site is picked for you. Choose "Other" to write your own button text.</div></div>
@@ -3454,7 +3457,7 @@ function openSettings(){
       if(!err&&r.plat==="other"&&!(r.label||"").trim()) err="Write the button text.";
       msg.textContent=err; if(err) ok=false;
     });
-    $("#ps-bio-n").textContent=`${300-$("#ps-bio").value.length} characters left`;
+    $("#ps-bio-n").textContent=`${1000-$("#ps-bio").value.length} characters left`;
     $("#ps-prev").innerHTML=rows.filter(r=>r.url).map(r=>chipFor(r)).join("")||`<span class="meta">Your link buttons show here.</span>`;
     $("#ps-save").disabled=!ok; return ok;
   };
@@ -5732,6 +5735,8 @@ async function start(){
   clearInterval(newTimer); newTimer=setInterval(checkNew,45000);
   checkLevelSeen(); loadGifFavs();
 }
+// Long bios fold after 6 lines, with a Show more button
+document.addEventListener("click",e=>{ if(e.target.id!=="p-bio-more") return; const b=$("#p-bio"), open=b.classList.toggle("folded"); e.target.textContent=open?"Show more":"Show less"; e.target.setAttribute("aria-expanded",String(!open)); });
 /* ===================== COMMUNITIES ===================== */
 const CM_COLORS=["#3b2bff","#8a1a1a","#e8590c","#139a4f","#1f6fd1","#b0367a","#7a5cff","#0f8a8a"];
 const cmColor=c=>CM_COLORS[parseInt(String(c.id).replace(/-/g,"").slice(0,6),16)%CM_COLORS.length];

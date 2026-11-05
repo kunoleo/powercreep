@@ -288,6 +288,17 @@ body.owner .visitor-only{display:none}
 .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#9146ff;margin-right:6px;vertical-align:1px}
 .pstats{display:flex;gap:16px;font-size:14px;color:var(--muted);margin-top:6px}
 .pstats b{color:var(--ink);font-variant-numeric:tabular-nums}
+.fl-link{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer}.fl-link:hover{color:var(--ink);text-decoration:underline}
+.fl-tabs{display:flex;border-bottom:1px solid var(--line);margin:4px 0 8px}
+.fl-tabs button{flex:1;border:0;background:none;padding:10px;font:inherit;font-weight:700;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer}
+.fl-tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent)}
+.fl-list{max-height:min(60vh,520px);overflow:auto;display:flex;flex-direction:column}
+.fl-row{display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid var(--line)}
+.fl-row:last-child{border-bottom:0}
+.fl-row a{display:flex;align-items:center;gap:10px;flex:1;min-width:0;text-decoration:none;color:var(--ink)}
+.fl-row .t{min-width:0;display:flex;flex-direction:column}.fl-row .t b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fl-row .t span{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fl-you{font-size:12px;color:var(--muted);font-weight:700}
 .chip svg{flex:none}
 .chip.chip-plain{background:var(--surface-2);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
 .icon-only{padding:8px 10px;display:inline-grid;place-items:center}
@@ -2484,7 +2495,7 @@ function renderProfileHeader(){
   const L=u.links.slice(); if(u.twitch&&!L.some(l=>l.plat==="twitch")) L.push({plat:"twitch",url:"https://www.twitch.tv/"+u.twitch});
   $("#profile-links").innerHTML=L.map(chipFor).join("");
   const fl=VIEW.followers, fmt=x=>x.toLocaleString("en");
-  $("#pstats").innerHTML=`<span><b>${fmt(fl)}</b> follower${fl===1?"":"s"}</span><span><b>${fmt(VIEW.following)}</b> following</span>${u.suspended?`<span class="tag red">Suspended</span>`:""}`;
+  $("#pstats").innerHTML=`<button class="fl-link" data-flist="followers:${esc(VIEW.key)}"><b>${fmt(fl)}</b> follower${fl===1?"":"s"}</button><button class="fl-link" data-flist="following:${esc(VIEW.key)}"><b>${fmt(VIEW.following)}</b> following</button>${u.suspended?`<span class="tag red">Suspended</span>`:""}`;
   const f=$("#follow"); const on=fs.following.has(VIEW.key); f.textContent=on?"Following":"Follow"; f.classList.toggle("primary",!on);
   document.body.classList.toggle("owner",own);
   ["#banner","#avatar"].forEach(sel=>{const el=$(sel); if(own){el.setAttribute("role","button");el.tabIndex=0;el.setAttribute("aria-label",sel==="#banner"?"Change header":"Change avatar");} else {el.removeAttribute("role");el.removeAttribute("tabindex");el.removeAttribute("aria-label");}});
@@ -3244,7 +3255,7 @@ async function openUser(key){
       api.count("posts?select=id&or=(kind.is.null,kind.eq.article)&author=eq."+id), api.get("media?select=tab&limit=2000&owner=eq."+id),
       LV.missing?Promise.resolve([]):api.rpc("user_badges",{p_user:id}).catch(()=>[])]);
     if(!$("#u-stats")) return;
-    $("#u-stats").innerHTML=`<span><b>${fmt(np)}</b> post${np===1?"":"s"}</span><span><b>${fmt(fl)}</b> follower${fl===1?"":"s"}</span><span><b>${fmt(fg)}</b> following</span>`;
+    $("#u-stats").innerHTML=`<span><b>${fmt(np)}</b> post${np===1?"":"s"}</span><button class="fl-link" data-flist="followers:${esc(key)}"><b>${fmt(fl)}</b> follower${fl===1?"":"s"}</button><button class="fl-link" data-flist="following:${esc(key)}"><b>${fmt(fg)}</b> following</button>`;
     const c={}; media.forEach(m=>c[m.tab]=(c[m.tab]||0)+1);
     c.articles=await api.count("posts?select=id&kind=eq.article&author=eq."+id).catch(()=>0); if(!$("#u-stats")) return;
     const kinds=[["articles","📰","article","articles"],["games","🎮","game","games"],["music","🎵","track","tracks"],["videos","🎬","video","videos"],["art","🎨","artwork","artworks"],["stories","📚","story","stories"]].filter(k=>c[k[0]]);
@@ -5737,6 +5748,51 @@ async function start(){
 }
 // Long bios fold after 6 lines, with a Show more button
 document.addEventListener("click",e=>{ if(e.target.id!=="p-bio-more") return; const b=$("#p-bio"), open=b.classList.toggle("folded"); e.target.textContent=open?"Show more":"Show less"; e.target.setAttribute("aria-expanded",String(!open)); });
+/* ===================== FOLLOWERS / FOLLOWING LISTS ===================== */
+let FL={key:null,which:"followers",ids:[],done:false,loading:false,counts:{}};
+async function openFollowList(key,which){
+  FL={key,which,ids:[],done:false,loading:false,counts:{followers:null,following:null}};
+  const u=U(key);
+  $("#modal-root").innerHTML=`<div class="scrim" id="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="flt" style="max-width:440px">
+    <h2 id="flt">${esc(u.name)}</h2>
+    <div class="fl-tabs" role="tablist"><button role="tab" data-flt="followers">Followers</button><button role="tab" data-flt="following">Following</button></div>
+    <div class="fl-list" id="fl-list"></div>
+    <div class="modal-actions"><button class="btn" id="fl-close">Close</button></div></div></div>`;
+  $("#scrim").addEventListener("click",e=>{ if(e.target.id==="scrim") closeModal(); }); $("#fl-close").onclick=closeModal;
+  $("#fl-list").addEventListener("scroll",e=>{ const l=e.target; if(l.scrollTop+l.clientHeight>l.scrollHeight-80) loadFollowList(); });
+  const id=idOf(key);
+  Promise.all([api.count("follows?select=follower&following=eq."+id),api.count("follows?select=following&follower=eq."+id)]).then(([a,b])=>{ FL.counts={followers:a,following:b}; drawFollowList(); }).catch(()=>{});
+  drawFollowList(); loadFollowList();
+}
+async function loadFollowList(){
+  if(FL.loading||FL.done) return; FL.loading=true; const key=FL.key, which=FL.which, id=idOf(key);
+  try{
+    const q=which==="followers"?"follows?select=follower,created_at&following=eq."+id:"follows?select=following,created_at&follower=eq."+id;
+    const rows=await api.get(q+"&order=created_at.desc&limit=50&offset="+FL.ids.length);
+    if(FL.key!==key||FL.which!==which) return;
+    const ids=rows.map(r=>which==="followers"?r.follower:r.following); await ensureUsers(ids);
+    FL.ids=FL.ids.concat(ids); FL.done=rows.length<50;
+  }catch(e){ fail(e); FL.done=true; }
+  FL.loading=false; drawFollowList();
+}
+function drawFollowList(){
+  const box=$("#fl-list"); if(!box) return;
+  document.querySelectorAll("[data-flt]").forEach(b=>{ const n=FL.counts[b.dataset.flt]; b.setAttribute("aria-selected",String(b.dataset.flt===FL.which));
+    b.textContent=(b.dataset.flt==="followers"?"Followers":"Following")+(n==null?"":" · "+Number(n).toLocaleString("en")); });
+  const keys=FL.ids.map(keyOf).filter(k=>USERS[k]&&!hiddenKey(k));
+  box.innerHTML=keys.map(k=>{ const u=U(k), me=k==="me", on=fs.following.has(k);
+    return `<div class="fl-row"><a href="#u/${esc(encodeURIComponent(u.username))}" data-flgo="1">${avHtml(k)}<span class="t"><b>${nameHtml(k)}</b><span>${esc(u.handle)}</span></span></a>
+      ${me?`<span class="fl-you">You</span>`:`<button class="btn sm ${on?"":"primary"}" data-follow="${esc(k)}">${on?"Following":"Follow"}</button>`}</div>`; }).join("")
+    +(FL.loading?`<div class="meta" style="padding:12px 2px">Loading…</div>`:!keys.length?`<div class="meta" style="padding:16px 2px">${FL.which==="followers"?"No followers yet.":"Not following anyone yet."}</div>`:"");
+}
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-flist],[data-flt],[data-flgo],#fl-list [data-follow]"); if(!t) return;
+  if(t.dataset.flist){ const i=t.dataset.flist.indexOf(":"); openFollowList(t.dataset.flist.slice(i+1),t.dataset.flist.slice(0,i)); }
+  else if(t.dataset.flt){ if(FL.which===t.dataset.flt) return; FL.which=t.dataset.flt; FL.ids=[]; FL.done=false; FL.loading=false; drawFollowList(); loadFollowList(); }
+  else if(t.dataset.flgo) closeModal();
+  else setTimeout(drawFollowList,0);   // a Follow button in the list: redraw once the follow went through
+});
+
 /* ===================== COMMUNITIES ===================== */
 const CM_COLORS=["#3b2bff","#8a1a1a","#e8590c","#139a4f","#1f6fd1","#b0367a","#7a5cff","#0f8a8a"];
 const cmColor=c=>CM_COLORS[parseInt(String(c.id).replace(/-/g,"").slice(0,6),16)%CM_COLORS.length];

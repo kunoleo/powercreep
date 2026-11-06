@@ -3565,6 +3565,23 @@ let notifTimer=null;
 function setBadge(n){
   const el=$("#bell-n"); el.hidden=!n; el.textContent=n>99?"99+":String(n);
   $("#bell").setAttribute("aria-label",n?`Notifications, ${n>99?"more than 99":n} new`:"Notifications");
+  tabBadge(n);
+}
+/* New notifications also show on the browser tab: a red dot on the site icon, and "(3) Power Creep" in the title */
+let TAB_N=0; const FAV_LINKS=[...document.querySelectorAll('link[rel="icon"]')], FAV_ORIG=FAV_LINKS.map(l=>l.href), FAV_DOT={};
+function titleWithCount(){ const base=document.title.replace(/^\(\d+\+?\) /,""), want=TAB_N?`(${TAB_N>99?"99+":TAB_N}) ${base}`:base; if(document.title!==want) document.title=want; }
+new MutationObserver(titleWithCount).observe(document.querySelector("title"),{childList:true,characterData:true,subtree:true});
+function tabBadge(n){
+  n=n|0; if(n===TAB_N) return; TAB_N=n; titleWithCount();
+  FAV_LINKS.forEach((l,i)=>{
+    if(!n){ l.href=FAV_ORIG[i]; return; }
+    if(FAV_DOT[i]){ l.href=FAV_DOT[i]; return; }
+    const img=new Image(); img.onload=()=>{ try{
+      const c=document.createElement("canvas"); c.width=c.height=64; const g=c.getContext("2d");
+      g.drawImage(img,0,0,64,64); g.beginPath(); g.arc(48,16,14,0,Math.PI*2); g.fillStyle="#ff3b36"; g.fill(); g.lineWidth=4; g.strokeStyle="#ffffff"; g.stroke();
+      FAV_DOT[i]=c.toDataURL("image/png"); if(TAB_N) l.href=FAV_DOT[i]; }catch(_){} };
+    img.src=FAV_ORIG[i];
+  });
 }
 async function loadNotifCount(){
   try{ const [a,b]=await Promise.all([api.count("notifications?select=id&read=eq.false"),api.count("notices?select=id&read=eq.false")]); setBadge(a+b); }catch(_){}

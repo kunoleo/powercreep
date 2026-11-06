@@ -1038,6 +1038,25 @@ h1 .lvc{margin-left:8px}
 .c-comm-chip i{width:18px;height:18px;border-radius:5px;background-size:cover;background-position:center}.c-comm-chip button{border:0;background:none;color:var(--muted);padding:0 4px;font-size:15px}
 #c-comm-btn svg{fill:none;stroke:currentColor;stroke-width:2}#c-comm-btn.on{background:var(--accent-soft);color:var(--accent)}
 .cmf-list{display:flex;flex-direction:column;gap:6px}.cmf-row{display:flex;gap:6px}.cmf-row input{flex:1;min-width:0}
+.chi{font-size:11px}
+.lockbar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:10px 14px;color:var(--muted);font-size:14px;margin-bottom:8px}
+.slinks{display:flex;flex-direction:column;gap:8px}
+.sl{display:flex;gap:10px;align-items:center;border:0;background:none;color:var(--ink);border-radius:10px;padding:4px;margin:-4px;text-align:left;font:inherit;cursor:pointer}
+.sl:hover{background:var(--surface-2)}
+.sl .th{width:72px;aspect-ratio:16/9;border-radius:7px;flex:none;background-size:cover;background-position:center}
+.sl b{display:block;font-size:13.5px;line-height:1.3}
+.ktag{font-size:11px;font-weight:800;border-radius:999px;padding:1px 7px;background:var(--surface-2);color:var(--muted)}
+.ktag.k-game{background:rgba(59,213,255,.14);color:#3bd5ff}.ktag.k-music{background:rgba(60,207,142,.14);color:#3ccf8e}.ktag.k-story{background:rgba(255,143,208,.14);color:#ff8fd0}
+.cmf-row{align-items:center}.cmf-row .tg{flex:none}
+.tg{display:inline-flex;align-items:center;gap:5px;font:inherit;font-size:12.5px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 10px;background:none;white-space:nowrap;cursor:pointer}
+.tg[aria-pressed=true]{color:var(--ink);border-color:var(--accent);background:var(--accent-soft)}
+@media (max-width:520px){.cmf-row{flex-wrap:wrap}.cmf-row input{flex-basis:100%}}
+.lpick{display:flex;flex-direction:column;gap:6px}
+.lp{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:8px;background:none;color:var(--ink);text-align:left;width:100%;font:inherit;cursor:pointer}
+.lp[aria-pressed=true]{border-color:var(--accent);background:var(--accent-soft)}.lp:disabled{opacity:.45;cursor:not-allowed}
+.lp .th{width:64px;aspect-ratio:16/9;border-radius:6px;flex:none;background-size:cover;background-position:center}
+.lp .cico{width:30px;height:30px;border-radius:8px;font-size:13px}
+.lp .ck{margin-left:auto;font-weight:800;color:var(--accent);white-space:nowrap}
 .sg-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
 .sg-card h3{margin:0 0 4px;font-size:16px}.sg-card p{margin:6px 0;color:var(--muted);font-size:14px;white-space:pre-line}
 .bnd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr));gap:14px}
@@ -2813,6 +2832,7 @@ function openForm(type,ex){
         ${f}
         ${type==="music"?"":`<div class="field"><label for="f-desc">Description <i>(optional)</i></label><textarea id="f-desc" maxlength="1000" rows="4" placeholder="${{game:"What's the game about? Controls, platforms, credits…",video:"What's the video about?",art:"Tell people about this piece: tools, process, the story behind it…",story:"The blurb: what's it about? Add content warnings here too."}[type]}"></textarea><div class="hint">Shown when people open it.</div></div>`}
         ${creditsFieldHtml()}
+        ${!ex?commShareFieldHtml():""}
         <div class="field"><label for="f-ai">Made with AI?</label>
           <select id="f-ai"><option value="">No AI used</option><option value="assisted">AI-assisted: I made it, AI helped somewhere</option><option value="generated">AI-made: mostly or fully generated</option></select></div>
         <div class="field" id="f-ainote-wrap" hidden><label for="f-ainote">What was made with AI?</label><textarea id="f-ainote" placeholder="e.g. Music is mine, cover art made with AI"></textarea></div>
@@ -3220,8 +3240,8 @@ async function postFromComposer(e){
     readComposer(); refreshPosts(); toast("Posted."); if(document.querySelector("#modal-root #composer")) closeModal();
   }catch(err){ fail(err); readComposer(); }
 }
-async function addActivity(kind,itemId,note){
-  try{ const row=await api.insert("posts",{kind,media_id:itemId,text:note||""}); const np=postFromRow(row); fs.fyOrder.unshift(np.id); refreshPosts(); }
+async function addActivity(kind,itemId,note,comm){
+  try{ const row=await api.insert("posts",{kind,media_id:itemId,text:note||"",...(comm&&comm.c&&comm.ch?{community_id:comm.c,channel_id:comm.ch}:{})}); const np=postFromRow(row); fs.fyOrder.unshift(np.id); refreshPosts(); }
   catch(err){ fail(err); }
 }
 
@@ -3352,7 +3372,7 @@ async function saveMedia(type,ex){
     } else {
       const r=await api.insert("media",row); const ni=itemFromRow(r); CREDITS[ni.id]=[]; await syncCredits(ni.id); const here=!$("#view-profile").hidden&&VIEW.key==="me";
       if(here){ items.unshift(ni); state.tab=T.tab; } else if(ni){ MEDIA[ni.id]=ni; if(VIEW.key==="me"&&VIEW.loaded) items.unshift(ni); }
-      closeModal(); if(here){ renderTabs(); renderGrid(); } await addActivity("media",ni.id); refreshPosts(); toast(`Posted to ${T.n}. It's also in your followers' feeds.`);
+      const share={...AM_COMM}; closeModal(); if(here){ renderTabs(); renderGrid(); } await addActivity("media",ni.id,"",share); refreshPosts(); toast(`Posted to ${T.n}. It's also in your followers' feeds.`);
     }
   }catch(err){ $("#am-submit").disabled=false; fail(err); }
 }
@@ -5816,20 +5836,26 @@ const cmColor=c=>CM_COLORS[parseInt(String(c.id).replace(/-/g,"").slice(0,6),16)
 const cmImg=u=>{ const pl=u?parseLink(u):null; return pl&&pl.kind==="image"?pl.img:null; };
 function cmIcoStyle(c){ const im=cmImg(c.icon); return im?`background-image:url('${esc(im)}')`:`background:${cmColor(c)}`; }
 function cmBanStyle(c){ const im=cmImg(c.banner); return im?`background-image:url('${esc(im)}')`:`background:linear-gradient(135deg,${cmColor(c)},#141218)`; }
+const TYPES_BG=it=>({game:"linear-gradient(135deg,#2a0f14,#8a1a1a)",music:"linear-gradient(135deg,#0f2a1d,#139a4f)",story:"linear-gradient(135deg,#3d1030,#b0367a)"})[TAB_TYPE[it.tab]]||"linear-gradient(135deg,#252529,#111113)";
+const MTAG=it=>{ const t=TAB_TYPE[it.tab]; return t==="game"?"Game":t==="story"?(STYPES[it.stype]||"Story"):t==="music"?(MTYPES[it.stype]||"Music"):"Media"; };
 const cmIcon=(c,cls="")=>`<span class="cico ${cls}" style="${cmIcoStyle(c)}" aria-hidden="true">${cmImg(c.icon)?"":esc(c.name[0].toUpperCase())}</span>`;
 const commBySlug=sl=>Object.values(COMMS).find(c=>c.slug===sl);
 const chanName=(c,id)=>{ const ch=c&&c.channels.find(x=>x.id===id); return ch?ch.name:null; };
+const canPostIn=(c,ch)=>!ch.lock||canModComm(c.id);                 // locked channels: owner and mods only
+const uploadChans=c=>c.channels.filter(ch=>ch.up&&canPostIn(c,ch));   // channels you can share an upload into
 function canModComm(cid){ const c=COMMS[cid]; if(!c||GUEST||!ME_ID) return false; return !!U("me").staff||c.owner===ME_ID||c.mods.includes(ME_ID); }
 function commSlots(){ const me=U("me"); if(GUEST||!ME_ID) return 0; if(me.staff) return 99; const lv=me.lv||1;
   return Math.max(0,(lv>=30?2:lv>=20?1:0)-Object.values(COMMS).filter(c=>c.owner===ME_ID&&!c.official).length); }
 async function loadCommunities(force){
   if(!force&&Date.now()-COMMS_AT<60000) return;
   try{
-    const [cs,chs,mods,mine]=await Promise.all([api.get("communities?select=*&order=created_at.asc"),api.get("community_channels?select=*&order=sort.asc"),
-      api.get("community_mods?select=*"),ME_ID?api.get("community_members?select=community_id&user_id=eq."+ME_ID):Promise.resolve([])]);
+    const [cs,chs,mods,links,mine]=await Promise.all([api.get("communities?select=*&order=created_at.asc"),api.get("community_channels?select=*&order=sort.asc"),
+      api.get("community_mods?select=*"),api.get("community_links?select=*&order=sort.asc").catch(()=>[]),ME_ID?api.get("community_members?select=community_id&user_id=eq."+ME_ID):Promise.resolve([])]);
     COMMS={}; cs.forEach(r=>COMMS[r.id]={id:r.id,slug:r.slug,name:String(r.name||"").slice(0,40),about:String(r.about||""),rules:Array.isArray(r.rules)?r.rules.slice(0,10):[],
-      icon:r.icon,banner:r.banner,owner:r.owner,official:!!r.official,hidden:!!r.hidden,members:r.member_count||0,channels:[],mods:[]});
-    chs.forEach(ch=>{ if(COMMS[ch.community_id]) COMMS[ch.community_id].channels.push({id:ch.id,name:ch.name}); });
+      icon:r.icon,banner:r.banner,owner:r.owner,official:!!r.official,hidden:!!r.hidden,members:r.member_count||0,channels:[],mods:[],links:[]});
+    chs.forEach(ch=>{ if(COMMS[ch.community_id]) COMMS[ch.community_id].channels.push({id:ch.id,name:ch.name,up:!!ch.allow_uploads,lock:!!ch.locked}); });
+    links.forEach(l=>{ if(COMMS[l.community_id]) COMMS[l.community_id].links.push(l.media_id); });
+    ensureMedia(links.map(l=>l.media_id)).catch(()=>{});
     mods.forEach(m=>{ if(COMMS[m.community_id]) COMMS[m.community_id].mods.push(m.user_id); });
     MYCOMMS=new Set(mine.map(m=>m.community_id).filter(id=>COMMS[id]));
     COMMS_AT=Date.now();
@@ -5909,14 +5935,17 @@ function renderCommunity(){
     <div class="cv-head"><div class="cv-id">${cmIcon(c)}
       <div class="t"><h1>${esc(c.name)}${c.official?`<span class="off-tag">Official</span>`:""}${c.hidden?`<span class="off-tag">Hidden</span>`:""}</h1><div class="meta">${fmtN(c.members)} member${c.members===1?"":"s"} · ${fmtN(CV.week)} post${CV.week===1?"":"s"} this week</div></div>
       <div class="acts">${joinBtn(c)}<button class="btn" data-cmore="${c.id}" aria-label="More options for this community">⋯</button></div></div>
-      <div class="tabs" role="tablist" aria-label="Channels" style="margin-top:10px">${chans.map(ch=>`<button role="tab" aria-selected="${CV.chan===ch.id}" data-cchan="${ch.id||""}">${ch.id?"# ":""}${esc(ch.name)}</button>`).join("")}</div></div>
+      <div class="tabs" role="tablist" aria-label="Channels" style="margin-top:10px">${chans.map(ch=>`<button role="tab" aria-selected="${CV.chan===ch.id}" data-cchan="${ch.id||""}" ${ch.lock?'title="Locked: only the owner and moderators post here"':ch.up?'title="Takes uploads"':""}>${ch.id?"# ":""}${esc(ch.name)}${ch.lock?' <span class="chi" aria-label="locked">🔒</span>':""}${ch.up?' <span class="chi" aria-label="takes uploads">📤</span>':""}</button>`).join("")}</div></div>
     <div class="cv-cols"><div style="min-width:0">
       <div class="cv-sort"><span class="meta">${CV.chan?`Posts in # ${esc(chanName(c,CV.chan)||"")}`:`Everything posted in ${esc(c.name)}`}</span>
         <div class="seg" role="group" aria-label="Sort"><button data-csort="new" aria-pressed="${CV.sort==="new"}">New</button><button data-csort="top" aria-pressed="${CV.sort==="top"}">Top this week</button></div></div>
+      ${(()=>{ const ch=CV.chan&&c.channels.find(x=>x.id===CV.chan); return ch&&ch.lock&&!mod?`<div class="lockbar">🔒 Only the owner and moderators can post in # ${esc(ch.name)}. You can still like, comment and repost.</div>`
+        :ch&&ch.up?`<div class="lockbar">📤 You can share your games, art, music, videos and stories here. Pick this channel at the bottom of the upload form.</div>`:""; })()}
       <div id="cv-posts">${CV.loading&&!list.length?`<div class="feed-empty">Loading…</div>`:list.length?list.map(p=>postHtml(p,"cm")).join(""):`<div class="feed-empty">${CV.sort==="top"?"Nothing got likes here this week yet.":"No posts here yet."}${!GUEST&&MYCOMMS.has(c.id)?" Be the first! Press the community button in the post box.":""}</div>`}</div>
     </div><aside class="cv-side">
       <div class="side-card"><h3>About</h3><p>${esc(c.about||"No description yet.")}</p></div>
       ${c.rules.length?`<div class="side-card"><h3>Rules</h3><ol>${c.rules.map(r=>`<li>${esc(r)}</li>`).join("")}</ol></div>`:""}
+      ${(()=>{ const its=c.links.map(mediaById).filter(it=>it&&!it.hidden); return its.length?`<div class="side-card"><h3>Media</h3><div class="slinks">${its.map(it=>`<button class="sl" data-mopen="${it.id}"><span class="th" style="${imgOf(it)?`background-image:url('${esc(imgOf(it))}')`:`background:${TYPES_BG(it)}`}"></span><span><b>${esc(it.title)}</b><span><span class="ktag k-${TAB_TYPE[it.tab]}">${esc(MTAG(it))}</span></span></span></button>`).join("")}</div></div>`:""; })()}
       <div class="side-card"><h3>${c.official?"Run by":"Moderators"}</h3><div class="cv-mods">${people.map((id,i)=>{ const k=keyOf(id); return `<button data-user="${esc(k)}">${avHtml(k)}${esc(U(k).name)} <small>· ${i===0?"owner":"mod"}</small></button>`; }).join("")}</div></div>
       ${mod?`<p class="side-note">You're a moderator here. Use the ⋯ on a post to pin it, move it, or remove it from the community.</p>`:""}
     </aside></div>`;
@@ -5940,12 +5969,31 @@ function drawCommChip(){ const c=COMPOSE_COMM.c&&COMMS[COMPOSE_COMM.c];
   $("#c-comm-chip").innerHTML=c?`<span class="c-comm-chip"><i style="${cmIcoStyle(c)}"></i>${esc(c.name)} › ${esc(chanName(c,COMPOSE_COMM.ch)||"")}<button type="button" data-cunpick="1" aria-label="Don't post to a community">×</button></span>`:"";
   $("#c-comm-btn").classList.toggle("on",!!c||!$("#c-comm-pick").hidden); }
 function drawCommPick(){
-  const mine=[...MYCOMMS].map(id=>COMMS[id]).filter(c=>c&&!c.hidden).sort((a,b)=>a.name.localeCompare(b.name)), cur=COMPOSE_COMM.c&&COMMS[COMPOSE_COMM.c];
+  const mine=[...MYCOMMS].map(id=>COMMS[id]).filter(c=>c&&!c.hidden&&c.channels.some(ch=>canPostIn(c,ch))).sort((a,b)=>a.name.localeCompare(b.name)), cur=COMPOSE_COMM.c&&COMMS[COMPOSE_COMM.c];
   $("#c-comm-pick").innerHTML=!mine.length?`<p class="meta" style="margin:4px">Join a community first, then you can post to it. <a href="#communities">See communities</a></p>`
     :`<div class="lbl">Your communities</div><div class="pks">${mine.map(c=>`<button type="button" class="pk" data-cpick="${c.id}" aria-pressed="${COMPOSE_COMM.c===c.id}">${cmIcon(c)}<span><b>${esc(c.name)}</b><small>${fmtN(c.members)} members</small></span></button>`).join("")}</div>
-      ${cur?`<div class="lbl" style="margin-top:8px">Channel</div><div class="chlist">${cur.channels.map(ch=>`<button type="button" class="btag big" data-cpch="${ch.id}" aria-pressed="${COMPOSE_COMM.ch===ch.id}"># ${esc(ch.name)}</button>`).join("")}</div>`:""}
+      ${cur?`<div class="lbl" style="margin-top:8px">Channel</div><div class="chlist">${cur.channels.filter(ch=>canPostIn(cur,ch)).map(ch=>`<button type="button" class="btag big" data-cpch="${ch.id}" aria-pressed="${COMPOSE_COMM.ch===ch.id}"># ${esc(ch.name)}</button>`).join("")}</div>`:""}
       <p class="meta" style="margin:8px 4px 0;font-size:12.5px">Your followers see the post too. One community per post.</p>`;
 }
+
+/* ---------- Sharing an upload into a community (bottom of the upload form) ---------- */
+let AM_COMM={c:null,ch:null};
+function commShareFieldHtml(){
+  AM_COMM={c:null,ch:null};
+  const list=[...MYCOMMS].map(id=>COMMS[id]).filter(c=>c&&!c.hidden).sort((a,b)=>a.name.localeCompare(b.name));
+  if(!list.length) return "";
+  return `<div class="field"><label>Share to a community <i>(optional)</i></label><div class="lpick" id="am-comm">${amCommHtml()}</div></div>`;
+}
+function amCommHtml(){
+  const list=[...MYCOMMS].map(id=>COMMS[id]).filter(c=>c&&!c.hidden).sort((a,b)=>a.name.localeCompare(b.name)), cur=AM_COMM.c&&COMMS[AM_COMM.c];
+  return list.map(c=>{ const ups=uploadChans(c); return `<button type="button" class="lp" data-amc="${c.id}" aria-pressed="${AM_COMM.c===c.id}" ${ups.length?"":"disabled"}>${cmIcon(c)}<span><b>${esc(c.name)}</b><br><span class="meta">${ups.length?"Takes uploads in "+ups.map(x=>"# "+esc(x.name)).join(", "):"No channels take uploads"}</span></span><span class="ck">${AM_COMM.c===c.id?"✓":""}</span></button>`; }).join("")
+    +(cur?`<div class="chlist">${uploadChans(cur).map(ch=>`<button type="button" class="btag big" data-amch="${ch.id}" aria-pressed="${AM_COMM.ch===ch.id}"># ${esc(ch.name)}</button>`).join("")}</div>`:"")
+    +`<p class="meta" style="margin:2px 0 0;font-size:12.5px">One community per upload. Your followers see it too.</p>`;
+}
+document.addEventListener("click",e=>{ const t=e.target.closest("[data-amc],[data-amch]"); if(!t) return;
+  if(t.dataset.amc){ const c=COMMS[t.dataset.amc]; AM_COMM=AM_COMM.c===c.id?{c:null,ch:null}:{c:c.id,ch:(uploadChans(c)[0]||{}).id||null}; }
+  else AM_COMM.ch=t.dataset.amch;
+  $("#am-comm").innerHTML=amCommHtml(); });
 
 /* ---------- Make or edit a community ---------- */
 function openCommForm(cid,pre){
@@ -5961,6 +6009,7 @@ function openCommForm(cid,pre){
     <div class="field"><label for="cmf-banner">Banner <i>(optional, wide, like 1200 × 300)</i></label><input id="cmf-banner" value="${esc(d.banner||"")}" placeholder="https://i.ibb.co/….png" autocomplete="off"></div>
     <div class="field"><label>Channels <i>(1 to 10)</i></label><div class="cmf-list" id="cmf-chs">${d.channels.map(ch=>chRow(ch)).join("")}</div>
       <button type="button" class="btn sm" id="cmf-addch" style="margin-top:6px">＋ Add a channel</button></div>
+    <div class="field"><label>Media <i>(optional, link up to 6 of ${c&&c.owner!==ME_ID?"the owner's":"your"} games, stories and music)</i></label><div class="lpick" id="cmf-links"><p class="meta">Loading…</p></div></div>
     <div class="field"><label for="cmf-rules">Rules <i>(optional, one per line, up to 10)</i></label><textarea id="cmf-rules" rows="4" placeholder="Be kind.&#10;Post your own work, or credit the artist.">${esc(d.rules.join("\n"))}</textarea></div>
     <div class="field"><label for="cmf-mods">Moderators <i>(optional, up to 5 usernames)</i></label><input id="cmf-mods" value="${esc(modNames)}" placeholder="kunoleo, someone_else" autocomplete="off"></div>
     ${staff?`<label class="opt"><input type="checkbox" id="cmf-off" ${d.official?"checked":""}><div><b>Official community</b><span>Shows under "Official communities"</span></div></label>`:""}
@@ -5968,12 +6017,23 @@ function openCommForm(cid,pre){
     <div class="modal-actions"><button type="button" class="btn" id="cmf-no">Cancel</button><button class="btn primary" id="cmf-go">${c?"Save changes":"Create community"}</button></div></form></div>`;
   $("#scrim").addEventListener("click",e=>{ if(e.target.id==="scrim") closeModal(); }); $("#cmf-no").onclick=closeModal;
   $("#cmf-addch").onclick=()=>{ if($("#cmf-chs").children.length>=10) return toast("Up to 10 channels."); $("#cmf-chs").insertAdjacentHTML("beforeend",chRow({id:"",name:""})); $("#cmf-chs").lastElementChild.querySelector("input").focus(); };
+  // Media: the owner's own games, stories and music
+  let LINKS=(c?c.links:[]).slice(); const ownerId=c?c.owner:ME_ID;
+  const drawLinks=its=>{ $("#cmf-links").innerHTML=its.length?its.map(it=>`<button type="button" class="lp" data-lnk="${it.id}" aria-pressed="${LINKS.includes(it.id)}"><span class="th" style="${imgOf(it)?`background-image:url('${esc(imgOf(it))}')`:`background:${TYPES_BG(it)}`}"></span><span><b>${esc(it.title)}</b><br><span class="meta">${esc(MTAG(it))}</span></span><span class="ck">${LINKS.includes(it.id)?"✓ Linked":""}</span></button>`).join("")+`<p class="meta" style="margin:4px 0 0">${LINKS.length} of 6 linked.</p>`
+      :`<p class="meta">${ownerId===ME_ID?"You haven't":"The owner hasn't"} posted any games, stories or music yet.</p>`; };
+  api.get("media?select=*&owner=eq."+ownerId+"&tab=in.(games,stories,music)&order=created_at.desc&limit=100").then(rows=>{ const its=rows.map(itemFromRow).filter(Boolean);
+    drawLinks(its); $("#cmf-links").addEventListener("click",e=>{ const b=e.target.closest("[data-lnk]"); if(!b) return; const id=b.dataset.lnk;
+      if(LINKS.includes(id)) LINKS=LINKS.filter(x=>x!==id); else if(LINKS.length>=6) return toast("You can link up to 6."); else LINKS.push(id); drawLinks(its); }); })
+    .catch(()=>{ $("#cmf-links").innerHTML=`<p class="meta">Couldn't load your uploads.</p>`; });
+  $("#cmf-chs").addEventListener("click",e=>{ const sw=e.target.closest("[data-chsw]"); if(sw){ sw.setAttribute("aria-pressed",String(sw.getAttribute("aria-pressed")!=="true")); return; } });
   $("#cmf-chs").addEventListener("click",e=>{ const b=e.target.closest("[data-chrm]"); if(!b) return; if($("#cmf-chs").children.length<=1) return toast("A community needs at least one channel."); b.parentElement.remove(); });
   $("#cmf").addEventListener("submit",async e=>{ e.preventDefault();
     const img=id=>{ const v=$(id).value.trim(); if(!v) return ""; const pl=parseLink(v); if(!pl||pl.kind!=="image") throw new Error("That image site isn't supported for the "+(id==="#cmf-icon"?"icon":"banner")+". Use one of: "+IMG_SITE_NAMES+"."); return pl.img; };
     try{
       const body={name:$("#cmf-name").value.trim(),about:$("#cmf-about").value.trim(),icon:img("#cmf-icon"),banner:img("#cmf-banner"),
-        channels:[...document.querySelectorAll("#cmf-chs .cmf-row")].map(r=>({id:r.dataset.id||"",name:r.querySelector("input").value.trim()})).filter(x=>x.name),
+        channels:[...document.querySelectorAll("#cmf-chs .cmf-row")].map(r=>({id:r.dataset.id||"",name:r.querySelector("input").value.trim(),
+          uploads:r.querySelector('[data-chsw="up"]').getAttribute("aria-pressed")==="true",locked:r.querySelector('[data-chsw="lock"]').getAttribute("aria-pressed")==="true"})).filter(x=>x.name),
+        links:LINKS,
         rules:$("#cmf-rules").value.split("\n").map(x=>x.trim()).filter(Boolean),mods:$("#cmf-mods").value.split(",").map(x=>x.trim().replace(/^@/,"")).filter(Boolean),
         ...(staff?{official:$("#cmf-off").checked}:{})};
       $("#cmf-go").disabled=true; $("#cmf-msg").textContent="";
@@ -5986,7 +6046,9 @@ function openCommForm(cid,pre){
   });
   $("#cmf-name").focus();
 }
-const chRow=ch=>`<div class="cmf-row" data-id="${esc(ch.id||"")}"><input maxlength="24" value="${esc(ch.name)}" placeholder="Channel name" aria-label="Channel name"><button type="button" class="btn sm" data-chrm="1" aria-label="Remove channel">×</button></div>`;
+const chRow=ch=>`<div class="cmf-row" data-id="${esc(ch.id||"")}"><input maxlength="24" value="${esc(ch.name)}" placeholder="Channel name" aria-label="Channel name">
+  <button type="button" class="tg" data-chsw="up" aria-pressed="${!!ch.up}" title="Members can share uploads into this channel">📤 Uploads</button><button type="button" class="tg" data-chsw="lock" aria-pressed="${!!ch.lock}" title="Only the owner and moderators can post here">🔒 Locked</button>
+  <button type="button" class="btn sm" data-chrm="1" aria-label="Remove channel">×</button></div>`;
 
 /* ---------- Suggest a community ---------- */
 function openSuggest(){
@@ -6021,7 +6083,7 @@ document.addEventListener("click",async e=>{
   else if(t.dataset.cdel){ const b=t; confirmInline(b,"Delete for good?",async()=>{ $("#more-menu").hidden=true; const c=COMMS[b.dataset.cdel];
       try{ await api.rpc("delete_community",{p_id:c.id}); delete COMMS[c.id]; MYCOMMS.delete(c.id); posts.forEach(p=>{ if(p.comm===c.id){ p.comm=null; p.chan=null; } }); toast(`${c.name} was deleted. Its posts stay on people's profiles.`); location.hash="communities"; }catch(err){ fail(err); } }); }
   else if(t.id==="c-comm-btn"){ const pk=$("#c-comm-pick"); pk.hidden=!pk.hidden; t.setAttribute("aria-expanded",String(!pk.hidden)); if(!pk.hidden) drawCommPick(); drawCommChip(); }
-  else if(t.dataset.cpick){ const c=COMMS[t.dataset.cpick]; COMPOSE_COMM={c:c.id,ch:(c.channels[0]||{}).id||null}; drawCommPick(); drawCommChip(); }
+  else if(t.dataset.cpick){ const c=COMMS[t.dataset.cpick]; COMPOSE_COMM={c:c.id,ch:(c.channels.find(ch=>canPostIn(c,ch))||{}).id||null}; drawCommPick(); drawCommChip(); }
   else if(t.dataset.cpch){ COMPOSE_COMM.ch=t.dataset.cpch; drawCommPick(); drawCommChip(); }
   else if(t.dataset.cunpick){ COMPOSE_COMM={c:null,ch:null}; if(!$("#c-comm-pick").hidden) drawCommPick(); drawCommChip(); }
   else if(t.dataset.cmod){ $("#more-menu").hidden=true; const [pid,act]=t.dataset.cmod.split(":"), p=posts.find(x=>x.id===pid); if(!p) return;

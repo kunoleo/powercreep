@@ -4701,7 +4701,7 @@ function renderLevelBits(){
   if(!$("#view-profile").hidden&&VIEW.key==="me") renderProfileHeader();
 }
 // Anything that can earn XP → check level, Volts and quests shortly after.
-["insert","remove"].forEach(m=>{ const orig=api[m]; api[m]=async(...a)=>{ const r=await orig.apply(api,a); if(["posts","comments","guestbook","post_stickers","media"].includes(a[0])) soonRefresh(); return r; }; });
+["insert","remove"].forEach(m=>{ const orig=api[m]; api[m]=async(...a)=>{ const r=await orig.apply(api,a); if(["posts","comments","guestbook","post_stickers","media","likes","media_likes"].includes(a[0])) soonRefresh(); return r; }; });
 
 function ringHtml(lv,pct,sm){ return `<span class="ring${sm?" sm":""}" style="--p:${pct}"><span>${lv}<small>LEVEL</small></span></span>`; }
 function lvMenuCard(){ const u=U("me"); if(!u.lv||LV.missing||u.brand) return ""; const i=lvInfo(u.xp), r=rankOf(u.lv);

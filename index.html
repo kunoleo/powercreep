@@ -1036,7 +1036,26 @@ h1 .lvc{margin-left:8px}
 .chlist{display:flex;flex-wrap:wrap;gap:6px;padding:4px}
 .c-comm-chip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);border:1px solid var(--accent);border-radius:999px;padding:3px 6px 3px 4px;font-size:13px;font-weight:700;margin-top:8px}
 .c-comm-chip i{width:18px;height:18px;border-radius:5px;background-size:cover;background-position:center}.c-comm-chip button{border:0;background:none;color:var(--muted);padding:0 4px;font-size:15px}
-#c-comm-btn svg{fill:none;stroke:currentColor;stroke-width:2}#c-comm-btn.on{background:var(--accent-soft);color:var(--accent)}
+#c-comm-btn svg,#a-comm-btn svg{fill:none;stroke:currentColor;stroke-width:2}#c-comm-btn.on,#a-comm-btn.on{background:var(--accent-soft);color:var(--accent)}
+.a-rev{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 14px 12px;margin-bottom:12px}
+.a-rev .lbl{display:block;font-weight:700;font-size:13.5px;margin:10px 0 6px}.a-rev .lbl:first-child{margin-top:2px}.a-rev .lbl i{color:var(--muted);font-weight:500;font-style:normal}
+.a-rev .row{display:flex;gap:6px;flex-wrap:wrap}
+.a-rev .pill{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 11px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.a-rev .pill[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.a-scores{display:flex;gap:4px;flex-wrap:wrap}.a-scores button{min-width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:800;font-size:13.5px;cursor:pointer}
+.a-scores button.none{padding:0 10px;font-weight:700}.a-scores button[aria-pressed="true"]{background:#ffd23b;border-color:#ffd23b;color:#111}
+.a-rev input{width:100%;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface);color:var(--ink);font:inherit;font-size:14px}
+.ok-msg{font-size:12.5px;font-weight:600;color:var(--ok,#2fb37a);margin-top:4px}.err-msg{font-size:12.5px;font-weight:600;color:var(--danger);margin-top:4px}
+.a-card-cov{position:relative}.a-score{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.75);border:1px solid rgba(255,210,59,.55);color:#ffd23b;font-weight:900;border-radius:9px;padding:2px 8px;font-size:15px;line-height:1.3}
+.a-score small{font-size:11px;color:#e3cf86;font-weight:700}.a-sc-in{color:var(--ink)}
+.a-rbox{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 14px;margin:14px 0 4px}
+.a-rbox .sc{font-weight:900;font-size:22px;color:var(--ink)}.a-rbox .sc small{font-size:12px;color:var(--muted)}.a-rbox .btn{margin-left:auto;text-decoration:none;color:var(--ink)}
+.a-filt{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.br-rsub{display:flex;gap:6px;flex-wrap:wrap;align-items:center;width:100%;margin-top:8px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.br-rsub .lbl{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.br-rev{display:flex;flex-direction:column;gap:12px;max-width:820px}.br-rev .a-card{margin-top:0;background:var(--surface)}
+.a-kind{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px}.a-kind button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}.a-kind button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}.a-kind .meta{font-size:12.5px;margin-left:4px}
+#a-comm-slot:empty{display:none}#a-comm-slot{margin-top:4px}
 .cmf-list{display:flex;flex-direction:column;gap:6px}.cmf-row{display:flex;gap:6px}.cmf-row input{flex:1;min-width:0}
 .chi{font-size:11px}
 .lockbar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:10px 14px;color:var(--muted);font-size:14px;margin-bottom:8px}
@@ -1884,6 +1903,12 @@ a.q-box:hover{border-color:var(--accent)}
             </div>
           </div>
           <div class="a-ed" id="c-article" hidden>
+            <div class="a-kind" role="group" aria-label="What are you writing?"><button type="button" data-akind="" aria-pressed="true">📝 Article</button><button type="button" data-akind="r" aria-pressed="false">⭐ Review</button><span class="meta" id="a-kind-hint">Devlogs, tutorials, behind-the-scenes, news…</span></div>
+            <div class="a-rev" id="a-rev" hidden>
+              <div class="lbl">What are you reviewing?</div><div class="row" id="a-rsubj"></div>
+              <div class="lbl">Score <i>(optional)</i></div><div class="a-scores" id="a-rscore"></div>
+              <label class="lbl" for="a-rlink">Link to it <i>(optional, an official store or streaming site, like Steam, Netflix or Amazon)</i></label><input id="a-rlink" maxlength="500" placeholder="https://store.steampowered.com/app/…" autocomplete="off"><div id="a-rlink-msg"></div>
+            </div>
             <div class="a-cover-prev" id="a-cover-prev">No cover image</div>
             <div class="c-field"><label for="a-cover">Cover image <i>(optional, wide pictures look best, like 1500 × 560)</i></label><input id="a-cover" placeholder="https://i.ibb.co/….png" autocomplete="off"><div id="a-cover-msg"></div></div>
             <input id="a-title" class="a-title" maxlength="120" placeholder="Article title" aria-label="Article title" autocomplete="off">
@@ -1904,7 +1929,8 @@ a.q-box:hover{border-color:var(--accent)}
             <div class="c-field"><label for="a-note">Text for the feed <i>(optional, shown above the article card. Hashtags go here)</i></label><input id="a-note" maxlength="500" placeholder="New devlog is up! #gamedev" autocomplete="off"></div>
             <div class="c-field"><label for="a-ai">Made with AI?</label><select id="a-ai" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg);color:var(--ink);font:inherit;font-size:14px"><option value="">No AI</option><option value="assisted">AI-assisted: I wrote it, AI helped somewhere</option><option value="generated">AI-made: mostly or fully generated</option></select>
               <div id="a-ainote-wrap" hidden style="margin-top:6px"><label for="a-ainote">What was made with AI?</label><input id="a-ainote" maxlength="150" placeholder="e.g. Cover image made with AI, text is mine" autocomplete="off"></div></div>
-            <div class="c-tools a-foot"><span class="c-count" id="a-count">0 / 20,000</span><span class="sp"></span><button type="button" class="btn ghost" id="a-discard">Discard</button><button type="button" class="btn primary" id="a-publish" disabled>Publish article</button></div>
+            <div id="a-comm-slot"></div>
+            <div class="c-tools a-foot"><button type="button" class="icon-btn" id="a-comm-btn" aria-expanded="false" aria-controls="c-comm-pick" title="Post to a community" aria-label="Post to a community"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c.5-3.5 3-5.5 6-5.5s5.5 2 6 5.5M15 14.5c2.5 0 4.5 1.6 5 4.5"/></svg></button><span class="c-count" id="a-count">0 / 20,000</span><span class="sp"></span><button type="button" class="btn ghost" id="a-discard">Discard</button><button type="button" class="btn primary" id="a-publish" disabled>Publish article</button></div>
           </div>
         </form>
         <div class="feed-tabs" role="tablist">
@@ -2006,18 +2032,18 @@ a.q-box:hover{border-color:var(--accent)}
         <li><b>Videos:</b> YouTube, Vimeo, or Twitch past broadcasts and clips. Your live Twitch channel goes in the <b>Live</b> tab on your profile.</li>
         <li><b>Art:</b> an image link (see above), plus an optional link to the post on ArtStation, DeviantArt, Bluesky and more.</li>
       </ul>
-      <ul><li><b>Stories:</b> a link to your novel, comic, poem or review on any site. See <a href="#help" data-hjump="h-articles">Articles and Stories</a>.</li></ul>
+      <ul><li><b>Stories:</b> a link to your novel, comic or poem on any site. See <a href="#help" data-hjump="h-articles">Articles and Stories</a>.</li></ul>
       <p>Updated your game? Click <b>Edit</b> on it to change the title or thumbnail and tell your followers what's new.</p>
 
       <h2 id="h-articles">Articles and Stories</h2>
-      <p><b>Articles</b> are long posts with a title, a cover picture and as much text as you need (up to 20,000 characters, about 3,000 words). Great for devlogs, tutorials, behind-the-scenes and reviews.</p>
+      <p><b>Articles</b> are long posts with a title, a cover picture and as much text as you need (up to 20,000 characters, about 3,000 words). Great for devlogs, tutorials and behind-the-scenes. Writing about a game, album, book or anything else? Pick <b>⭐ Review</b> at the top of the article, say what you're reviewing, and add a score from 1 to 10 and a link if you like. Links have to go to an official store, streaming service or info site (like Steam, Netflix, Amazon, IMDb or Wikipedia). Reviews also show on the <b>Stories</b> page under ⭐ Reviews.</p>
       <ul>
         <li>In the post box, switch from <b>Post</b> to <b>Article</b>, or press <b>+</b> and pick <b>Article</b>. Text you already typed moves into the article.</li>
         <li>Use <b>Heading</b> to split it into parts, <b>Quote</b> for a big quote, <b>Picture</b> to add images and <b>Divider</b> for a break. You can also paste or drag pictures straight in.</li>
         <li>Your article is saved as a draft in your browser while you write, so you can switch back to a normal post and come back later.</li>
         <li>It shows up in the feed as a card, and on your profile under <b>Articles</b>. Edit it any time from the ⋯ menu or the <b>Edit</b> button on the article.</li>
       </ul>
-      <p><b>Stories</b> are for novels, short stories, comics, poems and reviews that you post somewhere else, like AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, your blog or YouTube. Press <b>+</b> and pick <b>Story</b>, paste the link, pick what it is and add a cover. Like games and music, the story stays where it is and Power Creep links to it. Find them all on the <b>Stories</b> page.</p>
+      <p><b>Stories</b> are for novels, short stories, comics and poems that you post somewhere else, like AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, your blog or YouTube. Press <b>+</b> and pick <b>Story</b>, paste the link, pick what it is and add a cover. Like games and music, the story stays where it is and Power Creep links to it. Find them all on the <b>Stories</b> page.</p>
 
       <h2 id="h-social">Polls, reposts, saving and credits</h2>
       <ul>
@@ -2121,7 +2147,7 @@ Object.assign(PLAT,{ao3:{n:"AO3",c:"#990000"},wattpad:{n:"Wattpad",c:"#c2410c"},
   globalcomix:{n:"GlobalComix",c:"#5b3cc4"},kofi:{n:"Ko-fi",c:"#1f7aa8"},patreon:{n:"Patreon",c:"#c2410c"},web:{n:"Website",c:"#5a5f6b"}});
 const TABS = [["games","Games"],["music","Music"],["videos","Videos"],["art","Art"],["stories","Stories"]];
 const TAB_TYPE={games:"game",music:"music",videos:"video",art:"art",stories:"story"};
-const STYPES={novel:"Novel",short:"Short story",comic:"Comic",poetry:"Poetry",review:"Review",other:"Other"};
+const STYPES={novel:"Novel",short:"Short story",comic:"Comic",poetry:"Poetry",other:"Other"};
 // Music: what kind of release it is. Guessed from the link, and the uploader can change it.
 const MTYPES={single:"Single",ep:"EP",album:"Album",playlist:"Playlist",mix:"Mix / DJ set"};
 const collIcon=it=>({album:"💿",ep:"💿",playlist:"📃",mix:"🎧"})[it.stype]||(it.coll==="Album"?"💿":"🎵");
@@ -2385,7 +2411,8 @@ function postFromRow(r){
   const p={id:r.id,author:r.author,u:keyOf(r.author),t:Date.parse(r.created_at),text:String(r.text||""),images,ai:cleanAi(r.ai),
     kind:r.kind==="article"?null:r.kind,itemId:r.media_id,likes:r.like_count||0,cc:r.comment_count||0,comments:old?old.comments:null,liked:myLikes.has(r.id),hidden:r.hidden};
   if(r.kind==="article"&&r.article&&typeof r.article==="object"){ const a=r.article, cv=a.c?parseLink(a.c):null;
-    p.art={t:String(a.t||"Untitled").slice(0,120),s:String(a.s||"").slice(0,200),c:cv&&cv.kind==="image"?cv.img:null,x:String(a.x||"").slice(0,300),w:Math.max(0,+a.w||0)|0,
+    p.art={t:String(a.t||"Untitled").slice(0,120),s:String(a.s||"").slice(0,200),c:cv&&cv.kind==="image"?cv.img:null,x:String(a.x||"").slice(0,300),w:Math.max(0,+a.w||0)|0,rv:a.r===true,
+      rs:a.r===true&&RSUBJ[a.rs]?a.rs:"other",rn:a.r===true&&Number.isInteger(a.rn)&&a.rn>=1&&a.rn<=10?a.rn:null,rl:a.r===true&&typeof a.rl==="string"&&reviewLinkOk(a.rl)?a.rl:null,
       body:old&&old.art&&old.art.t===String(a.t||"Untitled").slice(0,120)&&old.art.w===(Math.max(0,+a.w||0)|0)?old.art.body:undefined}; }
   else p.art=null;
   p.poll=r.poll&&Array.isArray(r.poll.o)?{o:r.poll.o.map(x=>String(x).slice(0,80)).slice(0,4),ends:Date.parse(r.poll.ends)||0}:null;
@@ -2660,7 +2687,10 @@ function renderGrid(){
   }
   if(state.tab==="live"){ g.innerHTML=liveHtml(); return; }
   if(state.tab==="saved"){ g.innerHTML=savedHtml(); if(LIVE) fillScThumbs(); return; }
-  if(state.tab==="articles"){ const l=viewArticles(); g.innerHTML=l.length?`<div class="a-list">${l.map(artRowHtml).join("")}</div>`:`<div class="empty">No articles yet.</div>`; return; }
+  if(state.tab==="articles"){ const all=viewArticles(), nr=all.filter(p=>p.art.rv).length, both=nr&&nr<all.length; if(!both) state.artf="all";
+    const f=state.artf||"all", l=all.filter(p=>f==="all"||(f==="rv"?p.art.rv:!p.art.rv));
+    g.innerHTML=(both?`<div class="a-filt" role="group" aria-label="Show">${[["all","All",all.length],["ar","📝 Articles",all.length-nr],["rv","⭐ Reviews",nr]].map(([k,n,c])=>`<button class="btag big" data-artf="${k}" aria-pressed="${f===k}">${n} <span class="meta">${c}</span></button>`).join("")}</div>`:"")
+      +(l.length?`<div class="a-list">${l.map(artRowHtml).join("")}</div>`:`<div class="empty">No articles yet.</div>`); return; }
   if(state.tab==="none"){ g.innerHTML=`<div class="empty">Nothing here yet.</div>`; return; }
   const all=items.filter(i=>i.tab===state.tab);
   const vis=all.filter(visible);
@@ -2791,7 +2821,7 @@ const TYPES={
   music:{n:"Music",d:"A track, album or playlist",hosts:"SoundCloud, Spotify, Bandcamp",tab:"music",sq:1},
   video:{n:"Video",d:"A video or stream",hosts:"YouTube, Vimeo, Twitch",tab:"videos"},
   art:{n:"Art",d:"An image, with an optional link to the post",hosts:"Image links, plus posts on ArtStation, DeviantArt, Bluesky, X, Reddit, Tumblr, Newgrounds or Game Jolt",tab:"art",sq:1},
-  story:{n:"Story",d:"A novel, short story, comic, poem or review you posted somewhere else",hosts:"AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, a blog or any website",tab:"stories",tall:1}
+  story:{n:"Story",d:"A novel, short story, comic or poem you posted somewhere else",hosts:"AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, a blog or any website",tab:"stories",tall:1}
 };
 let draft=null;
 function openAddMedia(){
@@ -2816,7 +2846,7 @@ function openForm(type,ex){
     +`<div class="field"><label for="f-stype">What is it?</label><select id="f-stype">${Object.entries(MTYPES).map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select><div class="hint">Picked for you from the link. Change it if it's wrong, for example a Spotify "album" that's really a single or an EP.</div></div>`
     +field("f-cover","Cover image",1,"https://i.ibb.co/….png","A square picture looks best, like album art. Leave it empty to use the artwork from SoundCloud or Spotify. Supported: "+IMG_SITE_NAMES);
   if(type==="video") f=field("f-link","Video link",0,"https://www.youtube.com/watch?v=…","YouTube (videos or playlists), Vimeo or Twitch (past broadcasts and clips)");
-  if(type==="story") f=field("f-link","Link to your story",0,"https://www.royalroad.com/fiction/…","Where people read it: AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, your blog, a YouTube review…")
+  if(type==="story") f=field("f-link","Link to your story",0,"https://www.royalroad.com/fiction/…","Where people read it: AO3, Wattpad, Royal Road, Webtoon, Tapas, itch.io, your blog…")
     +`<div class="field"><label for="f-stype">What is it?</label><select id="f-stype">${Object.entries(STYPES).map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select></div>`
     +`<div class="field"><label for="f-status">Status <i>(optional)</i></label><select id="f-status"><option value="">Don't show</option>${Object.entries(SSTATUS).map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select></div>`
     +field("f-cover","Cover image",1,"https://i.ibb.co/….png","A tall picture looks best, like a book cover (600 × 800). Without one, a cover is made from the title. Supported: "+IMG_SITE_NAMES);
@@ -2831,7 +2861,7 @@ function openForm(type,ex){
         ${tagPickerHtml(T.tab)}
         ${f}
         ${type==="music"?"":`<div class="field"><label for="f-desc">Description <i>(optional)</i></label><textarea id="f-desc" maxlength="1000" rows="4" placeholder="${{game:"What's the game about? Controls, platforms, credits…",video:"What's the video about?",art:"Tell people about this piece: tools, process, the story behind it…",story:"The blurb: what's it about? Add content warnings here too."}[type]}"></textarea><div class="hint">Shown when people open it.</div></div>`}
-        ${creditsFieldHtml()}
+        ${type!=="story"?creditsFieldHtml():""}
         ${!ex?commShareFieldHtml():""}
         <div class="field"><label for="f-ai">Made with AI?</label>
           <select id="f-ai"><option value="">No AI used</option><option value="assisted">AI-assisted: I made it, AI helped somewhere</option><option value="generated">AI-made: mostly or fully generated</option></select></div>
@@ -3366,11 +3396,11 @@ async function saveMedia(type,ex){
     if(ex){
       const note=v("f-update"), share=$("#f-share").checked;
       const [r]=await api.update("media","id=eq."+ex.id,{...row,updated_at:new Date().toISOString()});
-      const ni=itemFromRow(r); items=items.map(i=>i.id===ex.id?ni:i); await syncCredits(ex.id);
+      const ni=itemFromRow(r); items=items.map(i=>i.id===ex.id?ni:i); if(type!=="story") await syncCredits(ex.id);
       closeModal(); renderTabs(); renderGrid(); if(share) await addActivity("update",ex.id,note);
       toast(share?"Saved and shared to your followers' feeds.":"Changes saved.");
     } else {
-      const r=await api.insert("media",row); const ni=itemFromRow(r); CREDITS[ni.id]=[]; await syncCredits(ni.id); const here=!$("#view-profile").hidden&&VIEW.key==="me";
+      const r=await api.insert("media",row); const ni=itemFromRow(r); CREDITS[ni.id]=[]; if(type!=="story") await syncCredits(ni.id); const here=!$("#view-profile").hidden&&VIEW.key==="me";
       if(here){ items.unshift(ni); state.tab=T.tab; } else if(ni){ MEDIA[ni.id]=ni; if(VIEW.key==="me"&&VIEW.loaded) items.unshift(ni); }
       const share={...AM_COMM}; closeModal(); if(here){ renderTabs(); renderGrid(); } await addActivity("media",ni.id,"",share); refreshPosts(); toast(`Posted to ${T.n}. It's also in your followers' feeds.`);
     }
@@ -3971,7 +4001,7 @@ const smileSvg=`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="
 const TAG_PRESETS={
   games:["adventure","horror","puzzle","platformer","rpg","shooter","survival","visualnovel","simulation","strategy","racing","multiplayer","gamejam","other"],
   art:["digital","traditional","pixel","3d","animation","fanart","character","concept","landscape","comic","other"],
-  stories:["fantasy","scifi","horror","romance","mystery","comedy","adventure","sliceoflife","drama","review","other"],
+  stories:["fantasy","scifi","horror","romance","mystery","comedy","adventure","sliceoflife","drama","other"],
   music:["electronic","chiptune","rock","pop","hiphop","lofi","ambient","metal","orchestral","soundtrack","other"],
   videos:["letsplay","tutorial","devlog","musicvideo","documentary","animation","trailer","stream","vlog","review","other"]
 };
@@ -4075,12 +4105,21 @@ document.addEventListener("submit",async e=>{
 });
 
 /* ===================== BROWSE PAGES ===================== */
-const BROWSE={tab:"games",sort:"latest",days:7,tag:null,stype:null,items:[],done:false,loading:false};
+const BROWSE={tab:"games",sort:"latest",days:7,tag:null,stype:null,rsub:null,items:[],revs:[],done:false,loading:false};
+const revMode=()=>BROWSE.tab==="stories"&&BROWSE.stype==="reviews";
 const BROWSE_INFO={games:["Games","Games made by the community, playable on itch.io, Game Jolt and Steam."],art:["Art","Drawings, pixel art, 3D and more from people on Power Creep."],
-  music:["Music","Tracks and albums from SoundCloud, Spotify and Bandcamp."],stories:["Stories","Novels, comics, poems and reviews. Read them where they're posted: AO3, Wattpad, Royal Road, Webtoon and more."],videos:["Videos","Let's plays, devlogs, tutorials and more from YouTube, Vimeo and Twitch."]};
+  music:["Music","Tracks and albums from SoundCloud, Spotify and Bandcamp."],stories:["Stories","Novels, comics and poems. Read them where they're posted: AO3, Wattpad, Royal Road, Webtoon and more. Reviews are written right here."],videos:["Videos","Let's plays, devlogs, tutorials and more from YouTube, Vimeo and Twitch."]};
 async function loadBrowse(more){
   if(BROWSE.loading) return; BROWSE.loading=true;
-  if(!more){ BROWSE.items=[]; BROWSE.done=false; renderBrowse(); }
+  if(!more){ BROWSE.items=[]; BROWSE.revs=[]; BROWSE.done=false; renderBrowse(); }
+  if(revMode()){
+    try{ const ord=BROWSE.sort==="liked"?"like_count.desc,created_at.desc":BROWSE.sort==="discussed"?"comment_count.desc,created_at.desc":"created_at.desc";
+      const since=BROWSE.sort!=="latest"&&BROWSE.days?"&created_at=gt."+encodeURIComponent(new Date(Date.now()-BROWSE.days*864e5).toISOString()):"";
+      const got=await loadPosts(`kind=eq.article&article->>r=eq.true${BROWSE.rsub?"&article->>rs=eq."+BROWSE.rsub:""}${since}&order=${ord}&limit=40&offset=${more?BROWSE.revs.length:0}`);
+      BROWSE.revs=(more?BROWSE.revs:[]).concat(got.map(p=>p.id).filter(id=>!(more&&BROWSE.revs.includes(id)))); BROWSE.done=got.length<40; }
+    catch(err){ fail(err); }
+    BROWSE.loading=false; renderBrowse(); return;
+  }
   try{
     const rows=await api.rpc("browse_media",{p_tab:BROWSE.tab,p_sort:BROWSE.sort,p_days:BROWSE.sort==="latest"?null:BROWSE.days,p_tag:BROWSE.tag,p_limit:40,p_offset:more?BROWSE.items.length:0,...((BROWSE.tab==="stories"||BROWSE.tab==="music")&&BROWSE.stype?{p_stype:BROWSE.stype}:{})});
     await ensureUsers(rows.map(r=>r.owner));
@@ -4101,11 +4140,17 @@ function renderBrowse(){
     ...(BROWSE.tag&&!TAG_PRESETS[BROWSE.tab].includes(BROWSE.tag)?[`<button class="btag big" data-bfilter="${esc(BROWSE.tag)}" aria-pressed="true">#${esc(BROWSE.tag)}</button>`]:[])].join("");
   document.querySelectorAll("#view-browse [data-f]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===state.filter));
   const bt=$("#br-types"), TY=BROWSE.tab==="stories"?STYPES:BROWSE.tab==="music"?MTYPES:null; bt.hidden=!TY;
-  if(!bt.hidden) bt.innerHTML=[["","All types"],...Object.entries(TY)].map(([k,n])=>`<button class="btn sm ${(BROWSE.stype||"")===k?"primary":""}" data-bstype="${k}" aria-pressed="${(BROWSE.stype||"")===k}">${n}</button>`).join("");
-  $("#br-grid").classList.toggle("stories",BROWSE.tab==="stories");
+  if(!bt.hidden) bt.innerHTML=[["","All types"],...Object.entries(TY),...(BROWSE.tab==="stories"?[["reviews","⭐ Reviews"]]:[])].map(([k,n])=>`<button class="btn sm ${(BROWSE.stype||"")===k?"primary":""}" data-bstype="${k}" aria-pressed="${(BROWSE.stype||"")===k}">${n}</button>`).join("")
+    +(revMode()?`<div class="br-rsub"><span class="lbl">Reviews of</span>${[["","Everything"],...Object.entries(RSUBJ)].map(([k,n])=>`<button class="btag big" data-brsub="${k}" aria-pressed="${(BROWSE.rsub||"")===k}">${n}</button>`).join("")}</div>`:"");
+  $(".br-tagbar").hidden=revMode();
+  $("#br-grid").classList.toggle("stories",BROWSE.tab==="stories"&&!revMode()); $("#br-grid").classList.toggle("as-list",revMode());
   renderBrowseGrid();
 }
 function renderBrowseGrid(){
+  if(revMode()){ const all=BROWSE.revs.map(id=>posts.find(x=>x.id===id)).filter(p=>p&&p.art&&!hiddenKey(p.u)), vis=all.filter(p=>!p.ai||visible({ai:p.ai}));
+    $("#br-grid").innerHTML=vis.length?`<div class="br-rev">${vis.map(p=>`<div>${artCardHtml(p)}<div class="meta" style="margin-top:4px">by ${esc(U(p.u).name)} · ${timeAgo(p.t)} ago · ♥ ${p.likes} · 💬 ${p.cc}</div></div>`).join("")}</div>${all.length>vis.length?`<div class="hidden-note">${all.length-vis.length} hidden by your AI filter.</div>`:""}`
+      :`<div class="empty">${BROWSE.loading?"Loading…":BROWSE.sort==="latest"?`No reviews${BROWSE.rsub?" of that kind":""} yet. Write one: press + and pick Article, then ⭐ Review.`:"No reviews got likes or comments in this time range yet."}</div>`;
+    $("#br-more").hidden=BROWSE.done||!BROWSE.revs.length; $("#br-more").disabled=BROWSE.loading; return; }
   const vis=BROWSE.items.filter(it=>visible(it)&&!hiddenId(it.owner)), hidden=BROWSE.items.length-vis.length;
   let html=vis.map(it=>cardHtml(it,true)).join("");
   if(!BROWSE.items.length) html=`<div class="empty">${BROWSE.loading?"Loading…":BROWSE.tag?`Nothing tagged #${esc(BROWSE.tag)} yet.`:BROWSE.sort==="latest"?"Nothing here yet. Add yours from your profile with + Add media!":"Nothing got likes or comments in this time range yet."}</div>`;
@@ -4118,7 +4163,9 @@ document.addEventListener("click",e=>{
   const t=e.target.closest("button,a"); if(!t) return;
   if(t.dataset.bsort){ BROWSE.sort=t.dataset.bsort; loadBrowse(); }
   else if(t.dataset.bdays!==undefined){ BROWSE.days=t.dataset.bdays==="null"?null:+t.dataset.bdays; loadBrowse(); }
-  else if(t.dataset.bstype!==undefined){ BROWSE.stype=t.dataset.bstype||null; loadBrowse(); }
+  else if(t.dataset.bstype!==undefined){ BROWSE.stype=t.dataset.bstype||null; BROWSE.rsub=null; loadBrowse(); }
+  else if(t.dataset.brsub!==undefined){ BROWSE.rsub=t.dataset.brsub||null; loadBrowse(); }
+  else if(t.dataset.artf){ state.artf=t.dataset.artf; renderGrid(); }
   else if(t.dataset.bfilter!==undefined){ BROWSE.tag=t.dataset.bfilter||null; if(t.closest("#br-tagsug")){ $("#br-tagq").value=""; $("#br-tagsug").hidden=true; $("#br-tagq").blur(); } loadBrowse(); }
   else if(t.dataset.btag){ const [tab,tag]=t.dataset.btag.split(":"); closeModal(); closeSearch(); if(t.closest("#search-res")) $("#search-in").value=""; BROWSE.tag=tag; BROWSE.tab=tab; BROWSE.forceTag=true; if(location.hash==="#"+tab) loadBrowse(); else location.hash=tab; }
   else if(t.id==="br-more") loadBrowse(true);
@@ -5264,13 +5311,26 @@ const COMPOSER=$("#composer"), COMPOSER_HOME=COMPOSER.parentNode, COMPOSER_NEXT=
    Text format, one paragraph per line: "## " heading, "> " quote, "---" divider, ![caption](image link) picture,
    plus the usual **bold**, *italic*, __underline__ and ~~strike~~. */
 const ART_MAX=20000, ART_DRAFT_KEY="pc-article-draft";
-const ART={mode:"post",editId:null};
+const RSUBJ={game:"🎮 Game",movie:"🎬 Movie",show:"📺 TV show",anime:"🌸 Anime",book:"📚 Book",music:"🎵 Music",other:"✨ Other"};
+const RWHERE={game:"Get the game",movie:"Where to watch",show:"Where to watch",anime:"Where to watch",book:"Get the book",music:"Listen",other:"Check it out"};
+// Reviews can only link to these official sites (the database checks the same list)
+const REVIEW_SITES=["steampowered.com","steamcommunity.com","itch.io","gog.com","epicgames.com","nintendo.com","playstation.com","xbox.com","gamejolt.com","humblebundle.com","ea.com","ubisoft.com",
+  "netflix.com","primevideo.com","disneyplus.com","max.com","hbomax.com","hulu.com","tv.apple.com","crunchyroll.com","hidive.com","paramountplus.com","peacocktv.com","viaplay.com","viaplay.se","svtplay.se","tv4play.se","skyshowtime.com","mubi.com",
+  "bookshop.org","barnesandnoble.com","books.apple.com","play.google.com","kobo.com","adlibris.com","bokus.com","waterstones.com","royalroad.com","webtoons.com","tapas.io","wattpad.com","archiveofourown.org",
+  "spotify.com","music.apple.com","soundcloud.com","bandcamp.com","youtube.com","youtu.be","tidal.com","deezer.com",
+  "justwatch.com","imdb.com","letterboxd.com","myanimelist.net","anilist.co","goodreads.com","wikipedia.org"];
+const reviewHost=u=>{ const m=/^https:\/\/([^/:?#\s]+)/i.exec(String(u||"")); return m?m[1].toLowerCase():""; };
+const reviewSiteOk=h=>!!h&&(/^([a-z0-9-]+\.)*(amazon|audible)\.[a-z]{2,3}(\.[a-z]{2})?$/.test(h)||REVIEW_SITES.some(d=>h===d||h.endsWith("."+d)));
+const reviewLinkOk=u=>!u||(u.length<=500&&/^https:\/\/[^\s"'<>]+$/.test(u)&&reviewSiteOk(reviewHost(u)));
+const scoreBadge=a=>a.rn?`<span class="a-score">${a.rn}<small>/10</small></span>`:"";
+const artKick=a=>a.rv?`⭐ Review${RSUBJ[a.rs]?" · "+RSUBJ[a.rs]:""}`:"Article";
+const ART={mode:"post",editId:null,review:false,rs:"game",rn:null};
 const readMins=w=>Math.max(1,Math.round((w||0)/220));
 const ART_IMG_RE=/^!\[([^\]\n]{0,150})\]\((https:\/\/[^\s)]+)\)$/;
 function artCardHtml(p){ const a=p.art;
-  return `<a class="a-card ${a.c?"":"nocov"}" href="#p/${p.id}"><div class="a-card-t"><span class="a-kick">Article · ${readMins(a.w)} min read</span><h3>${esc(a.t)}</h3>${a.s||a.x?`<p>${esc(a.s||a.x)}</p>`:""}</div>${a.c?`<div class="a-card-cov" style="background-image:url(&quot;${esc(a.c.replace(/["\\()]/g,encodeURIComponent))}&quot;)"></div>`:""}</a>`; }
+  return `<a class="a-card ${a.c?"":"nocov"}" href="#p/${p.id}"><div class="a-card-t"><span class="a-kick">${artKick(a)} · ${readMins(a.w)} min read${!a.c&&a.rn?` · <b class="a-sc-in">${a.rn}/10</b>`:""}</span><h3>${esc(a.t)}</h3>${a.s||a.x?`<p>${esc(a.s||a.x)}</p>`:""}</div>${a.c?`<div class="a-card-cov" style="background-image:url(&quot;${esc(a.c.replace(/["\\()]/g,encodeURIComponent))}&quot;)">${scoreBadge(a)}</div>`:""}</a>`; }
 function artRowHtml(p){ const a=p.art;
-  return `<a class="a-row" href="#p/${p.id}"><div class="cov" ${a.c?`style="background-image:url(&quot;${esc(a.c.replace(/["\\()]/g,encodeURIComponent))}&quot;)"`:""}>${a.c?"":`<svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>`}</div><div class="t"><h3>${esc(a.t)}</h3>${a.s||a.x?`<p>${esc(a.s||a.x)}</p>`:""}<span class="meta">${readMins(a.w)} min read · ${timeAgo(p.t)} ago · ♥ ${p.likes} · 💬 ${p.cc}</span></div></a>`; }
+  return `<a class="a-row" href="#p/${p.id}"><div class="cov" ${a.c?`style="background-image:url(&quot;${esc(a.c.replace(/["\\()]/g,encodeURIComponent))}&quot;)"`:""}>${a.c?"":`<svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>`}</div><div class="t"><h3>${esc(a.t)}</h3>${a.s||a.x?`<p>${esc(a.s||a.x)}</p>`:""}<span class="meta">${a.rv?`${artKick(a)}${a.rn?` · <b class="a-sc-in">${a.rn}/10</b>`:""} · `:""}${readMins(a.w)} min read · ${timeAgo(p.t)} ago · ♥ ${p.likes} · 💬 ${p.cc}</span></div></a>`; }
 // Turn saved article text into HTML for reading
 function articleBodyHtml(text){
   const out=[]; let quote=[];
@@ -5289,7 +5349,8 @@ function articleViewHtml(p){
   const a=p.art, u=U(p.u), mine=p.u==="me";
   const date=new Date(p.t).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
   return `<article class="a-view">${a.c?`<div class="a-hero" style="background-image:url(&quot;${esc(a.c.replace(/["\\()]/g,encodeURIComponent))}&quot;)"></div>`:""}
-    <span class="a-kick">Article</span><h1>${esc(a.t)}</h1>${a.s?`<p class="a-dek">${esc(a.s)}</p>`:""}
+    <span class="a-kick">${artKick(a)}</span><h1>${esc(a.t)}</h1>${a.s?`<p class="a-dek">${esc(a.s)}</p>`:""}
+    ${a.rv&&(a.rn||a.rl)?`<div class="a-rbox">${a.rn?`<span class="sc">${a.rn}<small>/10</small></span><span class="meta">${esc(u.name)}'s score</span>`:""}${a.rl?`<a class="btn sm" href="${esc(a.rl)}" target="_blank" rel="noopener nofollow ugc">${RWHERE[a.rs]||"Check it out"} · ${esc(reviewHost(a.rl).replace(/^www\./,""))} ↗</a>`:""}</div>`:""}
     <div class="a-by"><button class="p-av-btn" data-user="${esc(p.u)}" style="border:0;background:none;padding:0" aria-label="${esc(u.name)}">${avHtml(p.u)}</button>
       <div class="t"><span><button class="p-name" data-user="${esc(p.u)}">${nameHtml(p.u)}</button>${lvChip(p.u)}${staffTag(p.u)}</span><span class="meta">${esc(date)} · ${readMins(a.w)} min read</span></div>
       <span style="flex:1"></span>${mine?`<button class="btn sm" data-aedit="${p.id}">✏️ Edit</button>`:USERS[p.u]?`<button class="btn sm ${fs.following.has(p.u)?"":"primary"}" data-follow="${esc(p.u)}">${fs.following.has(p.u)?"Following":"Follow"}</button>`:""}</div>
@@ -5360,18 +5421,26 @@ function readArticle(){
   const prev=$("#a-cover-prev"), cu=covOk&&cp?cp.img:"";
   if(prev.dataset.u!==cu){ prev.dataset.u=cu; prev.style.backgroundImage=cu?`url("${cu.replace(/["\\()]/g,encodeURIComponent)}")`:""; prev.classList.toggle("has",!!cu); prev.textContent=cu?"":"No cover image"; }
   const n=body.length, c=$("#a-count"); c.textContent=`${n.toLocaleString("en")} / 20,000 · ${readMins(words)} min read`; c.classList.toggle("warn",n>ART_MAX-500);
-  const a={title:v("a-title"),sub:v("a-sub"),cover:cu,note:$("#a-note").value.trim(),body,words,ai:aiLvl?{lvl:aiLvl,note:aiNote}:null};
-  const ok=!!a.title&&!!body&&n<=ART_MAX&&covOk&&(!aiLvl||aiNote)&&a.note.length<=500;
-  $("#a-publish").disabled=!ok; $("#a-publish").textContent=ART.editId?"Save changes":"Publish article";
+  const rv=ART.review===true; document.querySelectorAll("[data-akind]").forEach(b=>b.setAttribute("aria-pressed",String((b.dataset.akind==="r")===rv)));
+  $("#a-kind-hint").textContent=rv?"About a game, movie, book or anything else":"Devlogs, tutorials, behind-the-scenes, news…";
+  $("#a-rev").hidden=!rv;
+  const rs=RSUBJ[ART.rs]?ART.rs:"game", rn=ART.rn||null, rl=$("#a-rlink").value.trim(), rlOk=!rv||reviewLinkOk(rl);
+  if(rv){ $("#a-rsubj").innerHTML=Object.entries(RSUBJ).map(([k,n])=>`<button type="button" class="pill" data-arsubj="${k}" aria-pressed="${k===rs}">${n}</button>`).join("");
+    $("#a-rscore").innerHTML=`<button type="button" class="none" data-arscore="0" aria-pressed="${!rn}">No score</button>`+[1,2,3,4,5,6,7,8,9,10].map(n=>`<button type="button" data-arscore="${n}" aria-pressed="${n===rn}">${n}</button>`).join("");
+    const h=reviewHost(rl).replace(/^www\./,"");
+    $("#a-rlink-msg").innerHTML=!rl?"":rlOk?`<div class="ok-msg">✓ ${esc(h)}</div>`:`<div class="err-msg">${!/^https:\/\//i.test(rl)?"That doesn't look like a web link. It should start with https://":"That site isn't on the list. Link to an official store or streaming site, like Steam, Netflix or Amazon."}</div>`; }
+  const a={title:v("a-title"),sub:v("a-sub"),cover:cu,note:$("#a-note").value.trim(),body,words,review:rv,rs,rn,rl:rl||null,ai:aiLvl?{lvl:aiLvl,note:aiNote}:null};
+  const ok=!!a.title&&!!body&&n<=ART_MAX&&covOk&&rlOk&&(!aiLvl||aiNote)&&a.note.length<=500;
+  $("#a-publish").disabled=!ok; $("#a-publish").textContent=ART.editId?"Save changes":rv?"Publish review":"Publish article";
   return ok?a:null;
 }
-function artDraftData(){ return {t:$("#a-title").value,s:$("#a-sub").value,c:$("#a-cover").value,n:$("#a-note").value,b:artToText(AB),ai:$("#a-ai").value,an:$("#a-ainote").value}; }
+function artDraftData(){ return {t:$("#a-title").value,s:$("#a-sub").value,c:$("#a-cover").value,n:$("#a-note").value,b:artToText(AB),ai:$("#a-ai").value,an:$("#a-ainote").value,r:ART.review?1:0,rs:ART.rs,rn:ART.rn,rl:$("#a-rlink").value}; }
 const artDraftHas=d=>!!(d&&(d.t||d.s||d.c||d.b||d.n));
 function saveArtDraft(){ if(ART.editId) return; try{ const d=artDraftData(); if(artDraftHas(d)) localStorage.setItem(ART_DRAFT_KEY,JSON.stringify(d)); else localStorage.removeItem(ART_DRAFT_KEY); }catch(_){} }
 function loadArtDraft(){ try{ return JSON.parse(localStorage.getItem(ART_DRAFT_KEY)||"null"); }catch(_){ return null; } }
 function fillArticle(d){
   d=d||{}; $("#a-title").value=d.t||""; $("#a-sub").value=d.s||""; $("#a-cover").value=d.c||""; $("#a-note").value=d.n||"";
-  $("#a-ai").value=d.ai||""; $("#a-ainote").value=d.an||""; AB.innerHTML=textToArtHtml(d.b||""); artRange=null;
+  ART.review=!!d.r; ART.rs=RSUBJ[d.rs]?d.rs:"game"; ART.rn=Number.isInteger(d.rn)?d.rn:null; $("#a-rlink").value=d.rl||""; $("#a-ai").value=d.ai||""; $("#a-ainote").value=d.an||""; AB.innerHTML=textToArtHtml(d.b||""); artRange=null;
   document.querySelectorAll("[data-afmt],[data-ablock]").forEach(b=>b.setAttribute("aria-pressed","false")); readArticle();
 }
 function artDraftNote(){ $("#a-draftnote").hidden=!(ART.mode==="post"&&!ART.editId&&artDraftHas(loadArtDraft())); }
@@ -5384,10 +5453,12 @@ function setComposeMode(m){
     if(t&&!artToText(AB)){ AB.innerHTML=textToArtHtml(t.split("\n").map(l=>l.startsWith("# ")?"## "+l.slice(2):l).join("\n")); clearRich(); $("#c-text").value=""; readComposer(); saveArtDraft(); }
   }
   ART.mode=m;
+  { const home=$("#c-preview"), slot=$("#a-comm-slot"), ch=$("#c-comm-chip"), pk=$("#c-comm-pick");
+    if(m==="article"){ slot.appendChild(ch); slot.appendChild(pk); } else { home.parentNode.insertBefore(ch,home); home.parentNode.insertBefore(pk,home); } }
   COMPOSER.classList.toggle("art-mode",m==="article"); $("#c-article").hidden=m!=="article";
   document.querySelectorAll(".c-mode [data-cmode]").forEach(b=>b.closest(".seg")&&b.setAttribute("aria-pressed",String(b.dataset.cmode===m)));
   const ct=$("#cmt-title"); if(ct) ct.textContent=m==="article"?(ART.editId?"Edit article":"New article"):"New post";
-  readArticle(); artDraftNote();
+  $("#a-comm-slot").hidden=!!ART.editId; drawCommChip(); readArticle(); artDraftNote();
 }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-cmode]"); if(!b) return; setComposeMode(b.dataset.cmode); if(b.dataset.cmode==="article") setTimeout(()=>$("#a-title").focus(),0); });
 $("#c-article").addEventListener("input",()=>{ readArticle(); saveArtDraft(); });
@@ -5406,6 +5477,9 @@ function artFmtState(){ document.querySelectorAll("[data-afmt]").forEach(b=>{ le
 $("#c-article").addEventListener("mousedown",e=>{ if(e.target.closest("[data-afmt],[data-ablock],#a-hr-btn")) e.preventDefault(); });
 function artInsertHtml(html){ artFocus(); document.execCommand("insertHTML",false,html); readArticle(); saveArtDraft(); }
 $("#c-article").addEventListener("click",e=>{
+  const ak=e.target.closest("[data-akind]"); if(ak){ ART.review=ak.dataset.akind==="r"; readArticle(); saveArtDraft(); return; }
+  const rsb=e.target.closest("[data-arsubj]"); if(rsb){ ART.rs=rsb.dataset.arsubj; readArticle(); saveArtDraft(); return; }
+  const rnb=e.target.closest("[data-arscore]"); if(rnb){ ART.rn=+rnb.dataset.arscore||null; readArticle(); saveArtDraft(); return; }
   const f=e.target.closest("[data-afmt]"), bl=e.target.closest("[data-ablock]"), x=e.target.closest("[data-afigx]");
   if(f){ artFocus(); document.execCommand(f.dataset.afmt); }
   else if(bl){ artFocus(); let cur=""; try{ cur=(document.queryCommandValue("formatBlock")||"").toLowerCase(); }catch(_){} document.execCommand("formatBlock",false,cur===bl.dataset.ablock?"div":bl.dataset.ablock); }
@@ -5434,13 +5508,15 @@ async function artUploadInsert(files){
 async function publishArticle(){
   const a=readArticle(); if(!a) return; const btn=$("#a-publish"); btn.disabled=true;
   try{
-    const row=await api.rpc("save_article",{p_id:ART.editId,p_text:a.note,p_article:{t:a.title,s:a.sub,c:a.cover,x:artExcerpt(a.body),w:a.words},p_body:a.body,p_ai:a.ai});
+    const row=await api.rpc("save_article",{p_id:ART.editId,p_text:a.note,p_article:{t:a.title,s:a.sub,c:a.cover,x:artExcerpt(a.body),w:a.words,r:a.review,...(a.review?{rs:a.rs,...(a.rn?{rn:a.rn}:{}),...(a.rl?{rl:a.rl}:{})}:{})},p_body:a.body,p_ai:a.ai,
+      ...(!ART.editId&&COMPOSE_COMM.c?{p_comm:COMPOSE_COMM.c,p_chan:COMPOSE_COMM.ch}:{})});
     const r=Array.isArray(row)?row[0]:row; const np=postFromRow(r); np.art.body=a.body;
     const was=ART.editId; ART.editId=null;
+    if(!was){ COMPOSE_COMM={c:null,ch:null}; $("#c-comm-pick").hidden=true; drawCommChip(); }
     if(!was){ fs.fyOrder.unshift(np.id); try{ localStorage.removeItem(ART_DRAFT_KEY); }catch(_){} }
     fillArticle(was?loadArtDraft():null); setComposeMode("post"); refreshPosts(); renderPostPage();
     if(document.querySelector("#modal-root #composer")) closeModal();
-    toast(was?"Article saved.":"Article published. It's in the feed now.");
+    toast(was?(a.review?"Review saved.":"Article saved."):(a.review?"Review published. It's in the feed now.":"Article published. It's in the feed now."));
     if(!was) location.hash="p/"+np.id;
   }catch(err){ fail(err); readArticle(); }
 }
@@ -5450,7 +5526,7 @@ async function editArticle(id){
   await loadArtBody(p); if(typeof p.art.body!=="string") return toast("Couldn't load the article. Try again.");
   if(!ART.editId) saveArtDraft();
   openComposeModal(); ART.editId=id;
-  fillArticle({t:p.art.t,s:p.art.s,c:p.art.c||"",n:p.text,b:p.art.body,ai:p.ai?p.ai.lvl:"",an:p.ai?p.ai.note:""});
+  fillArticle({t:p.art.t,s:p.art.s,c:p.art.c||"",n:p.text,b:p.art.body,r:p.art.rv?1:0,rs:p.art.rs,rn:p.art.rn,rl:p.art.rl||"",ai:p.ai?p.ai.lvl:"",an:p.ai?p.ai.note:""});
   ART.mode="post"; setComposeMode("article");
 }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-aedit]"); if(b) editArticle(b.dataset.aedit); });
@@ -5967,7 +6043,7 @@ function openCommMenu(btn,cid){
 let COMPOSE_COMM={c:null,ch:null};
 function drawCommChip(){ const c=COMPOSE_COMM.c&&COMMS[COMPOSE_COMM.c];
   $("#c-comm-chip").innerHTML=c?`<span class="c-comm-chip"><i style="${cmIcoStyle(c)}"></i>${esc(c.name)} › ${esc(chanName(c,COMPOSE_COMM.ch)||"")}<button type="button" data-cunpick="1" aria-label="Don't post to a community">×</button></span>`:"";
-  $("#c-comm-btn").classList.toggle("on",!!c||!$("#c-comm-pick").hidden); }
+  const on=!!c||!$("#c-comm-pick").hidden; $("#c-comm-btn").classList.toggle("on",on); $("#a-comm-btn").classList.toggle("on",on); $("#a-comm-btn").hidden=!!ART.editId; }
 function drawCommPick(){
   const mine=[...MYCOMMS].map(id=>COMMS[id]).filter(c=>c&&!c.hidden&&c.channels.some(ch=>canPostIn(c,ch))).sort((a,b)=>a.name.localeCompare(b.name)), cur=COMPOSE_COMM.c&&COMMS[COMPOSE_COMM.c];
   $("#c-comm-pick").innerHTML=!mine.length?`<p class="meta" style="margin:4px">Join a community first, then you can post to it. <a href="#communities">See communities</a></p>`
@@ -6082,7 +6158,7 @@ document.addEventListener("click",async e=>{
   else if(t.dataset.chide){ $("#more-menu").hidden=true; const c=COMMS[t.dataset.chide]; try{ await api.rpc("staff_hide_community",{p_id:c.id,p_hide:!c.hidden}); c.hidden=!c.hidden; renderCommunity(); toast(c.hidden?"Hidden. Only staff and the owner can see it now.":"It's visible again."); }catch(err){ fail(err); } }
   else if(t.dataset.cdel){ const b=t; confirmInline(b,"Delete for good?",async()=>{ $("#more-menu").hidden=true; const c=COMMS[b.dataset.cdel];
       try{ await api.rpc("delete_community",{p_id:c.id}); delete COMMS[c.id]; MYCOMMS.delete(c.id); posts.forEach(p=>{ if(p.comm===c.id){ p.comm=null; p.chan=null; } }); toast(`${c.name} was deleted. Its posts stay on people's profiles.`); location.hash="communities"; }catch(err){ fail(err); } }); }
-  else if(t.id==="c-comm-btn"){ const pk=$("#c-comm-pick"); pk.hidden=!pk.hidden; t.setAttribute("aria-expanded",String(!pk.hidden)); if(!pk.hidden) drawCommPick(); drawCommChip(); }
+  else if(t.id==="c-comm-btn"||t.id==="a-comm-btn"){ const pk=$("#c-comm-pick"); pk.hidden=!pk.hidden; t.setAttribute("aria-expanded",String(!pk.hidden)); if(!pk.hidden) drawCommPick(); drawCommChip(); }
   else if(t.dataset.cpick){ const c=COMMS[t.dataset.cpick]; COMPOSE_COMM={c:c.id,ch:(c.channels.find(ch=>canPostIn(c,ch))||{}).id||null}; drawCommPick(); drawCommChip(); }
   else if(t.dataset.cpch){ COMPOSE_COMM.ch=t.dataset.cpch; drawCommPick(); drawCommChip(); }
   else if(t.dataset.cunpick){ COMPOSE_COMM={c:null,ch:null}; if(!$("#c-comm-pick").hidden) drawCommPick(); drawCommChip(); }
@@ -6142,7 +6218,7 @@ async function startGuest(){
 const GUEST_ACTIONS=[["[data-like],[data-mlike],[data-clike]","like things"],[".cmt-form button,[data-creply]","comment"],["[data-follow],#follow","follow people"],
   ["[data-repost],[data-unrepost]","repost"],["[data-save]","save things for later"],["[data-spick]","give stickers"],["[data-vote]","vote in polls"],
   [".gb-form button","sign guestbooks"],["[data-buy],[data-bbuy],[data-bclaim],[data-use],[data-customize]","collect cosmetics"],["[data-claim]","do quests"],
-  ["[data-report],[data-preport],[data-creport],[data-gbrep],[data-mcrep],[data-reportuser],#live-report,#report-profile","report things"],["[data-mute],[data-block]","mute or block people"],["[data-sendv]","send Volts"],["[data-cjoin],[data-cnew],[data-csuggest],#c-comm-btn","join communities"]];
+  ["[data-report],[data-preport],[data-creport],[data-gbrep],[data-mcrep],[data-reportuser],#live-report,#report-profile","report things"],["[data-mute],[data-block]","mute or block people"],["[data-sendv]","send Volts"],["[data-cjoin],[data-cnew],[data-csuggest],#c-comm-btn,#a-comm-btn","join communities"]];
 const GUEST_SEL=GUEST_ACTIONS.map(a=>a[0]).join(",");
 function guestPrompt(what){
   closeStkPick&&closeStkPick();

@@ -2257,7 +2257,9 @@ const api=(()=>{
     others(){ try{ const o=JSON.parse(localStorage.getItem(OKEY)||"[]"); return Array.isArray(o)?o:[]; }catch(_){ return []; } },
     addOther(s){ const o=this.others().filter(x=>x.id!==s.id); o.push(withExpiry(s)); try{ localStorage.setItem(OKEY,JSON.stringify(o)); }catch(_){} },
     forgetOthers(){ try{ localStorage.removeItem(OKEY); }catch(_){} },
-    switchTo(i,meInfo){ const o=this.others(), target=o[i]; if(!target) return; o.splice(i,1,{...session,...meInfo}); try{ localStorage.setItem(OKEY,JSON.stringify(o)); }catch(_){}
+    // The account you're logged into never shows up as one to switch to, and each account is only saved once
+    cleanOthers(myId){ const seen=new Set([myId]), o=this.others(), k=o.filter(x=>x&&x.id&&!seen.has(x.id)&&seen.add(x.id)); if(k.length!==o.length) try{ localStorage.setItem(OKEY,JSON.stringify(k)); }catch(_){} },
+    switchTo(i,meInfo){ const o=this.others(), target=o[i]; if(!target) return; o.splice(i,1,{...session,...meInfo}); const seen=new Set([target.id]), k=o.filter(x=>x&&x.id&&!seen.has(x.id)&&seen.add(x.id)); try{ localStorage.setItem(OKEY,JSON.stringify(k)); }catch(_){}
       const {id,name,username,brand,...sess}=target; save(sess); },
     async signInOther(email,password){ const {data}=await raw("/auth/v1/token?grant_type=password",{method:"POST",auth:false,body:{email,password}}); return withExpiry(data); },
     async changePassword(cur,nw){ const email=session&&session.user&&session.user.email; if(!email) throw new Error("Please log in again first.");
@@ -2442,7 +2444,7 @@ async function loadCredits(ids){ ids=[...new Set(ids)].filter(id=>id&&!CREDITS[i
 
 /* ---------- loading ---------- */
 async function loadMe(){
-  ME_ID=api.userId;
+  ME_ID=api.userId; if(ME_ID) api.cleanOthers(ME_ID);
   const rows=await api.get("profiles?select=*&id=eq."+ME_ID);
   if(!rows.length) throw new Error("Your profile is missing. Try signing up again.");
   putUser(rows[0]);

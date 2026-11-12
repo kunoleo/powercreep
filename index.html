@@ -840,7 +840,13 @@ body[data-swipe="right"] main>section:not([hidden]){animation:pc-swr .28s ease-o
 .gb-form .gif-pend{margin-top:4px}.ucard .modal-actions{flex-wrap:wrap}
 .feed-empty{padding:30px 16px;text-align:center;color:var(--muted)}
 .feed-side{max-height:calc(100vh - 92px - env(safe-area-inset-top,0px));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:4px;margin-right:-4px}
-@media (max-width:900px){.feed-layout{grid-template-columns:1fr}.feed-side{position:static;max-height:none;overflow:visible;padding-right:0;margin-right:0}}
+@media (max-width:900px){.feed-layout{grid-template-columns:1fr}.feed-side{position:static;max-height:none;overflow:visible;padding-right:0;margin-right:0}
+  body:not(.hubmode) #view-feed .feed-side{display:none}
+  body.hubmode #view-feed .feed-main{display:none}
+  body.hubmode #view-feed .feed-side::before{content:"‹ Swipe left for the feed";display:block;text-align:right;font-size:12.5px;font-weight:700;color:var(--muted);margin:-6px 2px 0}}
+.hub-hint{display:none}
+@media (max-width:900px){.hub-hint{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 14px;margin-bottom:12px;color:var(--ink);text-decoration:none;font-weight:700;font-size:14px}
+  .hub-hint small{color:var(--muted);font-weight:700;font-size:12.5px;white-space:nowrap}}
 @media (max-width:520px){.p-embed .thumb{width:110px}.reason{margin-left:0}}
 
 @media (max-width:720px){
@@ -1049,6 +1055,55 @@ h1 .lvc{margin-left:8px}
 .c-comm-chip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);border:1px solid var(--accent);border-radius:999px;padding:3px 6px 3px 4px;font-size:13px;font-weight:700;margin-top:8px}
 .c-comm-chip i{width:18px;height:18px;border-radius:5px;background-size:cover;background-position:center}.c-comm-chip button{border:0;background:none;color:var(--muted);padding:0 4px;font-size:15px}
 #c-comm-btn svg,#a-comm-btn svg{fill:none;stroke:currentColor;stroke-width:2}#c-comm-btn.on,#a-comm-btn.on{background:var(--accent-soft);color:var(--accent)}
+
+/* Community goals & challenges */
+.side-card h3 .meta{float:right;font-size:12px;font-weight:600}
+.goal-t{display:block;font-size:15px;line-height:1.3;margin-bottom:2px}
+.goal-bar{height:12px;border-radius:999px;background:var(--surface-2);overflow:hidden;margin:9px 0 6px}.goal-bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),#ff8a3b);transition:width .4s}
+.goal-n{display:flex;justify-content:space-between;align-items:baseline;font-size:13px}.goal-n b{font-size:15px}
+.goal-rew{display:inline-flex;align-items:center;gap:6px;background:var(--ai-soft);color:var(--ai);font-weight:800;font-size:12.5px;border-radius:999px;padding:3px 10px;margin-top:8px}
+.goal-me{font-size:12.5px;color:var(--ok);font-weight:700;margin:8px 0 0}
+.goal-card.done{border-color:var(--ok);background:linear-gradient(135deg,var(--ok-soft),var(--surface) 70%)}
+.feed-side>*{flex-shrink:0}
+.chal-card{padding:0;overflow:hidden}.chal-card>*:not(.chal-bn){margin-left:14px;margin-right:14px}
+.chal-bn{display:grid;place-items:center;height:70px;font-size:34px;background:linear-gradient(135deg,#2a0b3a,#7a1418);text-decoration:none;margin-bottom:12px}
+.chal-about{margin:2px 14px 0}.chal-all{display:block;margin:10px 14px 14px;text-align:right}
+.chal-stg{display:flex;gap:4px;margin:10px 0}.chal-stg span{flex:1;text-align:center;font-size:11.5px;font-weight:800;border-radius:8px;padding:4px 2px;background:var(--surface-2);color:var(--muted)}.chal-stg span.on{background:var(--accent-soft);color:var(--accent)}
+.chal-stg.big span{font-size:12.5px;padding:6px 4px}
+.chal-acts{display:flex;gap:6px;flex-wrap:wrap}.chal-acts .btn,.ch-head .btn,.pg-h a.btn{text-decoration:none}.chal-acts a.btn:not(.primary),.pg-h a.btn:not(.primary),.gc-ra a.btn{color:var(--ink)}
+.ch-h{font-size:17px;margin:20px 0 10px}
+.chal-list{display:flex;flex-direction:column;gap:8px}
+.chal-li{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;color:var(--ink);text-decoration:none}
+.chal-li:hover{border-color:var(--accent)}.chal-li .e{font-size:28px;width:44px;text-align:center}.chal-li .t{display:flex;flex-direction:column;min-width:0;flex:1}
+.chal-li .live{background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:12.5px;border-radius:999px;padding:3px 10px}
+.ch-head{border-radius:18px;overflow:hidden;border:1px solid var(--line);margin:10px 0 14px;background:var(--surface)}
+.ch-head .bn{height:130px;background:linear-gradient(135deg,#2a0b3a,#7a1418);display:grid;place-items:center;font-size:58px}
+.ch-head .b{padding:16px 18px;display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}.ch-head .l{flex:1;min-width:min(260px,100%)}
+.ch-head h1{font-size:clamp(24px,4vw,32px);margin:2px 0 0}.ch-about{margin:8px 0 0;white-space:pre-line}
+.side-h{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.prizes{display:flex;gap:8px;flex-wrap:wrap}.prz{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:8px 12px;text-align:center;min-width:86px;font-weight:700;font-size:13px}.prz b{display:block;font-size:20px}.prz small{display:block;color:var(--muted);font-weight:600;font-size:11px;max-width:110px}
+.ch-me{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:14px}.ch-me>span{flex:1;min-width:200px}
+.ch-filt{display:flex;gap:6px;flex-wrap:wrap}.ch-grid{margin-top:12px}
+.ch-ent{position:relative;display:flex;flex-direction:column}.ch-ent .card{flex:1}
+.ch-ent.won .card{border-color:var(--ai)}.ch-place{position:absolute;left:10px;top:10px;z-index:3;background:rgba(0,0,0,.78);color:#fff;font-weight:900;font-size:13px;border-radius:999px;padding:3px 10px}
+.ch-vote{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 2px 0}
+.ch-pick{display:flex;flex-direction:column;gap:6px;max-height:50vh;overflow:auto;margin:10px 0}
+.ch-pi{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:8px;text-align:left;font:inherit;cursor:pointer}.ch-pi:hover{border-color:var(--accent)}
+.ch-pi .th{width:64px;height:44px;border-radius:8px;background:center/cover no-repeat;flex:none}.ch-pi b{display:block}.ch-pi small{color:var(--muted)}
+.gc-wrap{display:flex;flex-direction:column;gap:14px;padding:4px}
+.gc-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}.gc-card h3{margin:0 0 10px;font-size:16px}.gc-card h3 .meta{font-weight:600;font-size:12.5px;margin-left:6px}
+.gc-form label,.gc-inline label{display:block;font-weight:700;font-size:13px;margin:10px 0 0}.gc-form label i{color:var(--muted);font-weight:500;font-style:normal}
+.gc-form input,.gc-form textarea,.gc-form select,.gc-inline input,.gc-tpl input,.gc-tpl select{display:block;width:100%;margin-top:4px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:7px 10px;font:inherit;font-size:14px}
+.gc-form textarea{min-height:70px;resize:vertical}
+.gc-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.gc-four{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:6px}
+@media (max-width:640px){.gc-two,.gc-four{grid-template-columns:1fr 1fr}}
+.gc-l{font-weight:700;font-size:13px;margin:12px 0 6px}.gc-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.gc-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}.gc-row>span:first-child{flex:1;min-width:0}.gc-row small{display:block}.gc-ra{display:flex;gap:6px}.gc-ra a.btn{text-decoration:none}
+.gc-inline{display:flex;gap:8px;align-items:flex-end}.gc-inline label{margin:0;flex:1;max-width:260px}
+.gc-tpl{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end;padding:10px 0;border-top:1px solid var(--line)}
+.gc-tpl input[name=label]{flex:1 1 220px;width:auto}.gc-tpl .ic{width:52px}.gc-tpl select{width:auto}.gc-tpl label{font-size:11.5px;font-weight:700;color:var(--muted)}.gc-tpl label input{width:78px}
+.gc-tpl .ck{display:flex;align-items:center;gap:4px;padding-bottom:8px}.gc-tpl .ck input{width:auto;margin:0}.gc-prev{flex-basis:100%;font-size:12px}
+.np-ico{width:36px;height:36px;display:grid;place-items:center;font-size:22px;flex:none}
 .a-rev{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 14px 12px;margin-bottom:12px}
 .a-rev .lbl{display:block;font-weight:700;font-size:13.5px;margin:10px 0 6px}.a-rev .lbl:first-child{margin-top:2px}.a-rev .lbl i{color:var(--muted);font-weight:500;font-style:normal}
 .a-rev .row{display:flex;gap:6px;flex-wrap:wrap}
@@ -1875,6 +1930,7 @@ a.q-box:hover{border-color:var(--accent)}
   <section id="view-feed" hidden>
     <div class="feed-layout">
       <div class="feed-main">
+        <a class="hub-hint" href="#hub"><span>🎯 Goals, challenges and quests</span><small>Swipe right ›</small></a>
         <form class="composer" id="composer" novalidate>
           <div class="c-mode"><div class="seg" role="group" aria-label="What are you writing?"><button type="button" data-cmode="post" aria-pressed="true">Post</button><button type="button" data-cmode="article" aria-pressed="false">Article</button></div><span class="c-draft" id="a-draftnote" hidden>● Article draft saved · <button type="button" data-cmode="article">Open</button></span></div>
           <div class="c-row">
@@ -2013,7 +2069,7 @@ a.q-box:hover{border-color:var(--accent)}
     <article class="legal help">
       <h1>Help</h1>
       <p class="legal-date">Quick answers for using Power Creep.</p>
-      <nav class="help-toc"><a href="#help" data-hjump="h-images">Adding pictures</a><a href="#help" data-hjump="h-sizes">Avatar and header sizes</a><a href="#help" data-hjump="h-media">Adding games, music, art and videos</a><a href="#help" data-hjump="h-articles">Articles and Stories</a><a href="#help" data-hjump="h-social">Polls, reposts, saving and credits</a><a href="#help" data-hjump="h-format">Bold, italic and big text</a><a href="#help" data-hjump="h-tags">Hashtags</a><a href="#help" data-hjump="h-comm">Communities</a><a href="#help" data-hjump="h-ai">AI labels</a><a href="#help" data-hjump="h-safety">Muting, blocking and reporting</a><a href="#help" data-hjump="h-levels">Levels, quests and the shop</a></nav>
+      <nav class="help-toc"><a href="#help" data-hjump="h-images">Adding pictures</a><a href="#help" data-hjump="h-sizes">Avatar and header sizes</a><a href="#help" data-hjump="h-media">Adding games, music, art and videos</a><a href="#help" data-hjump="h-articles">Articles and Stories</a><a href="#help" data-hjump="h-social">Polls, reposts, saving and credits</a><a href="#help" data-hjump="h-format">Bold, italic and big text</a><a href="#help" data-hjump="h-tags">Hashtags</a><a href="#help" data-hjump="h-comm">Communities</a><a href="#help" data-hjump="h-goals">Community goals and challenges</a><a href="#help" data-hjump="h-ai">AI labels</a><a href="#help" data-hjump="h-safety">Muting, blocking and reporting</a><a href="#help" data-hjump="h-levels">Levels, quests and the shop</a></nav>
 
       <h2 id="h-images">Adding pictures</h2>
       <p>Press <b>Upload image</b> wherever you can add a picture (posts, avatar, header and art), and pick a file from your device. In the post box you can also just paste a picture or drag it in.</p>
@@ -2080,6 +2136,14 @@ a.q-box:hover{border-color:var(--accent)}
       <h2 id="h-comm">Communities</h2>
       <p>Communities are pages for a topic or a game, split into channels (like General, WIP or Fan art). Press <b>Join</b> and its posts show up in your Following feed. To post in one, press the community button in the post box and pick a community and channel. Your followers still see the post too. You can post to one community at a time.</p>
       <p>At <b>level 20</b> you can make your own community, and at <b>level 30</b> a second one. You write its About and Rules, set up its channels and pick up to 5 moderators. Moderators can pin posts, move them to another channel, remove them from the community (they stay on the author's profile) and stop someone posting there. Below level 20? Press <b>Suggest a community</b> and staff will take a look.</p>
+      <h2 id="h-goals">Community goals and challenges</h2>
+      <p><b>Community goals</b> are something everyone does together, like "Give 60 likes together". There's a new one every Monday, and you can see how far along it is in the sidebar of the feed. The number is based on how many people have been active lately, so it grows with Power Creep. When the goal is reached, <b>everyone who helped that week gets Volts</b>. Helping just once is enough, and you still get the Volts if you help after the goal is reached.</p>
+      <p><b>Weekly challenges</b> have a theme, like "Spooky Week". They have three parts:</p>
+      <ul>
+        <li><b>Entries:</b> make something that fits the theme and upload it as usual. Then open the challenge (from the feed sidebar, or <a href="#challenges">Challenges</a>) and press <b>Enter</b> to pick your upload. You can have one entry per challenge and swap it until entries close. Some challenges give a few Volts just for entering.</li>
+        <li><b>Voting:</b> everyone gets 3 votes. You can't vote for yourself, and your account needs to be at least a week old to vote. Vote counts stay hidden until voting ends, so everyone gets a fair chance.</li>
+        <li><b>Winners:</b> the top 3 get Volts, and 1st place also gets the <b>Challenge Winner</b> badge for their profile. You get a notification if you win.</li>
+      </ul>
       <h2 id="h-ai">AI labels</h2>
       <p>If you used AI, add a label: <b>AI-assisted</b> if you made it and AI helped somewhere, or <b>AI-made</b> if it was mostly generated. Add a short note saying what was AI. People can choose to hide AI content, and unlabeled AI work can be reported.</p>
 
@@ -2121,6 +2185,7 @@ a.q-box:hover{border-color:var(--accent)}
     <div class="cm-bar"><input id="cm-q" placeholder="Find a community" autocomplete="off" aria-label="Find a community"><div class="seg" id="cm-f" role="group" aria-label="Show"><button data-cmf="all" aria-pressed="true">All</button><button data-cmf="joined" aria-pressed="false">Joined</button></div></div>
     <div id="cm-body"></div></div></section>
   <section id="view-community" hidden><div class="pg" id="cv-body"></div></section>
+  <section id="view-challenge" hidden><div class="pg" id="ch-body"></div></section>
   <section id="view-shop" hidden><div class="pg">
     <div class="pg-h"><div><h1>Shop</h1><p>Spend ⚡ Volts on frames, stickers, name styles, fonts and header effects. Volts can only be earned, never bought.</p></div><span class="vbal" id="s-volts"></span></div>
     <div id="shop-body"></div></div></section>
@@ -2753,10 +2818,191 @@ function openReport(target){
 function closeModal(){$("#modal-root").innerHTML=""; state.modalPost=null; state.modalItem=null;}
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
 
+/* ===================== COMMUNITY GOALS & WEEKLY CHALLENGES ===================== */
+let GOAL=null, CHALS=null, CHAL_COUNTS={}, CHV=null;   // CHV = the challenge page being viewed
+const GOAL_KIND_NAMES={like:"likes",comment:"comments",upload:"uploads",post:"posts",sticker:"stickers",guestbook:"guestbook messages"};
+const CHAL_TABS=[["art","🎨 Art"],["music","🎵 Music"],["games","🎮 Games"],["stories","📖 Stories"],["videos","🎬 Videos"]];
+const placeIcon=n=>["","🥇","🥈","🥉"][n]||"";
+function untilTxt(t){ const ms=t-Date.now(); if(ms<=0) return "now"; const h=Math.round(ms/36e5); if(h<1) return "less than an hour"; if(h<48) return h+" hour"+(h===1?"":"s"); const d=Math.round(h/24); return d+" day"+(d===1?"":"s"); }
+const fmtDay=t=>new Date(t).toLocaleDateString("en",{weekday:"short",month:"short",day:"numeric"});
+function chalStage(c,now=Date.now()){ const s=Date.parse(c.entry_start), e=Date.parse(c.entry_end), v=Date.parse(c.vote_end);
+  return now<s?"soon":now<=e?"entries":now<=v?"voting":"done"; }
+
+async function loadGoal(){ try{ GOAL=await api.rpc("current_goal"); }catch(_){ GOAL=null; } }
+async function loadChallenges(force){
+  if(CHALS&&!force) return CHALS;
+  try{ const rows=await api.get("challenges?select=*&order=entry_start.desc&limit=60"); CHALS=rows;
+    const live=rows.filter(c=>c.status==="scheduled"&&chalStage(c)!=="soon").slice(0,6).map(c=>c.id);
+    if(live.length){ const ents=await api.get("challenge_entries?select=challenge_id&challenge_id="+inList(live)); CHAL_COUNTS={}; ents.forEach(x=>CHAL_COUNTS[x.challenge_id]=(CHAL_COUNTS[x.challenge_id]||0)+1); }
+  }catch(_){ CHALS=[]; }
+  return CHALS;
+}
+// The challenge to show in the sidebar: the running one, or the next one coming up
+function sideChallenge(){ if(!CHALS) return null; const sc=CHALS.filter(c=>c.status==="scheduled");
+  return sc.filter(c=>["entries","voting"].includes(chalStage(c))).sort((a,b)=>Date.parse(a.vote_end)-Date.parse(b.vote_end))[0]
+    ||sc.filter(c=>chalStage(c)==="soon").sort((a,b)=>Date.parse(a.entry_start)-Date.parse(b.entry_start))[0]
+    ||sc.filter(c=>chalStage(c)==="done"&&Date.now()-Date.parse(c.vote_end)<4*864e5)[0]||null; }
+
+function goalSideHtml(){ const g=GOAL; if(!g) return "";
+  const pct=Math.min(100,Math.round(g.progress/g.target*100)), done=g.reached;
+  return `<div class="side-card goal-card ${done?"done":""}"><h3>Community goal <span class="meta">${done?"Done! 🎉":untilTxt(Date.parse(g.ends))+" left"}</span></h3>
+    <b class="goal-t">${esc(g.icon)} ${esc(g.label)}</b>
+    <div class="goal-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${g.target}" aria-valuenow="${Math.min(g.progress,g.target)}" aria-label="Community goal progress"><i style="width:${pct}%"></i></div>
+    <div class="goal-n"><span><b>${fmtN(Math.min(g.progress,g.target))}</b> / ${fmtN(g.target)} ${esc(GOAL_KIND_NAMES[g.kind]||"")}</span><span class="meta">${pct}%</span></div>
+    <span class="goal-rew">⚡ ${fmtN(g.reward)} Volts for everyone who helps</span>
+    ${GUEST?"":`<p class="goal-me">${g.paid?`✓ You helped! ⚡${fmtN(g.reward)} was added to your Volts.`:g.mine?`✓ You've done ${fmtN(g.mine)} this week, so you're in.`:`Do it once this week to be in on the reward.`}</p>`}</div>`; }
+function chalSideHtml(){ const c=sideChallenge(); if(!c) return U("me").staff?`<div class="side-card"><h3>Weekly challenge</h3><p class="side-note" style="margin:0">No challenge is scheduled. <a href="#staff" data-cat="chal">Set one up</a></p></div>`:"";
+  const st=chalStage(c), n=CHAL_COUNTS[c.id]||0;
+  const when=st==="soon"?"Starts in "+untilTxt(Date.parse(c.entry_start)):st==="entries"?untilTxt(Date.parse(c.entry_end))+" left to enter":st==="voting"?untilTxt(Date.parse(c.vote_end))+" left to vote":"Ended";
+  return `<div class="side-card chal-card"><a class="chal-bn" href="#ch/${c.id}" aria-label="${esc(c.title)}">${esc(c.emoji)}</a>
+    <h3>Weekly challenge <span class="meta">${when}</span></h3><b class="goal-t">${esc(c.title)}</b>${c.about?`<p class="side-note chal-about">${esc(c.about)}</p>`:""}
+    <div class="chal-stg">${[["entries","Entries"],["voting","Voting"],["done","Winners"]].map(([k,nm])=>`<span class="${st===k?"on":""}">${nm}</span>`).join("")}</div>
+    <div class="chal-acts"><a class="btn sm ${st==="soon"?"":"primary"}" href="#ch/${c.id}">${st==="entries"?"+ Enter":st==="voting"?"🗳️ Vote":st==="done"?"🏆 Winners":"See details"}</a>${st!=="soon"?`<a class="btn sm" href="#ch/${c.id}">Entries <span class="meta">${n}</span></a>`:""}</div>
+    <a class="side-note chal-all" href="#challenges">All challenges</a></div>`; }
+
+/* ---------- challenge pages ---------- */
+async function openChallenges(){
+  $("#ch-body").innerHTML=`<div class="empty">Loading challenges…</div>`; await loadChallenges(true);
+  const sc=CHALS.filter(c=>c.status==="scheduled"), now=sc.filter(c=>["entries","voting"].includes(chalStage(c))), soon=sc.filter(c=>chalStage(c)==="soon").reverse(), past=sc.filter(c=>chalStage(c)==="done");
+  const card=c=>{ const st=chalStage(c); return `<a class="chal-li" href="#ch/${c.id}"><span class="e">${esc(c.emoji)}</span><span class="t"><b>${esc(c.title)}</b><span class="meta">${st==="soon"?"Starts "+fmtDay(Date.parse(c.entry_start)):st==="entries"?"Open for entries until "+fmtDay(Date.parse(c.entry_end)):st==="voting"?"Voting until "+fmtDay(Date.parse(c.vote_end)):"Ended "+fmtDay(Date.parse(c.vote_end))}</span></span>${st==="entries"||st==="voting"?`<span class="live">${st==="entries"?"Enter":"Vote"}</span>`:""}</a>`; };
+  $("#ch-body").innerHTML=`<div class="pg-h"><div><h1>Challenges</h1><p>A new theme every week. Make something, enter it, and vote for your favorites. The top 3 win Volts, and 1st place gets the Challenge Winner badge.</p></div>${U("me").staff?`<a class="btn" href="#staff" data-cat="chal">Set up challenges</a>`:""}</div>
+    ${now.length?`<h2 class="ch-h">Happening now</h2><div class="chal-list">${now.map(card).join("")}</div>`:`<div class="empty">No challenge is running right now.${soon.length?" The next one starts soon!":""}</div>`}
+    ${soon.length?`<h2 class="ch-h">Coming up</h2><div class="chal-list">${soon.map(card).join("")}</div>`:""}
+    ${past.length?`<h2 class="ch-h">Past challenges</h2><div class="chal-list">${past.map(card).join("")}</div>`:""}`;
+}
+async function openChallenge(id){
+  $("#ch-body").innerHTML=`<div class="empty">Loading the challenge…</div>`;
+  try{
+    const [rows,board,votes]=await Promise.all([api.get("challenges?select=*&id=eq."+id),api.rpc("challenge_board",{p_ch:id}),GUEST?[]:api.get("challenge_votes?select=media_id&challenge_id=eq."+id)]);
+    if(!rows[0]){ $("#ch-body").innerHTML=`<div class="empty">That challenge doesn't exist (anymore). <a href="#challenges">See all challenges</a></div>`; return; }
+    await Promise.all([ensureUsers(board.map(b=>b.user_id)),ensureMedia(board.map(b=>b.media_id))]);
+    CHV={c:rows[0],board,votes:new Set(votes.map(v=>v.media_id)),filter:"all"}; document.title=rows[0].title+" · Power Creep"; renderChallenge();
+  }catch(e){ fail(e); }
+}
+function renderChallenge(){
+  if(!CHV) return; const c=CHV.c, st=chalStage(c), mine=CHV.board.find(b=>b.user_id===ME_ID), left=3-CHV.votes.size;
+  const ents=CHV.board.filter(b=>!hiddenId(b.user_id)&&mediaById(b.media_id)).filter(b=>CHV.filter==="all"||mediaById(b.media_id).tab===CHV.filter);
+  const tabsIn=CHAL_TABS.filter(([k])=>c.tabs.includes(k));
+  const stageTxt=st==="soon"?`Starts ${fmtDay(Date.parse(c.entry_start))}`:st==="entries"?`Open for entries · ${untilTxt(Date.parse(c.entry_end))} left`:st==="voting"?`Voting · ${untilTxt(Date.parse(c.vote_end))} left`:`Ended ${fmtDay(Date.parse(c.vote_end))}`;
+  $("#ch-body").innerHTML=`<a class="linkbtn" href="#challenges">← All challenges</a>
+    <div class="ch-head"><div class="bn">${esc(c.emoji)}</div><div class="b"><div class="l"><span class="meta">Weekly challenge · ${fmtDay(Date.parse(c.entry_start))} to ${fmtDay(Date.parse(c.vote_end))}</span><h1>${esc(c.title)}</h1>
+      ${c.about?`<p class="ch-about">${esc(c.about)}</p>`:""}<p class="meta" style="margin:6px 0 0">Enter: ${tabsIn.map(x=>x[1]).join(", ")}${c.tag?` · Tag it <button class="btag" data-tagf="${esc(c.tag)}">#${esc(c.tag)}</button>`:""}</p>
+      <div class="chal-stg big">${[["entries","Entries until "+fmtDay(Date.parse(c.entry_end))],["voting","Voting until "+fmtDay(Date.parse(c.vote_end))],["done","Winners"]].map(([k,nm])=>`<span class="${st===k?"on":""}">${nm}</span>`).join("")}</div></div>
+      <div><div class="side-h">Prizes</div><div class="prizes"><div class="prz"><b>🥇</b>⚡${fmtN(c.prize1)}<small>+ Challenge Winner badge</small></div><div class="prz"><b>🥈</b>⚡${fmtN(c.prize2)}</div><div class="prz"><b>🥉</b>⚡${fmtN(c.prize3)}</div>${c.entry_reward?`<div class="prz"><b>🎟️</b>⚡${fmtN(c.entry_reward)}<small>for entering</small></div>`:""}</div></div></div></div>
+    <div class="ch-me">${st==="soon"?`<span>This challenge starts ${fmtDay(Date.parse(c.entry_start))}. Start making something!</span>`
+      :st==="entries"?(GUEST?`<span>Log in to enter.</span><a class="btn primary" href="#signup">Sign up</a>`:mine?`<span>✓ You're in with <b>${esc(mediaById(mine.media_id)?.title||"your entry")}</b>.</span><button class="btn" id="ch-enter">Swap entry</button><button class="btn ghost" id="ch-leave">Leave</button>`:`<span>Make something for this challenge, upload it, then enter it here.</span><button class="btn primary" id="ch-enter">+ Enter</button>`)
+      :st==="voting"?`<span>${GUEST?"Log in to vote.":`<b>${left} vote${left===1?"":"s"} left.</b> Vote for up to 3 entries you like. You can't vote for your own, and your account needs to be a week old.`} Vote counts show when voting ends.</span>`
+      :`<span>This challenge has ended. ${CHV.board.some(b=>b.place)?"Congrats to the winners! 🎉":"Nobody got votes this time."}</span>`}</div>
+    ${tabsIn.length>1&&CHV.board.length?`<div class="ch-filt">${[["all","All "+CHV.board.length],...tabsIn].map(([k,n])=>`<button class="btag big" data-chf="${k}" aria-pressed="${CHV.filter===k}">${n}</button>`).join("")}</div>`:""}
+    ${ents.length?`<div class="grid ch-grid">${ents.map(b=>{ const it=mediaById(b.media_id), v=CHV.votes.has(b.media_id), own=b.user_id===ME_ID;
+      return `<div class="ch-ent ${b.place?"won p"+b.place:""}">${b.place?`<span class="ch-place">${placeIcon(b.place)} ${["","1st","2nd","3rd"][b.place]}</span>`:""}${cardHtml(it,true)}
+        <div class="ch-vote">${b.votes!=null?`<span class="meta">${b.votes} vote${b.votes===1?"":"s"}</span>`:"<span></span>"}${st==="voting"&&!GUEST&&!own?`<button class="btn sm ${v?"primary":""}" data-chvote="${b.media_id}" aria-pressed="${v}">${v?"✓ Voted":"Vote"}</button>`:own&&st!=="done"?`<span class="meta">Your entry</span>`:""}</div></div>`; }).join("")}</div>`
+      :`<div class="empty">${st==="soon"?"Entries open when the challenge starts.":"No entries yet."}</div>`}`;
+}
+async function openEnterPicker(){
+  const c=CHV.c; let mine=[];
+  try{ mine=(await api.get(`media?select=*&owner=eq.${ME_ID}&tab=in.(${c.tabs.join(",")})&order=created_at.desc&limit=60`)).map(itemFromRow).filter(Boolean); }catch(e){ fail(e); return; }
+  $("#modal-root").innerHTML=`<div class="scrim" id="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="chp-t"><h2 id="chp-t">Enter ${esc(c.title)}</h2>
+    <p class="sub">Pick one of your uploads. You can swap it until entries close.</p>
+    ${mine.length?`<div class="ch-pick">${mine.map(it=>`<button class="ch-pi" data-chpick="${it.id}"><span class="th" style="${imgOf(it)?`background-image:url(&quot;${esc(String(imgOf(it)).replace(/["\\()]/g,encodeURIComponent))}&quot;)`:grad(hueOf(it.id))}"></span><span><b>${esc(it.title)}</b><small>${esc(TYPES[TAB_TYPE[it.tab]]?.n||it.tab)}</small></span></button>`).join("")}</div>`
+      :`<p class="meta">You don't have any ${c.tabs.join(", ")} uploads yet. Add one first, then come back here.</p>`}
+    <div class="modal-actions"><button type="button" class="btn ghost" id="chp-x">Cancel</button>${mine.length?"":`<button class="btn primary" id="chp-add">+ Add media</button>`}</div></div></div>`;
+  $("#chp-x").onclick=closeModal; $("#scrim").addEventListener("click",e=>{ if(e.target.id==="scrim") closeModal(); });
+  const add=$("#chp-add"); if(add) add.onclick=()=>{ closeModal(); openAddMedia(); };
+}
+
+/* ---------- staff: challenges and goals ---------- */
+let STAFF_GC={edit:null,goal:null,templates:[],scale:1,active:0};
+async function loadStaffGC(){
+  try{ const [ch,tpl,set,act]=await Promise.all([loadChallenges(true),api.get("goal_templates?select=*&order=sort,id"),api.get("goal_settings?select=scale"),api.rpc("active_members")]);
+    await loadGoal(); STAFF_GC.goal=GOAL; STAFF_GC.templates=tpl; STAFF_GC.scale=+(set[0]&&set[0].scale)||1; STAFF_GC.active=act||0; STAFF_GC.ok=true; }
+  catch(_){ STAFF_GC.ok=false; }
+}
+const isoLocal=t=>{ const d=new Date(t); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); };
+function staffChalHtml(){
+  if(!STAFF_GC.ok) return `<div class="empty">Challenges aren't set up yet. Run update-35-goals-challenges.sql in Supabase.</div>`;
+  const e=STAFF_GC.edit; const list=(CHALS||[]).slice(0,30);
+  const nextMon=()=>{ const d=new Date(); d.setUTCHours(0,0,0,0); d.setUTCDate(d.getUTCDate()+((8-d.getUTCDay())%7||7)); return d.toISOString().slice(0,10); };
+  const f=e||{title:"",emoji:"🏆",about:"",tag:"",tabs:["art","music","games","stories"],start:nextMon(),len:"1",prize1:500,prize2:300,prize3:150,entry_reward:25};
+  return `<div class="gc-wrap"><div class="gc-card"><h3>${e&&e.id?"Edit challenge":"New challenge"}</h3>
+    <form id="chf" class="gc-form">
+      <label>Name<input id="chf-t" maxlength="60" value="${esc(f.title)}" placeholder="Spooky Week" required></label>
+      <div class="gc-two"><label>Emoji<input id="chf-e" maxlength="8" value="${esc(f.emoji)}"></label><label>Hashtag <i>(optional)</i><input id="chf-tag" maxlength="31" value="${f.tag?"#"+esc(f.tag):""}" placeholder="#spookyweek"></label></div>
+      <label>What to make<textarea id="chf-a" maxlength="600" placeholder="Make anything spooky! Art, a song, a tiny game, a short story.">${esc(f.about)}</textarea></label>
+      <div class="gc-l">What can be entered</div><div class="gc-tabs">${CHAL_TABS.map(([k,n])=>`<button type="button" class="btag big" data-chtab="${k}" aria-pressed="${f.tabs.includes(k)}">${n}</button>`).join("")}</div>
+      <div class="gc-two"><label>Starts (Monday is best)<input type="date" id="chf-s" value="${esc(f.start)}"></label><label>Length<select id="chf-len"><option value="1" ${f.len==="1"?"selected":""}>1 week (5 days entries, 2 days voting)</option><option value="2" ${f.len==="2"?"selected":""}>2 weeks (11 days entries, 3 days voting)</option></select></label></div>
+      <p class="meta" id="chf-when"></p>
+      <div class="gc-four"><label>🥇 1st ⚡<input type="number" id="chf-p1" min="0" max="10000" value="${f.prize1}"></label><label>🥈 2nd ⚡<input type="number" id="chf-p2" min="0" max="10000" value="${f.prize2}"></label><label>🥉 3rd ⚡<input type="number" id="chf-p3" min="0" max="10000" value="${f.prize3}"></label><label>🎟️ For entering ⚡<input type="number" id="chf-er" min="0" max="500" value="${f.entry_reward}"></label></div>
+      <p class="meta" style="margin:0">1st place also gets the Challenge Winner badge. The entry reward is paid once per person.</p>
+      <div class="modal-actions">${e&&e.id?`<button type="button" class="btn ghost" id="chf-new">New instead</button><button type="button" class="btn danger" id="chf-del">Delete</button>`:""}<button type="submit" class="btn" data-chst="draft">Save as draft</button><button type="submit" class="btn primary" data-chst="scheduled">Schedule</button></div>
+    </form></div>
+    <div class="gc-card"><h3>All challenges</h3>${list.length?list.map(c=>`<div class="gc-row"><span>${esc(c.emoji)} <b>${esc(c.title)}</b><small class="meta">${fmtDay(Date.parse(c.entry_start))} to ${fmtDay(Date.parse(c.vote_end))} · ${c.status==="draft"?"Draft":{soon:"Scheduled",entries:"Open for entries",voting:"Voting",done:"Ended"}[chalStage(c)]}</small></span><span class="gc-ra"><a class="btn sm" href="#ch/${c.id}">Open</a>${c.finished?"":`<button class="btn sm" data-chedit="${c.id}">Edit</button>`}</span></div>`).join(""):`<p class="meta">None yet.</p>`}</div></div>`;
+}
+function chfWhen(){ const s=$("#chf-s"); if(!s||!s.value) return null; const st=new Date(s.value+"T00:00:00Z"), two=$("#chf-len").value==="2";
+  const ee=new Date(st.getTime()+(two?11:5)*864e5), ve=new Date(st.getTime()+(two?14:7)*864e5);
+  const u=t=>new Date(t).toLocaleDateString("en",{weekday:"short",month:"short",day:"numeric",timeZone:"UTC"});
+  const w=$("#chf-when"); if(w) w.textContent=`Entries: ${u(st)} to ${u(ee-1)} · Voting: ${u(ee)} to ${u(ve-1)} · Winners announced ${u(ve)} (each day starts at midnight UTC, which is 1:00 in Sweden)`;
+  return {entry_start:st.toISOString(),entry_end:ee.toISOString(),vote_end:ve.toISOString()}; }
+function staffGoalHtml(){
+  if(!STAFF_GC.ok) return `<div class="empty">Community goals aren't set up yet. Run update-35-goals-challenges.sql in Supabase.</div>`;
+  const g=STAFF_GC.goal, S=STAFF_GC;
+  return `<div class="gc-wrap"><div class="gc-card"><h3>This week's goal</h3>${g?`<p style="margin:0 0 6px"><b>${esc(g.icon)} ${esc(g.label)}</b></p><p class="meta" style="margin:0 0 10px">${fmtN(g.progress)} / ${fmtN(g.target)} so far · ${g.reached?"Reached 🎉":"Ends "+fmtDay(Date.parse(g.ends))} · ${fmtN(S.active)} ${S.active===1?"person was":"people were"} active in the last 30 days</p>
+      <form id="gf-t" class="gc-inline"><label>Change this week's number<input type="number" id="gf-target" min="1" value="${g.target}"></label><button class="btn">Save</button></form>`:`<p class="meta">No goal this week. Switch on at least one goal below.</p>`}
+    <div class="gc-l" style="margin-top:14px">How big goals are</div><p class="meta" style="margin:0 0 8px">New goals are worked out from how many people were active in the last 30 days, so they grow with the site. This makes all of them bigger or smaller.</p>
+    <div class="gc-tabs">${[[0.5,"Much easier ½×"],[0.75,"Easier ¾×"],[1,"Normal"],[1.5,"Harder 1½×"],[2,"Much harder 2×"]].map(([v,n])=>`<button type="button" class="btag big" data-gscale="${v}" aria-pressed="${Math.abs(S.scale-v)<0.01}">${n}</button>`).join("")}</div>
+    <p class="meta" style="margin:8px 0 0">Changing this affects next week's goal. To change this week's, use the number above.</p></div>
+    <div class="gc-card"><h3>Goals in the rotation <span class="meta">one is picked each Monday, in order</span></h3>
+      ${S.templates.map(t=>`<form class="gc-tpl" data-gtpl="${esc(t.id)}"><input name="icon" maxlength="8" value="${esc(t.icon)}" aria-label="Icon" class="ic"><input name="label" maxlength="80" value="${esc(t.label)}" aria-label="Text"><select name="kind" aria-label="What counts">${Object.entries(GOAL_KIND_NAMES).map(([k,n])=>`<option value="${k}" ${t.kind===k?"selected":""}>${n}</option>`).join("")}</select>
+        <label>per person<input name="per_member" type="number" step="0.1" min="0.1" value="${t.per_member}"></label><label>at least<input name="min_goal" type="number" min="1" value="${t.min_goal}"></label><label>⚡<input name="reward" type="number" min="0" max="1000" value="${t.reward}"></label>
+        <label class="ck"><input name="enabled" type="checkbox" ${t.enabled?"checked":""}> On</label><button class="btn sm">Save</button>
+        <span class="meta gc-prev">Right now this would be ${fmtN(Math.max(t.min_goal,Math.round(t.per_member*S.active*S.scale)))}</span></form>`).join("")}
+      <form class="gc-tpl" data-gtpl=""><input name="icon" maxlength="8" value="🎨" aria-label="Icon" class="ic"><input name="label" maxlength="80" placeholder="Share {n} art pieces together" aria-label="Text"><select name="kind" aria-label="What counts">${Object.entries(GOAL_KIND_NAMES).map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select>
+        <label>per person<input name="per_member" type="number" step="0.1" min="0.1" value="1"></label><label>at least<input name="min_goal" type="number" min="1" value="5"></label><label>⚡<input name="reward" type="number" min="0" max="1000" value="30"></label>
+        <label class="ck"><input name="enabled" type="checkbox" checked> On</label><button class="btn sm primary">+ Add</button></form>
+      <p class="meta" style="margin:8px 0 0">Write {n} where the number goes. "Per person" is how many each active person is expected to do in a week. "At least" keeps goals from getting too small.</p></div></div>`;
+}
+
+document.addEventListener("click",async e=>{
+  const t=e.target.closest("button,a"); if(!t) return;
+  if(t.matches('a[data-cat]')&&t.getAttribute("href")==="#staff"){ state.staffCat=t.dataset.cat; }
+  if(t.dataset.chf){ CHV.filter=t.dataset.chf; renderChallenge(); return; }
+  if(t.id==="ch-enter"){ openEnterPicker(); return; }
+  if(t.id==="ch-leave"){ confirmInline(t,"Leave?",async()=>{ try{ await api.rpc("leave_challenge",{p_ch:CHV.c.id}); toast("You left the challenge."); openChallenge(CHV.c.id); }catch(err){ fail(err); } }); return; }
+  if(t.dataset.chpick){ try{ await api.rpc("enter_challenge",{p_ch:CHV.c.id,p_media:t.dataset.chpick}); closeModal(); const first=!CHV.board.some(b=>b.user_id===ME_ID);
+      toast(first&&CHV.c.entry_reward?`You're in! ⚡${CHV.c.entry_reward} added to your Volts.`:"You're in!"); refreshMe(); CHALS=null; openChallenge(CHV.c.id); }catch(err){ fail(err); } return; }
+  if(t.dataset.chvote){ const id=t.dataset.chvote, on=!CHV.votes.has(id); if(on&&CHV.votes.size>=3){ toast("You've used all 3 votes. Take one back first."); return; }
+    t.disabled=true; try{ await api.rpc("vote_challenge",{p_ch:CHV.c.id,p_media:id,p_on:on}); if(on) CHV.votes.add(id); else CHV.votes.delete(id); renderChallenge(); }catch(err){ t.disabled=false; fail(err); } return; }
+  // staff
+  if(t.dataset.chtab){ t.setAttribute("aria-pressed",String(t.getAttribute("aria-pressed")!=="true")); return; }
+  if(t.dataset.chedit){ const c=(CHALS||[]).find(x=>x.id===t.dataset.chedit); if(!c) return; const days=(Date.parse(c.vote_end)-Date.parse(c.entry_start))/864e5;
+    STAFF_GC.edit={id:c.id,title:c.title,emoji:c.emoji,about:c.about,tag:c.tag,tabs:c.tabs,start:new Date(c.entry_start).toISOString().slice(0,10),len:days>10?"2":"1",prize1:c.prize1,prize2:c.prize2,prize3:c.prize3,entry_reward:c.entry_reward};
+    renderStaff(); window.scrollTo(0,0); return; }
+  if(t.id==="chf-new"){ STAFF_GC.edit=null; renderStaff(); return; }
+  if(t.id==="chf-del"){ confirmInline(t,"Delete it?",async()=>{ try{ await api.rpc("delete_challenge",{p_id:STAFF_GC.edit.id}); STAFF_GC.edit=null; toast("Challenge deleted."); await loadStaffGC(); renderStaff(); }catch(err){ fail(err); } }); return; }
+  if(t.dataset.gscale){ try{ await api.rpc("set_goal",{p_scale:+t.dataset.gscale}); STAFF_GC.scale=+t.dataset.gscale; toast("Saved. Next week's goal will use this."); renderStaff(); }catch(err){ fail(err); } return; }
+});
+document.addEventListener("change",e=>{ if(e.target.id==="chf-s"||e.target.id==="chf-len") chfWhen(); });
+document.addEventListener("submit",async e=>{
+  const f=e.target;
+  if(f.id==="chf"){ e.preventDefault(); const status=(e.submitter&&e.submitter.dataset.chst)||"draft", w=chfWhen(); if(!w){ toast("Pick a start date."); return; }
+    const tabs=[...document.querySelectorAll("[data-chtab]")].filter(b=>b.getAttribute("aria-pressed")==="true").map(b=>b.dataset.chtab);
+    if(!tabs.length){ toast("Pick at least one kind of thing people can enter."); return; }
+    const body={title:$("#chf-t").value.trim(),emoji:$("#chf-e").value.trim(),about:$("#chf-a").value.trim(),tag:$("#chf-tag").value.trim(),tabs,...w,
+      prize1:+$("#chf-p1").value||0,prize2:+$("#chf-p2").value||0,prize3:+$("#chf-p3").value||0,entry_reward:+$("#chf-er").value||0,status};
+    if(body.title.length<2){ toast("Give the challenge a name."); return; }
+    try{ await api.rpc("save_challenge",{p_id:STAFF_GC.edit&&STAFF_GC.edit.id||null,p:body}); toast(status==="scheduled"?"Challenge scheduled. It starts by itself.":"Saved as a draft. Only staff can see it."); STAFF_GC.edit=null; await loadStaffGC(); renderStaff(); }catch(err){ fail(err); }
+    return; }
+  if(f.id==="gf-t"){ e.preventDefault(); try{ await api.rpc("set_goal",{p_target:+$("#gf-target").value}); toast("This week's goal was changed."); await loadStaffGC(); renderStaff(); renderFeedSide(); }catch(err){ fail(err); } return; }
+  if(f.matches("[data-gtpl]")){ e.preventDefault(); const v=n=>f.elements[n];
+    const body={id:f.dataset.gtpl,icon:v("icon").value,label:v("label").value.trim(),kind:v("kind").value,per_member:+v("per_member").value,min_goal:+v("min_goal").value,reward:+v("reward").value,enabled:v("enabled").checked,
+      sort:f.dataset.gtpl?(STAFF_GC.templates.find(x=>x.id===f.dataset.gtpl)||{}).sort:STAFF_GC.templates.length+1};
+    try{ await api.rpc("save_goal_template",{p:body}); toast(f.dataset.gtpl?"Goal saved.":"Goal added to the rotation."); await loadStaffGC(); renderStaff(); }catch(err){ fail(err); } return; }
+});
+
 /* ===================== STAFF INBOX ===================== */
 const PART_NAMES={name:"Name or title",bio:"Bio",avatar:"Avatar",header:"Header",links:"Links",account:"The whole account"};
 async function loadStaff(){
-  await loadSuggestions();
+  await Promise.all([loadSuggestions(),loadStaffGC()]);
   const rows=await api.get("reports?select=*&status=eq.open&order=created_at.desc&limit=500");
   const ids=t=>rows.filter(r=>r.target_type===t).map(r=>r.target_id);
   const [pp,cc,mm,gg]=await Promise.all([
@@ -2797,10 +3043,13 @@ function renderStaff(){
           return `<button class="list-item" data-cat="${k}" aria-current="${state.staffCat===k}"><span class="sev" style="background:${k==="all"?"var(--ink)":CATS[k].sev}"></span><span class="t"><b>${n}</b></span><span class="cat-count">${c}</span></button>`}).join("")}
         <h2 style="margin-top:14px">Communities</h2>
         <button class="list-item" data-cat="suggest" aria-current="${state.staffCat==="suggest"}"><span class="sev" style="background:var(--accent)"></span><span class="t"><b>Suggestions</b></span><span class="cat-count">${suggestions.length}</span></button>
+        <h2 style="margin-top:14px">Events</h2>
+        <button class="list-item" data-cat="chal" aria-current="${state.staffCat==="chal"}"><span class="sev" style="background:var(--ai)"></span><span class="t"><b>Challenges</b></span></button>
+        <button class="list-item" data-cat="goal" aria-current="${state.staffCat==="goal"}"><span class="sev" style="background:var(--ok)"></span><span class="t"><b>Community goal</b></span></button>
         <div style="padding:12px 16px"><button class="btn sm" id="staff-reload">↻ Refresh</button></div>
       </aside>
       <div class="staff-main">
-        ${state.staffCat==="suggest"?suggestionsHtml():sorted.length?sorted.map(r=>`
+        ${state.staffCat==="suggest"?suggestionsHtml():state.staffCat==="chal"?staffChalHtml():state.staffCat==="goal"?staffGoalHtml():sorted.length?sorted.map(r=>`
           <article class="rcard" style="--sev:${CATS[r.cat].sev}">
             <div class="thumb" style="${grad(r.h)}">${r.img?`<img class="thumb-img" src="${esc(r.img)}" alt="" onerror="this.remove()">`:""}<span class="plat">${r.plat?chip(r.plat):""}</span></div>
             <div style="min-width:0">
@@ -2821,6 +3070,7 @@ function renderStaff(){
           </article>`).join(""):`<div class="empty">No open reports here. Nice.</div>`}
       </div>
     </div>`;
+  if(state.staffCat==="chal") chfWhen();
 }
 const ACT_MSG={dismiss:"Report dismissed.",label_ai:"AI label added and the creator was told.",hide:"Hidden. The creator was told and can appeal.",remove:"Removed. The creator got a message explaining why.",reset:"Reset. The creator was told.",suspend:"Account suspended. They were told and can appeal."};
 async function staffAct(key,act){
@@ -3240,7 +3490,7 @@ function renderFeedSide(){
   const ints=Object.entries(fs.interest).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,5), max=ints.length?ints[0][1]:1;
   const counts={}; posts.filter(p=>!p.kind&&Date.now()-p.t<7*864e5).forEach(p=>tagsOf(p).forEach(t=>{ counts[t]=(counts[t]||0)+1;}));
   const trend=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  $("#feed-side").innerHTML=questSideHtml()+`
+  $("#feed-side").innerHTML=goalSideHtml()+chalSideHtml()+questSideHtml()+`
     <div class="side-card"><h3>Who to follow</h3>
       ${sugg.length?sugg.map(k=>`<div class="who"><button style="border:0;background:none;padding:0" data-user="${esc(k)}" aria-label="${esc(U(k).name)}">${avHtml(k)}</button><div class="t"><button data-user="${esc(k)}">${esc(U(k).name)}</button><span>${esc(U(k).handle)}</span></div><button class="btn sm" data-follow="${esc(k)}">Follow</button></div>`).join(""):`<p class="side-note" style="margin:0">You're following everyone so far. Invite some friends!</p>`}
     </div>
@@ -3681,6 +3931,8 @@ async function openNotifs(){
         if(n.kind==="credit"){ const it=n.media_id&&mediaById(n.media_id); return `<button class="np-item ${x.read?"":"unread"}" data-mopen="${n.media_id}">${avHtml(k)}<div class="np-t"><div>${who} credited you on ${it?`<b>${esc(it.title)}</b>`:"their upload"}. It's on your profile now.</div><span>${timeAgo(x.t)} ago</span></div></button>`; }
         if(n.kind==="community_ok"){ const c=COMMS[n.community_id]; return `<a class="np-item ${x.read?"":"unread"}" href="${c?"#c/"+esc(c.slug):"#communities"}">${avHtml(k)}<div class="np-t"><div>Your community suggestion <b>${esc(n.note||"")}</b> is live! Go say hi.</div><span>${timeAgo(x.t)} ago</span></div></a>`; }
         if(n.kind==="community_no") return `<a class="np-item ${x.read?"":"unread"}" href="#communities">${avHtml(k)}<div class="np-t"><div>Your community suggestion wasn't approved this time${n.note?`: <b>${esc(n.note)}</b>`:""}.</div><span>${timeAgo(x.t)} ago</span></div></a>`;
+        if(n.kind==="goal") return `<a class="np-item ${x.read?"":"unread"}" href="#feed"><span class="np-ico">🎉</span><div class="np-t"><div>The community goal was reached! You helped, so you got <b>⚡ ${fmtN(n.amount||0)} Volts</b>${n.note?`: ${esc(String(n.note))}`:""}</div><span>${timeAgo(x.t)} ago</span></div></a>`;
+        if(n.kind==="challenge") return `<a class="np-item ${x.read?"":"unread"}" href="#challenges"><span class="np-ico">${placeIcon(n.level)||"🏆"}</span><div class="np-t"><div>You placed <b>${["","1st","2nd","3rd"][n.level]||""}</b> in ${esc(String(n.note||"the challenge"))}! You got <b>⚡ ${fmtN(n.amount||0)} Volts</b>${n.level===1?" and the Challenge Winner badge":""}.</div><span>${timeAgo(x.t)} ago</span></div></a>`;
         if(n.kind==="volts") return `<a class="np-item ${x.read?"":"unread"}" href="#shop">${avHtml(k)}<div class="np-t"><div>${who} sent you <b>⚡ ${fmtN(n.amount||0)} Volts</b>${n.note?`: “${esc(String(n.note).slice(0,100))}”`:""}</div><span>${timeAgo(x.t)} ago</span></div></a>`;
         if(n.kind==="follow") return `<button class="np-item ${x.read?"":"unread"}" data-user="${esc(k)}">${avHtml(k)}<div class="np-t"><div>${who} started following you</div><span>${timeAgo(x.t)} ago</span></div></button>`;
         const c=cm.find(c=>c.id===n.comment_id);
@@ -4350,7 +4602,7 @@ async function route(){
     LEGAL.forEach(k=>{$("#doc-"+k).hidden=k!==v; if(k===v) $("#lt-"+k).setAttribute("aria-current","page"); else $("#lt-"+k).removeAttribute("aria-current");});
     document.title={terms:"Terms of Use",privacy:"Privacy Policy",cookies:"Cookie Policy"}[v]+" · Power Creep"; window.scrollTo(0,0); return;
   }
-  if(!started){ if(v.startsWith("p/")||userRoute!==null) state.afterJoin=v; if(v!=="login") v="signup"; }
+  if(!started){ if(v.startsWith("p/")||v.startsWith("ch/")||userRoute!==null) state.afterJoin=v; if(v!=="login") v="signup"; }
   if(GUEST&&(v==="profile"||v==="quests"||v==="staff")){ state.afterJoin=null; v="signup"; }
   if(v==="signup"||v==="login"){ if(started&&!GUEST){ location.hash="feed"; return; } showSection("join"); setJoinMode(v); $("#j-back").href="#"+(state.afterJoin||"feed"); return; }
   document.title="Power Creep";
@@ -4382,12 +4634,20 @@ async function route(){
   if(v.startsWith("p/")){ showSection("post"); setNav("post"); window.scrollTo(0,0); openPostPage(v.slice(2)); return; }
   if(v==="quests"){ showSection("quests"); setNav("quests"); document.title="Quests · Power Creep"; renderQuests(); refreshMe(); window.scrollTo(0,0); return; }
   if(v==="communities"){ showSection("communities"); setNav("communities"); document.title="Communities · Power Creep"; await loadCommunities(); renderCommunities(); window.scrollTo(0,0); return; }
+  if(v==="challenges"){ showSection("challenge"); setNav(""); document.title="Challenges · Power Creep"; window.scrollTo(0,0); openChallenges(); return; }
+  if(v.startsWith("ch/")){ showSection("challenge"); setNav(""); window.scrollTo(0,0); openChallenge(v.slice(3)); return; }
   if(v.startsWith("c/")){ showSection("community"); setNav("communities"); window.scrollTo(0,0); openCommunity(decodeURIComponent(v.slice(2))); return; }
   if(v==="shop"){ showSection("shop"); setNav("shop"); document.title="Shop · Power Creep"; renderShop(); refreshMe(); window.scrollTo(0,0); return; }
+  if(v==="hub"){ if(!PHONE.matches){ location.replace("#feed"); return; } showSection("feed"); setNav("feed"); document.body.classList.add("hubmode"); document.title="Power Creep";
+    renderFeed(); window.scrollTo(0,0); loadTop(); loadGoal().then(()=>{ if(location.hash==="#hub") renderFeedSide(); }); return; }
   showSection("feed"); setNav("feed"); renderFeed(); loadTop();
 }
+// On phones the feed sidebar (goal, challenge, quests…) gets its own page: swipe right from the feed, or #hub
+const PHONE=matchMedia("(max-width:900px)");
+PHONE.addEventListener?.("change",()=>{ if(!PHONE.matches&&location.hash==="#hub") location.replace("#feed"); });
 function showSection(sec){
-  ["feed","profile","staff","join","legal","setup","browse","search","help","quests","shop","post","communities","community"].forEach(k=>{const el=$("#view-"+k); if(el) el.hidden=k!==sec;});
+  document.body.classList.remove("hubmode");
+  ["feed","profile","staff","join","legal","setup","browse","search","help","quests","shop","post","communities","community","challenge"].forEach(k=>{const el=$("#view-"+k); if(el) el.hidden=k!==sec;});
   document.body.classList.toggle("joinmode",sec==="join"||sec==="setup");
   document.body.classList.toggle("legalmode",sec==="legal");
   const fw=$("#fab-wrap"); if(fw){ fw.hidden=!started||["join","legal","setup"].includes(sec); $("#fab-menu").hidden=true; $("#fab").setAttribute("aria-expanded","false"); }
@@ -4543,7 +4803,7 @@ const FONTS=[["pixel","Pixel"],["horror","Horror"],["scifi","Sci-fi"],["comic","
 const FRAME_DEF={ember:["#ff3b00","#ffd23b"],legend:["#d79a00","#fff6d0"],circuit:["#3bd5ff","#ff3b36"],neon:["#ff3bd5","#3bd5ff"],orbit:["#3bb4ff","#ffffff"],pulse:["#ff3b6b","#ff9ab0"],holo:["#3bd5ff","#ff3bd5"],drip:["#5dff3b","#c8ff8a"],aurora:["#3bff9a","#b04bff"],ember:["#ff3b00","#ffd23b"],drip:["#5dff3b","#d4ff8a"],frost:["#7fd4ff","#3b7bff"],arcane:["#b04bff","#ffd0ff"],storm:["#3b8cff","#bfe0ff"],cat:["#f2f2f5","#ff8fc0"],angel:["#ffd23b","#ffffff"],demon:["#ff2a1a","#ff8a3b"],hud:["#3bffd5","#3bb4ff"],hearts:["#ff3b7a","#ffc2d6"],vines:["#3bbf5a","#ff8fc0"],kitsune:["#ffffff","#e01b24"],nebula:["#b04bff","#3bd5ff"],sakura:["#ff9ec7","#ffe14a"],ghosts:["#8a4bff","#c9a2ff"],laurel:["#ffd23b","#fff3b0"],hex:["#ff8fd0","#ffe0f3"]};
 const NAME_DEF=["#ff3b36","#ff9a3b","#b04bff"];
 const KIND_WORD={frame:"frame",name:"name style",hfx:"header effect",sticker:"sticker",badge:"badge",font:"name font"};
-const BADGE_ART={tester:"crown",bug:"bug",jam:"trophy",helper:"heart",artist:"ink"};
+const BADGE_ART={tester:"crown",bug:"bug",jam:"trophy",helper:"heart",artist:"ink",champ:"trophy"};
 const BUNDLE_BADGE_SVG={
  hexagons:`<path d="M50 4l40 23v46L50 96 10 73V27z" fill="#fff"/><path d="M50 14l31 18v36L50 86 19 68V32z" fill="#ff8fd0"/><path d="M50 30l17 10v20L50 70 33 60V40z" fill="#1b1424"/><path d="M50 40l8 5v10l-8 5-8-5V45z" fill="#8fe9ff"/>`,
  foxspirit:`<path d="M12 10l26 22h24l26-22-6 44c0 20-14 36-32 36S18 74 18 54z" fill="#fff"/><path d="M20 20l18 16h24l18-16-4 34c0 16-12 28-26 28S24 70 24 54z" fill="#fff3ef" stroke="#e01b24" stroke-width="3"/><path d="M50 20c3 6 3 12 0 18-3-6-3-12 0-18z" fill="#e01b24"/><path d="M28 50c6-6 12-6 16 2-6 2-11 1-16-2zM72 50c-6-6-12-6-16 2 6 2 11 1 16-2z" fill="#1b1b1f"/><path d="M26 62l12 4M74 62l-12 4" stroke="#e01b24" stroke-width="3.5" stroke-linecap="round"/>`,
@@ -4734,7 +4994,7 @@ async function loadTop(){
   try{ const t=await api.rpc("top_week",{n:5}); await ensureUsers(t.map(x=>x.user_id)); LV.top=t; if(!$("#view-feed").hidden) renderFeedSide(); }catch(_){}
 }
 let meTimer=null;
-function soonRefresh(){ clearTimeout(meTimer); meTimer=setTimeout(refreshMe,700); }
+function soonRefresh(){ clearTimeout(meTimer); meTimer=setTimeout(()=>{ refreshMe(); loadGoal().then(()=>{ if(!$("#view-feed").hidden) renderFeedSide(); }); },700); }
 function syncVFloat(){
   const f=$("#v-float"), top=$("#s-volts"); if(!f) return;
   const onShop=!$("#view-shop").hidden&&top&&!top.hidden;
@@ -5810,7 +6070,7 @@ document.addEventListener("selectionchange",()=>{ if(MEN.el===RICH&&$("#men-pop"
 window.addEventListener("resize",closeMention);
 
 /* ---------- Phones: swipe sideways to switch between Feed, Games, Art, Music and Videos ---------- */
-const SWIPE_TABS=["feed","games","art","music","videos","stories"];
+const SWIPE_TABS=["hub","feed","games","art","music","videos","stories"];
 let swipe=null;
 function swipeBlocked(el){
   for(let n=el;n&&n!==document.body;n=n.parentElement){
@@ -5863,7 +6123,7 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeStkPick(); })
 
 /* ===================== START ===================== */
 async function start(){
-  await loadMe(); await loadLevels(); await loadCommunities(true); started=true;
+  await loadMe(); await loadLevels(); await loadCommunities(true); await Promise.all([loadGoal(),loadChallenges()]); started=true;
   renderAccountBtn(); $("#nav-staff").hidden=!U("me").staff; $("#nav-profile").href="#u/"+U("me").username;
   fs.loading=true; renderFeed();
   await loadFeed(); fs.loading=false; renderFeed();
@@ -6223,7 +6483,7 @@ async function startGuest(){
       BUNDLES=rows.map(r=>({id:r.id,name:r.name,price:r.price,items:r.items||[],badge:String(r.badge||"").split(":")[1]||"",badgeName:(items.find(i=>i.id===r.badge)||{}).name||""}))
         .filter(b=>b.items.length&&b.items.every(id=>items.some(i=>i.id===id))); }catch(_){ BUNDLES=[]; }
   }catch(_){ LV.missing=true; }
-  await loadCommunities(true); started=true; fs.ftab="foryou"; fs.ftabPicked=true;
+  await loadCommunities(true); await Promise.all([loadGoal(),loadChallenges()]); started=true; fs.ftab="foryou"; fs.ftabPicked=true;
   fs.loading=true; renderFeed();
   try{ await loadFeed(); }catch(e){ console.warn(e); }
   fs.loading=false; renderFeed(); loadTop();
@@ -6232,7 +6492,7 @@ async function startGuest(){
 const GUEST_ACTIONS=[["[data-like],[data-mlike],[data-clike]","like things"],[".cmt-form button,[data-creply]","comment"],["[data-follow],#follow","follow people"],
   ["[data-repost],[data-unrepost]","repost"],["[data-save]","save things for later"],["[data-spick]","give stickers"],["[data-vote]","vote in polls"],
   [".gb-form button","sign guestbooks"],["[data-buy],[data-bbuy],[data-bclaim],[data-use],[data-customize]","collect cosmetics"],["[data-claim]","do quests"],
-  ["[data-report],[data-preport],[data-creport],[data-gbrep],[data-mcrep],[data-reportuser],#live-report,#report-profile","report things"],["[data-mute],[data-block]","mute or block people"],["[data-sendv]","send Volts"],["[data-cjoin],[data-cnew],[data-csuggest],#c-comm-btn,#a-comm-btn","join communities"]];
+  ["[data-report],[data-preport],[data-creport],[data-gbrep],[data-mcrep],[data-reportuser],#live-report,#report-profile","report things"],["[data-mute],[data-block]","mute or block people"],["[data-sendv]","send Volts"],["#ch-enter,[data-chvote]","join challenges"],["[data-cjoin],[data-cnew],[data-csuggest],#c-comm-btn,#a-comm-btn","join communities"]];
 const GUEST_SEL=GUEST_ACTIONS.map(a=>a[0]).join(",");
 function guestPrompt(what){
   closeStkPick&&closeStkPick();

@@ -1097,7 +1097,10 @@ h1 .lvc{margin-left:8px}
 .gc-form textarea{min-height:70px;resize:vertical}
 .gc-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.gc-four{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:6px}
 @media (max-width:640px){.gc-two,.gc-four{grid-template-columns:1fr 1fr}}
-.gc-l{font-weight:700;font-size:13px;margin:12px 0 6px}.gc-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.gc-l{font-weight:700;font-size:13px;margin:12px 0 6px}
+.gc-emo-row{display:block;margin-top:4px}.gc-emo{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:4px 12px 4px 8px;font:inherit;cursor:pointer;height:38px}
+.gc-emo span{font-size:22px;line-height:1}.gc-emo small{color:var(--muted);font-weight:700;font-size:12.5px}.gc-emo:hover{border-color:var(--accent)}
+.gc-emo.sm{padding:4px 8px;height:36px;margin-bottom:0;align-self:flex-end}.gc-tabs{display:flex;gap:6px;flex-wrap:wrap}
 .gc-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}.gc-row>span:first-child{flex:1;min-width:0}.gc-row small{display:block}.gc-ra{display:flex;gap:6px}.gc-ra a.btn{text-decoration:none}
 .gc-inline{display:flex;gap:8px;align-items:flex-end}.gc-inline label{margin:0;flex:1;max-width:260px}
 .gc-tpl{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end;padding:10px 0;border-top:1px solid var(--line)}
@@ -2927,7 +2930,7 @@ function staffChalHtml(){
   return `<div class="gc-wrap"><div class="gc-card"><h3>${e&&e.id?"Edit challenge":"New challenge"}</h3>
     <form id="chf" class="gc-form">
       <label>Name<input id="chf-t" maxlength="60" value="${esc(f.title)}" placeholder="Spooky Week" required></label>
-      <div class="gc-two"><label>Emoji<input id="chf-e" maxlength="8" value="${esc(f.emoji)}"></label><label>Hashtag <i>(optional)</i><input id="chf-tag" maxlength="31" value="${f.tag?"#"+esc(f.tag):""}" placeholder="#spookyweek"></label></div>
+      <div class="gc-two"><label>Emoji<span class="gc-emo-row"><button type="button" class="gc-emo" data-emoji-for="chf-e" aria-label="Pick an emoji"><span>${esc(f.emoji)}</span><small>Change</small></button></span><input type="hidden" id="chf-e" data-emoji-one="1" value="${esc(f.emoji)}"></label><label>Hashtag <i>(optional)</i><input id="chf-tag" maxlength="31" value="${f.tag?"#"+esc(f.tag):""}" placeholder="#spookyweek"></label></div>
       <label>What to make<textarea id="chf-a" maxlength="600" placeholder="Make anything spooky! Art, a song, a tiny game, a short story.">${esc(f.about)}</textarea></label>
       <div class="gc-l">What can be entered</div><div class="gc-tabs">${CHAL_TABS.map(([k,n])=>`<button type="button" class="btag big" data-chtab="${k}" aria-pressed="${f.tabs.includes(k)}">${n}</button>`).join("")}</div>
       <div class="gc-two"><label>Starts (Monday is best)<input type="date" id="chf-s" value="${esc(f.start)}"></label><label>Length<select id="chf-len"><option value="1" ${f.len==="1"?"selected":""}>1 week (5 days entries, 2 days voting)</option><option value="2" ${f.len==="2"?"selected":""}>2 weeks (11 days entries, 3 days voting)</option></select></label></div>
@@ -2952,11 +2955,11 @@ function staffGoalHtml(){
     <div class="gc-tabs">${[[0.5,"Much easier ½×"],[0.75,"Easier ¾×"],[1,"Normal"],[1.5,"Harder 1½×"],[2,"Much harder 2×"]].map(([v,n])=>`<button type="button" class="btag big" data-gscale="${v}" aria-pressed="${Math.abs(S.scale-v)<0.01}">${n}</button>`).join("")}</div>
     <p class="meta" style="margin:8px 0 0">Changing this affects next week's goal. To change this week's, use the number above.</p></div>
     <div class="gc-card"><h3>Goals in the rotation <span class="meta">one is picked each Monday, in order</span></h3>
-      ${S.templates.map(t=>`<form class="gc-tpl" data-gtpl="${esc(t.id)}"><input name="icon" maxlength="8" value="${esc(t.icon)}" aria-label="Icon" class="ic"><input name="label" maxlength="80" value="${esc(t.label)}" aria-label="Text"><select name="kind" aria-label="What counts">${Object.entries(GOAL_KIND_NAMES).map(([k,n])=>`<option value="${k}" ${t.kind===k?"selected":""}>${n}</option>`).join("")}</select>
+      ${S.templates.map((t,ti)=>`<form class="gc-tpl" data-gtpl="${esc(t.id)}"><button type="button" class="gc-emo sm" data-emoji-for="gti-${ti}" aria-label="Pick an icon"><span>${esc(t.icon)}</span></button><input type="hidden" name="icon" id="gti-${ti}" data-emoji-one="1" value="${esc(t.icon)}"><input name="label" maxlength="80" value="${esc(t.label)}" aria-label="Text"><select name="kind" aria-label="What counts">${Object.entries(GOAL_KIND_NAMES).map(([k,n])=>`<option value="${k}" ${t.kind===k?"selected":""}>${n}</option>`).join("")}</select>
         <label>per person<input name="per_member" type="number" step="0.1" min="0.1" value="${t.per_member}"></label><label>at least<input name="min_goal" type="number" min="1" value="${t.min_goal}"></label><label>⚡<input name="reward" type="number" min="0" max="1000" value="${t.reward}"></label>
         <label class="ck"><input name="enabled" type="checkbox" ${t.enabled?"checked":""}> On</label><button class="btn sm">Save</button>
         <span class="meta gc-prev">Right now this would be ${fmtN(Math.max(t.min_goal,Math.round(t.per_member*S.active*S.scale)))}</span></form>`).join("")}
-      <form class="gc-tpl" data-gtpl=""><input name="icon" maxlength="8" value="🎨" aria-label="Icon" class="ic"><input name="label" maxlength="80" placeholder="Share {n} art pieces together" aria-label="Text"><select name="kind" aria-label="What counts">${Object.entries(GOAL_KIND_NAMES).map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select>
+      <form class="gc-tpl" data-gtpl=""><button type="button" class="gc-emo sm" data-emoji-for="gti-new" aria-label="Pick an icon"><span>🎨</span></button><input type="hidden" name="icon" id="gti-new" data-emoji-one="1" value="🎨"><input name="label" maxlength="80" placeholder="Share {n} art pieces together" aria-label="Text"><select name="kind" aria-label="What counts">${Object.entries(GOAL_KIND_NAMES).map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select>
         <label>per person<input name="per_member" type="number" step="0.1" min="0.1" value="1"></label><label>at least<input name="min_goal" type="number" min="1" value="5"></label><label>⚡<input name="reward" type="number" min="0" max="1000" value="30"></label>
         <label class="ck"><input name="enabled" type="checkbox" checked> On</label><button class="btn sm primary">+ Add</button></form>
       <p class="meta" style="margin:8px 0 0">Write {n} where the number goes. "Per person" is how many each active person is expected to do in a week. "At least" keeps goals from getting too small.</p></div></div>`;
@@ -2982,6 +2985,7 @@ document.addEventListener("click",async e=>{
   if(t.dataset.gscale){ try{ await api.rpc("set_goal",{p_scale:+t.dataset.gscale}); STAFF_GC.scale=+t.dataset.gscale; toast("Saved. Next week's goal will use this."); renderStaff(); }catch(err){ fail(err); } return; }
 });
 document.addEventListener("change",e=>{ if(e.target.id==="chf-s"||e.target.id==="chf-len") chfWhen(); });
+document.addEventListener("input",e=>{ const t=e.target; if(t.dataset&&t.dataset.emojiOne){ const b=document.querySelector(`[data-emoji-for="${t.id}"] span`); if(b) b.textContent=t.value; } });
 document.addEventListener("submit",async e=>{
   const f=e.target;
   if(f.id==="chf"){ e.preventDefault(); const status=(e.submitter&&e.submitter.dataset.chst)||"draft", w=chfWhen(); if(!w){ toast("Pick a start date."); return; }
@@ -4246,6 +4250,7 @@ function openEmoji(btn){
 function closeEmoji(){ const p=$("#emoji-picker"); if(p) p.hidden=true; emojiTarget=null; }
 function insertEmoji(e){
   const t=emojiTarget; if(!t||!t.isConnected){ closeEmoji(); return; }
+  if(t.dataset.emojiOne){ t.value=e; t.dispatchEvent(new Event("input",{bubbles:true})); rememberEmoji(e); closeEmoji(); return; }   // one-emoji fields (challenge and goal icons)
   if(t.isContentEditable){ if($("#c-text").value.length+e.length>500) return toast("That's the character limit."); t.focus(); restoreRich(); document.execCommand("insertText",false,e); syncRich(); rememberEmoji(e); return; }
   const max=+t.getAttribute("maxlength")||1e9; if(t.value.length+e.length>max) return toast("That's the character limit.");
   const s=t.selectionStart??t.value.length, en=t.selectionEnd??t.value.length;

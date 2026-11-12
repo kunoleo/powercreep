@@ -1066,6 +1066,8 @@ h1 .lvc{margin-left:8px}
 .goal-card.done{border-color:var(--ok);background:linear-gradient(135deg,var(--ok-soft),var(--surface) 70%)}
 .feed-side>*{flex-shrink:0}
 .chal-card{padding:0;overflow:hidden}.chal-card>*:not(.chal-bn){margin-left:14px;margin-right:14px}
+.chal-bn.img,.ch-head .bn.img{background:#222 center/cover no-repeat}.ch-head .bn.img{height:auto;aspect-ratio:4/1}
+.chf-bnp{aspect-ratio:4/1;border-radius:10px;border:1px solid var(--line);background:#222 center/cover no-repeat;margin-top:8px;max-width:520px}
 .chal-bn{display:grid;place-items:center;height:70px;font-size:34px;background:linear-gradient(135deg,#2a0b3a,#7a1418);text-decoration:none;margin-bottom:12px}
 .chal-about{margin:2px 14px 0}.chal-all{display:block;margin:10px 14px 14px;text-align:right}
 .chal-stg{display:flex;gap:4px;margin:10px 0}.chal-stg span{flex:1;text-align:center;font-size:11.5px;font-weight:800;border-radius:8px;padding:4px 2px;background:var(--surface-2);color:var(--muted)}.chal-stg span.on{background:var(--accent-soft);color:var(--accent)}
@@ -2826,6 +2828,8 @@ let GOAL=null, CHALS=null, CHAL_COUNTS={}, CHV=null;   // CHV = the challenge pa
 const GOAL_KIND_NAMES={like:"likes",comment:"comments",upload:"uploads",post:"posts",sticker:"stickers",guestbook:"guestbook messages"};
 const CHAL_TABS=[["art","🎨 Art"],["music","🎵 Music"],["games","🎮 Games"],["stories","📖 Stories"],["videos","🎬 Videos"]];
 const placeIcon=n=>["","🥇","🥈","🥉"][n]||"";
+// A challenge's banner image as a CSS background (empty when it has none, then the emoji is shown instead)
+const chalBg=c=>{ const pl=c&&c.banner?parseLink(c.banner):null; return pl&&pl.kind==="image"?`background-image:url(&quot;${esc(String(pl.img).replace(/["\\()]/g,encodeURIComponent))}&quot;)`:""; };
 function untilTxt(t){ const ms=t-Date.now(); if(ms<=0) return "now"; const h=Math.round(ms/36e5); if(h<1) return "less than an hour"; if(h<48) return h+" hour"+(h===1?"":"s"); const d=Math.round(h/24); return d+" day"+(d===1?"":"s"); }
 const fmtDay=t=>new Date(t).toLocaleDateString("en",{weekday:"short",month:"short",day:"numeric"});
 function chalStage(c,now=Date.now()){ const s=Date.parse(c.entry_start), e=Date.parse(c.entry_end), v=Date.parse(c.vote_end);
@@ -2857,8 +2861,9 @@ function goalSideHtml(){ const g=GOAL; if(!g) return "";
 function chalSideHtml(){ const c=sideChallenge(); if(!c) return U("me").staff?`<div class="side-card"><h3>Weekly challenge</h3><p class="side-note" style="margin:0">No challenge is scheduled. <a href="#staff" data-cat="chal">Set one up</a></p></div>`:"";
   const st=chalStage(c), n=CHAL_COUNTS[c.id]||0;
   const when=st==="soon"?"Starts in "+untilTxt(Date.parse(c.entry_start)):st==="entries"?untilTxt(Date.parse(c.entry_end))+" left to enter":st==="voting"?untilTxt(Date.parse(c.vote_end))+" left to vote":"Ended";
-  return `<div class="side-card chal-card"><a class="chal-bn" href="#ch/${c.id}" aria-label="${esc(c.title)}">${esc(c.emoji)}</a>
-    <h3>Weekly challenge <span class="meta">${when}</span></h3><b class="goal-t">${esc(c.title)}</b>${c.about?`<p class="side-note chal-about">${esc(c.about)}</p>`:""}
+  const bg=chalBg(c);
+  return `<div class="side-card chal-card"><a class="chal-bn ${bg?"img":""}" href="#ch/${c.id}" aria-label="${esc(c.title)}" style="${bg}">${bg?"":esc(c.emoji)}</a>
+    <h3>Weekly challenge <span class="meta">${when}</span></h3><b class="goal-t">${esc(c.emoji)} ${esc(c.title)}</b>${c.about?`<p class="side-note chal-about">${esc(c.about)}</p>`:""}
     <div class="chal-stg">${[["entries","Entries"],["voting","Voting"],["done","Winners"]].map(([k,nm])=>`<span class="${st===k?"on":""}">${nm}</span>`).join("")}</div>
     <div class="chal-acts"><a class="btn sm ${st==="soon"?"":"primary"}" href="#ch/${c.id}">${st==="entries"?"+ Enter":st==="voting"?"🗳️ Vote":st==="done"?"🏆 Winners":"See details"}</a>${st!=="soon"?`<a class="btn sm" href="#ch/${c.id}">Entries <span class="meta">${n}</span></a>`:""}</div>
     <a class="side-note chal-all" href="#challenges">All challenges</a></div>`; }
@@ -2888,7 +2893,7 @@ function renderChallenge(){
   const tabsIn=CHAL_TABS.filter(([k])=>c.tabs.includes(k));
   const stageTxt=st==="soon"?`Starts ${fmtDay(Date.parse(c.entry_start))}`:st==="entries"?`Open for entries · ${untilTxt(Date.parse(c.entry_end))} left`:st==="voting"?`Voting · ${untilTxt(Date.parse(c.vote_end))} left`:`Ended ${fmtDay(Date.parse(c.vote_end))}`;
   $("#ch-body").innerHTML=`<a class="linkbtn" href="#challenges">← All challenges</a>
-    <div class="ch-head"><div class="bn">${esc(c.emoji)}</div><div class="b"><div class="l"><span class="meta">Weekly challenge · ${fmtDay(Date.parse(c.entry_start))} to ${fmtDay(Date.parse(c.vote_end))}</span><h1>${esc(c.title)}</h1>
+    <div class="ch-head">${chalBg(c)?`<div class="bn img" style="${chalBg(c)}" role="img" aria-label="${esc(c.title)} banner"></div>`:`<div class="bn">${esc(c.emoji)}</div>`}<div class="b"><div class="l"><span class="meta">Weekly challenge · ${fmtDay(Date.parse(c.entry_start))} to ${fmtDay(Date.parse(c.vote_end))}</span><h1>${esc(c.emoji)} ${esc(c.title)}</h1>
       ${c.about?`<p class="ch-about">${esc(c.about)}</p>`:""}<p class="meta" style="margin:6px 0 0">Enter: ${tabsIn.map(x=>x[1]).join(", ")}${c.tag?` · Tag it <button class="btag" data-tagf="${esc(c.tag)}">#${esc(c.tag)}</button>`:""}</p>
       <div class="chal-stg big">${[["entries","Entries until "+fmtDay(Date.parse(c.entry_end))],["voting","Voting until "+fmtDay(Date.parse(c.vote_end))],["done","Winners"]].map(([k,nm])=>`<span class="${st===k?"on":""}">${nm}</span>`).join("")}</div></div>
       <div><div class="side-h">Prizes</div><div class="prizes"><div class="prz"><b>🥇</b>⚡${fmtN(c.prize1)}<small>+ Challenge Winner badge</small></div><div class="prz"><b>🥈</b>⚡${fmtN(c.prize2)}</div><div class="prz"><b>🥉</b>⚡${fmtN(c.prize3)}</div>${c.entry_reward?`<div class="prz"><b>🎟️</b>⚡${fmtN(c.entry_reward)}<small>for entering</small></div>`:""}</div></div></div></div>
@@ -2926,11 +2931,13 @@ function staffChalHtml(){
   if(!STAFF_GC.ok) return `<div class="empty">Challenges aren't set up yet. Run update-35-goals-challenges.sql in Supabase.</div>`;
   const e=STAFF_GC.edit; const list=(CHALS||[]).slice(0,30);
   const nextMon=()=>{ const d=new Date(); d.setUTCHours(0,0,0,0); d.setUTCDate(d.getUTCDate()+((8-d.getUTCDay())%7||7)); return d.toISOString().slice(0,10); };
-  const f=e||{title:"",emoji:"🏆",about:"",tag:"",tabs:["art","music","games","stories"],start:nextMon(),len:"1",prize1:500,prize2:300,prize3:150,entry_reward:25};
+  const f=e||{title:"",emoji:"🏆",banner:"",about:"",tag:"",tabs:["art","music","games","stories"],start:nextMon(),len:"1",prize1:500,prize2:300,prize3:150,entry_reward:25};
   return `<div class="gc-wrap"><div class="gc-card"><h3>${e&&e.id?"Edit challenge":"New challenge"}</h3>
     <form id="chf" class="gc-form">
       <label>Name<input id="chf-t" maxlength="60" value="${esc(f.title)}" placeholder="Spooky Week" required></label>
       <div class="gc-two"><label>Emoji<span class="gc-emo-row"><button type="button" class="gc-emo" data-emoji-for="chf-e" aria-label="Pick an emoji"><span>${esc(f.emoji)}</span><small>Change</small></button></span><input type="hidden" id="chf-e" data-emoji-one="1" value="${esc(f.emoji)}"></label><label>Hashtag <i>(optional)</i><input id="chf-tag" maxlength="31" value="${f.tag?"#"+esc(f.tag):""}" placeholder="#spookyweek"></label></div>
+      <label>Banner image <i>(optional, 1200×300 works best)</i><input id="chf-bn" maxlength="500" value="${esc(f.banner||"")}" placeholder="https://i.ibb.co/…" autocomplete="off"></label>
+      <div class="chf-bnp" id="chf-bnp" style="${chalBg({banner:f.banner})}" ${chalBg({banner:f.banner})?"":"hidden"}></div><p class="meta" style="margin:4px 0 0">An image link from ${esc(IMG_SITE_NAMES)}. Without one, the emoji is used as the banner.</p>
       <label>What to make<textarea id="chf-a" maxlength="600" placeholder="Make anything spooky! Art, a song, a tiny game, a short story.">${esc(f.about)}</textarea></label>
       <div class="gc-l">What can be entered</div><div class="gc-tabs">${CHAL_TABS.map(([k,n])=>`<button type="button" class="btag big" data-chtab="${k}" aria-pressed="${f.tabs.includes(k)}">${n}</button>`).join("")}</div>
       <div class="gc-two"><label>Starts (Monday is best)<input type="date" id="chf-s" value="${esc(f.start)}"></label><label>Length<select id="chf-len"><option value="1" ${f.len==="1"?"selected":""}>1 week (5 days entries, 2 days voting)</option><option value="2" ${f.len==="2"?"selected":""}>2 weeks (11 days entries, 3 days voting)</option></select></label></div>
@@ -2978,14 +2985,16 @@ document.addEventListener("click",async e=>{
   // staff
   if(t.dataset.chtab){ t.setAttribute("aria-pressed",String(t.getAttribute("aria-pressed")!=="true")); return; }
   if(t.dataset.chedit){ const c=(CHALS||[]).find(x=>x.id===t.dataset.chedit); if(!c) return; const days=(Date.parse(c.vote_end)-Date.parse(c.entry_start))/864e5;
-    STAFF_GC.edit={id:c.id,title:c.title,emoji:c.emoji,about:c.about,tag:c.tag,tabs:c.tabs,start:new Date(c.entry_start).toISOString().slice(0,10),len:days>10?"2":"1",prize1:c.prize1,prize2:c.prize2,prize3:c.prize3,entry_reward:c.entry_reward};
+    STAFF_GC.edit={id:c.id,title:c.title,emoji:c.emoji,banner:c.banner||"",about:c.about,tag:c.tag,tabs:c.tabs,start:new Date(c.entry_start).toISOString().slice(0,10),len:days>10?"2":"1",prize1:c.prize1,prize2:c.prize2,prize3:c.prize3,entry_reward:c.entry_reward};
     renderStaff(); window.scrollTo(0,0); return; }
   if(t.id==="chf-new"){ STAFF_GC.edit=null; renderStaff(); return; }
   if(t.id==="chf-del"){ confirmInline(t,"Delete it?",async()=>{ try{ await api.rpc("delete_challenge",{p_id:STAFF_GC.edit.id}); STAFF_GC.edit=null; toast("Challenge deleted."); await loadStaffGC(); renderStaff(); }catch(err){ fail(err); } }); return; }
   if(t.dataset.gscale){ try{ await api.rpc("set_goal",{p_scale:+t.dataset.gscale}); STAFF_GC.scale=+t.dataset.gscale; toast("Saved. Next week's goal will use this."); renderStaff(); }catch(err){ fail(err); } return; }
 });
 document.addEventListener("change",e=>{ if(e.target.id==="chf-s"||e.target.id==="chf-len") chfWhen(); });
-document.addEventListener("input",e=>{ const t=e.target; if(t.dataset&&t.dataset.emojiOne){ const b=document.querySelector(`[data-emoji-for="${t.id}"] span`); if(b) b.textContent=t.value; } });
+document.addEventListener("input",e=>{ const t=e.target;
+  if(t.id==="chf-bn"){ const bg=chalBg({banner:t.value.trim()}), pv=$("#chf-bnp"); pv.hidden=!bg; pv.setAttribute("style",bg.replace(/&quot;/g,'"')); return; }
+  if(t.dataset&&t.dataset.emojiOne){ const b=document.querySelector(`[data-emoji-for="${t.id}"] span`); if(b) b.textContent=t.value; } });
 document.addEventListener("submit",async e=>{
   const f=e.target;
   if(f.id==="chf"){ e.preventDefault(); const status=(e.submitter&&e.submitter.dataset.chst)||"draft", w=chfWhen(); if(!w){ toast("Pick a start date."); return; }
@@ -2994,6 +3003,7 @@ document.addEventListener("submit",async e=>{
     const body={title:$("#chf-t").value.trim(),emoji:$("#chf-e").value.trim(),about:$("#chf-a").value.trim(),tag:$("#chf-tag").value.trim(),tabs,...w,
       prize1:+$("#chf-p1").value||0,prize2:+$("#chf-p2").value||0,prize3:+$("#chf-p3").value||0,entry_reward:+$("#chf-er").value||0,status};
     if(body.title.length<2){ toast("Give the challenge a name."); return; }
+    const bnRaw=$("#chf-bn").value.trim(); if(bnRaw){ const pl=parseLink(bnRaw); if(!pl||pl.kind!=="image"){ toast("Use a banner image link from "+IMG_SITE_NAMES+"."); return; } body.banner=pl.img; } else body.banner="";
     try{ await api.rpc("save_challenge",{p_id:STAFF_GC.edit&&STAFF_GC.edit.id||null,p:body}); toast(status==="scheduled"?"Challenge scheduled. It starts by itself.":"Saved as a draft. Only staff can see it."); STAFF_GC.edit=null; await loadStaffGC(); renderStaff(); }catch(err){ fail(err); }
     return; }
   if(f.id==="gf-t"){ e.preventDefault(); try{ await api.rpc("set_goal",{p_target:+$("#gf-target").value}); toast("This week's goal was changed."); await loadStaffGC(); renderStaff(); renderFeedSide(); }catch(err){ fail(err); } return; }

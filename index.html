@@ -5948,7 +5948,7 @@ document.addEventListener("click",e=>{
 });
 
 /* ---------- Upload images to ImgBB (the picture goes from your browser to ImgBB; we keep only the link) ---------- */
-const UP_TARGETS={"cmf-icon":"set","cmf-banner":"set","c-images":"append","f-cover":"set","hd-url-in":"set","av-url-in":"set","a-cover":"set","a-imgurl":"set"};
+const UP_TARGETS={"chf-bn":"set","cmf-icon":"set","cmf-banner":"set","c-images":"append","f-cover":"set","hd-url-in":"set","av-url-in":"set","a-cover":"set","a-imgurl":"set"};
 // Pictures are re-saved in your browser before uploading when that helps: big ones are made smaller (max 2400 px),
 // and if ImgBB has trouble with a file we try again with a plain JPEG/PNG copy. GIFs are left alone so they keep moving.
 async function reencode(file,max,force){

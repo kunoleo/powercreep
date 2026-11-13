@@ -6085,7 +6085,7 @@ document.addEventListener("selectionchange",()=>{ if(MEN.el===RICH&&$("#men-pop"
 window.addEventListener("resize",closeMention);
 
 /* ---------- Phones: swipe sideways to switch between Feed, Games, Art, Music and Videos ---------- */
-const SWIPE_TABS=["hub","feed","games","art","music","videos","stories"];
+const SWIPE_TABS=["hub","feed","communities","games","art","music","videos","stories"];   // same order as the menu
 let swipe=null;
 function swipeBlocked(el){
   for(let n=el;n&&n!==document.body;n=n.parentElement){

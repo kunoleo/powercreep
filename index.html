@@ -600,6 +600,8 @@ button.sr-item{width:100%;border:0;background:none;text-align:left;font:inherit}
 .danger-item{color:var(--danger)}
 /* feed */
 .feed-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;margin-top:20px;align-items:start}
+/* Nothing in a post (a long link, a wide embed) may make the page wider than the screen */
+.feed-main,.feed-side{min-width:0}@media (max-width:900px){.feed-main{overflow-x:clip;overflow-clip-margin:6px}}.feed-main iframe,.feed-main img,.feed-main video{max-width:100%}.p-text{overflow-wrap:anywhere}
 .feed-side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);display:flex;flex-direction:column;gap:14px}
 .side-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
 .side-card h3{font-size:15px;margin-bottom:10px}
@@ -840,7 +842,7 @@ body[data-swipe="right"] main>section:not([hidden]){animation:pc-swr .28s ease-o
 .gb-form .gif-pend{margin-top:4px}.ucard .modal-actions{flex-wrap:wrap}
 .feed-empty{padding:30px 16px;text-align:center;color:var(--muted)}
 .feed-side{max-height:calc(100vh - 92px - env(safe-area-inset-top,0px));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:4px;margin-right:-4px}
-@media (max-width:900px){.feed-layout{grid-template-columns:1fr}.feed-side{position:static;max-height:none;overflow:visible;padding-right:0;margin-right:0}
+@media (max-width:900px){.feed-layout{grid-template-columns:minmax(0,1fr)}.feed-side{position:static;max-height:none;overflow:visible;padding-right:0;margin-right:0}
   body:not(.hubmode) #view-feed .feed-side{display:none}
   body.hubmode #view-feed .feed-main{display:none}
   body.hubmode #view-feed .feed-side::before{content:"‹ Swipe left for the feed";display:block;text-align:right;font-size:12.5px;font-weight:700;color:var(--muted);margin:-6px 2px 0}}
